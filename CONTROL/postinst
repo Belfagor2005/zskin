@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "enigma2-plugin-ZSkin-FHD installed successfully"
+rm -rf /CONTROL/
+echo 'done'
+echo
+echo "*******************************************"
+echo "*           - Install finished -          *"
+echo "*                   ***                   *"
+echo "*          E2 Restart Is Required         *"
+echo "*                                         *"
+echo "*                           by Lululla    *"
+echo "*******************************************"
+echo
+echo "* E2 Restart Is Required *"
+echo "* Original author of this skin is MMark *"
+init 3
+exit 0

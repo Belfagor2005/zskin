@@ -1,0 +1,12 @@
+#!/bin/sh
+echo
+echo "--- PreInst * IPK Scripting v1.0 - date 10.08.2021 ---"
+echo
+# echo "Remove old folders..."
+# if [ -f /usr/share/enigma2/ZSkin-FHD/skin.xml ]; then
+    # cp -R /usr/share/enigma2/ZSkin-FHD/ /tmp
+    # rm -rf /usr/share/enigma2/ZSkin-FHD
+# # rm -rf /usr/share/enigma2/ZSkin-FHD &> /dev/null
+# fi
+
+exit 0

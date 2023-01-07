@@ -1,0 +1,11 @@
+Package: enigma2-plugin-skins-zskin-fhd
+Version: 2.0
+Section: base
+Priority: optional
+Architecture: all
+Maintainer: mMark
+Description: Skin ZSkin-FHD by MMark
+Source: *
+Homepage: http://e2skin.blogspot.com/
+OE: enigma2 
+License: Open Dreambox DreaOs
