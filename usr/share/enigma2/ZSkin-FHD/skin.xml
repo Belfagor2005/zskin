@@ -615,21 +615,14 @@
         </widget>
         <eLabel backgroundColor="#202020" position="1250,175" size="630,5" transparent="0" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="310,230" render="ZEvent" size="600,170" source="session.Event_Now" transparent="1" valign="center" zPosition="9" />
-		
-
         <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="30,420" render="zScrollLabel" size="880,360" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
             <convert type="EventName">ExtendedDescription</convert>
         </widget>
-		
-
         <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="1250,230" render="ZEvent" size="625,170" source="session.Event_Next" transparent="1" valign="center" zPosition="9" />
-
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="310,195" size="200,20" transparent="1" zPosition="2" />
-        <widget pixmap="ZSkin-FHD/icons/star.png" position="310,195" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13" />		
+		<ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="310,195" size="200,20" transparent="1" zPosition="2" />
+        <widget pixmap="ZSkin-FHD/icons/star.png" position="310,195" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13" />
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1250,195" size="200,20" transparent="1" zPosition="2" />
         <widget pixmap="ZSkin-FHD/icons/star.png" position="1250,195" render="ZstarsEvent" size="200,20" source="session.Event_Next" transparent="1" zPosition="13" />
-        
-		
 		<widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="970,420" render="zScrollLabel" size="920,360" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
             <convert type="EventName">ExtendedDescription</convert>
         </widget>
@@ -1303,7 +1296,6 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/skin_default/buttons/key_menu.png" position="1630,1000" size="80,40" zPosition="5" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="1920,1080" title="Eventview">
-
         <layout name="rgyb-2c-n-1230" />
         <eLabel backgroundColor="#000000" font="main;76" foregroundColor="#808060" position="220,20" size="1200,100" text="Program Guide" transparent="1" zPosition="5" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,130" size="1230,8" zPosition="5" />
@@ -1312,10 +1304,15 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5" />
         <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2" />
+		<widget render="ZChannel" alphatest="blend" position="220,150" size="213,310" source="session.Event_Now" zPosition="5" />
         
-		<!-- <widget source="session.Event_Now" render="infoEvent"/> -->
-		<widget position="220,150" render="ZChannel" size="213,320" source="session.Event_Now" zPosition="3" />
-        
+		<!-- 		
+        <widget render="ZPoster" source="session.Event_Now" position="220,150" size="213,310" zPosition="5" />
+
+
+        <widget render="ZPoster" source="session.Event_Next" position="520,150" size="213,310" zPosition="5" />
+		 -->
+
 		<widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" halign="left" name="duration" position="670,210" size="300,50" transparent="1" zPosition="5" />
@@ -7797,39 +7794,179 @@
         <widget font="Regular;34" foregroundColor="#707070" name="artist" position="30,290" size="900,40" transparent="1" zPosition="10" />
         <widget font="Regular;34" foregroundColor="#707070" name="genre" position="30,340" size="900,40" transparent="1" zPosition="10" />
     </screen>
-    <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" title="MerlinMusicPlayer2">
-        <ePixmap pixmap="ZSkin-FHD/mmp/merlin2.png" position="0,0" size="1920,1080" zPosition="-10" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/cd.png" position="10,796" size="450,294" transparent="1" zPosition="1" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/cover.png" position="5,791" size="333,294" transparent="1" zPosition="3" />
-        <widget alphatest="blend" name="cover" pixmap="ZSkin-FHD/mmp/no_coverArt.png" position="54,803" size="267,267" transparent="1" zPosition="2" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="570,809" size="245,60" transparent="1" zPosition="4" />
-        <widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="10,796" size="294,294" transparent="1" zPosition="13" />
-        <widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="222,150" size="375,375" transparent="1" zPosition="13" />
-        <widget arcAngle="120" backgroundColor="#404040" channel="0" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms0" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmapBackgroundColor1="#46262626" position="192,120" size="435,435" smoothing="0.9" startAngle="120" transparent="1" zPosition="13" />
-        <widget arcAngle="120" backgroundColor="#404040" channel="1" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms1" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" pixmapBackgroundColor1="#46262626" position="192,120" size="435,435" smoothing="0.9" startAngle="300" transparent="1" zPosition="13" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="570,809" size="245,60" transparent="1" zPosition="4" />
-        <widget alphatest="blend" name="dvrStatus" pixmaps="ZSkin-FHD/mmp/dvr_pl.png,ZSkin-FHD/mmp/dvr_pau.png" position="570,809" size="245,60" transparent="1" zPosition="5" />
-        <widget alphatest="blend" name="repeat" pixmaps="ZSkin-FHD/mmp/dvr_rep1.png,ZSkin-FHD/mmp/dvr_rep2.png" position="475,792" size="95,95" transparent="1" zPosition="5" />
-        <widget alphatest="blend" name="shuffle" pixmaps="ZSkin-FHD/mmp/dvr_shuf1.png,ZSkin-FHD/mmp/dvr_shuf2.png" position="821,792" size="95,95" transparent="1" zPosition="4" />
-        <widget backgroundColor="#000000" font="Regular;70" foregroundColor="ltbluette" halign="right" position="1500,792" render="Label" size="400,73" source="session.CurrentService" transparent="1" zPosition="3">
-            <convert type="ServicePosition">Position</convert>
-        </widget>
-        <widget backgroundColor="#000000" font="Regular;38" foregroundColor="ltbluette" name="title" nowrap="1" position="480,880" size="1430,100" transparent="1" valign="center" zPosition="2" />
-        <widget backgroundColor="bluette" foregroundColor="ltbluette" position="480,990" render="Progress" size="1300,10" source="session.CurrentService" transparent="1" zPosition="5">
-            <convert type="ServicePosition">Position</convert>
-        </widget>
-        <widget font="Regular;36" foregroundColor="#ffffff" halign="right" position="1750,973" render="Label" size="150,42" source="session.CurrentService" transparent="1" zPosition="1">
+    
+<screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#00202020" title="MerlinMusicPlayerScreenSaver">
+        
+        <!-- Skin -->
+        <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-2" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0" />
+ 
+        <!-- Cover -->
+ 	<widget mode="cover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1470,40" size="425,425" transparent="1" zPosition="2" />
+    	<eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="1450,20"  size="465,465" zPosition="1" />
+    	<eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="1450,500" size="465,130" zPosition="1" />
+
+        <!-- Album -->
+        <widget font="Regular;28" foregroundColor="#707070" name="album"  position="1460,510" nowrap="1" size="465,40" transparent="1" zPosition="10" />
+        <widget font="Regular;28" foregroundColor="#707070" name="artist" position="1460,550" nowrap="1" size="465,40" transparent="1" zPosition="10" />
+        <widget font="Regular;28" foregroundColor="#707070" name="genre"  position="1460,590" nowrap="1" size="465,40" transparent="1" zPosition="10" />
+
+        <!-- Duration / Buffering -->
+    	<eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="30,800"  size="180,150" zPosition="1" />
+        <widget font="Regular;36" foregroundColor="#ffffff" halign="center" valign="center" position="30,820" render="Label" size="180,50" source="session.CurrentService" transparent="1" zPosition="1">
             <convert type="ServicePosition">Length</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="#505050" name="nextTitle" nowrap="1" position="480,1020" size="1425,43" transparent="1" zPosition="2" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="1820,1025" scale="1" size="80,40" zPosition="2" />
-        <widget font="Regular;34" foregroundColor="#707070" name="album" position="30,240" size="900,40" transparent="1" zPosition="10" />
-        <widget font="Regular;34" foregroundColor="#707070" name="artist" position="30,290" size="900,40" transparent="1" zPosition="10" />
-        <widget font="Regular;34" foregroundColor="#707070" name="genre" position="30,340" size="900,40" transparent="1" zPosition="10" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0" zPosition="0" />
-        <widget backgroundColor="#00000000" font="Regular;27" foregroundColor="#808080" name="buffering" position="1026,405" size="450,30" transparent="0" zPosition="1" />
-        <widget blendColor="ltbluette" distance1="12" internalSize="2" mode="visUp" name="visu2" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png" position="0,741" size="1920,339" smoothing="0.6" threshold1="24" transparent="1" zPosition="-9" />
+        <widget backgroundColor="#FF000000" font="Regular;36" halign="center" valign="center" foregroundColor="yellow" name="buffering" position="30,820" size="180,50" transparent="1" zPosition="1" />
+    	<eLabel backgroundColor="#303030" blending="on" cornerRadius="0" position="40,880"  size="160,5" zPosition="1" />
+        
+        <!-- Remaining -->
+        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="red" halign="center" valign="center" position="30,895" render="Label" size="180,50" source="session.CurrentService" transparent="1" zPosition="3">
+            <convert type="ServicePosition">Remaining</convert>
+        </widget>
+
+        <!-- Title -->
+    	<eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="220,800"  size="1145,150" zPosition="1" />
+        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="ltbluette" name="title" nowrap="1" position="240,820" size="1105,50" transparent="1" halign="left" valign="center" zPosition="3" />
+
+        <!-- Progress -->
+        <widget backgroundColor="#404040" foregroundColor="ltbluette" position="240,880" render="Progress" size="1105,5" source="session.CurrentService" transparent="1" zPosition="3">
+            <convert type="ServicePosition">Position</convert>
+        </widget>
+
+        <!-- Next Title -->
+        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="#505050" name="nextTitle" nowrap="1" position="240,895" size="1105,40" transparent="1" zPosition="2" />
+
+        <!-- Time -->
+      	<eLabel backgroundColor="#B0002c54" blending="on" cornerRadius="20" position="30,965"  size="180,95" zPosition="1" />
+        <widget backgroundColor="#000000" font="Regular;46" foregroundColor="ltbluette" halign="center" valign="center" position="40,965" render="Label" size="160,95" source="session.CurrentService" transparent="1" zPosition="1">
+            <convert type="ServicePosition">Position</convert>
+        </widget>
+
+        <!-- Player -->
+    	<eLabel backgroundColor="#B0002c54" blending="on" cornerRadius="20" position="220,965"  size="500,95" zPosition="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="340,987" size="245,60" transparent="1" zPosition="4" />
+        <widget alphatest="blend" name="dvrStatus" pixmaps="ZSkin-FHD/mmp/dvr_pl.png,ZSkin-FHD/mmp/dvr_pau.png"    position="340,987" size="245,60" transparent="1" zPosition="5" />
+        <widget alphatest="blend" name="repeat" pixmaps="ZSkin-FHD/mmp/dvr_rep1.png,ZSkin-FHD/mmp/dvr_rep2.png"    position="245,970"  size="95,95" transparent="1" zPosition="5" />
+        <widget alphatest="blend" name="shuffle" pixmaps="ZSkin-FHD/mmp/dvr_shuf1.png,ZSkin-FHD/mmp/dvr_shuf2.png" position="590,970" size="95,95" transparent="1" zPosition="4" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="740,1020" scale="1" size="80,40" zPosition="2" />
+
+        <!-- VuMeter -->
+      	<!-- eLabel backgroundColor="#B0202020" blending="on" cornerRadius="20" position="1400,800"  size="500,150" zPosition="1" /-->
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vuglass.png" position="1410,800" size="500,150" transparent="1" zPosition="1" />
+        
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vubutton.png" position="1519,913" size="25,25" transparent="1" zPosition="4" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vubutton.png" position="1774,913" size="25,25" transparent="1" zPosition="4" />
+        
+        <widget backgroundColor="background" channel="0" clockwise="1" maxValue="100" mode="vumeter" name="rms0" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1432,820" size="200,127" smoothing="0.96" startAngle="-50" transparent="1" 
+    	     vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
+        <widget backgroundColor="background" channel="1" clockwise="1" maxValue="100" mode="vumeter" name="rms1" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1687,820" size="200,127" smoothing="0.96" startAngle="-50" transparent="1" 
+    	    vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
+
+ <!--
+    <widget backgroundColor="background" channel="0" clockwise="1" maxValue="100" mode="vumeter" name="rms0" pixmap1="/usr/share/enigma2/hdsuisse.fhd/gfx/needle2.png" position="376,786" size="270,200" 
+    	smoothing="0.96" startAngle="-50" transparent="1" vumeterAttack="0.1" vumeterAxis="135,160" vumeterLocation="0,0" zPosition="13" />
+    <widget backgroundColor="background" channel="1" clockwise="1" maxValue="100" mode="vumeter" name="rms1" pixmap1="/usr/share/enigma2/hdsuisse.fhd/gfx/needle2.png" position="689,786" size="270,200" 
+    	smoothing="0.96" startAngle="-50" transparent="1" vumeterAttack="0.1" vumeterAxis="135,160" vumeterLocation="0,0" zPosition="13" />
+-->
+        
+        <widget blendColor="ltbluette" distance1="12" internalSize="2" mode="visDown" name="visu2" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png" 
+        	position="1305,180" size="560,150" smoothing="0.6" threshold1="24" transparent="1" zPosition="-9" />
+        
+
+
+    	
+    	
+        <!-- RMS 
+       	<widget name="rms0" channel="0" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="403,807" size="547,20" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" smoothing="0.93" />
+	<widget name="rms1" channel="1" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="403,841" size="547,20" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" smoothing="0.93" />
+
+	<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="710,165" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+
+
+	<widget name="visu" position="1305,780" size="560,150" transparent="1" zPosition="11" backgroundColor="#00000000" pixmapBackground2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="20" fadeOutTime="0" 
+		internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6" />
+	-->
+
+
+	<!-- widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="0,0" size="1920,500" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" /-->
+
+        <!-- Round Cover 
+ 	<widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1430,70" size="375,375" transparent="1" zPosition="13" />
+        <widget arcAngle="120" backgroundColor="#404040" channel="0" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms0" 
+        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
+        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmapBackgroundColor1="#46262626" 
+        	position="1400,40" size="435,435" smoothing="0.9" startAngle="120" transparent="1" zPosition="13" />
+        <widget arcAngle="120" backgroundColor="#404040" channel="1" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms1" 
+        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
+        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" pixmapBackgroundColor1="#46262626" 
+        	position="1400,40" size="435,435" smoothing="0.9" startAngle="300" transparent="1" zPosition="13" />
+        -->
+
+
     </screen>
+      
+    
+
+    
+    
+<screen name="MerlinMusicPlayer2ScreenSaver_AARCH64" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
+	<widget name="display" position="0,60" size="1920,60" zPosition="1" transparent="1" font="Regular;30" foregroundColor="#808080"  backgroundColor="#00000000" halign="center" valign="center"/>
+	<widget name="cover" position="735,270" size="450,450" transparent="1" mode="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" />
+	<widget name="visu" position="0,918" size="1920,162" transparent="1" zPosition="11" backgroundColor="#00000000" pixmapBackground2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="20" fadeOutTime="0" 
+		internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6" />
+	<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="710,165" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="710,735" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms0" channel="0" backgroundColor="#404040" zPosition="13" position="630,251" size="90,495" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_90x60_h9.png" transparent="1" mode="imagesOrientationDown" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms1" channel="1" backgroundColor="#404040" zPosition="13" position="1200,251" size="90,495" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_90x60_h9.png" transparent="1" mode="imagesOrientationUp" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget source="session.CurrentService" render="Label" position="735,128" size="450,27" zPosition="1" font="Regular;27" halign="center" foregroundColor="#999999" transparent="1" >
+		<convert type="ServicePosition">Length,ShowHours,HideZero</convert>
+	</widget>
+	<widget source="session.CurrentService" render="Label" position="735,855" size="450,27" zPosition="1" font="Regular;27" halign="center" foregroundColor="#fcc000" transparent="1" >
+		<convert type="ServicePosition">Position,ShowHours</convert>
+	</widget>
+	
+</screen>
+    
+    
+<screen name="MerlinMusicPlayer2ScreenSaver" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
+	<widget name="display" position="0,60" size="1920,60" zPosition="1" transparent="1" font="Regular;30" foregroundColor="#808080"  backgroundColor="#00000000" halign="center" valign="center"/>
+	<widget name="cover" position="735,270" size="450,450" transparent="1" mode="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" />
+	<widget name="visu" position="0,918" size="1920,162" transparent="1" zPosition="11" backgroundColor="#00000000" pixmapBackground2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="20" fadeOutTime="0" 
+		internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6" />
+	<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="710,165" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="710,735" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms0" channel="0" backgroundColor="#404040" zPosition="13" position="630,251" size="90,495" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_90x60_h9.png" transparent="1" mode="imagesOrientationDown" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms1" channel="1" backgroundColor="#404040" zPosition="13" position="1200,251" size="90,495" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_90x60_h9.png" transparent="1" mode="imagesOrientationUp" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget source="session.CurrentService" render="Label" position="735,128" size="450,27" zPosition="1" font="Regular;27" halign="center" foregroundColor="#999999" transparent="1" >
+		<convert type="ServicePosition">Length,ShowHours,HideZero</convert>
+	</widget>
+	<widget source="session.CurrentService" render="Label" position="735,855" size="450,27" zPosition="1" font="Regular;27" halign="center" foregroundColor="#fcc000" transparent="1" >
+		<convert type="ServicePosition">Position,ShowHours</convert>
+	</widget>
+	
+</screen>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2Screen_ARM" position="0,0" size="1920,1080" title="MerlinMusicPlayer2">
         <eLabel backgroundColor="#00000000" font="Regular;24" foregroundColor="#46262626" halign="right" position="0,60" size="1875,30" text="board.dreambox.tools" valign="center" zPosition="2" />
         <widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="222,150" size="375,375" transparent="1" zPosition="13" />
@@ -7859,6 +7996,11 @@
         <widget blendColor="#fcc000" distance1="12" internalSize="0" mode="visUp" name="visu" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png" position="0,741" size="1920,339" smoothing="0.4" threshold1="24" transparent="1" zPosition="11" />
         <widget backgroundColor="#00000000" font="Regular;27" foregroundColor="#808080" name="buffering" position="1026,405" size="450,30" transparent="1" zPosition="1" />
     </screen>
+    
+    
+    
+    
+    
     <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2Screen_MIPSEL" position="0,0" size="1920,1080" title="MerlinMusicPlayer2">
         <eLabel backgroundColor="#00000000" font="Regular;24" foregroundColor="#46262626" halign="right" position="0,60" size="1875,30" text="board.dreambox.tools" valign="center" zPosition="2" />
         <widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="222,150" size="375,375" transparent="1" zPosition="13" />

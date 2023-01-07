@@ -1425,11 +1425,9 @@
         			<widget backgroundColor="header" font="Regular;36" foregroundColor="#ffffff" noWrap="1" position="660,360" render="Label" size="790,90" source="session.Event_Next" transparent="1" zPosition="2">
             				<convert type="EventName">Name</convert>
         			</widget>
-					
-					
-     		<widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="epg_description" position="220,425" size="1230,480" transparent="1" zPosition="5" />
+        			<widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="epg_description" position="220,425" size="1230,480" transparent="1" zPosition="5" />
     		</screen>
-	
+
 		    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="1920,1080" title="Eventview">
 			<layout name="rgyb-2c-n-1230" />
 			<eLabel backgroundColor="#000000" font="main;76" foregroundColor="#808060" position="220,20" size="1200,100" text="Program Guide" transparent="1" zPosition="5" />
@@ -1439,9 +1437,7 @@
 			<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5" />
 			<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="220,137" size="218,320" zPosition="4" />
-
-			<widget render="ZInfoPoster" source="session.Event_Now" position="220,150" size="213,310" zPosition="5" />
-			
+			<widget position="220,150" render="ZInfoPoster" size="213,310" source="session.Event_Now" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="220,132" size="218,350" zPosition="6" />
 			<widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5" />
 			<widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5" />
@@ -1473,7 +1469,7 @@
 
 		<!-- ##############################  PANELS MEDIAPLAYER ###########################-->
 		
-		<style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg.jpg" />	
+		<style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg.jpg" />
 		<style name="MediaPlayer" value="Def-Player" preview="preview/MED-DefPlayer.jpg">
 			<screen name="MediaPlayer" position="0,0" size="1920,1080" title="Audio Player" backgroundColor="#FF000000"  flags="wfNoBorder">
 				<ePixmap pixmap="ZSkin-FHD/menu/panels/radiook.jpg" position="0,0" size="1920,1080" zPosition="-1" />
