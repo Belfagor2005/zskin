@@ -177,84 +177,83 @@ class ZEvent(Renderer, VariableText):
                 self.evntNm = REGEX.sub('', self.evnt).strip()
                 self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
                 print('clean event zinfo poster: ', self.evntNm)
-                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
-                if PY3:
-                    url = url.encode()
-                url2 = urlopen(url).read().decode('utf-8')
-                jurl = json.loads(url2)
-                if self.evntNm in jurl['results'][0]['original_title']:
-                    print(' yes original title ', jurl['results'][0]['original_title'])
-                    if 'id' in jurl['results'][0]:
-                        ids = jurl['results'][0]['id']
-                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
+                import requests
+                try:
+                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
                     if PY3:
-                        url3 = url3.encode()
-                        url_3 = urlopen(url3).read().decode('utf-8')
-                        data2 = json.loads(url_3)
+                        url = url.encode()
+                    Title = requests.get(url).json()['results'][0]['original_title']
+                    ids = requests.get(url).json()['results'][0]['id']
+                except:
+                    pass
+
+                try:
+                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
+                    data2 = requests.get(url3, timeout=5)
+                    if data2.status_code == 200:
                         with open(("%surl_rate" % path_folder), "w") as f:
                             json.dump(data2, f)
-                    with open("%surl_rate" % path_folder) as json_file:
-                        data = json.load(json_file)
-                    # if data:
-                    try:
-                        Title = data['original_title']
-                    except:
-                        Title = data['title']
-                    if "production_countries" in data and data['production_countries']:
-                        production_countries = data['production_countries']
-                        for pcountry in data["production_countries"]:
-                            Country = (str(pcountry["name"]))
-                    if "genres" in data and data["genres"]:
-                        i = 0
-                        for name in data["genres"]:
-                            if "name" in name:
-                                Genres.append(str(name["name"]))
-                                i = i+1
-                        Genres = " | ".join(map(str, Genres))
-                    if "release_date" in data and data['release_date']:
-                        Year = data['release_date']
-                    if "vote_average" in data and data['vote_average']:
-                        ImdbRating = data['vote_average']
-                    elif "imdbRating" in data and data['imdbRating']:
-                        ImdbRating = data['imdbRating']
-                    else:
-                        ImdbRating = '0'
-                    if "vote_count" in data and data['vote_count']:
-                        Rated = data['vote_count']
-                    else:
-                        Rated = '0'
-                    if "credits" in data and data["credits"]:
-                        if "cast" in data["credits"]:
+
+                        try:
+                            Title = data2.json()['original_title']
+                        except:
+                            Title = data2.json()['title']
+
+                        if "production_countries" in data2 and data2.json()['production_countries']:
+                            production_countries = data2.json()['production_countries']
+                            for pcountry in data2.json()["production_countries"]:
+                                Country = (str(pcountry["name"]))
+
+                        if "genres" in data2 and data2.json()["genres"]:
                             i = 0
-                            for actor in data["credits"]["cast"]:
-                                if "name" in actor:
-                                    Cast.append(str(actor["name"]))
+                            for name in data2.json()["genres"]:
+                                if "name" in name:
+                                    Genres.append(str(name["name"]))
                                     i = i+1
-                            Cast = ", ".join(map(str, Cast[:3]))
-                    if "credits" in data and "crew" in data["credits"]:
-                        z = 0
-                        for actor in data["credits"]["crew"]:
-                            if "job" in actor:
-                                Director = (str(actor["name"]) + ',')
-                                z = z + 1
-                    if Title and Title != "N/A":
-                        with open("/tmp/rating", "w") as f:
-                            f.write("%s\n%s" % (ImdbRating, Rated))
-                        self.text = "Title : %s" % str(Title)
-                        self.text += "\nYear : %s" % str(Year)
-                        self.text += "\nCountry : %s" % str(Country)
-                        self.text += "\nGenre : %s" % str(Genres)
-                        self.text += "\nDirector : %s" % str(Director)
-                        self.text += "\nCast : %s" % str(Cast)
-                        self.text += "\nImdb : %s" % str(ImdbRating)
-                        self.text += "\nRated : %s" % str(Rated)
-                        print("text= ", self.text)
-                    # else:
-                        # if os.path.exists("/tmp/rating"):
-                            # os.remove("/tmp/rating")
-                            # print('/tmp/rating removed')
-                            # self.downevent = False
-                        # return ""
+                            Genres = " | ".join(map(str, Genres))
+
+                        if "release_date" in data2 and data2.json()['release_date']:
+                            Year = data2.json()['release_date']
+                        if "vote_average" in data2 and data2.json()['vote_average']:
+                            ImdbRating = data2.json()['vote_average']
+                        elif "imdbRating" in data2 and data2.json()['imdbRating']:
+                            ImdbRating = data2.json()['imdbRating']
+                        else:
+                            ImdbRating = '0'
+                        if "vote_count" in data2 and data2.json()['vote_count']:
+                            Rated = data2.json()['vote_count']
+                        else:
+                            Rated = '0'
+                        if "credits" in data2 and data2.json()["credits"]:
+                            if "cast" in data2.json()["credits"]:
+                                i = 0
+                                for actor in data2.json()["credits"]["cast"]:
+                                    if "name" in actor:
+                                        Cast.append(str(actor["name"]))
+                                        i = i+1
+                                Cast = ", ".join(map(str, Cast[:3]))
+                        if "credits" in data2 and "crew" in data2.json()["credits"]:
+                            z = 0
+                            for actor in data2.json()["credits"]["crew"]:
+                                if "job" in actor:
+                                    Director = (str(actor["name"]) + ',')
+                                    z = z + 1
+
+                        if Title and Title != "N/A":
+                            with open("/tmp/rating", "w") as f:
+                                f.write("%s\n%s" % (ImdbRating, Rated))
+                            self.text = "Title : %s" % str(Title)
+                            self.text += "\nYear : %s" % str(Year)
+                            self.text += "\nCountry : %s" % str(Country)
+                            self.text += "\nGenre : %s" % str(Genres)
+                            self.text += "\nDirector : %s" % str(Director)
+                            self.text += "\nCast : %s" % str(Cast)
+                            self.text += "\nImdb : %s" % str(ImdbRating)
+                            self.text += "\nRated : %s" % str(Rated)
+                            print("text= ", self.text)
+                except:
+                    pass
+
             else:
                 self.downevent = False
                 return ""

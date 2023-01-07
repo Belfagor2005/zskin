@@ -46,6 +46,7 @@ REGEX = re.compile(
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
+        # r'\*|'
         r'Премьера\.\s|'
         r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
         r'(х|Х|м|М|т|Т|д|Д)/с\s|'
@@ -79,21 +80,29 @@ class ZstarsEvent(VariableValue, Renderer):
         # value = 0
         # event = self.source.event
         try:
-        # if self.event:  # and self.instance:
-            rating_json = ("%surl_rate" % path_folder)
-            if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
-                with open(rating_json) as f:
-                    try:
-                        rating = json.load(f)['vote_average']
-                    except:
-                        rating = json.load(f)['imdbRating']
-                if rating:
-                    rtng = int(10*(float(rating)))
+            self.evnt = ''
+            self.evntNm = ''
+            self.event = self.source.event
+            if self.event and self.instance:
+                self.evnt = self.event.getEventName().encode('utf-8')
+                self.evntNm = REGEX.sub('', self.evnt).strip()
+                self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
+
+                rating_json = ("%surl_rate" % path_folder)
+                if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
+                    with open(rating_json) as f:
+                        try:
+                            rating = json.load(f)['vote_average']
+                        except:
+                            rating = json.load(f)['imdbRating']
+                    if rating:
+                        rtng = int(10*(float(rating)))
+                    else:
+                        rtng = 0
                 else:
                     rtng = 0
-                print('value a ', rtng)
-            # else:
-                # print('value b ')
+                print('value d ', rtng)
+
         except Exception as e:
             # if os.path.exists("%surl_rate" % path_folder):
                 # os.remove("%surl_rate" % path_folder)

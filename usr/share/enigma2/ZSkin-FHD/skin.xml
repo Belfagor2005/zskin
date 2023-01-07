@@ -5600,7 +5600,7 @@
         <ePixmap alphatest="on" pixmap="ZSkin-FHD/skin_default/buttons/key_menu.png" position="1370,1000" size="80,40" zPosition="5" />
         <ePixmap alphatest="on" pixmap="ZSkin-FHD/skin_default/buttons/key_info.png" position="1270,1000" size="80,40" zPosition="5" />
     </screen>
-    <screen backgroundColor="#FF000000" flags="wfNoBorder" mane="YouTubeSearch" position="0,0" size="1920,1080" title="YouTube Search">
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="YouTubeSearch" position="0,0" size="1920,1080" title="YouTube Search">
         <widget backgroundColor="#000000" font="main;76" foregroundColor="#808060" halign="left" position="240,20" render="Label" size="1200,100" source="Title" transparent="1" valign="center" zPosition="5" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,130" size="1230,8" zPosition="5" />
         <eLabel backgroundColor="#60000000" position="115,0" size="1440,1080" zPosition="1" />
@@ -6043,7 +6043,7 @@
         <widget backgroundColor="#000000" font="Regular;30" halign="right" name="key_yellow" position="900,940" size="300,40" transparent="1" valign="center" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;30" halign="right" name="key_blue" position="900,1000" size="300,40" transparent="1" valign="center" zPosition="5" />
     </screen>
-    <screen backgroundColor="transparent" flags="wfNoBorder" mane="Ceparted" position="0,0" size="1920,1080" title="eParted v0.13">
+    <screen backgroundColor="transparent" flags="wfNoBorder" name="Ceparted" position="0,0" size="1920,1080" title="eParted v0.13">
         <widget backgroundColor="#000000" font="main;76" foregroundColor="#808060" halign="left" position="240,20" render="Label" size="1000,100" source="Title" transparent="1" valign="center" zPosition="5" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,130" size="1030,8" zPosition="5" />
         <eLabel backgroundColor="#60000000" position="115,0" size="1240,1080" zPosition="1" />
