@@ -7796,11 +7796,22 @@
     </screen>
     
 <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#00202020" title="MerlinMusicPlayerScreenSaver">
-        
         <!-- Skin -->
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-2" />
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0" />
  
+ 	<!-- Round Cover 
+ 	<widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1430,70" size="375,375" transparent="1" zPosition="13" />
+        <widget arcAngle="120" backgroundColor="#404040" channel="0" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms0" 
+        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
+        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmapBackgroundColor1="#46262626" 
+        	position="1400,40" size="435,435" smoothing="0.9" startAngle="120" transparent="1" zPosition="13" />
+        <widget arcAngle="120" backgroundColor="#404040" channel="1" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms1" 
+        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
+        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" pixmapBackgroundColor1="#46262626" 
+        	position="1400,40" size="435,435" smoothing="0.9" startAngle="300" transparent="1" zPosition="13" />
+        -->
+
         <!-- Cover -->
  	<widget mode="cover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1470,40" size="425,425" transparent="1" zPosition="2" />
     	<eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="1450,20"  size="465,465" zPosition="1" />
@@ -7843,68 +7854,62 @@
         </widget>
 
         <!-- Player -->
-    	<eLabel backgroundColor="#B0002c54" blending="on" cornerRadius="20" position="220,965"  size="500,95" zPosition="1" />
+    	<eLabel backgroundColor="#B0002c54" blending="on" cornerRadius="20" position="220,965" size="500,95" zPosition="1" />
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="340,987" size="245,60" transparent="1" zPosition="4" />
         <widget alphatest="blend" name="dvrStatus" pixmaps="ZSkin-FHD/mmp/dvr_pl.png,ZSkin-FHD/mmp/dvr_pau.png"    position="340,987" size="245,60" transparent="1" zPosition="5" />
         <widget alphatest="blend" name="repeat" pixmaps="ZSkin-FHD/mmp/dvr_rep1.png,ZSkin-FHD/mmp/dvr_rep2.png"    position="245,970"  size="95,95" transparent="1" zPosition="5" />
         <widget alphatest="blend" name="shuffle" pixmaps="ZSkin-FHD/mmp/dvr_shuf1.png,ZSkin-FHD/mmp/dvr_shuf2.png" position="590,970" size="95,95" transparent="1" zPosition="4" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_info.png" position="740,970"  scale="1" size="80,40" zPosition="2" />
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="740,1020" scale="1" size="80,40" zPosition="2" />
+    	
+        <!-- Buttons FF/RW -->
+    	<eLabel backgroundColor="#B0002c54" blending="on" cornerRadius="20" position="840,965" size="525,95" zPosition="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_3.png" position="860,967"  scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="green" halign="left" position="910,968" size="150,40" text="rw (+30s)" transparent="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_6.png" position="860,997" scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="green" halign="left" position="910,998" size="150,40" text="rw (+1m)" transparent="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_9.png" position="860,1027" scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="green" halign="left" position="910,1028" size="150,40" text="rw (+5m)" transparent="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_1.png" position="1190,967"  scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,968" size="150,40" text="rw (-30s)" transparent="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_4.png" position="1190,997" scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,998" size="150,40" text="rw (-1m)" transparent="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_7.png" position="1190,1027" scale="1" size="40,30" zPosition="2" />
+        <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,1028" size="150,40" text="rw (-5m)" transparent="1" />
 
         <!-- VuMeter -->
-      	<!-- eLabel backgroundColor="#B0202020" blending="on" cornerRadius="20" position="1400,800"  size="500,150" zPosition="1" /-->
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vuglass.png" position="1410,800" size="500,150" transparent="1" zPosition="1" />
-        
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vubutton.png" position="1519,913" size="25,25" transparent="1" zPosition="4" />
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vubutton.png" position="1774,913" size="25,25" transparent="1" zPosition="4" />
-        
-        <widget backgroundColor="background" channel="0" clockwise="1" maxValue="100" mode="vumeter" name="rms0" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1432,820" size="200,127" smoothing="0.96" startAngle="-50" transparent="1" 
-    	     vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
-        <widget backgroundColor="background" channel="1" clockwise="1" maxValue="100" mode="vumeter" name="rms1" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1687,820" size="200,127" smoothing="0.96" startAngle="-50" transparent="1" 
-    	    vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
+      	<eLabel backgroundColor="#B0202020" blending="on" cornerRadius="20" position="1390,800" size="520,150" zPosition="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vglass.png" position="1395,805" size="510,140" transparent="1" zPosition="10" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vmeter0.png" position="1400,810" size="247,155" transparent="1" zPosition="1" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vmeter0.png" position="1655,810" size="247,155" transparent="1" zPosition="1" />
+        <widget backgroundColor="background" channel="0" clockwise="1" maxValue="150" mode="vumeter" name="rms0" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1420,835" size="200,122" smoothing="0.92" startAngle="-63" transparent="1" 
+    	        vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
+        <widget backgroundColor="background" channel="1" clockwise="1" maxValue="150" mode="vumeter" name="rms1" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1675,835" size="200,122" smoothing="0.92" startAngle="-63" transparent="1" 
+    	        vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/round.png"   position="1499,923" size="40,15" transparent="1" zPosition="4" />
+        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/round.png"   position="1755,923" size="40,15" transparent="1" zPosition="4" />
 
- <!--
-    <widget backgroundColor="background" channel="0" clockwise="1" maxValue="100" mode="vumeter" name="rms0" pixmap1="/usr/share/enigma2/hdsuisse.fhd/gfx/needle2.png" position="376,786" size="270,200" 
-    	smoothing="0.96" startAngle="-50" transparent="1" vumeterAttack="0.1" vumeterAxis="135,160" vumeterLocation="0,0" zPosition="13" />
-    <widget backgroundColor="background" channel="1" clockwise="1" maxValue="100" mode="vumeter" name="rms1" pixmap1="/usr/share/enigma2/hdsuisse.fhd/gfx/needle2.png" position="689,786" size="270,200" 
-    	smoothing="0.96" startAngle="-50" transparent="1" vumeterAttack="0.1" vumeterAxis="135,160" vumeterLocation="0,0" zPosition="13" />
--->
-        
-        <widget blendColor="ltbluette" distance1="12" internalSize="2" mode="visDown" name="visu2" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png" 
-        	position="1305,180" size="560,150" smoothing="0.6" threshold1="24" transparent="1" zPosition="-9" />
-        
-
-
-    	
-    	
-        <!-- RMS 
-       	<widget name="rms0" channel="0" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="403,807" size="547,20" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" smoothing="0.93" />
-	<widget name="rms1" channel="1" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="403,841" size="547,20" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" smoothing="0.93" />
-
-	<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="710,165" size="495,90" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
-		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
-
-
-	<widget name="visu" position="1305,780" size="560,150" transparent="1" zPosition="11" backgroundColor="#00000000" pixmapBackground2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="20" fadeOutTime="0" 
+        <!-- VuMeter Visu LCD/LED
+      	<eLabel backgroundColor="#202020" blending="on" cornerRadius="20" position="1390,800" size="520,150" zPosition="20" />
+ 	<widget name="visu" position="1390,800" size="520,145" transparent="1" zPosition="21" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png"
+		distance1="12" threshold1="80" mode="visUp" internalSize="2" blendColor="ltbluette" smoothing="0.6" />
+	<widget name="visu" position="1390,800" size="520,150" transparent="1" zPosition="21" backgroundColor="#00000000" pixmapBackground2="ZSkin-FHD/mmp/colorgradient.png" 
+		pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="17" fadeOutTime="1600" 
 		internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6" />
-	-->
-
-
-	<!-- widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="0,0" size="1920,500" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
-		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" /-->
-
-        <!-- Round Cover 
- 	<widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1430,70" size="375,375" transparent="1" zPosition="13" />
-        <widget arcAngle="120" backgroundColor="#404040" channel="0" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms0" 
-        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
-        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmapBackgroundColor1="#46262626" 
-        	position="1400,40" size="435,435" smoothing="0.9" startAngle="120" transparent="1" zPosition="13" />
-        <widget arcAngle="120" backgroundColor="#404040" channel="1" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms1" 
-        	pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
-        	pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" pixmapBackgroundColor1="#46262626" 
-        	position="1400,40" size="435,435" smoothing="0.9" startAngle="300" transparent="1" zPosition="13" />
-        -->
-
-
+  	-->
+  	
+        <!-- RMS 0/1/2/3 
+       	<widget name="rms0" channel="0" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="1450,640" size="547,30" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" 
+       		smoothing="0.93" />
+	<widget name="rms1" channel="1" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="1450,670" size="547,30" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" 
+		smoothing="0.93" />
+	<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="1390,950" size="495,70" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" 
+		mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+	<widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="1390,1000" size="495,70" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" 
+		mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
+		pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
+    	-->
     </screen>
       
     
