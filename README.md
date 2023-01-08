@@ -17,6 +17,8 @@ Support: http://e2skin.blogspot.com/
 
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/menu.png?raw=true">
 
+<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/meteo.png?raw=true">
+
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/merlin.png?raw=true">
 
-<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/meteo.png?raw=true">
+<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/vumeter.png?raw=true">
