@@ -1,4 +1,3 @@
-# Embedded file name: /home/oe1/atv64arm/build-enviroment/builds/openatv/release/hd60/tmp/work/cortexa15hf-neon-vfpv4-oe-linux-gnueabi/enigma2-plugin-skins-madmax-impossible/1.6+gitAUTOINC+1b553b6778-r0/git/MadMax-Impossible-Skin/usr/lib/enigma2/python/Components/Converter/MMCaidInfo2.py
 from Components.Converter.Converter import Converter
 from enigma import iServiceInformation
 from Tools.Directories import fileExists
@@ -45,6 +44,8 @@ class MMCaidInfo2(Poll, Converter, object):
     CRD = 33
     CRDTXT = 34
     SHORT = 35
+	IS_FTA = 36
+	IS_CRYPTED = 37
     my_interval = 1000
 
     def __init__(self, type):
@@ -116,6 +117,10 @@ class MMCaidInfo2(Poll, Converter, object):
             self.type = self.CRD
         elif type == 'CrdTxt':
             self.type = self.CRDTXT
+        elif  type == "IsFta":
+            self.type = self.IS_FTA
+        elif  type == "IsCrypted":
+            self.type = self.IS_CRYPTED
         elif type == 'Short':
             self.type = self.SHORT
         elif type == 'Default' or type == '' or type == None or type == '%':
@@ -149,6 +154,7 @@ class MMCaidInfo2(Poll, Converter, object):
          '09': 'NDS',
          '0B': 'CON',
          '0D': 'CRW',
+         "0E" : "PWV"
          '27': 'EXS',
          '7B': 'DRE',
          '4A': 'DRE'}
@@ -163,6 +169,16 @@ class MMCaidInfo2(Poll, Converter, object):
         else:
             caids = info.getInfoObject(iServiceInformation.sCAIDs)
             if caids:
+            
+                if self.type is self.IS_FTA:
+                    # if caids:
+                        # return False
+                    return True
+                if self.type is self.IS_CRYPTED:
+                    # if caids:
+                        # return True
+                    return False
+
                 if self.type == self.SECA:
                     for caid in caids:
                         if ('%0.4X' % int(caid))[:2] == '01':
@@ -316,10 +332,10 @@ class MMCaidInfo2(Poll, Converter, object):
                         caid = '%0.4X' % int(ecm_info.get('caid', ''), 16)
                         return '%s' % self.systemTxtCaids.get(caid[:2])
                     except:
-                        return 'nondecode'
+                        return 'notdecode'
 
                 else:
-                    return 'nondecode'
+                    return 'notdecode'
         if service:
             info = service and service.info()
             if info:
