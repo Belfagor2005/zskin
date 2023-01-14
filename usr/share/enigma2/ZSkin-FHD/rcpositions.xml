@@ -130,46 +130,4 @@
 		<button name="TEXT" pos="150,625" />
 		<button name="RECORD" pos="190,625" />
 	</rc>
-	<rc id="3">
-		<button name="MUTE" pos="76,97"/>
-		<button name="MODE" pos="129,97"/>
-		<button name="POWER" pos="182,97"/>
-		<button name="REWIND" pos="76,145"/>
-		<button name="PLAYPAUSE" pos="129,145"/>
-		<button name="FORWARD" pos="182,145"/>
-		<button name="RECORD" pos="76,190"/>
-		<button name="STOP" pos="127,190"/>
-		<button name="TEXT" pos="182,190"/>
-		<button name="RED" pos="64,243"/>
-		<button name="GREEN" pos="108,243"/>
-		<button name="YELLOW" pos="150,243"/>
-		<button name="BLUE" pos="194,243"/>
-		<button name="INFO" pos="68,285"/>
-		<button name="MENU" pos="190,285"/>
-		<button name="UP" pos="129,285"/>
-		<button name="LEFT" pos="78,330"/>
-		<button name="OK" pos="129,330"/>
-		<button name="RIGHT" pos="180,330"/>
-		<button name="DOWN" pos="129,368"/>
-		<button name="AUDIO" pos="68,368"/>
-		<button name="PVR" pos="190,368"/>
-		<button name="VOL+" pos="71,422"/>
-		<button name="EXIT" pos="129,422"/>
-		<button name="BOUQUET+" pos="186,422"/>
-		<button name="VOL-" pos="71,470"/>
-		<button name="MIC" pos="129,470"/>
-		<button name="BOUQUET-" pos="186,470"/>
-		<button name="1" pos="74,532"/>
-		<button name="2" pos="127,532"/>
-		<button name="3" pos="182,532"/>
-		<button name="4" pos="74,579"/>
-		<button name="5" pos="127,579"/>
-		<button name="6" pos="182,579"/>
-		<button name="7" pos="74,626"/>
-		<button name="8" pos="127,626"/>
-		<button name="9" pos="182,626"/>
-		<button name="ARROWLEFT" pos="74,670"/>
-		<button name="0" pos="127,670"/>
-		<button name="ARROWRIGHT" pos="182,670"/>
-	</rc>   
 </rcs>
