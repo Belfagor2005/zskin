@@ -1,0 +1,36 @@
+<skin>
+	<screen name="Styles" position="center,80" size="1200,610" title=" ">
+		<ePixmap pixmap="skin_default/buttons/red.png" position="10,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/green.png" position="210,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/yellow.png" position="410,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/blue.png" position="610,5" size="200,40" />
+		<widget source="key_red" render="Label" position="10,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_green" render="Label" position="210,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_yellow" render="Label" position="410,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_blue" render="Label" position="610,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="global.CurrentTime" render="Label" position="1130,12" size="60,25" font="Regular;22" halign="right">
+			<convert type="ClockToText">Default</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="Label" position="820,12" size="300,25" font="Regular;22" halign="right">
+			<convert type="ClockToText">Format:%A %d. %B</convert>
+		</widget>
+		<eLabel position="10,50" size="1180,1" backgroundColor="#777777" />
+		<eLabel position="760,50" size="1,555" backgroundColor="#777777" />
+		<widget name="config" position="10,58" size="740,540" enableWrapAround="1" scrollbarMode="showOnDemand" />
+		<widget name="preview" pixmap="~/images/no_preview.png" position="775,90" size="400,225" />
+		<ePixmap pixmap="~/images/styles.png" position="925,500" size="100,40" />
+		<ePixmap pixmap="skin_default/buttons/key_menu.png" position="1150,580" size="40,20" />
+	</screen>
+	<screen name="StylesSetup" position="center,120" size="820,520" title=" ">
+		<ePixmap pixmap="skin_default/buttons/red.png" position="10,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/green.png" position="210,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/yellow.png" position="410,5" size="200,40" />
+		<ePixmap pixmap="skin_default/buttons/blue.png" position="610,5" size="200,40" />
+		<widget source="key_red" render="Label" position="10,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_green" render="Label" position="210,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_yellow" render="Label" position="410,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<widget source="key_blue" render="Label" position="610,5" size="200,40" zPosition="1" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" />
+		<eLabel position="10,50" size="800,1" backgroundColor="#777777" />
+		<widget name="config" position="10,60" size="800,450" enableWrapAround="1" scrollbarMode="showOnDemand" />
+	</screen>
+</skin>
