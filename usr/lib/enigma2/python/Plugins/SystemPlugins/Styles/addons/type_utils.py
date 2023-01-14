@@ -1,6 +1,3 @@
-# coded from lululla in edit for MMark zSkin
-#20221215
-
 from os import system
 
 # Components
@@ -8,16 +5,28 @@ from Components.config import config
 from Components.Label import Label
 from Components.ActionMap import ActionMap
 from Components.MenuList import MenuList
+# from Components.AVSwitch import AVSwitch
+# from Components.Pixmap import Pixmap
+# from Components.Sources.StaticText import StaticText
+
 # Screens
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Screens.HelpMenu import HelpableScreen
+# from Screens.InfoBar import MoviePlayer as Movie_Audio_Player
+
 # Tools
 from Tools.Directories import fileExists  # , fileReadLines
 from errno import ENOENT
+# from enigma import eGetEnigmaDebugLvl
+# from Tools.TextBoundary import getTextBoundarySize
 from sys import _getframe as getframe
 DEFAULT_MODULE_NAME = __name__.split(".")[-1]
+# forceDebug = eGetEnigmaDebugLvl() > 4
+
 # Various
+# from .InputBox import InputBoxWide
+# from enigma import eTimer, getDesktop, gFont, eSize, ePicLoad
 import skin
 
 ##################################
@@ -49,7 +58,45 @@ def fileReadLines(filename, default=None, source=DEFAULT_MODULE_NAME, debug=Fals
 			print("[%s] Error %d: Unable to read lines from file '%s'!  (%s)" % (source, err.errno, filename, err.strerror))
 		lines = default
 		msg = "Default"
+	# if debug or forceDebug:
+		# length = len(lines) if lines else 0
+		# print("[%s] Line %d: %s %d lines from file '%s'." % (source, getframe(1).f_lineno, msg, length, filename))
 	return lines
+
+# class MoviePlayer(Movie_Audio_Player):
+    # def __init__(self, session, service):
+        # self.WithoutStopClose = False
+        # Movie_Audio_Player.__init__(self, session, service)
+
+    # def leavePlayer(self):
+        # self.is_closing = True
+        # self.close()
+
+    # def leavePlayerConfirmed(self, answer):
+        # """
+        # overwrite InfoBar method.
+        # """
+
+    # def doEofInternal(self, playing):
+        # if not self.execing:
+            # return
+        # if not playing:
+            # return
+        # self.leavePlayer()
+
+    # def showMovies(self):
+        # self.WithoutStopClose = True
+        # self.close()
+
+    # def movieSelected(self, service):
+        # self.leavePlayer()
+
+    # def __onClose(self):
+        # if not(self.WithoutStopClose):
+            # self.session.nav.playService(self.lastservice)
+
+# ### File viewer/line editor ###
+
 
 class zEditor(Screen):
 

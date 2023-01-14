@@ -17,7 +17,6 @@ import os
 from enigma import eTimer
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
-
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 try:
     from enigma import eMediaDatabase #@UnresolvedImport @UnusedImport
@@ -77,6 +76,16 @@ class StylesSetup(Screen, ConfigListScreen):
         self.list = []
         ConfigListScreen.__init__(self, self.list, session=self.session, on_change=self.changedEntry)
         self.createSetup()
+        # self.list.append(getConfigListEntry(_("Skin auto update:"), config.Styles.skin_auto_update))
+        # self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.Styles.load_style_from_skin))
+        # self.list.append(getConfigListEntry(_("Api TMDB:"), config.Styles.data))
+        # if config.Styles.data.getValue():
+            # self.list.append(getConfigListEntry(_("Read Api key TMDB from file /tmp/tmdbapikey"), config.Styles.api))
+
+            # if config.Styles.api.getValue():
+                # self.keyApi()
+        # self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.Styles.preserve_preview))
+        # ConfigListScreen.__init__(self, self.list, session)
         self.onLayoutFinish.append(self.layoutFinished)
         self.current_skin = config.skin.primary_skin.value
 
@@ -84,7 +93,10 @@ class StylesSetup(Screen, ConfigListScreen):
         if answer is None:
             self.session.openWithCallback(self.answercheck, MessageBox, _("This operation checks if the skin has its components (is not sure)..\nDo you really want to continue?"), MessageBox.TYPE_YESNO)
         else:
+            # from .addons import checkskin
             self.check_module = eTimer()
+            # check = checkskin.check_module_skin()
+            # self.check_module_conn = self.check_module.timeout.connect(check)
             if isDreamOS:
                 self.check_module_conn = self.check_module.timeout.connect(self.checki)
             else:
@@ -94,6 +106,8 @@ class StylesSetup(Screen, ConfigListScreen):
     def checki(self):
         if zaddon is True:
             from .addons import checkskin
+            # check = checkskin.check_module_skin()
+            # check()
             checkskin.check_module_skin()
             self.openVi()
 
@@ -116,7 +130,9 @@ class StylesSetup(Screen, ConfigListScreen):
         if config.Styles.data2.getValue():
             self.list.append(getConfigListEntry(_("Read Api key OMDB from file /tmp/omdbapikey.txt"), config.Styles.api2))
             self.list.append(getConfigListEntry(_("Set Your Api key OMDB"), config.Styles.txtapi2))
+
         self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.Styles.preserve_preview))
+        # ConfigListScreen.__init__(self, self.list, session)
         self["config"].list = self.list
         self["config"].setList(self.list)
 

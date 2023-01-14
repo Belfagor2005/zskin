@@ -44,8 +44,8 @@ class MMCaidInfo2(Poll, Converter, object):
     CRD = 33
     CRDTXT = 34
     SHORT = 35
-    IS_FTA = 36
-    IS_CRYPTED = 37
+	IS_FTA = 36
+	IS_CRYPTED = 37
     my_interval = 1000
 
     def __init__(self, type):
@@ -154,7 +154,7 @@ class MMCaidInfo2(Poll, Converter, object):
          '09': 'NDS',
          '0B': 'CON',
          '0D': 'CRW',
-         "0E" : "PWV",
+         "0E" : "PWV"
          '27': 'EXS',
          '7B': 'DRE',
          '4A': 'DRE'}
