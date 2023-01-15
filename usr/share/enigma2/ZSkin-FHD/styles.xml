@@ -1628,8 +1628,43 @@
 			</screen>
 		</style>
 
-		<!-- ##############################  PANELS SECONDINFOBAR ###########################-->
+        	<!-- MediaPlayer Technics -->
+		<style name="MediaPlayer" value="TechnicsMediaPlayer" preview="preview/MED-Technics.jpg">
+    		<screen backgroundColor="#FF000000" flags="wfNoBorder" name="MediaPlayer" position="0,0" size="1920,1080" title="MediaPlayer">
+    		    <ePixmap pixmap="ZSkin-FHD/mmp/mp2.png" position="0,0" size="1920,1080" zPosition="-1" />
+    		    <!--
+    		    <widget backgroundColor="#000000" font="Regular;46" foregroundColor="#606060" halign="right" noWrap="1" position="1180,20" render="Label" size="720,110" source="global.CurrentTime" transparent="1" zPosition="2">
+    		        <convert type="ClockToText">Format:%-H:%M:%S</convert>
+    		    </widget>
+    		    -->
+    		    <widget backgroundColor="#101010" backgroundColorSelected="#124b97" itemHeight="45" name="filelist" position="50,38" scrollbarMode="showOnDemand" scrollbarSliderBackgroundColor="barColor" scrollbarSliderBorderColor="#202020" scrollbarSliderBorderWidth="1" scrollbarSliderForegroundColor="ltbluette" scrollbarWidth="10" size="1290,315" transparent="1" zPosition="2" />
+    		    <widget backgroundColor="#101010" backgroundColorSelected="barColor" foregroundColor="ltbluette" itemHeight="45" name="playlist" position="50,415" scrollbarMode="showOnDemand" scrollbarSliderBorderColor="#202020" scrollbarSliderBorderWidth="1" scrollbarSliderForegroundColor="bluette" scrollbarWidth="10" size="1290,495" transparent="1" zPosition="2" />
+    		    <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/cddx.png"                       position="1350,00" size="550,394" transparent="1" zPosition="1" />
+    		    <widget alphatest="blend" name="coverArt" pixmap="ZSkin-FHD/mmp/no_coverArt.png" position="1462,25" size="430,350" transparent="1" zPosition="2" />
+    		    <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/coverdx.png"                    position="1480,00" size="433,394" transparent="1" zPosition="3" />
+    		    <eLabel backgroundColor="#101010" font="Regular;19" foregroundColor="#ffffff" halign="left" position="1400,875" size="40,30" text="TM" transparent="1" valign="center" zPosition="5" />
+    		    <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#404040" halign="left" noWrap="1" position="1440,865" render="Label" size="380,70" source="session.CurrentService" transparent="1" valign="center" zPosition="2">
+    		        <convert type="ServicePosition">Length,ShowHours</convert>
+    		    </widget>
+    		    <widget backgroundColor="#000000" font="Regular;50" foregroundColor="ltbluette" halign="right" position="1520,865" render="Label" size="380,70" source="session.CurrentService" transparent="1" valign="center" zPosition="2">
+    		        <convert type="ServicePosition">Position,ShowHours</convert>
+    		    </widget>
+    		    <eLabel backgroundColor="trbluette" position="1400,935" size="500,3" zPosition="1" />
+    		    <widget backgroundColor="trbluette" foregroundColor="white" position="1400,935" render="Progress" size="500,3" source="session.CurrentService" transparent="1" zPosition="5">
+    		        <convert type="ServicePosition">Position</convert>
+    		    </widget>
+    		    <widget backgroundColor="#101010" font="Regular;26" foregroundColor="white" name="artist" position="1400,730" size="500,30" transparent="1" zPosition="6" />
+    		    <widget backgroundColor="#101010" font="Regular;26" foregroundColor="white" name="album" position="1400,770" size="500,30" transparent="1" zPosition="6" />
+    		    <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="1495,979" size="245,60" transparent="1" zPosition="4" />
+    		    <widget alphatest="blend" name="repeat" pixmaps="ZSkin-FHD/mmp/dvr_rep1.png,ZSkin-FHD/mmp/dvr_rep2.png" position="1400,962" size="95,95" transparent="1" zPosition="6" />
+    		    <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="1820,990" size="80,40" zPosition="1" />
+    		    <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/play.png" position="50,990" size="40,45" transparent="1" zPosition="1" />
+    		    <widget backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" name="title" nowrap="1" position="110,975" size="1230,70" transparent="1" valign="center" zPosition="2" />
+    		    <widget backgroundColor="#101010" font="Regular;30" foregroundColor="#808080" halign="left" name="currenttext" noWrap="1" position="30,990" size="1230,0" transparent="1" valign="center" zPosition="6" />
+    		</screen>
+		</style>
 
+		<!-- ##############################  PANELS SECONDINFOBAR ###########################-->
 		<style name="Volume" value="Default" preview="preview/VOL-VolCenter.jpg">
 		</style>
 		<style name="Volume" value="Volume-Left" preview="preview/VOL-VolLeft.jpg">
