@@ -171,13 +171,13 @@ class MMCaidInfo2(Poll, Converter, object):
             if caids:
             
                 if self.type is self.IS_FTA:
-                    # if caids:
-                        # return False
+                    if caids:
+                        return False
                     return True
                 if self.type is self.IS_CRYPTED:
-                    # if caids:
-                        # return True
-                    return False
+                    if caids:
+                        return False
+                    return True
 
                 if self.type == self.SECA:
                     for caid in caids:
