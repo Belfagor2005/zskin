@@ -57,6 +57,23 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
+def cleantitle(text):
+    import unicodedata
+    text = text.replace('\xc2\x86', '')
+    text = text.replace('\xc2\x87', '')
+    text = REGEX.sub('', text)
+    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+    text = text.strip()
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError:
+        pass
+    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+    text = text.lower()
+    return str(text)
+
+
 class ZstarsEvent(VariableValue, Renderer):
     def __init__(self):
         Renderer.__init__(self)
@@ -80,14 +97,12 @@ class ZstarsEvent(VariableValue, Renderer):
         # value = 0
         # event = self.source.event
         try:
-            self.evnt = ''
-            self.evntNm = ''
+            # self.evnt = ''
+            # self.evntNm = ''
             self.event = self.source.event
             if self.event and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
-                self.evntNm = REGEX.sub('', self.evnt).strip()
-                self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
-
+                self.evntNm = cleantitle(self.evnt)
                 rating_json = ("%surl_rate" % path_folder)
                 if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                     with open(rating_json) as f:

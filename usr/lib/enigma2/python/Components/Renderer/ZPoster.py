@@ -188,7 +188,7 @@ def intCheck():
         return True
 
 
-def convtext(text):
+def cleantitle(text):
     text = text.replace('\xc2\x86', '')
     text = text.replace('\xc2\x87', '')
     text = REGEX.sub('', text)
@@ -200,9 +200,8 @@ def convtext(text):
     except NameError:
         pass
     text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-    text = text.upper()
+    text = text.lower()
     return str(text)
-
 
 if PY3:
     pdb = queue.LifoQueue()
@@ -271,7 +270,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                         canal[2] = evt[4]
                         canal[3] = evt[5]
                         canal[4] = evt[6]
-                        canal[5] = convtext(canal[2])
+                        canal[5] = cleantitle(canal[2])
                         #  self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
                         dwn_poster = path_folder + canal[5] + ".jpg"
                         if os.path.exists(dwn_poster):
@@ -330,14 +329,11 @@ class ZPoster(Renderer):
         self.canal = [None, None, None, None, None, None]
         self.oldCanal = None
         self.timer = eTimer()
-        # self.timer.callback.append(self.showPoster)
         try:
             self.timer_conn = self.timer.timeout.connect(self.showPoster)
         except:
             self.timer.callback.append(self.showPoster)
-        # self.timer, self.conn = setupTimer(self.showPoster)
         self.timer.start(200, True)
-
         self.logdbg = None
 
     def applySkin(self, desktop, parent):
@@ -380,7 +376,7 @@ class ZPoster(Renderer):
                         self.canal[2] = self.source.event.getEventName()
                         self.canal[3] = self.source.event.getExtendedDescription()
                         self.canal[4] = self.source.event.getShortDescription()
-                        self.canal[5] = convtext(self.canal[2])
+                        self.canal[5] = cleantitle(self.canal[2])
                     servicetype = "Event"
                 if service:
                     events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
@@ -389,7 +385,7 @@ class ZPoster(Renderer):
                     self.canal[2] = events[self.nxts][4]
                     self.canal[3] = events[self.nxts][5]
                     self.canal[4] = events[self.nxts][6]
-                    self.canal[5] = convtext(self.canal[2])
+                    self.canal[5] = cleantitle(self.canal[2])
                     if not autobouquet_file:
                         if self.canal[0] not in apdb:
                         # if not apdb.has_key(self.canal[0]):

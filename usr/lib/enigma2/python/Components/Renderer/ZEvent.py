@@ -128,6 +128,23 @@ def intCheck():
         return True
 
 
+def cleantitle(text):
+    import unicodedata
+    text = text.replace('\xc2\x86', '')
+    text = text.replace('\xc2\x87', '')
+    text = REGEX.sub('', text)
+    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+    text = text.strip()
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError:
+        pass
+    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+    text = text.lower()
+    return str(text)
+
+
 class ZEvent(Renderer, VariableText):
     def __init__(self):
         Renderer.__init__(self)
@@ -135,31 +152,31 @@ class ZEvent(Renderer, VariableText):
         if not intCheck:
             return
         self.timer30 = eTimer()
-        self.timer20 = eTimer()
+        # self.timer20 = eTimer()
 
     GUI_WIDGET = eLabel
 
     def changed(self, what):
-        if self.timer20:
-            self.timer20.stop()
+        # if self.timer20:
+            # self.timer20.stop()
         if self.timer30:
             self.timer30.stop()
-
         if what[0] == self.CHANGED_CLEAR:
             self.text = ''
             return
         # if what[0] != self.CHANGED_CLEAR:
             # self.instance.hide()
-        try:
-            self.timer20.callback.append(self.delay)
-        except:
-            self.timer20_conn = self.timer20.timeout.connect(self.delay)
-        self.timer20.start(150, True)
+        self.delay()
+        # try:
+            # self.timer20.callback.append(self.delay)
+        # except:
+            # self.timer20_conn = self.timer20.timeout.connect(self.delay)
+        # self.timer20.start(250, True)
 
     def infos(self):
         if self.downevent:
             return
-        self.downevent = True
+        # self.downevent = True
         try:
             self.text = ''
             Title = ''
@@ -169,13 +186,17 @@ class ZEvent(Renderer, VariableText):
             Cast = []
             Director = []
             Genres = []
-            self.evnt = ''
-            self.evntNm = ''
+            # self.evnt = ''
+            # self.evntNm = ''
+            ids = ''
             self.event = self.source.event
             if self.event and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
-                self.evntNm = REGEX.sub('', self.evnt).strip()
-                self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
+                self.evntNm = cleantitle(self.evntNm)
+                # force
+                # self.pstrNm = "{}{}.jpg".format(path_folder, quote(self.evntNm))
+
+                self.downevent = True
                 print('clean event zinfo poster: ', self.evntNm)
                 import requests
                 try:
@@ -184,8 +205,15 @@ class ZEvent(Renderer, VariableText):
                         url = url.encode()
                     Title = requests.get(url).json()['results'][0]['original_title']
                     ids = requests.get(url).json()['results'][0]['id']
+                    
                 except:
-                    pass
+                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                    if PY3:
+                        url = url.encode()
+                    Title = requests.get(url).json()['results'][0]['original_title']
+                    ids = requests.get(url).json()['results'][0]['id']
+                # except:
+                    # pass
 
                 try:
                     url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
@@ -252,6 +280,7 @@ class ZEvent(Renderer, VariableText):
                             self.text += "\nRated : %s" % str(Rated)
                             print("text= ", self.text)
                 except:
+                    return ""
                     pass
 
             else:
@@ -268,4 +297,4 @@ class ZEvent(Renderer, VariableText):
             self.timer30.callback.append(self.infos)
         except:
             self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(150, False)
+        self.timer30.start(150, True)

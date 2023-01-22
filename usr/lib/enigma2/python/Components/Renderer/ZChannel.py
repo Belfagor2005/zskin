@@ -18,7 +18,7 @@ import os
 import socket
 import shutil
 import sys
-global cur_skin, my_cur_skin, apikey
+global cur_skin, my_cur_skin, apikey, path_folder
 PY3 = sys.version_info.major >= 3
 try:
     from urllib.error import URLError, HTTPError
@@ -73,14 +73,6 @@ except:
 
 
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for path_folder, folders, files in os.walk(path_folder)])
-    ozposter = "%0.f" % (folder_size/(1024*1024.0))
-    if ozposter >= "5":
-        shutil.rmtree(path_folder)
-except:
-    pass
-
-try:
     from Components.config import config
     language = config.osd.language.value
     language = language[:-3]
@@ -128,13 +120,36 @@ def intCheck():
         return True
 
 
+
+def cleantitle(text):
+    # import re
+    # cleanName = re.sub(r'[\<\>\:\"\/\\\|\?\*\(\)\[\]]', " ", str(text))
+    # cleanName = re.sub(r"  ", " ", cleanName)
+    # cleanName = cleanName.strip()
+    # return cleanName
+    import unicodedata
+    text = text.replace('\xc2\x86', '')
+    text = text.replace('\xc2\x87', '')
+    text = REGEX.sub('', text)
+    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+    text = text.strip()
+    try:
+        text = unicode(text, 'utf-8')
+    except NameError:
+        pass
+    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+    text = text.lower()
+    return str(text)
+
+
 class ZChannel(Renderer):
     def __init__(self):
         Renderer.__init__(self)
         if not intCheck:
             return
         self.timerchan = eTimer()
-        self.timer20 = eTimer()
+        # self.timer20 = eTimer()
 
     GUI_WIDGET = ePixmap
 
@@ -143,67 +158,69 @@ class ZChannel(Renderer):
             return
         if self.timerchan:
             self.timerchan.stop()
-        if self.timer20:
-            self.timer20.stop()
-
+        # if self.timer20:
+            # self.timer20.stop()
         if what[0] == self.CHANGED_CLEAR:
+            print('what[0] == self.CHANGED_CLEAR')
             self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
-            # self.instance.hide()
-
-            try:
-                self.timer20.callback.append(self.delay)
-            except:
-                self.timer20_conn = self.timer20.timeout.connect(self.delay)
-            self.timer20.start(150, True)
+            print('what[0] != self.CHANGED_CLEAR')
+            self.instance.hide()
+            self.delay()
+        # try:
+            # self.timer20.callback.append(self.delay)
+        # except:
+            # self.timer20_conn = self.timer20.timeout.connect(self.delay)
+        # self.timer20.start(100, True)
 
     def delay(self):
-        self.evnt = ''
-        self.pstrNm = ''
-        self.evntNm = ''
+        # self.evnt = ''
+        # self.pstrNm = ''
+        # self.evntNm = ''
         self.downloading = False
         self.event = self.source.event
-        if self.event and self.instance:
+        if self.event: # and self.instance:
+            print('self.event and self.instance', self.event)
             self.evnt = self.event.getEventName().encode('utf-8')
-            self.evntNm = REGEX.sub('', self.evnt).strip()
-            self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
+            # self.evntNm = REGEX.sub('', self.evnt).strip()
+            # self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
+            self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
             self.pstrNm = "{}{}.jpg".format(path_folder, quote(self.evntNm))
             if os.path.exists(self.pstrNm):
+                self.downloading = True
                 self.showPoster()
             else:
-                self.instance.hide()
                 try:
                     self.timerchan.callback.append(self.info)
                 except:
                     self.timerchan_conn = self.timerchan.timeout.connect(self.info)
-                self.timerchan.start(150, False)
-        else:
-            self.instance.hide()
-            self.timer20.stop()
-            return
+                self.timerchan.start(150, True)
+        # else:
+            # print('self.instance hide')
+            # self.instance.hide()
+            # # self.timer20.stop()
+        # return
 
     def showPoster(self):
-        if os.path.exists(self.pstrNm):
-            size = self.instance.size()
-            self.picload = ePicLoad()
-            sc = AVSwitch().getFramebufferScale()
-            if self.picload:
-                self.picload.setPara([size.width(), size.height(), sc[0], sc[1], False, 1, '#00000000'])
-                if os.path.exists('/var/lib/dpkg/status'):
-                    self.picload.startDecode(self.pstrNm, False)
-                else:
-                    self.picload.startDecode(self.pstrNm, 0, 0, False)
-            ptr = self.picload.getData()
-            if ptr is not None:
-                self.instance.setPixmap(ptr)
-                self.instance.show()
-            del self.picload
+        size = self.instance.size()
+        self.picload = ePicLoad()
+        sc = AVSwitch().getFramebufferScale()
+        # if self.picload:
+        self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, '#00000000'])
+        if os.path.exists('/var/lib/dpkg/status'):
+            self.picload.startDecode(self.pstrNm, False)
+        else:
+            self.picload.startDecode(self.pstrNm, 0, 0, False)
+        ptr = self.picload.getData()
+        if ptr is not None:
+            self.instance.setPixmap(ptr)
+            self.instance.show()
+        # del self.picload
 
     def info(self):
         if self.downloading:
             return
-        self.downloading = True
         try:
             url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
             if PY3:
@@ -214,7 +231,6 @@ class ZChannel(Renderer):
                 if 'id' in jurl['results'][0]:
                     ids = jurl['results'][0]['id']
                     url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
-                    # url_2 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
                     if PY3:
                         url_2 = url_2.encode()
                     url_3 = urlopen(url_2).read().decode('utf-8')
@@ -226,7 +242,7 @@ class ZChannel(Renderer):
                         # self.url_poster = "http://image.tmdb.org/t/p/w185{}".format(poster) #w185 risoluzione poster
                         self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                         self.savePoster()
-            self.timerchan.stop()
+                self.timerchan.stop()
         except:
             try:
                 url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
@@ -251,12 +267,13 @@ class ZChannel(Renderer):
                             self.savePoster()
                 self.timerchan.stop()
             except:
-                self.downloading = False
                 self.timerchan.stop()
 
     def savePoster(self):
         import requests
         with open(self.pstrNm, 'wb') as f:
-            f.write(requests.get(self.url_poster, stream=True, allow_redirects=True).content)  # f.write(urlopen(url_poster).read())
+            f.write(requests.get(self.url_poster, stream=True, allow_redirects=True).content)
             f.close()
-        self.showPoster()
+            self.downloading = True
+        if os.path.exists(self.pstrNm):
+            self.showPoster()
