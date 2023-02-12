@@ -101,8 +101,11 @@ try:
 except:
     my_cur_skin = False
 
+
 epgcache = eEPGCache.getInstance()
 apdb = dict()
+
+
 try:
     from Components.config import config
     language = config.osd.language.value
@@ -175,6 +178,7 @@ REGEX = re.compile(
 
 
 def intCheck():
+    import socket
     try:
         response = urlopen("http://google.com", None, 5)
         response.close()
@@ -202,6 +206,7 @@ def cleantitle(text):
     text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
     text = text.lower()
     return str(text)
+
 
 if PY3:
     pdb = queue.LifoQueue()
@@ -388,7 +393,6 @@ class ZPoster(Renderer):
                     self.canal[5] = cleantitle(self.canal[2])
                     if not autobouquet_file:
                         if self.canal[0] not in apdb:
-                        # if not apdb.has_key(self.canal[0]):
                             apdb[self.canal[0]] = service.toString()
             except Exception as e:
                 self.logPoster("Error (service) : "+str(e))
@@ -404,7 +408,7 @@ class ZPoster(Renderer):
                     return
                 self.oldCanal = curCanal
                 self.logPoster("Service : {} [{}] : {} : {}".format(servicetype, self.nxts, self.canal[0], self.oldCanal))
-                pstrNm = path_folder + self.canal[5] + ".jpg"
+                pstrNm = self.path + self.canal[5] + ".jpg"
                 if os.path.exists(pstrNm):
                     # if(self.timer is not None):
                         # self.timer.stop()
@@ -423,7 +427,7 @@ class ZPoster(Renderer):
     def showPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstrNm = path_folder + self.canal[5] + ".jpg"
+            pstrNm = self.path + self.canal[5] + ".jpg"
             if os.path.exists(pstrNm):
                 self.logPoster("[LOAD : showPoster] {}".format(pstrNm))
                 self.instance.setPixmap(loadJPG(pstrNm))
@@ -433,7 +437,7 @@ class ZPoster(Renderer):
     def waitPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstrNm = path_folder + self.canal[5] + ".jpg"
+            pstrNm = self.path + self.canal[5] + ".jpg"
             loop = 180
             found = None
             self.logPoster("[LOOP : waitPoster] {}".format(pstrNm))
@@ -452,7 +456,7 @@ class ZPoster(Renderer):
                 self.timer.start(150, True)
 
     def logPoster(self, logmsg):
-        if self.logdbg:
-            w = open(path_folder + "ZPoster.log", "a+")
+        if self.logPoster:
+            w = open(self.path + "ZPoster.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()

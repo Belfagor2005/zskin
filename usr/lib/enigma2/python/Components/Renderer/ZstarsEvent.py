@@ -87,23 +87,17 @@ class ZstarsEvent(VariableValue, Renderer):
         if what[0] == self.CHANGED_CLEAR:
             (self.range, self.value) = ((0, 1), 0)
             return
-
-        # event = ""
-        # evntNm = ""
-        # evnt = ""
+        # if what[0] != self.CHANGED_CLEAR:
+        print('zstar what[0] != self.CHANGED_CLEAR')
         rtng = 0
-        # data = []
-        # range = 0
-        # value = 0
-        # event = self.source.event
+        range = 0
+        value = 0
         try:
-            # self.evnt = ''
-            # self.evntNm = ''
             self.event = self.source.event
-            if self.event and self.instance:
+            if self.event:  # and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
-                self.evntNm = cleantitle(self.evnt)
-                rating_json = ("%surl_rate" % path_folder)
+                self.evntNm = cleantitle(self.evnt).strip()
+                rating_json = os.path.join(path_folder, "url_rate")
                 if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                     with open(rating_json) as f:
                         try:
@@ -116,13 +110,11 @@ class ZstarsEvent(VariableValue, Renderer):
                         rtng = 0
                 else:
                     rtng = 0
-                print('value d ', rtng)
+            else:
+                rtng = 0
+            print('value d ', rtng)
 
         except Exception as e:
-            # if os.path.exists("%surl_rate" % path_folder):
-                # os.remove("%surl_rate" % path_folder)
-            # if os.path.exists("/tmp/rating"):
-                # os.remove("/tmp/rating")
             print('my e ', str(e))
 
         range = 100

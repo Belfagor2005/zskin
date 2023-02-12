@@ -18,14 +18,13 @@ try:
 except:
     from urllib import quote
 
+
 try:
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote
 except:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote
 
 # w92
 # w154
@@ -53,11 +52,8 @@ if not os.path.isdir(path_folder):
 try:
     if my_cur_skin is False:
         myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        # print('skinz namez', myz_skin)
         omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        # print('skinz namez', omdb_skin)
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
-        # print('skinz namez', thetvdb_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
                 apikey = f.read()
@@ -102,13 +98,11 @@ class zPosterXDownloadThread(threading.Thread):
             return
 
     def search_tmdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
-        # if intCheck():
         try:
             fd = "{}\n{}\n{}".format(title, shortdesc, fulldesc)
             srch = "multi"
             year = None
             url_tmdb = ""
-
             try:
                 pattern = re.findall('[A-Z].+19\d{2}|[A-Z].+20\d{2}', fd)
                 pattern = re.findall('\d{4}', pattern[0])

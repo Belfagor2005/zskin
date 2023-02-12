@@ -16,7 +16,7 @@ import os
 import socket
 import shutil
 import sys
-global cur_skin, my_cur_skin, apikey
+global cur_skin, my_cur_skin, apikey, path_folder
 PY3 = sys.version_info.major >= 3
 try:
     from urllib.error import URLError, HTTPError
@@ -145,38 +145,39 @@ def cleantitle(text):
     return str(text)
 
 
-class ZEvent(Renderer, VariableText):
+class ZEvent(VariableText, Renderer):
     def __init__(self):
         Renderer.__init__(self)
         VariableText.__init__(self)
         if not intCheck:
             return
         self.timer30 = eTimer()
-        # self.timer20 = eTimer()
+        self.downevent = False
 
     GUI_WIDGET = eLabel
 
     def changed(self, what):
-        # if self.timer20:
-            # self.timer20.stop()
         if self.timer30:
             self.timer30.stop()
         if what[0] == self.CHANGED_CLEAR:
             self.text = ''
             return
-        # if what[0] != self.CHANGED_CLEAR:
+        if what[0] != self.CHANGED_CLEAR:
+            print('what[0] != self.CHANGED_CLEAR')
             # self.instance.hide()
-        self.delay()
-        # try:
-            # self.timer20.callback.append(self.delay)
-        # except:
-            # self.timer20_conn = self.timer20.timeout.connect(self.delay)
-        # self.timer20.start(250, True)
+            self.delay()
+
+    def delay(self):
+        # self.downevent = False
+        try:
+            self.timer30.callback.append(self.infos)
+        except:
+            self.timer30_conn = self.timer30.timeout.connect(self.infos)
+        self.timer30.start(150, True)
 
     def infos(self):
         if self.downevent:
             return
-        # self.downevent = True
         try:
             self.text = ''
             Title = ''
@@ -186,16 +187,11 @@ class ZEvent(Renderer, VariableText):
             Cast = []
             Director = []
             Genres = []
-            # self.evnt = ''
-            # self.evntNm = ''
             ids = ''
             self.event = self.source.event
-            if self.event and self.instance:
+            if self.event:  # and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evntNm)
-                # force
-                # self.pstrNm = "{}{}.jpg".format(path_folder, quote(self.evntNm))
-
                 self.downevent = True
                 print('clean event zinfo poster: ', self.evntNm)
                 import requests
@@ -210,10 +206,8 @@ class ZEvent(Renderer, VariableText):
                     url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(apikey, quote(self.evntNm))
                     if PY3:
                         url = url.encode()
-                    Title = requests.get(url).json()['results'][0]['original_title']
+                    Title = requests.get(url).json()['results'][0]['title']
                     ids = requests.get(url).json()['results'][0]['id']
-                # except:
-                    # pass
 
                 try:
                     url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
@@ -289,12 +283,6 @@ class ZEvent(Renderer, VariableText):
         except:
             if os.path.exists("/tmp/rating"):
                 os.remove("/tmp/rating")
+            self.downevent = False
             return ""
 
-    def delay(self):
-        self.downevent = False
-        try:
-            self.timer30.callback.append(self.infos)
-        except:
-            self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(150, True)

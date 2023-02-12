@@ -7,7 +7,6 @@
 
 # <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" />
 # <widget position="1095,310" render="ZChannel" size="260,379" source="ServiceEvent" zPosition="10" />
-
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap, ePicLoad, eTimer
 from Components.AVSwitch import AVSwitch
@@ -18,7 +17,11 @@ import os
 import socket
 import shutil
 import sys
+
+
 global cur_skin, my_cur_skin, apikey, path_folder
+
+
 PY3 = sys.version_info.major >= 3
 try:
     from urllib.error import URLError, HTTPError
@@ -71,6 +74,13 @@ try:
 except:
     my_cur_skin = False
 
+try:
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for path_folder, folders, files in os.walk(path_folder)])
+    ozposter = "%0.f" % (folder_size/(1024*1024.0))
+    if ozposter >= "5":
+        shutil.rmtree(path_folder)
+except:
+    pass
 
 try:
     from Components.config import config
@@ -120,13 +130,7 @@ def intCheck():
         return True
 
 
-
 def cleantitle(text):
-    # import re
-    # cleanName = re.sub(r'[\<\>\:\"\/\\\|\?\*\(\)\[\]]', " ", str(text))
-    # cleanName = re.sub(r"  ", " ", cleanName)
-    # cleanName = cleanName.strip()
-    # return cleanName
     import unicodedata
     text = text.replace('\xc2\x86', '')
     text = text.replace('\xc2\x87', '')
@@ -149,7 +153,6 @@ class ZChannel(Renderer):
         if not intCheck:
             return
         self.timerchan = eTimer()
-        # self.timer20 = eTimer()
 
     GUI_WIDGET = ePixmap
 
@@ -158,8 +161,6 @@ class ZChannel(Renderer):
             return
         if self.timerchan:
             self.timerchan.stop()
-        # if self.timer20:
-            # self.timer20.stop()
         if what[0] == self.CHANGED_CLEAR:
             print('what[0] == self.CHANGED_CLEAR')
             self.instance.hide()
@@ -167,28 +168,18 @@ class ZChannel(Renderer):
             print('what[0] != self.CHANGED_CLEAR')
             self.instance.hide()
             self.delay()
-        # try:
-            # self.timer20.callback.append(self.delay)
-        # except:
-            # self.timer20_conn = self.timer20.timeout.connect(self.delay)
-        # self.timer20.start(100, True)
 
     def delay(self):
-        # self.evnt = ''
-        # self.pstrNm = ''
-        # self.evntNm = ''
         self.downloading = False
         self.event = self.source.event
         if self.event: # and self.instance:
             print('self.event and self.instance', self.event)
             self.evnt = self.event.getEventName().encode('utf-8')
-            # self.evntNm = REGEX.sub('', self.evnt).strip()
-            # self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
             self.pstrNm = "{}{}.jpg".format(path_folder, quote(self.evntNm))
             if os.path.exists(self.pstrNm):
-                self.downloading = True
+                # self.downloading = True
                 self.showPoster()
             else:
                 try:
@@ -196,11 +187,6 @@ class ZChannel(Renderer):
                 except:
                     self.timerchan_conn = self.timerchan.timeout.connect(self.info)
                 self.timerchan.start(150, True)
-        # else:
-            # print('self.instance hide')
-            # self.instance.hide()
-            # # self.timer20.stop()
-        # return
 
     def showPoster(self):
         size = self.instance.size()
@@ -219,8 +205,8 @@ class ZChannel(Renderer):
         # del self.picload
 
     def info(self):
-        if self.downloading:
-            return
+        # if self.downloading:
+            # return
         try:
             url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
             if PY3:
@@ -239,7 +225,6 @@ class ZChannel(Renderer):
                         json.dump(data2, f)
                     poster = data2['poster_path']
                     if poster:
-                        # self.url_poster = "http://image.tmdb.org/t/p/w185{}".format(poster) #w185 risoluzione poster
                         self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                         self.savePoster()
                 self.timerchan.stop()
@@ -262,7 +247,6 @@ class ZChannel(Renderer):
                             json.dump(data2, f)
                         poster = data2['poster_path']
                         if poster:
-                            # self.url_poster = "http://image.tmdb.org/t/p/w185{}".format(poster) # w185 risolposter
                             self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                             self.savePoster()
                 self.timerchan.stop()

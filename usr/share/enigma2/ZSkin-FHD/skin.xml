@@ -547,7 +547,7 @@
             <convert type="MMCaidInfo2">Net</convert>
             <convert type="ConditionalShowHide" />
         </widget>
-        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Crd:" transparent="0" zPosition="20">
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="CRD:" transparent="0" zPosition="20">
             <convert type="MMCaidInfo2">Crd</convert>
             <convert type="ConditionalShowHide" />
         </widget>
@@ -1303,16 +1303,10 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/fulltop.png" position="190,0" scale="stretch" size="1280,1080" zPosition="-1" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5" />
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5" />
-        <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2" />
-		<widget render="ZChannel" alphatest="blend" position="220,150" size="213,310" source="session.Event_Now" zPosition="5" />
-        
 		<!-- 		
         <widget render="ZPoster" source="session.Event_Now" position="220,150" size="213,310" zPosition="5" />
-
-
         <widget render="ZPoster" source="session.Event_Next" position="520,150" size="213,310" zPosition="5" />
 		 -->
-
 		<widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5" />
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" halign="left" name="duration" position="670,210" size="300,50" transparent="1" zPosition="5" />
@@ -1339,6 +1333,9 @@
             <convert type="EventName">Name</convert>
         </widget>
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="epg_description" position="220,485" size="1230,420" transparent="1" zPosition="5" />
+
+        <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2" />
+		<widget render="ZChannel" alphatest="blend" position="220,150" size="213,310" source="session.Event_Now" zPosition="5" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="genuineDreambox" position="0,0" size="1920,1080" title="Genuine Dreambox">
         <layout name="menu_1030" />
