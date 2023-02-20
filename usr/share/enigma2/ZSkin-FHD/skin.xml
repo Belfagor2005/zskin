@@ -7550,7 +7550,7 @@
     <screen backgroundColor="#20000000" flags="wfNoBorder" name="EMCSelection" position="0,0" size="1920,1080" title="Enhanced Movie Center">
         <layout name="emcenter" />
     </screen>
-    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EMCSelectionOwn" position="fill" title="Enhanced Movie Center">
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EMCSelectionOwn" position="0,0" title="Enhanced Movie Center">
         <layout name="emcenter" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EMCPlaylistSetup" position="0,0" size="1920,1080" title="EMC Playlist Setup">
