@@ -39,15 +39,7 @@ omdb_api = "cb1d9f55"
 thetvdbkey = 'D19315B88B2DE21F'
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
-path_folder = "/tmp/poster/"
-if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
-else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
-    os.makedirs(path_folder)
+
 
 try:
     if my_cur_skin is False:

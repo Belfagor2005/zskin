@@ -18,9 +18,7 @@ import socket
 import shutil
 import sys
 
-
-global cur_skin, my_cur_skin, apikey, path_folder
-
+global cur_skin, my_cur_skin, apikey
 
 PY3 = sys.version_info.major >= 3
 try:
@@ -44,15 +42,35 @@ omdb_api = "cb1d9f55"
 thetvdbkey = 'D19315B88B2DE21F'
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
-path_folder = "/tmp/poster/"
+
+
+def isMountReadonly(mnt):
+    with open('/proc/mounts') as f:
+        for line in f:
+            line = line.split(',')[0]
+            line = line.split()
+            print('line ', line)
+            try:
+                device, mount_point, filesystem, flags = line
+            except Exception as err:
+                   print("Error: %s" % err)
+            if mount_point == mnt:
+                return 'ro' in flags
+    return "mount: '%s' doesn't exist" % mnt
+
 if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
+    if not isMountReadonly("/media/hdd"):
+        folder_poster = "/media/hdd/poster/"
 elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
+    if not isMountReadonly("/media/usb"):
+        folder_poster = "/media/usb/poster/"
+elif os.path.isdir("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        folder_poster = "/media/usb/mmc/"
 else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
-    os.makedirs(path_folder)
+    folder_poster = "/tmp/poster/"
+if not os.path.isdir(folder_poster):
+    os.makedirs(folder_poster)
 
 try:
     if my_cur_skin is False:
@@ -75,10 +93,10 @@ except:
     my_cur_skin = False
 
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for path_folder, folders, files in os.walk(path_folder)])
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_poster, folders, files in os.walk(folder_poster)])
     ozposter = "%0.f" % (folder_size/(1024*1024.0))
     if ozposter >= "5":
-        shutil.rmtree(path_folder)
+        shutil.rmtree(folder_poster)
 except:
     pass
 
@@ -177,7 +195,7 @@ class ZChannel(Renderer):
             self.evnt = self.event.getEventName().encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
-            self.pstrNm = "{}{}.jpg".format(path_folder, quote(self.evntNm))
+            self.pstrNm = "{}{}.jpg".format(folder_poster, quote(self.evntNm))
             if os.path.exists(self.pstrNm):
                 # self.downloading = True
                 self.showPoster()
@@ -221,7 +239,7 @@ class ZChannel(Renderer):
                         url_2 = url_2.encode()
                     url_3 = urlopen(url_2).read().decode('utf-8')
                     data2 = json.loads(url_3)
-                    with open(("%surl_rate" % path_folder), "w") as f:
+                    with open(("%surl_rate" % folder_poster), "w") as f:
                         json.dump(data2, f)
                     poster = data2['poster_path']
                     if poster:
@@ -243,7 +261,7 @@ class ZChannel(Renderer):
                             url_2 = url_2.encode()
                         url_3 = urlopen(url_2).read().decode('utf-8')
                         data2 = json.loads(url_3)
-                        with open(("%surl_rate" % path_folder), "w") as f:
+                        with open(("%surl_rate" % folder_poster), "w") as f:
                             json.dump(data2, f)
                         poster = data2['poster_path']
                         if poster:

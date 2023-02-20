@@ -71,15 +71,36 @@ thetvdbkey = 'D19315B88B2DE21F'
 
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
-path_folder = "/tmp/poster/"
+
+
+def isMountReadonly(mnt):
+    with open('/proc/mounts') as f:
+        for line in f:
+            line = line.split(',')[0]
+            line = line.split()
+            print('line ', line)
+            try:
+                device, mount_point, filesystem, flags = line
+            except Exception as err:
+                   print("Error: %s" % err)
+            if mount_point == mnt:
+                return 'ro' in flags
+    return "mount: '%s' doesn't exist" % mnt
+
 if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
+    if not isMountReadonly("/media/hdd"):
+        folder_poster = "/media/hdd/poster/"
 elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
+    if not isMountReadonly("/media/usb"):
+        folder_poster = "/media/usb/poster/"
+elif os.path.isdir("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        folder_poster = "/media/usb/mmc/"
 else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
-    os.makedirs(path_folder)
+    folder_poster = "/tmp/poster/"
+if not os.path.isdir(folder_poster):
+    os.makedirs(folder_poster)
+
 
 try:
     if my_cur_skin is False:
@@ -225,7 +246,7 @@ class PosterDB(zPosterXDownloadThread):
             try:
                 canal = pdb.get()
                 self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-                dwn_poster = path_folder + canal[5] + ".jpg"
+                dwn_poster = folder_poster + canal[5] + ".jpg"
                 if os.path.exists(dwn_poster):
                     os.utime(dwn_poster, (time.time(), time.time()))
                 elif not os.path.exists(dwn_poster):
@@ -243,7 +264,7 @@ class PosterDB(zPosterXDownloadThread):
 
     def logDB(self, logmsg):
         if self.logdbg:
-            w = open(path_folder + "PosterDB.log", "a+")
+            w = open("/tmp/PosterDB.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()
 
@@ -270,14 +291,14 @@ class PosterAutoDB(zPosterXDownloadThread):
                     newcn = None
                     for evt in events:
                         canal = [None, None, None, None, None, None]
-                        canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                        canal[0] = ServiceReference(service).getServiceName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '')
                         canal[1] = evt[1]
                         canal[2] = evt[4]
                         canal[3] = evt[5]
                         canal[4] = evt[6]
                         canal[5] = cleantitle(canal[2])
                         #  self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
-                        dwn_poster = path_folder + canal[5] + ".jpg"
+                        dwn_poster = folder_poster + canal[5] + ".jpg"
                         if os.path.exists(dwn_poster):
                             os.utime(dwn_poster, (time.time(), time.time()))
                         elif not os.path.exists(dwn_poster):
@@ -300,13 +321,13 @@ class PosterAutoDB(zPosterXDownloadThread):
             now_tm = time.time()
             emptyfd = 0
             oldfd = 0
-            for f in os.listdir(path_folder):
-                diff_tm = now_tm - os.path.getmtime(path_folder + f)
-                if diff_tm > 120 and os.path.getsize(path_folder + f) == 0:  # Detect empty files > 2 minutes
-                    os.remove(path_folder + f)
+            for f in os.listdir(folder_poster):
+                diff_tm = now_tm - os.path.getmtime(folder_poster + f)
+                if diff_tm > 120 and os.path.getsize(folder_poster + f) == 0:  # Detect empty files > 2 minutes
+                    os.remove(folder_poster + f)
                     emptyfd = emptyfd + 1
                 if diff_tm > 259200:  # Detect old files > 3 days old
-                    os.remove(path_folder + f)
+                    os.remove(folder_poster + f)
                     oldfd = oldfd + 1
             self.logAutoDB("[AutoDB] {} old file(s) removed".format(oldfd))
             self.logAutoDB("[AutoDB] {} empty file(s) removed".format(emptyfd))
@@ -314,7 +335,7 @@ class PosterAutoDB(zPosterXDownloadThread):
 
     def logAutoDB(self, logmsg):
         if self.logdbg:
-            w = open(path_folder + "PosterAutoDB.log", "a+")
+            w = open("/tmp/PosterAutoDB.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()
 
@@ -330,7 +351,7 @@ class ZPoster(Renderer):
         if not adsl:
             return
         self.nxts = 0
-        self.path = path_folder
+        self.path = folder_poster
         self.canal = [None, None, None, None, None, None]
         self.oldCanal = None
         self.timer = eTimer()
@@ -385,7 +406,7 @@ class ZPoster(Renderer):
                     servicetype = "Event"
                 if service:
                     events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
-                    self.canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                    self.canal[0] = ServiceReference(service).getServiceName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '')
                     self.canal[1] = events[self.nxts][1]
                     self.canal[2] = events[self.nxts][4]
                     self.canal[3] = events[self.nxts][5]
@@ -410,10 +431,6 @@ class ZPoster(Renderer):
                 self.logPoster("Service : {} [{}] : {} : {}".format(servicetype, self.nxts, self.canal[0], self.oldCanal))
                 pstrNm = self.path + self.canal[5] + ".jpg"
                 if os.path.exists(pstrNm):
-                    # if(self.timer is not None):
-                        # self.timer.stop()
-                    # else:
-                        # self.timer.start(100, True)
                     self.timer.start(50, True)
                 else:
                     canal = self.canal[:]
@@ -449,14 +466,11 @@ class ZPoster(Renderer):
                 time.sleep(0.5)
                 loop = loop - 1
             if found:
-                # if(self.timer is not None):
-                    # self.timer.stop()
-                # else:
-                    # self.timer.start(100, True)
-                self.timer.start(150, True)
+                self.timer.start(10, True)
 
     def logPoster(self, logmsg):
         if self.logPoster:
-            w = open(self.path + "ZPoster.log", "a+")
+            # w = open(self.path + "ZPoster.log", "a+")
+            w = open("/tmp/ZPoster.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()

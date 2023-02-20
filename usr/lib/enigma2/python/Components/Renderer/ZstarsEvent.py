@@ -21,16 +21,33 @@ import os
 import re
 import json
 
-path_folder = "/tmp/poster/"
-if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
-else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
-    os.makedirs(path_folder)
+def isMountReadonly(mnt):
+    with open('/proc/mounts') as f:
+        for line in f:
+            line = line.split(',')[0]
+            line = line.split()
+            print('line ', line)
+            try:
+                device, mount_point, filesystem, flags = line
+            except Exception as err:
+                   print("Error: %s" % err)
+            if mount_point == mnt:
+                return 'ro' in flags
+    return "mount: '%s' doesn't exist" % mnt
 
+if os.path.isdir("/media/hdd"):
+    if not isMountReadonly("/media/hdd"):
+        folder_poster = "/media/hdd/poster/"
+elif os.path.isdir("/media/usb"):
+    if not isMountReadonly("/media/usb"):
+        folder_poster = "/media/usb/poster/"
+elif os.path.isdir("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        folder_poster = "/media/usb/mmc/"
+else:
+    folder_poster = "/tmp/poster/"
+if not os.path.isdir(folder_poster):
+    os.makedirs(folder_poster)
 
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
@@ -97,7 +114,7 @@ class ZstarsEvent(VariableValue, Renderer):
             if self.event:  # and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evnt).strip()
-                rating_json = os.path.join(path_folder, "url_rate")
+                rating_json = os.path.join(folder_poster, "url_rate")
                 if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                     with open(rating_json) as f:
                         try:
