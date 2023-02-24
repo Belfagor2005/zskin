@@ -163,13 +163,13 @@ class zExtra(Poll, Converter):
             return "Lan Ip " + "%s" % ipaddr
         if self.type == self.IPWAN:
             try:
-                if not intCheck:
+                adsl = intCheck()
+                if not adsl:
                     return
 
                 if not os.path.exists('/tmp/currentip'):
-                    os.system('wget -qO- https://checkip.amazonaws.com > /tmp/currentip')
-                publicIp = open('/tmp/currentip', 'r')
-                public = publicIp.read()
+                    os.system('wget -qO- http://checkip.amazonaws.com > /tmp/currentip')
+                public = open('/tmp/currentip', 'r').read()
                 publicIp = "Wan Ip %s" % (str(public))
                 print('publicIp= ', publicIp)
                 return "%s" % publicIp
