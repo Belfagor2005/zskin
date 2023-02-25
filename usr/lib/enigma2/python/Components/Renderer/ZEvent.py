@@ -167,7 +167,8 @@ class ZEvent(VariableText, Renderer):
     def __init__(self):
         Renderer.__init__(self)
         VariableText.__init__(self)
-        if not intCheck:
+        adsl = intCheck()
+        if not adsl:
             return
         self.timer30 = eTimer()
         self.downevent = False

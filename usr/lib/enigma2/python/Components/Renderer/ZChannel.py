@@ -75,11 +75,8 @@ if not os.path.isdir(folder_poster):
 try:
     if my_cur_skin is False:
         myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        # print('skinz namez', myz_skin)
         omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        # print('skinz namez', omdb_skin)
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
-        # print('skinz namez', thetvdb_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
                 apikey = f.read()
@@ -135,6 +132,7 @@ REGEX = re.compile(
 
 
 def intCheck():
+    import socket
     try:
         response = urlopen("http://google.com", None, 5)
         response.close()
@@ -168,7 +166,8 @@ def cleantitle(text):
 class ZChannel(Renderer):
     def __init__(self):
         Renderer.__init__(self)
-        if not intCheck:
+        adsl = intCheck()
+        if not adsl:
             return
         self.timerchan = eTimer()
 
@@ -182,13 +181,15 @@ class ZChannel(Renderer):
         if what[0] == self.CHANGED_CLEAR:
             print('what[0] == self.CHANGED_CLEAR')
             self.instance.hide()
+            # return
+            
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
             self.instance.hide()
             self.delay()
 
     def delay(self):
-        self.downloading = False
+        # self.downloading = False
         self.event = self.source.event
         if self.event: # and self.instance:
             print('self.event and self.instance', self.event)
@@ -204,7 +205,7 @@ class ZChannel(Renderer):
                     self.timerchan.callback.append(self.info)
                 except:
                     self.timerchan_conn = self.timerchan.timeout.connect(self.info)
-                self.timerchan.start(150, True)
+                self.timerchan.start(50, True)
 
     def showPoster(self):
         size = self.instance.size()
@@ -220,7 +221,7 @@ class ZChannel(Renderer):
         if ptr is not None:
             self.instance.setPixmap(ptr)
             self.instance.show()
-        # del self.picload
+        del self.picload
 
     def info(self):
         # if self.downloading:
@@ -245,6 +246,7 @@ class ZChannel(Renderer):
                     if poster:
                         self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                         self.savePoster()
+                        return
                 self.timerchan.stop()
         except:
             try:
@@ -267,8 +269,10 @@ class ZChannel(Renderer):
                         if poster:
                             self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                             self.savePoster()
+                            return
                 self.timerchan.stop()
-            except:
+            except Exception as e:
+                # print('error except zchannel ', e)
                 self.timerchan.stop()
 
     def savePoster(self):
@@ -276,6 +280,7 @@ class ZChannel(Renderer):
         with open(self.pstrNm, 'wb') as f:
             f.write(requests.get(self.url_poster, stream=True, allow_redirects=True).content)
             f.close()
-            self.downloading = True
+            # self.downloading = True
         if os.path.exists(self.pstrNm):
             self.showPoster()
+        return

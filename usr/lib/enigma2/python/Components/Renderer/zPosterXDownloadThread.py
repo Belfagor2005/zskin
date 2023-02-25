@@ -86,7 +86,8 @@ def intCheck():
 class zPosterXDownloadThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        if not intCheck():
+        adsl = intCheck()
+        if not adsl:
             return
 
     def search_tmdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):

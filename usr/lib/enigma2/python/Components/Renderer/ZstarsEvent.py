@@ -104,39 +104,39 @@ class ZstarsEvent(VariableValue, Renderer):
         if what[0] == self.CHANGED_CLEAR:
             (self.range, self.value) = ((0, 1), 0)
             return
-        # if what[0] != self.CHANGED_CLEAR:
-        print('zstar what[0] != self.CHANGED_CLEAR')
-        rtng = 0
-        range = 0
-        value = 0
-        try:
-            self.event = self.source.event
-            if self.event:  # and self.instance:
-                self.evnt = self.event.getEventName().encode('utf-8')
-                self.evntNm = cleantitle(self.evnt).strip()
-                rating_json = os.path.join(folder_poster, "url_rate")
-                if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
-                    with open(rating_json) as f:
-                        try:
-                            rating = json.load(f)['vote_average']
-                        except:
-                            rating = json.load(f)['imdbRating']
-                    if rating:
-                        rtng = int(10*(float(rating)))
+        if what[0] != self.CHANGED_CLEAR:
+            print('zstar what[0] != self.CHANGED_CLEAR')
+            rtng = 0
+            range = 0
+            value = 0
+            try:
+                self.event = self.source.event
+                if self.event:  # and self.instance:
+                    self.evnt = self.event.getEventName().encode('utf-8')
+                    self.evntNm = cleantitle(self.evnt).strip()
+                    rating_json = os.path.join(folder_poster, "url_rate")
+                    if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
+                        with open(rating_json) as f:
+                            try:
+                                rating = json.load(f)['vote_average']
+                            except:
+                                rating = json.load(f)['imdbRating']
+                        if rating:
+                            rtng = int(10*(float(rating)))
+                        else:
+                            rtng = 0
                     else:
                         rtng = 0
                 else:
                     rtng = 0
-            else:
-                rtng = 0
-            print('value d ', rtng)
+                print('value d ', rtng)
 
-        except Exception as e:
-            print('my e ', str(e))
+            except Exception as e:
+                print('my e ', str(e))
 
-        range = 100
-        value = rtng
-        (self.range, self.value) = ((0, range), value)
+            range = 100
+            value = rtng
+            (self.range, self.value) = ((0, range), value)
 
     def postWidgetCreate(self, instance):
         instance.setRange(self.__start, self.__end)
