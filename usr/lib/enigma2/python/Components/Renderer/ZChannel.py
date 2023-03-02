@@ -58,19 +58,24 @@ def isMountReadonly(mnt):
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-if os.path.isdir("/media/hdd"):
+folder_poster = "/tmp/poster" 
+if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        folder_poster = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
+        folder_poster = "/media/hdd/poster"
+elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        folder_poster = "/media/usb/poster/"
-elif os.path.isdir("/media/mmc"):
+        folder_poster = "/media/usb/poster"
+elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/usb/mmc/"
+        folder_poster = "/media/mmc/poster"    
 else:
-    folder_poster = "/tmp/poster/"
-if not os.path.isdir(folder_poster):
+    folder_poster = "/tmp/poster" 
+
+if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
+if not os.path.exists(folder_poster):    
+    folder_poster = "/tmp/poster" 
+
 
 try:
     if my_cur_skin is False:
@@ -196,7 +201,7 @@ class ZChannel(Renderer):
             self.evnt = self.event.getEventName().encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
-            self.pstrNm = "{}{}.jpg".format(folder_poster, quote(self.evntNm))
+            self.pstrNm = "{}/{}.jpg".format(folder_poster, quote(self.evntNm))
             if os.path.exists(self.pstrNm):
                 # self.downloading = True
                 self.showPoster()
@@ -240,7 +245,7 @@ class ZChannel(Renderer):
                         url_2 = url_2.encode()
                     url_3 = urlopen(url_2).read().decode('utf-8')
                     data2 = json.loads(url_3)
-                    with open(("%surl_rate" % folder_poster), "w") as f:
+                    with open(("%s/url_rate" % folder_poster), "w") as f:
                         json.dump(data2, f)
                     poster = data2['poster_path']
                     if poster:
@@ -263,7 +268,7 @@ class ZChannel(Renderer):
                             url_2 = url_2.encode()
                         url_3 = urlopen(url_2).read().decode('utf-8')
                         data2 = json.loads(url_3)
-                        with open(("%surl_rate" % folder_poster), "w") as f:
+                        with open(("%s/url_rate" % folder_poster), "w") as f:
                             json.dump(data2, f)
                         poster = data2['poster_path']
                         if poster:

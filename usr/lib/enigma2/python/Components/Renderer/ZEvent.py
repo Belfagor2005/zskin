@@ -56,19 +56,23 @@ def isMountReadonly(mnt):
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-if os.path.isdir("/media/hdd"):
+folder_poster = "/tmp/poster" 
+if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        folder_poster = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
+        folder_poster = "/media/hdd/poster"
+elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        folder_poster = "/media/usb/poster/"
-elif os.path.isdir("/media/mmc"):
+        folder_poster = "/media/usb/poster"
+elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/usb/mmc/"
+        folder_poster = "/media/mmc/poster"    
 else:
-    folder_poster = "/tmp/poster/"
-if not os.path.isdir(folder_poster):
+    folder_poster = "/tmp/poster" 
+
+if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
+if not os.path.exists(folder_poster):    
+    folder_poster = "/tmp/poster" 
 
 try:
     if my_cur_skin is False:
@@ -232,7 +236,7 @@ class ZEvent(VariableText, Renderer):
                     url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
                     data2 = requests.get(url3, timeout=5)
                     if data2.status_code == 200:
-                        with open(("%surl_rate" % folder_poster), "w") as f:
+                        with open(("%s/url_rate" % folder_poster), "w") as f:
                             json.dump(data2, f)
 
                         try:
