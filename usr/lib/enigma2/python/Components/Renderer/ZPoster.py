@@ -11,7 +11,9 @@
 # <widget source="session.Event_Now" render="ZPoster" position="100,100" size="185,278" nexts="2" />
 # <widget source="session.CurrentService" render="ZPoster" position="100,100" size="185,278" nexts="3" />
 # for ch,
-# <widget source="ServiceEvent" render="ZPoster" position="820,100" size="100,150" path="/media/hdd/poster/" zPosition="9" />
+# for ch,
+# <widget source="ServiceEvent" render="ZPoster" position="100,100" size="185,278" path="/media/hdd/poster/" zPosition="9" />
+# <widget source="ServiceEvent" render="ZPoster" position="100,100" size="185,278" path="/media/hdd/poster/" nexts="2" zPosition="9" />
 # for secondInfobar,
 # <widget source="session.Event_Now" render="ZPoster" position="20,155" size="100,150" path="/media/hdd/poster/" zPosition="9" />
 # <widget source="session.Event_Next" render="ZPoster" position="1080,155" size="100,150" path="/media/hdd/poster/" zPosition="9" />
@@ -31,10 +33,10 @@ from enigma import eTimer
 import NavigationInstance
 import os
 import re
+import socket
 import sys
 import time
-import socket
-import unicodedata
+
 
 PY3 = sys.version_info.major >= 3
 
@@ -42,18 +44,28 @@ try:
     if PY3:
         import queue
         from _thread import start_new_thread
+        from urllib.error import URLError, HTTPError
+        PY3 = True
+        unicode = str
+        unichr = chr
+        long = int
+        xrange = range
     else:
         import Queue
         from thread import start_new_thread
+        from urllib2 import URLError, HTTPError
+        _str = str
+        str = unicode
+        range = xrange
+        unicode = unicode
+        basestring = basestring
 except:
     pass
 
 
 try:
-    from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
 except:
-    from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
 
 # w92
@@ -82,12 +94,12 @@ def isMountReadonly(mnt):
             try:
                 device, mount_point, filesystem, flags = line
             except Exception as err:
-                   print("Error: %s" % err)
+                print("Error: %s" % err)
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-folder_poster = "/tmp/poster" 
+folder_poster = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
         folder_poster = "/media/hdd/poster"
@@ -96,24 +108,19 @@ elif os.path.exists("/media/usb"):
         folder_poster = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"    
-else:
-    folder_poster = "/tmp/poster" 
+        folder_poster = "/media/mmc/poster"
 
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):    
-    folder_poster = "/tmp/poster" 
+if not os.path.exists(folder_poster):
+    folder_poster = "/tmp/poster"
 
 
 try:
     if my_cur_skin is False:
         myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        # print('skinz namez', myz_skin)
         omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        # print('skinz namez', omdb_skin)
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
-        # print('skinz namez', thetvdb_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
                 apikey = f.read()
@@ -138,8 +145,6 @@ try:
 except:
     language = 'en'
     pass
-print('language: ', language)
-
 
 # def setupTimer(method):
     # from enigma import eTimer  # @UnresolvedImport
@@ -150,7 +155,6 @@ print('language: ', language)
     # except AttributeError:
         # timer.callback.append(method)
         # return (timer, None)
-
 # SET YOUR PREFERRED BOUQUET FOR AUTOMATIC POSTER GENERATION
 # WITH THE NUMBER OF ITEMS EXPECTED (BLANK LINE IN BOUQUET CONSIDERED)
 # IF NOT SET OR WRONG FILE THE AUTOMATIC POSTER GENERATION WILL WORK FOR
@@ -188,7 +192,7 @@ REGEX = re.compile(
         r'/.*|'
         r'\|\s[0-9]+\+|'
         r'[0-9]+\+|'
-        r'\s\d{4}\Z|'
+        r'\s\*\d{4}\Z|'
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
@@ -217,20 +221,41 @@ def intCheck():
         return True
 
 
-def cleantitle(text):
-    text = text.replace('\xc2\x86', '')
-    text = text.replace('\xc2\x87', '')
-    text = REGEX.sub('', text)
-    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
-    text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-    text = text.strip()
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
+
+def cleantitle(text=''):
     try:
-        text = unicode(text, 'utf-8')
-    except NameError:
-        pass
-    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-    text = text.lower()
-    return str(text)
+        print('text ->>> ', text)
+        # import unicodedata
+        if text != '' or text is not None:
+            '''
+            # text = text.replace('\xc2\x86', '')
+            # text = text.replace('\xc2\x87', '')
+            '''
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.strip()
+            '''
+            # try:
+                # text = unicode(text, 'utf-8')
+            # except Exception as e:
+                # print('error name ',e)
+                # pass
+            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+            '''
+            text = unicodify(text)
+            text = text.lower()
+            return text
+    except Exception as e:
+        print('cleantitle error: ', e)
 
 
 if PY3:
@@ -253,24 +278,25 @@ class PosterDB(zPosterXDownloadThread):
                 dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
                 if os.path.exists(dwn_poster):
                     os.utime(dwn_poster, (time.time(), time.time()))
-                elif not os.path.exists(dwn_poster):
-                    val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3])
+                if not os.path.exists(dwn_poster):
+                    val, log = self.search_tmdb(dwn_poster, canal[5], canal[4], canal[3])
                     self.logDB(log)
-                elif not os.path.exists(dwn_poster) and language == "it":
-                    val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                    self.logDB(log)
-                elif not os.path.exists(dwn_poster):
-                    val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+
+                if not os.path.exists(dwn_poster):
+                    val, log = self.search_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
                     self.logDB(log)
                 pdb.task_done()
             except Exception as e:
                 print('ZPoster exceptions', str(e))
 
     def logDB(self, logmsg):
-        if self.logdbg:
+        # if self.logdbg:
+        try:
             w = open("/tmp/PosterDB.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()
+        except Exception as e:
+            print('logDB exceptions', str(e))
 
 
 threadDB = PosterDB()
@@ -296,29 +322,32 @@ class PosterAutoDB(zPosterXDownloadThread):
                     for evt in events:
                         canal = [None, None, None, None, None, None]
                         canal[0] = ServiceReference(service).getServiceName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '')
-                        canal[1] = evt[1]
-                        canal[2] = evt[4]
-                        canal[3] = evt[5]
-                        canal[4] = evt[6]
-                        canal[5] = cleantitle(canal[2])
-                        #  self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
-                        dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
-                        if os.path.exists(dwn_poster):
-                            os.utime(dwn_poster, (time.time(), time.time()))
-                        elif not os.path.exists(dwn_poster):
-                            val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                            if val and log.find("SUCCESS"):
-                                newfd = newfd + 1
-                        elif not os.path.exists(dwn_poster):
-                            val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                            if val and log.find("SUCCESS"):
-                                newfd = newfd + 1
-                        elif not os.path.exists(dwn_poster):
-                            val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                            if val and log.find("SUCCESS"):
-                                newfd = newfd + 1
-                        newcn = canal[0]
-                    self.logAutoDB("[AutoDB] {} new file(s) added ({})".format(newfd, newcn))
+                        if evt[1] is None or evt[4] is None or evt[5] is None or evt[6] is None:
+                            self.logAutoDB("[AutoDB] *** missing epg for {}".format(canal[0]))
+                        else:
+                            canal[1] = evt[1]
+                            canal[2] = evt[4]
+                            canal[3] = evt[5]
+                            canal[4] = evt[6]
+                            canal[5] = cleantitle(canal[2])
+                            self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
+                            dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
+                            if os.path.exists(dwn_poster):
+                                os.utime(dwn_poster, (time.time(), time.time()))
+                            elif not os.path.exists(dwn_poster):
+                                val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                if val and log.find("SUCCESS"):
+                                    newfd = newfd + 1
+                            elif not os.path.exists(dwn_poster):
+                                val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                if val and log.find("SUCCESS"):
+                                    newfd = newfd + 1
+                            elif not os.path.exists(dwn_poster):
+                                val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                if val and log.find("SUCCESS"):
+                                    newfd = newfd + 1
+                            newcn = canal[0]
+                        self.logAutoDB("[AutoDB] {} new file(s) added ({})".format(newfd, newcn))
                 except Exception as e:
                     self.logAutoDB("[AutoDB] *** service error ({})".format(e))
             # AUTO REMOVE OLD FILES
@@ -333,16 +362,20 @@ class PosterAutoDB(zPosterXDownloadThread):
                     emptyfd = emptyfd + 1
                 if diff_tm > 259200:  # Detect old files > 3 days old
                     os.remove(folderlist + f)
+                    os.remove("/tmp/PosterAutoDB.log")  # remove PosterAutoDB > 3 days old
+                    os.remove("/tmp/zPoster.log")  # remove zPosterX > 3 days old
                     oldfd = oldfd + 1
             self.logAutoDB("[AutoDB] {} old file(s) removed".format(oldfd))
             self.logAutoDB("[AutoDB] {} empty file(s) removed".format(emptyfd))
             self.logAutoDB("[AutoDB] *** Stopping ***")
 
     def logAutoDB(self, logmsg):
-        if self.logdbg:
+        try:
             w = open("/tmp/PosterAutoDB.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()
+        except Exception as e:
+            print('error logAutoDB 2 ', e)
 
 
 threadAutoDB = PosterAutoDB()
@@ -364,7 +397,7 @@ class ZPoster(Renderer):
             self.timer_conn = self.timer.timeout.connect(self.showPoster)
         except:
             self.timer.callback.append(self.showPoster)
-        self.timer.start(200, True)
+        self.timer.start(100, True)
         self.logdbg = None
 
     def applySkin(self, desktop, parent):
@@ -421,7 +454,7 @@ class ZPoster(Renderer):
                         if self.canal[0] not in apdb:
                             apdb[self.canal[0]] = service.toString()
             except Exception as e:
-                self.logPoster("Error (service) : "+str(e))
+                self.logPoster("Error (service) : " + str(e))
                 self.instance.hide()
                 return
             if not servicetype:
@@ -442,7 +475,7 @@ class ZPoster(Renderer):
                     pdb.put(canal)
                     start_new_thread(self.waitPoster, ())
             except Exception as e:
-                self.logPoster("Error (eFile) : "+str(e))
+                self.logPoster("Error (eFile) : " + str(e))
                 self.instance.hide()
                 return
 
@@ -454,6 +487,7 @@ class ZPoster(Renderer):
                 self.logPoster("[LOAD : showPoster] {}".format(pstrNm))
                 self.instance.setPixmap(loadJPG(pstrNm))
                 self.instance.setScale(1)
+                # self.instance.setScale(2)
                 self.instance.show()
 
     def waitPoster(self):
@@ -471,11 +505,13 @@ class ZPoster(Renderer):
                 time.sleep(0.5)
                 loop = loop - 1
             if found:
-                self.timer.start(10, True)
+                self.timer.start(20, True)
 
     def logPoster(self, logmsg):
-        if self.logPoster:
-            # w = open(self.path + "ZPoster.log", "a+")
-            w = open("/tmp/ZPoster.log", "a+")
+        try:
+
+            w = open("/tmp/zPoster.log", "a+")
             w.write("%s\n" % logmsg)
             w.close()
+        except Exception as e:
+            print('logPoster error', e)

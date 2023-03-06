@@ -1,14 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import
 from Components.config import config
 import os
 import re
 import requests
+import socket
 import sys
 import threading
-import socket
 
 global my_cur_skin
 
@@ -16,7 +15,7 @@ PY3 = sys.version_info.major >= 3
 try:
     from urllib.parse import quote
 except:
-    from urllib import quote
+    from urllib2 import quote
 
 
 try:
@@ -26,6 +25,14 @@ except:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
 
+try:
+    from Components.config import config
+    language = config.osd.language.value
+    language = language[:-3]
+except:
+    language = 'en'
+    pass
+print('language: ', language)
 # w92
 # w154
 # w185
@@ -36,7 +43,8 @@ except:
 formatImg = 'w342'
 apikey = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
-thetvdbkey = 'D19315B88B2DE21F'
+# thetvdbkey = 'D19315B88B2DE21F'
+thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
@@ -57,16 +65,6 @@ try:
                 thetvdbkey = f.read()
 except:
     my_cur_skin = False
-
-
-try:
-    from Components.config import config
-    language = config.osd.language.value
-    language = language[:-3]
-except:
-    language = 'en'
-    pass
-print('language: ', language)
 
 
 def intCheck():
@@ -127,7 +125,7 @@ class zPosterXDownloadThread(threading.Thread):
                         srch = "tv"
                         break
 
-            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&query={}".format(srch, apikey, quote(title))
+            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&include_adult=true&query={}".format(srch, apikey, quote(title))
             # id = requests.get(url_tmdb).json()['results'][0]['id']
             # url_tmdb = "https://api.themoviedb.org/3/{}/{}?api_key={}&append_to_response=images".format(srch, int(id), apikey)
 
@@ -162,7 +160,6 @@ class zPosterXDownloadThread(threading.Thread):
             return False, "[ERROR : tmdb] {} => {} ({})".format(title, url_tmdb, str(e))
 
     def search_molotov_google(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
-        # if intCheck():
         try:
             headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
             fd = "{}\n{}".format(shortdesc, fulldesc)
@@ -187,9 +184,8 @@ class zPosterXDownloadThread(threading.Thread):
                     open(dwn_poster, 'wb').write(requests.get(url_poster, stream=True, allow_redirects=True).content)
                     return True, "[SUCCESS : molotov-google] {} => {} => {}".format(title, url_tmdb, url_poster)
                 except Exception as e:
-                    print('search_molotov_google ', str(e))
                     self.savePoster(dwn_poster, url_poster)
-                    return True, "[SUCCESS : molotov-google] {} => {} => {}".format(title, url_tmdb, url_poster)
+                    return True, "[SUCCESS : molotov-google] {} => {} => {} ({})".format(title, url_tmdb, url_poster, str(e))
             else:
                 return False, "[ERROR : molotov-google] {} => {} (not in molotov site)".format(title, url_tmdb)
         except Exception as e:
@@ -198,7 +194,6 @@ class zPosterXDownloadThread(threading.Thread):
             return False, "[ERROR : molotov-google] {} => {} ({})".format(title, url_tmdb, str(e))
 
     def search_google(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
-        # if intCheck():
         try:
             headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36"}
             fd = "{}\n{}".format(shortdesc, fulldesc)
@@ -210,11 +205,9 @@ class zPosterXDownloadThread(threading.Thread):
             except:
                 year = None
                 pass
-            #  url_tmdb = quote(title) + "%20" + quote(channel)
             url_tmdb = quote(title)
             if year:
                 url_tmdb += "+{}".format(year)
-            #  url_tmdb = url_tmdb + "%20imagesize:" + re.sub(',','x',formatImg)
             url_tmdb = "https://www.google.com/search?q={}&tbm=isch&tbs=ift:jpg%2Cisz:m".format(url_tmdb)
             ff = requests.get(url_tmdb, stream=True, headers=headers).text
             poster = re.findall('\],\["https://(.*?)",\d+,\d+]', ff)[0]
