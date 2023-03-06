@@ -139,7 +139,6 @@ apdb = dict()
 
 
 try:
-    from Components.config import config
     language = config.osd.language.value
     language = language[:-3]
 except:
@@ -207,7 +206,6 @@ REGEX = re.compile(
 
 
 def intCheck():
-    import socket
     try:
         response = urlopen("http://google.com", None, 5)
         response.close()
@@ -337,7 +335,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             elif not os.path.exists(dwn_poster):
                                 val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
-                                    newfd = newfd + 1
+                                    newfd += 1
                             elif not os.path.exists(dwn_poster):
                                 val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
@@ -345,7 +343,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             elif not os.path.exists(dwn_poster):
                                 val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
-                                    newfd = newfd + 1
+                                    newfd += 1
                             newcn = canal[0]
                         self.logAutoDB("[AutoDB] {} new file(s) added ({})".format(newfd, newcn))
                 except Exception as e:
