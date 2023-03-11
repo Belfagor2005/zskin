@@ -68,22 +68,6 @@ try:
 except:
     from urllib2 import urlopen
 
-# w92
-# w154
-# w185
-# w342
-# w500
-# w780
-# original
-formatImg = 'w185'
-apikey = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
-thetvdbkey = 'D19315B88B2DE21F'
-
-
-my_cur_skin = False
-cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
-
 
 def isMountReadonly(mnt):
     with open('/proc/mounts') as f:
@@ -98,6 +82,7 @@ def isMountReadonly(mnt):
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
+
 
 folder_poster = "/tmp/poster"
 if os.path.exists("/media/hdd"):
@@ -114,24 +99,6 @@ if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
 if not os.path.exists(folder_poster):
     folder_poster = "/tmp/poster"
-
-
-try:
-    if my_cur_skin is False:
-        myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
-        if os.path.exists(myz_skin):
-            with open(myz_skin, "r") as f:
-                apikey = f.read()
-        if os.path.exists(omdb_skin):
-            with open(omdb_skin, "r") as f:
-                omdb_api = f.read()
-        if os.path.exists(thetvdb_skin):
-            with open(thetvdb_skin, "r") as f:
-                thetvdbkey = f.read()
-except:
-    my_cur_skin = False
 
 
 epgcache = eEPGCache.getInstance()
@@ -288,7 +255,6 @@ class PosterDB(zPosterXDownloadThread):
                 print('ZPoster exceptions', str(e))
 
     def logDB(self, logmsg):
-        # if self.logdbg:
         try:
             w = open("/tmp/PosterDB.log", "a+")
             w.write("%s\n" % logmsg)
@@ -328,19 +294,19 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[3] = evt[5]
                             canal[4] = evt[6]
                             canal[5] = cleantitle(canal[2])
-                            self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
+                            self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
                             dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
-                            elif not os.path.exists(dwn_poster):
+                            if not os.path.exists(dwn_poster):
                                 val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
-                            elif not os.path.exists(dwn_poster):
+                            if not os.path.exists(dwn_poster):
                                 val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd = newfd + 1
-                            elif not os.path.exists(dwn_poster):
+                            if not os.path.exists(dwn_poster):
                                 val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1

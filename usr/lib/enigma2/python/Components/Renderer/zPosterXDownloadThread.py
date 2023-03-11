@@ -11,7 +11,7 @@ import threading
 from Components.config import config
 global my_cur_skin
 
-PY3 = sys.version_info.major >= 3
+PY3 = (sys.version_info[0] == 3)
 try:
     from urllib.parse import quote
 except:
@@ -39,8 +39,8 @@ print('language: ', language)
 # w342
 # w500
 # w780
-# original
-formatImg = 'w342'
+# formatImg = "original"
+formatImg = "w154"
 apikey = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
