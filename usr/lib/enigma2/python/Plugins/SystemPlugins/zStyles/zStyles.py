@@ -1,6 +1,7 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*- 
-#  Styles for Dreambox-Enigma2
+# -*- coding: utf-8 -*-
+
+#  zStyles for Dreambox-Enigma2
 #
 # Copyright (C) 2018 cmikula
 #
@@ -19,12 +20,11 @@
 # For more information on the GNU General Public License see:
 # <http://www.gnu.org/licenses/>.
 #
-# For example, if you distribute copies of such a program, whether gratis or for a fee, you 
-# must pass on to the recipients the same freedoms that you received. You must make sure 
+# For example, if you distribute copies of such a program, whether gratis or for a fee, you
+# must pass on to the recipients the same freedoms that you received. You must make sure
 # that they, too, receive or can get the source code. And you must show them these terms so they know their rights.
 #
 from . import _, PLUGIN_NAME
-# from __init__ import _, PLUGIN_NAME
 from Screens.Screen import Screen
 from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
@@ -33,30 +33,49 @@ from Components.ConfigList import ConfigListScreen
 from Tools.Directories import fileExists
 from Screens.MessageBox import MessageBox
 from Screens.Standby import TryQuitMainloop
-from .StylesSetup import StylesSetup
-from .ConfigHelper import storeConfig
-from .style_ops import writeStyle, loadStyle, getStyleFile, getSkinFile, isPrimarySkin
+from .zStylesSetup import zStylesSetup
+from .zConfigHelper import storeConfig
+from .zstyle_ops import writeStyle, loadStyle, getStyleFile, getSkinFile, isPrimarySkin
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
+from Components.AVSwitch import AVSwitch
+from Components.Pixmap import Pixmap
+from .PicLoader import PicLoader
+from enigma import gPixmapPtr
 import os
+
+try:
+    from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
+    isDreamOS = True
+except:
+    isDreamOS = False
+if isDreamOS:
+    from Components.config import getConfigListEntry  # @UnusedImport
+else:
+    def getConfigListEntry(*args):
+        if len(args) == 1:
+            return "{0} {1} {2}".format("-" * 5, args[0], "-" * 200), ConfigNothing()
+        return args
+
 
 class ConfigSelectionEx(ConfigSelection):
     def __init__(self, choices, default):
         ConfigSelection.__init__(self, choices, default)
 
-class Styles(Screen, ConfigListScreen):
+
+class zStyles(Screen, ConfigListScreen):
     def __init__(self, session, style_file=None):
         Screen.__init__(self, session)
         self.preview = Preview(self, "preview")
         self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions"],
-        {
-            "ok": self.keySave,
-            "cancel": self.close,
-            "red": self.close,
-            "green": self.keySave,
-            "yellow": self.keyDefault,
-            "blue": self.keyDummy,
-            "menu": self.openMenu,
-        }, -2)
+            {
+                "ok": self.keySave,
+                "cancel": self.close,
+                "red": self.close,
+                "green": self.keySave,
+                "yellow": self.keyDefault,
+                "blue": self.keyDummy,
+                "menu": self.openMenu,
+            }, -2)
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
         self["key_yellow"] = StaticText(_("Default"))
@@ -74,32 +93,32 @@ class Styles(Screen, ConfigListScreen):
         self.setTitle(self.setup_title)
 
     def openMenu(self):
-        self.session.open(StylesSetup)
+        self.session.open(zStylesSetup)
 
     def loadStyle(self):
-        self.style = loadStyle(self.style_file)
-        self.style.checkDependency = self.checkDependency
-        self.preset = self.style.getPreset()
+        self.zstyle = loadStyle(self.style_file)
+        self.zstyle.checkDependency = self.checkDependency
+        self.preset = self.zstyle.getPreset()
         self.createConfigListEntries()
-        if not self.style.hasStyle():
+        if not self.zstyle.hasStyle():
             return
-        
-        style_errors = self.style.checkPresets()
+
+        style_errors = self.zstyle.checkPresets()
         if style_errors:
             file_name = getStyleFile().replace(".xml", "_error.xml")
             with open(file_name, "wb") as f:
                 f.write(style_errors)
             self.session.open(MessageBox, _("Style presets contains errors!") + "\n" + file_name, MessageBox.TYPE_ERROR)
-    
+
     def keySave(self):
-        if not self.style.hasStyle():
+        if not self.zstyle.hasStyle():
             self.close()
             return
-        
-        config.Styles.skin.value = config.skin.primary_skin.value
-        config.Styles.preset = ConfigSubDict()
-        config.Styles.style = ConfigSubDict()
-        
+
+        config.zStyles.skin.value = config.skin.primary_skin.value
+        config.zStyles.preset = ConfigSubDict()
+        config.zStyles.style = ConfigSubDict()
+
         for item in self["config"].getList():
             if len(item) < 2:
                 continue
@@ -107,18 +126,18 @@ class Styles(Screen, ConfigListScreen):
             value = item[1].getValue()
             if not value:
                 continue
-            #print key
-            #print value
+            # print key
+            # print value
             if isinstance(item[1], ConfigSelectionEx):
-                config.Styles.preset[key] = ConfigText()
-                config.Styles.preset[key].value = value
+                config.zStyles.preset[key] = ConfigText()
+                config.zStyles.preset[key].value = value
                 continue
             if isinstance(item[1], ConfigSelection):
-                config.Styles.style[key] = ConfigText()
-                config.Styles.style[key].value = value
+                config.zStyles.style[key] = ConfigText()
+                config.zStyles.style[key].value = value
 
-        config.Styles.save()
-        writeStyle(self.style, config.Styles, getSkinFile())
+        config.zStyles.save()
+        writeStyle(self.zstyle, config.zStyles, getSkinFile())
         storeConfig()
 
         dlg = self.session.openWithCallback(self.restartGUI, MessageBox, _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"), MessageBox.TYPE_YESNO)
@@ -131,17 +150,17 @@ class Styles(Screen, ConfigListScreen):
             self.close()
 
     def keyDummy(self):
-        print("[Styles] key dummy")
+        print("[zStyles] key dummy")
 
     def keyDefault(self):
-        print("[Styles] key default")
-        default = self.style.getDefault()
+        print("[zStyles] key default")
+        default = self.zstyle.getDefault()
         for item in self.list:
             if len(item) < 2:
                 continue
             key = item[0]
             val = item[1].getValue()
-            if key and val and default.has_key(key):
+            if key and val and key in default:  # .has_key(key):
                 item[1].setValue(default[key])
                 self["config"].invalidate(item)
         self.onSelectionChanged()
@@ -161,7 +180,7 @@ class Styles(Screen, ConfigListScreen):
         name = current[0]
         value = current[1].getValue()
         self.updatePreview(name, value)
-            
+
     def updateConfigList(self):
         if len(self.list) < 2:
             return
@@ -174,28 +193,28 @@ class Styles(Screen, ConfigListScreen):
         value = current[1].getValue()
         # update preview
         self.updatePreview(name, value)
-        
+
         if isinstance(current[1], ConfigSelectionEx):
             # update selection
             preset = self.preset[name][value]
             for name, value in preset.iteritems():
                 for item in self.list:
-                    #print item[0]
+                    # print item[0]
                     if item[0] == name:
                         item[1].setValue(value)
                         self["config"].invalidate(item)
-                        
+
     def getSelected(self, key, conf_dict):
-        if conf_dict.has_key(key):
+        if key in conf_dict:  # .has_key(key):
             if isinstance(conf_dict[key], str):
                 return conf_dict[key]
             else:
                 return conf_dict[key].value
-    
+
     def getConfigSelection(self, T, key, entries, selected):
         if not isinstance(entries, list):
             entries = list(entries)
-        if not selected in entries:
+        if selected not in entries:
             selected = None
         return T(entries, selected)
 
@@ -203,76 +222,57 @@ class Styles(Screen, ConfigListScreen):
         if not depend:
             return True
         return os.path.exists(os.path.join(resolveFilename(SCOPE_PLUGINS), depend))
-    
+
     def createConfigListEntries(self):
         self.list = []
-        if isPrimarySkin() or not self.style.hasStyle():
+        if isPrimarySkin() or not self.zstyle.hasStyle():
             self.list.append(getConfigListEntry(_("Current skin can not styled!"), ConfigNothing()))
             self["config"].setList(self.list)
             return
-        depends = self.style.getDepends()
-        default = self.style.getDefault()
+        depends = self.zstyle.getDepends()
+        default = self.zstyle.getDefault()
         if len(self.preset) > 0:
             self.list.append(getConfigListEntry(_("PRESET")))
-            #for key1 in sorted(self.preset):
-            for key1 in self.style.sort(self.preset):
+            # for key1 in sorted(self.preset):
+            for key1 in self.zstyle.sort(self.preset):
                 if not self.checkDependency(depends.get(key1)):
                     continue
-                selected = self.getSelected(key1, config.Styles.preset)
+                selected = self.getSelected(key1, config.zStyles.preset)
                 if not selected:
                     selected = self.getSelected(key1, default)
                 self.list.append(getConfigListEntry(key1, self.getConfigSelection(ConfigSelectionEx, key1, sorted(self.preset[key1]), selected)))
-                #self.updatePreview(key1, selected)
+                # self.updatePreview(key1, selected)
 
-        groups = self.style.getGroup()
-        for key in self.style.sort(groups):
-            #print key
+        groups = self.zstyle.getGroup()
+        for key in self.zstyle.sort(groups):
+            # print key
             if not self.checkDependency(depends.get(key)):
                 continue
             self.list.append(getConfigListEntry(key.upper()))
-            #for key1 in sorted(groups[key]):
-            for key1 in self.style.sort(groups[key]):
-                #print "  " + key1
+            # for key1 in sorted(groups[key]):
+            for key1 in self.zstyle.sort(groups[key]):
+                # print "  " + key1
                 if not self.checkDependency(depends.get(key1)):
                     continue
-                selected = self.getSelected(key1, config.Styles.style)
+                selected = self.getSelected(key1, config.zStyles.style)
                 if not selected:
                     selected = self.getSelected(key1, default)
                 self.list.append(getConfigListEntry(key1, self.getConfigSelection(ConfigSelection, key1, sorted(groups[key][key1]), selected)))
 
         self["config"].setList(self.list)
-    
+
     def updatePreview(self, name, value):
         default = None
-        if not config.Styles.preserve_preview.value:
-            default = "" 
-        preview = self.style.getPreview(name, value, default)
+        if not config.zStyles.preserve_preview.value:
+            default = ""
+        preview = self.zstyle.getPreview(name, value, default)
         print(str.format("Preview '{0}.{1}' = {2}", name, value, str(preview)))
         if not preview:
             print("Try load preview from preset")
-            preview = self.style.getPresetPreview(name, value, default)
+            preview = self.zstyle.getPresetPreview(name, value, default)
         if preview is not None:
             file_name = os.path.join(self.current_skin_path, preview)
             self.preview.loadPreview(file_name)
-
-
-from Components.AVSwitch import AVSwitch
-from Components.Pixmap import Pixmap
-from .PicLoader import PicLoader
-
-from enigma import gPixmapPtr
-try:
-    from enigma import eMediaDatabase #@UnresolvedImport @UnusedImport
-    isDreamOS = True
-except:
-    isDreamOS = False
-if isDreamOS:
-    from Components.config import getConfigListEntry #@UnusedImport
-else:
-    def getConfigListEntry(*args):
-        if len(args) == 1:
-            return "{0} {1} {2}".format("-" * 5, args[0], "-" * 200), ConfigNothing()
-        return args
 
 
 class Preview():
@@ -300,7 +300,7 @@ class Preview():
     def showPreviewCallback(self, picInfo=None):
         if picInfo:
             ptr = self.picload.getData()
-            if ptr != None and self.working:
+            if ptr is not None and self.working:
                 self.parent[self.name].instance.setPixmap(ptr)
         self.working = False
 

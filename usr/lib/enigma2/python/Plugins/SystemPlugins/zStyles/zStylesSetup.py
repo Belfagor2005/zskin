@@ -1,17 +1,17 @@
 from . import _, PLUGIN_PATH, PLUGIN_NAME
-# from __init__ import _, PLUGIN_PATH, PLUGIN_NAME
 from Screens.Screen import Screen
 from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
 from Components.config import config
 from Components.ConfigList import ConfigListScreen
-from Tools.Directories import fileExists, resolveFilename, SCOPE_SKIN, SCOPE_PLUGINS
-from .style import Skin
+from Tools.Directories import fileExists, resolveFilename
+from Tools.Directories import SCOPE_SKIN
+from .zstyle import zSkin
 from shutil import copy2
 from Screens.MessageBox import MessageBox
 from Screens.Standby import TryQuitMainloop
 from Components.config import getConfigListEntry
-from .style_ops import getSkinName, isSkinChanged
+from .zstyle_ops import getSkinName, isSkinChanged
 import os
 
 from enigma import eTimer
@@ -20,7 +20,7 @@ omdb_api = "cb1d9f55"
 
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 try:
-    from enigma import eMediaDatabase #@UnresolvedImport @UnusedImport
+    from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
     isDreamOS = True
 except:
     isDreamOS = False
@@ -46,29 +46,29 @@ except:
     my_cur_skin = False
 
 zaddon = False
-zaddons = '/usr/lib/enigma2/python/Plugins/SystemPlugins/Styles/addons'
-if os.path.exists(zaddons): 
+zaddons = '/usr/lib/enigma2/python/Plugins/SystemPlugins/zStyles/addons'
+if os.path.exists(zaddons):
     zaddon = True
 print('zaddon ', zaddon)
 
 
-class StylesSetup(Screen, ConfigListScreen):
+class zStylesSetup(Screen, ConfigListScreen):
     def __init__(self, session):
         Screen.__init__(self, session)
         self.onChangedEntry = []
         self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions", "NumberActions", "VirtualKeyboardActions", "DirectionActions"],
-        {
-            "ok": self.keyOk,
-            "cancel": self.keyCancel,
-            "left": self.keyLeft,
-            "right": self.keyRight,
-            "red": self.keyCancel,
-            "green": self.keySave,
-            "yellow": self.keyOpenSkinselector,
-            "showVirtualKeyboard": self.KeyText,
-            "blue": self.checkSkin,
-            '5': self.answercheck,
-        }, -2)
+            {
+                "ok": self.keyOk,
+                "cancel": self.keyCancel,
+                "left": self.keyLeft,
+                "right": self.keyRight,
+                "red": self.keyCancel,
+                "green": self.keySave,
+                "yellow": self.keyOpenSkinselector,
+                "showVirtualKeyboard": self.KeyText,
+                "blue": self.checkSkin,
+                '5': self.answercheck,
+            }, -2)
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
         self["key_yellow"] = StaticText(self.getSkinSelector() is not None and "Skin" or "")
@@ -106,17 +106,17 @@ class StylesSetup(Screen, ConfigListScreen):
     def createSetup(self):
         self.editListEntry = None
         self.list = []
-        self.list.append(getConfigListEntry(_("Skin auto update:"), config.Styles.skin_auto_update))
-        self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.Styles.load_style_from_skin))
-        self.list.append(getConfigListEntry(_("TMDB API:"), config.Styles.data))
-        if config.Styles.data.getValue():
-            self.list.append(getConfigListEntry(_("Read Api key TMDB from file /tmp/tmdbapikey.txt"), config.Styles.api))
-            self.list.append(getConfigListEntry(_("Set Your Api key TMDB"), config.Styles.txtapi))
-        self.list.append(getConfigListEntry(_("OMDB API:"), config.Styles.data2))
-        if config.Styles.data2.getValue():
-            self.list.append(getConfigListEntry(_("Read Api key OMDB from file /tmp/omdbapikey.txt"), config.Styles.api2))
-            self.list.append(getConfigListEntry(_("Set Your Api key OMDB"), config.Styles.txtapi2))
-        self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.Styles.preserve_preview))
+        self.list.append(getConfigListEntry(_("Skin auto update:"), config.zStyles.skin_auto_update))
+        self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
+        self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
+        if config.zStyles.data.getValue():
+            self.list.append(getConfigListEntry(_("Read Api key TMDB from file /tmp/tmdbapikey.txt"), config.zStyles.api))
+            self.list.append(getConfigListEntry(_("Set Your Api key TMDB"), config.zStyles.txtapi))
+        self.list.append(getConfigListEntry(_("OMDB API:"), config.zStyles.data2))
+        if config.zStyles.data2.getValue():
+            self.list.append(getConfigListEntry(_("Read Api key OMDB from file /tmp/omdbapikey.txt"), config.zStyles.api2))
+            self.list.append(getConfigListEntry(_("Set Your Api key OMDB"), config.zStyles.txtapi2))
+        self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.zStyles.preserve_preview))
         self["config"].list = self.list
         self["config"].setList(self.list)
 
@@ -127,13 +127,13 @@ class StylesSetup(Screen, ConfigListScreen):
     def keyOk(self):
         ConfigListScreen.keyOK(self)
         sel = self["config"].getCurrent()[1]
-        if sel and sel == config.Styles.api:
+        if sel and sel == config.zStyles.api:
             self.keyApi()
-        if sel and sel == config.Styles.txtapi:
+        if sel and sel == config.zStyles.txtapi:
             self.KeyText()
-        if sel and sel == config.Styles.api2:
+        if sel and sel == config.zStyles.api2:
             self.keyApi2()
-        if sel and sel == config.Styles.txtapi2:
+        if sel and sel == config.zStyles.txtapi2:
             self.KeyText()
 
     def keyLeft(self):
@@ -159,12 +159,12 @@ class StylesSetup(Screen, ConfigListScreen):
             print(str(e))
 
     def checkSkin(self):
-        if not config.Styles.skin.value:
+        if not config.zStyles.skin.value:
             self.session.open(MessageBox, _("No previous styled skin - restore canceled!"), MessageBox.TYPE_INFO)
         else:
             self.skin_name = getSkinName()
             if isSkinChanged():
-                self.skin_name = config.Styles.skin.value
+                self.skin_name = config.zStyles.skin.value
             text = _("Would you really reset this skin?") + "\n{0}".format(self.skin_name.split('/')[0])
             dlg = self.session.openWithCallback(self.restoreSkin, MessageBox, text, MessageBox.TYPE_YESNO)
             dlg.setTitle(_("Reset skin?"))
@@ -177,18 +177,18 @@ class StylesSetup(Screen, ConfigListScreen):
         if not fileExists(dst):
             self.session.open(MessageBox, _("The skin not exists - restore canceled!"), MessageBox.TYPE_INFO)
             return
-        if not Skin.checkStyled(dst):
+        if not zSkin.checkStyled(dst):
             self.session.open(MessageBox, _("The skin is not styled - restore canceled!"), MessageBox.TYPE_INFO)
             return
 
         if fileExists(src):
-            print("[Styles] restore skin")
+            print("[zStyles] restore skin")
             print(src)
             print(dst)
-            config.Styles.preset.clear()
-            config.Styles.style.clear()
-            config.Styles.skin.value = ""
-            config.Styles.skin.save()
+            config.zStyles.preset.clear()
+            config.zStyles.style.clear()
+            config.zStyles.skin.value = ""
+            config.zStyles.skin.save()
             copy2(src, dst)
             dlg = self.session.openWithCallback(self.restartGUI, MessageBox, _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"), MessageBox.TYPE_YESNO)
             dlg.setTitle(_("Restart GUI now?"))
@@ -203,21 +203,21 @@ class StylesSetup(Screen, ConfigListScreen):
         self.close()
 
     def keySave(self):
-        if config.Styles.data.getValue():
+        if config.zStyles.data.getValue():
             if apis is True:
-                config.Styles.txtapi.save()
-        config.Styles.save()
+                config.zStyles.txtapi.save()
+        config.zStyles.save()
         self.close()
 
     def keyDummy(self):
-        print("[Styles] key dummy")
+        print("[zStyles] key dummy")
 
     def keyOpenSkinselector(self):
         if self.getSkinSelector() is not None:
             self.session.openWithCallback(self.restoreCurrentSkin, self.getSkinSelector())
 
     def restoreCurrentSkin(self, **kwargs):
-        print("[Styles] restore current skin")
+        print("[zStyles] restore current skin")
         config.skin.primary_skin.value = self.current_skin
         config.skin.primary_skin.save()
 
@@ -260,8 +260,8 @@ class StylesSetup(Screen, ConfigListScreen):
                         t.close()
                     apis = True
                     self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Imported!")), MessageBox.TYPE_INFO, timeout=4)
-                    config.Styles.txtapi.setValue(str(fpage))
-                    config.Styles.txtapi.save()
+                    config.zStyles.txtapi.setValue(str(fpage))
+                    config.zStyles.txtapi.save()
                     self.createSetup()
                     self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Stored!")), MessageBox.TYPE_INFO, timeout=4)
             else:
@@ -282,8 +282,8 @@ class StylesSetup(Screen, ConfigListScreen):
                         t.close()
                     api2s = True
                     self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Imported!")), MessageBox.TYPE_INFO, timeout=4)
-                    config.Styles.txtapi2.setValue(str(fpage))
-                    config.Styles.txtapi2.save()
+                    config.zStyles.txtapi2.setValue(str(fpage))
+                    config.zStyles.txtapi2.save()
                     self.createSetup()
                     self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Stored!")), MessageBox.TYPE_INFO, timeout=4)
             else:
