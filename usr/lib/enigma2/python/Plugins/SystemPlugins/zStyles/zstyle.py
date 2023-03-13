@@ -417,7 +417,7 @@ class zStyle(TreeBase):
                     continue
                 print("use default key='{0}' value='{1}'".format(key, value))
             nodes.append(node)
-            style_info.append(("zstyle", key, value))
+            style_info.append(("style", key, value))
         return (nodes, style_info)
 
 
