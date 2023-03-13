@@ -1,5 +1,5 @@
 <skin>
-	<screen name="zStyle" position="center,80" size="1200,610" title=" ">
+	<screen name="Styles" position="center,80" size="1200,610" title=" ">
 		<ePixmap pixmap="skin_default/buttons/red.png" position="10,5" size="200,40" />
 		<ePixmap pixmap="skin_default/buttons/green.png" position="210,5" size="200,40" />
 		<ePixmap pixmap="skin_default/buttons/yellow.png" position="410,5" size="200,40" />
@@ -18,10 +18,10 @@
 		<eLabel position="760,50" size="1,555" backgroundColor="#777777" />
 		<widget name="config" position="10,58" size="740,540" enableWrapAround="1" scrollbarMode="showOnDemand" />
 		<widget name="preview" pixmap="~/images/no_preview.png" position="775,90" size="400,225" />
-		<ePixmap pixmap="~/images/zstyles.png" position="925,500" size="100,40" />
+		<ePixmap pixmap="~/images/styles.png" position="925,500" size="100,40" />
 		<ePixmap pixmap="skin_default/buttons/key_menu.png" position="1150,580" size="40,20" />
 	</screen>
-	<screen name="zStyleSetup" position="center,120" size="820,520" title=" ">
+	<screen name="StylesSetup" position="center,120" size="820,520" title=" ">
 		<ePixmap pixmap="skin_default/buttons/red.png" position="10,5" size="200,40" />
 		<ePixmap pixmap="skin_default/buttons/green.png" position="210,5" size="200,40" />
 		<ePixmap pixmap="skin_default/buttons/yellow.png" position="410,5" size="200,40" />

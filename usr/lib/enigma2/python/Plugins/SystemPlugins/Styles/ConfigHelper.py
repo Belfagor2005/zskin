@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+# 
 # Copyright (C) 2018 cmikula
 #
 # In case of reuse of this source code please do not remove this copyright.
@@ -18,26 +18,24 @@
 # For more information on the GNU General Public License see:
 # <http://www.gnu.org/licenses/>.
 #
-# For example, if you distribute copies of such a program, whether gratis or for a fee, you
-# must pass on to the recipients the same freedoms that you received. You must make sure
+# For example, if you distribute copies of such a program, whether gratis or for a fee, you 
+# must pass on to the recipients the same freedoms that you received. You must make sure 
 # that they, too, receive or can get the source code. And you must show them these terms so they know their rights.
+#
 
 from Components.config import config, ConfigSubDict, ConfigText
 
 KEYS = ((".", "\s01"), ("=", "\s02"))
-
 
 def __encodeConfig(value):
     for x in KEYS:
         value = value.replace(x[0], x[1])
     return value
 
-
 def __decodeConfig(value):
     for x in KEYS:
         value = value.replace(x[1], x[0])
     return value
-
 
 def encodeConfig(conf, c):
     try:
@@ -48,16 +46,14 @@ def encodeConfig(conf, c):
     except Exception as e:
         print(str(e))
 
-
 def storeConfig():
-    p = config.zStyles.preset
-    s = config.zStyles.style
-    config.zStyles.preset = ConfigSubDict()
-    config.zStyles.style = ConfigSubDict()
-    encodeConfig(config.zStyles.preset, p)
-    encodeConfig(config.zStyles.style, s)
-    config.zStyles.save()
-
+    p = config.Styles.preset
+    s = config.Styles.style
+    config.Styles.preset = ConfigSubDict()
+    config.Styles.style = ConfigSubDict()
+    encodeConfig(config.Styles.preset, p)
+    encodeConfig(config.Styles.style, s)
+    config.Styles.save()
 
 def loadConfig(conf):
     try:

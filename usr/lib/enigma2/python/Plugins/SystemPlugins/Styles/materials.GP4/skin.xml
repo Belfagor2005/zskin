@@ -5721,7 +5721,7 @@ self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2,orgpos.y()))
         <widget enableWrapAround="1" name="config" position="20,80" scrollbarMode="showOnDemand" size="740,880"/>
         <layout name="Menu_2Button_Source"/>
     </screen>
-    <screen flags="wfNoBorder" name="zStyles" position="0,0" size="1920,1080" title=" ">
+    <screen flags="wfNoBorder" name="Styles" position="0,0" size="1920,1080" title=" ">
         <layout name="FS_Top_Title"/>
         <layout name="FS_Bottom"/>
         <layout name="FS_4Button_Source"/>
@@ -5736,7 +5736,7 @@ self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2,orgpos.y()))
         <ePixmap pixmap="materials.GP4/images/buttons/key_bouquet.png" position="1770,1035" size="60,30"/>
         <ePixmap pixmap="materials.GP4/images/buttons/key_exit.png" position="1840,1035" size="60,30"/>
     </screen>
-    <screen flags="wfNoBorder" name="zStylesSetup" position="0,0" size="780,1080" title=" ">
+    <screen flags="wfNoBorder" name="StylesSetup" position="0,0" size="780,1080" title=" ">
         <layout name="780_Top_Title"/>
         <layout name="Menu_Bottom"/>
         <layout name="Menu_4Button_Source"/>
