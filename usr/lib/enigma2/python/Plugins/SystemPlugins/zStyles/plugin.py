@@ -21,23 +21,65 @@
 #
 
 from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon
-from Components.config import config, ConfigSubsection
-from Components.config import ConfigText, ConfigSubDict, ConfigYesNo
+from Components.config import config, ConfigSubsection, ConfigSelection
+from Components.config import NoSave, ConfigText, ConfigSubDict, ConfigYesNo
 from Plugins.Plugin import PluginDescriptor
 from .PicLoader import isDreamOS
 from .ConfigHelper import loadConfig
+from Tools.Directories import fileExists
+
+global my_cur_skin
+my_cur_skin = False
+
+mvi = '/usr/share/'
+cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
+tmdb_skin = "%senigma2/%s/apikey" % (mvi, cur_skin)
+tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
+omdb_skin = "%senigma2/%s/omdbkey" % (mvi, cur_skin)
+omdb_api = "cb1d9f55"
+visual_skin = "/etc/enigma2/VisualWeather/apikey.txt"
+visual_api = "5KAUFAYCDLUYVQPNXPN3K24V5"
+thetvdb_skin = "%senigma2/%s/thetvdbkey" % (mvi, cur_skin)
+thetvdbkey = 'D19315B88B2DE21F'
+
+try:
+    if my_cur_skin is False:
+        if fileExists(tmdb_skin):
+            with open(tmdb_skin, "r") as f:
+                tmdb_api = f.read()
+        if fileExists(omdb_skin):
+            with open(omdb_skin, "r") as f:
+                omdb_api = f.read()
+        if fileExists(visual_skin):
+            with open(visual_skin, "r") as f:
+                visual_api = f.read()
+        if fileExists(thetvdb_skin):
+            with open(thetvdb_skin, "r") as f:
+                thetvdbkey = f.read()
+        my_cur_skin = True
+except:
+    my_cur_skin = False
+    pass
 
 config.zStyles = ConfigSubsection()
 config.zStyles.skintest = ConfigText()
 config.zStyles.skin = ConfigText()
 config.zStyles.preserve_preview = ConfigYesNo()
 config.zStyles.skin_auto_update = ConfigYesNo(False)
-config.zStyles.data = ConfigYesNo(default=False)
-config.zStyles.api = ConfigText(default="PRESS OK")
-config.zStyles.txtapi = ConfigText(default="12345678909876543212345678909876", visible_width=50, fixed_size=False)
-config.zStyles.data2 = ConfigYesNo(default=False)
-config.zStyles.api2 = ConfigText(default="PRESS OK")
-config.zStyles.txtapi2 = ConfigText(default="cb1d9f55", visible_width=50, fixed_size=False)
+
+config.zStyles.data = NoSave(ConfigYesNo(default=False))
+config.zStyles.api = NoSave(ConfigSelection(["PRESS OK"]))
+config.zStyles.txtapi = ConfigText(default=tmdb_api, visible_width=50, fixed_size=False)
+config.zStyles.data2 = NoSave(ConfigYesNo(default=False))
+config.zStyles.api2 = NoSave(ConfigSelection(["PRESS OK"]))
+config.zStyles.txtapi2 = ConfigText(default=omdb_api, visible_width=50, fixed_size=False)
+config.zStyles.data3 = NoSave(ConfigYesNo(default=False))
+config.zStyles.api3 = NoSave(ConfigSelection(["PRESS OK"]))
+config.zStyles.txtapi3 = ConfigText(default=visual_api, visible_width=50, fixed_size=False)
+config.zStyles.data4 = NoSave(ConfigYesNo(default=False))
+config.zStyles.api4 = NoSave(ConfigSelection(["PRESS OK"]))
+config.zStyles.txtapi4 = ConfigText(default=thetvdbkey, visible_width=50, fixed_size=False)
+
 config.zStyles.load_style_from_skin = ConfigYesNo(True)
 config.zStyles.style = ConfigSubDict()
 config.zStyles.preset = ConfigSubDict()

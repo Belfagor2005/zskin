@@ -160,8 +160,8 @@ class Styles(Screen, ConfigListScreen):
                 continue
             key = item[0]
             val = item[1].getValue()
-            # if key and val and key in default:  # .has_key(key):
-            if key and val and default.has_key(key):
+            if key and val and key in default:  # .has_key(key):
+            # ~ if key and val and default.has_key(key):
                 item[1].setValue(default[key])
                 self["config"].invalidate(item)
         self.onSelectionChanged()

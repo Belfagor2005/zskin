@@ -13,43 +13,60 @@ from Screens.Standby import TryQuitMainloop
 from Components.config import getConfigListEntry
 from .style_ops import getSkinName, isSkinChanged
 import os
-
 from enigma import eTimer
-tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
 
-cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
+
 try:
     from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
     isDreamOS = True
 except:
     isDreamOS = False
 
-global apis, apis2, my_cur_skin, zaddon
+global apis, apis2, zaddon
+
 apis = False
 apis2 = False
-my_cur_skin = False
 
-try:
-    if my_cur_skin is False:
-        myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        print('skinz namez', myz_skin)
-        omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        print('skinz namez', omdb_skin)
-        if os.path.exists(myz_skin):
-            with open(myz_skin, "r") as f:
-                tmdb_api = f.read()
-        if os.path.exists(omdb_skin):
-            with open(omdb_skin, "r") as f:
-                omdb_api = f.read()
-except:
-    my_cur_skin = False
+
+# tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
+# omdb_api = "cb1d9f55"
+mvi = '/usr/share/'
+cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
+tmdb_skin = "%senigma2/%s/apikey" % (mvi, cur_skin)
+omdb_skin = "%senigma2/%s/omdbkey" % (mvi, cur_skin)
+visual_skin = "/etc/enigma2/VisualWeather/apikey.txt"
+thetvdb_skin = "%senigma2/%s/thetvdbkey" % (mvi, cur_skin)
+# tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
+# omdb_api = "cb1d9f55"
+# visual_api = "5KAUFAYCDLUYVQPNXPN3K24V5"
+# thetvdbkey = 'D19315B88B2DE21F'
+# global my_cur_skin
+# my_cur_skin = False
+
+# try:
+    # if my_cur_skin is False:
+        # if fileExists(tmdb_skin):
+            # with open(tmdb_skin, "r") as f:
+                # tmdb_api = f.read()
+        # if fileExists(omdb_skin):
+            # with open(omdb_skin, "r") as f:
+                # omdb_api = f.read()
+        # if fileExists(visual_skin):
+            # with open(visual_skin, "r") as f:
+                # visual_api = f.read()
+        # if fileExists(thetvdb_skin):
+            # with open(thetvdb_skin, "r") as f:
+                # thetvdbkey = f.read()
+        # my_cur_skin = True
+# except:
+    # my_cur_skin = False
+    # pass
+
 
 zaddon = False
 zaddons = '/usr/lib/enigma2/python/Plugins/SystemPlugins/zStyles/addons'
 if os.path.exists(zaddons):
     zaddon = True
-print('zaddon ', zaddon)
 
 
 class StylesSetup(Screen, ConfigListScreen):
@@ -110,12 +127,22 @@ class StylesSetup(Screen, ConfigListScreen):
         self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
         self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
         if config.zStyles.data.getValue():
-            self.list.append(getConfigListEntry(_("Read Api key TMDB from file /tmp/tmdbapikey.txt"), config.zStyles.api))
-            self.list.append(getConfigListEntry(_("Set Your Api key TMDB"), config.zStyles.txtapi))
+            self.list.append(getConfigListEntry(_("Read Apikey TMDB from file /tmp/tmdbapikey.txt"), config.zStyles.api))
+            self.list.append(getConfigListEntry(_("Set Your Apikey TMDB"), config.zStyles.txtapi))
         self.list.append(getConfigListEntry(_("OMDB API:"), config.zStyles.data2))
         if config.zStyles.data2.getValue():
-            self.list.append(getConfigListEntry(_("Read Api key OMDB from file /tmp/omdbapikey.txt"), config.zStyles.api2))
-            self.list.append(getConfigListEntry(_("Set Your Api key OMDB"), config.zStyles.txtapi2))
+            self.list.append(getConfigListEntry(_("Read Apikey OMDB from file /tmp/omdbapikey.txt"), config.zStyles.api2))
+            self.list.append(getConfigListEntry(_("Set Your Apikey OMDB"), config.zStyles.txtapi2))
+
+        # self.list.append(getConfigListEntry(_("VISUALWEATHER API:"), config.zStyles.data3))
+        # if config.zStyles.data3.getValue():
+            # self.list.append(getConfigListEntry(_("Read Apikey VisualWeather from /etc/enigma2/VisualWeather/apikey.txt"), config.zStyles.api3))
+            # self.list.append(getConfigListEntry(_("Set Your Apikey VisualWeather"), config.zStyles.txtapi3))
+        # self.list.append(getConfigListEntry(_("THE TVDB API:"), config.zStyles.data4))
+        # if config.zStyles.data4.getValue():
+            # self.list.append(getConfigListEntry(_("Read Apikey TheTVDBkey from /tmp/thetvdbkey.txt"), config.zStyles.api4))
+            # self.list.append(getConfigListEntry(_("Set Your Apikey TheTVDBkey"), config.zStyles.txtapi4))
+
         self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.zStyles.preserve_preview))
         self["config"].list = self.list
         self["config"].l.setList(self.list)
@@ -233,60 +260,46 @@ class StylesSetup(Screen, ConfigListScreen):
             self["config"].invalidate(self["config"].getCurrent())
         return
 
-    def keyApi(self):
+    def keyApi(self, answer=None):
         api = "/tmp/tmdbapikey.txt"
-        if fileExists(api) and os.stat(api).st_size > 0:
-            self.session.openWithCallback(self.importApi, MessageBox, _("Import Api Key TMDB from /tmp/tmdbapikey.txt?"), type=MessageBox.TYPE_YESNO, timeout=10, default=False)
-        else:
-            self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api), MessageBox.TYPE_INFO, timeout=4)
-
-    def keyApi2(self):
-        api2 = "/tmp/omdbapikey.txt"
-        if fileExists(api2) and os.stat(api2).st_size > 0:
-            self.session.openWithCallback(self.importApi2, MessageBox, _("Import Api Key OMDB from /tmp/omdbapikey.txt?"), type=MessageBox.TYPE_YESNO, timeout=10, default=False)
-        else:
-            self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api2), MessageBox.TYPE_INFO, timeout=4)
-
-    def importApi(self, result):
-        if result:
-            api = "/tmp/apikey.txt"
+        if answer is None:
             if fileExists(api) and os.stat(api).st_size > 0:
-                global apis
-                apis = False
+                self.session.openWithCallback(self.keyApi, MessageBox, _("Import Api Key TMDB from /tmp/tmdbapikey.txt?"))
+            else:
+                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api), MessageBox.TYPE_INFO, timeout=4)
+        elif answer:
+            if fileExists(api) and os.stat(api).st_size > 0:
                 with open(api, 'r') as f:
                     fpage = f.readline()
-                    with open(myz_skin, "w") as t:
+                    with open(tmdb_skin, "w") as t:
                         t.write(str(fpage))
                         t.close()
-                    apis = True
-                    self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Imported!")), MessageBox.TYPE_INFO, timeout=4)
                     config.zStyles.txtapi.setValue(str(fpage))
                     config.zStyles.txtapi.save()
                     self.createSetup()
-                    self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Stored!")), MessageBox.TYPE_INFO, timeout=4)
+                    self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Imported & Stored!")), MessageBox.TYPE_INFO, timeout=4)
             else:
                 self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api), MessageBox.TYPE_INFO, timeout=4)
-        else:
-            return
+        return
 
-    def importApi2(self, result):
-        if result:
-            api2 = "/tmp/omdbkey.txt"
+    def keyApi2(self, answer=None):
+        api2 = "/tmp/omdbapikey.txt"
+        if answer is None:
             if fileExists(api2) and os.stat(api2).st_size > 0:
-                global api2s
-                api2s = False
+                self.session.openWithCallback(self.keyApi2, MessageBox, _("Import Api Key OMDB from /tmp/omdbapikey.txt?"))
+            else:
+                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api2), MessageBox.TYPE_INFO, timeout=4)
+        elif answer:
+            if fileExists(api2) and os.stat(api2).st_size > 0:
                 with open(api2, 'r') as f:
                     fpage = f.readline()
                     with open(omdb_skin, "w") as t:
                         t.write(str(fpage))
                         t.close()
-                    api2s = True
-                    self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Imported!")), MessageBox.TYPE_INFO, timeout=4)
                     config.zStyles.txtapi2.setValue(str(fpage))
                     config.zStyles.txtapi2.save()
                     self.createSetup()
-                    self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Stored!")), MessageBox.TYPE_INFO, timeout=4)
+                    self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Imported & Stored!")), MessageBox.TYPE_INFO, timeout=4)
             else:
                 self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api2), MessageBox.TYPE_INFO, timeout=4)
-        else:
-            return
+        return
