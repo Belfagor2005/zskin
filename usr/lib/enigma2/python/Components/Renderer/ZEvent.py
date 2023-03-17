@@ -77,11 +77,8 @@ if not os.path.exists(folder_poster):
 try:
     if my_cur_skin is False:
         myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
-        # print('skinz namez', myz_skin)
         omdb_skin = "/usr/share/enigma2/%s/omdbkey" % cur_skin
-        # print('skinz namez', omdb_skin)
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
-        # print('skinz namez', thetvdb_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
                 apikey = f.read()
@@ -155,7 +152,7 @@ def cleantitle(text):
     text = text.replace('\xc2\x86', '')
     text = text.replace('\xc2\x87', '')
     text = REGEX.sub('', text)
-    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
     text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
     text = text.strip()
     try:

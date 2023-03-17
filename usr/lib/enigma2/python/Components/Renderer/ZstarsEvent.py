@@ -83,7 +83,7 @@ def cleantitle(text):
     text = text.replace('\xc2\x86', '')
     text = text.replace('\xc2\x87', '')
     text = REGEX.sub('', text)
-    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
     text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
     text = text.strip()
     try:
@@ -107,7 +107,8 @@ class ZstarsEvent(VariableValue, Renderer):
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
             (self.range, self.value) = ((0, 1), 0)
-            return
+            # return
+
         if what[0] != self.CHANGED_CLEAR:
             print('zstar what[0] != self.CHANGED_CLEAR')
             rtng = 0

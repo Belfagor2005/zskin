@@ -5,12 +5,16 @@
 # 08.2021(stb lang support),
 # 09.2021 mini fixes
 # © Provided that digiteng rights are protected, all or part of the code can be used, modified...
+# russian and py3 support by sunriser...
+# downloading in the background while zaping...
+# by beber...03.2022,
+# 03.2022 several enhancements : several renders with one queue thread, google search (incl. molotov for france) + autosearch & autoclean thread ...
+# 02.2023 fix major Lululla
 # for infobar,
 # <widget source="session.Event_Now" render="ZPoster" position="0,125" size="185,278" path="/media/hdd/poster/" nexts="10" language="en" zPosition="9" />
 # <widget source="session.Event_Next" render="ZPoster" position="100,100" size="185,278" />
 # <widget source="session.Event_Now" render="ZPoster" position="100,100" size="185,278" nexts="2" />
 # <widget source="session.CurrentService" render="ZPoster" position="100,100" size="185,278" nexts="3" />
-# for ch,
 # for ch,
 # <widget source="ServiceEvent" render="ZPoster" position="100,100" size="185,278" path="/media/hdd/poster/" zPosition="9" />
 # <widget source="ServiceEvent" render="ZPoster" position="100,100" size="185,278" path="/media/hdd/poster/" nexts="2" zPosition="9" />
@@ -19,7 +23,7 @@
 # <widget source="session.Event_Next" render="ZPoster" position="1080,155" size="100,150" path="/media/hdd/poster/" zPosition="9" />
 # for epg, event
 # <widget source="Event" render="ZPoster" position="931,184" size="185,278" path="/media/hdd/poster/" zPosition="9" />
-from __future__ import absolute_import
+from __future__ import print_function
 from Components.Renderer.Renderer import Renderer
 from Components.Renderer.zPosterXDownloadThread import zPosterXDownloadThread
 from Components.Sources.CurrentService import CurrentService
@@ -44,7 +48,7 @@ try:
     if PY3:
         import queue
         from _thread import start_new_thread
-        from urllib.error import URLError, HTTPError
+        from urllib.error import HTTPError, URLError
         PY3 = True
         unicode = str
         unichr = chr
@@ -53,7 +57,7 @@ try:
     else:
         import Queue
         from thread import start_new_thread
-        from urllib2 import URLError, HTTPError
+        from urllib2 import HTTPError, URLError
         _str = str
         str = unicode
         range = xrange
@@ -84,21 +88,21 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-folder_poster = "/tmp/poster"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        folder_poster = "/media/hdd/poster"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        folder_poster = "/media/usb/poster"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"
+        path_folder = "/media/mmc/poster"
 
-if not os.path.exists(folder_poster):
-    os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):
-    folder_poster = "/tmp/poster"
+if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+if not os.path.exists(path_folder):
+    path_folder = "/tmp/poster"
 
 
 epgcache = eEPGCache.getInstance()
@@ -205,7 +209,7 @@ def cleantitle(text=''):
             # text = text.replace('\xc2\x87', '')
             '''
             text = REGEX.sub('', text)
-            text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space #removed space lululla
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             text = text.strip()
             '''
@@ -240,7 +244,7 @@ class PosterDB(zPosterXDownloadThread):
             try:
                 canal = pdb.get()
                 self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-                dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
+                dwn_poster = path_folder + '/' + canal[5] + ".jpg"
                 if os.path.exists(dwn_poster):
                     os.utime(dwn_poster, (time.time(), time.time()))
                 if not os.path.exists(dwn_poster):
@@ -295,7 +299,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[4] = evt[6]
                             canal[5] = cleantitle(canal[2])
                             self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-                            dwn_poster = folder_poster + '/' + canal[5] + ".jpg"
+                            dwn_poster = path_folder + '/' + canal[5] + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
                             if not os.path.exists(dwn_poster):
@@ -305,7 +309,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             if not os.path.exists(dwn_poster):
                                 val, log = self.search_molotov_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
-                                    newfd = newfd + 1
+                                    newfd += 1
                             if not os.path.exists(dwn_poster):
                                 val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
@@ -318,14 +322,14 @@ class PosterAutoDB(zPosterXDownloadThread):
             now_tm = time.time()
             emptyfd = 0
             oldfd = 0
-            folderlist = folder_poster + '/'
-            for f in os.listdir(folderlist):
-                diff_tm = now_tm - os.path.getmtime(folderlist + f)
-                if diff_tm > 120 and os.path.getsize(folderlist + f) == 0:  # Detect empty files > 2 minutes
-                    os.remove(folderlist + f)
+            pathlist = path_folder + '/'
+            for f in os.listdir(pathlist):
+                diff_tm = now_tm - os.path.getmtime(pathlist + f)
+                if diff_tm > 120 and os.path.getsize(pathlist + f) == 0:  # Detect empty files > 2 minutes
+                    os.remove(pathlist + f)
                     emptyfd = emptyfd + 1
                 if diff_tm > 259200:  # Detect old files > 3 days old
-                    os.remove(folderlist + f)
+                    os.remove(pathlist + f)
                     os.remove("/tmp/PosterAutoDB.log")  # remove PosterAutoDB > 3 days old
                     os.remove("/tmp/zPoster.log")  # remove zPosterX > 3 days old
                     oldfd = oldfd + 1
@@ -353,7 +357,7 @@ class ZPoster(Renderer):
         if not adsl:
             return
         self.nxts = 0
-        self.path = folder_poster + '/'
+        self.path = path_folder + '/'
         self.canal = [None, None, None, None, None, None]
         self.oldCanal = None
         self.timer = eTimer()
