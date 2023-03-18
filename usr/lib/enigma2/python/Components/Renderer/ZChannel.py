@@ -150,23 +150,35 @@ def intCheck():
     else:
         return True
 
-
-def cleantitle(text):
-    import unicodedata
-    text = text.replace('\xc2\x86', '')
-    text = text.replace('\xc2\x87', '')
-    text = REGEX.sub('', text)
-    text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-    text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-    text = text.strip()
+def cleantitle(text=''):
     try:
-        text = unicode(text, 'utf-8')
-    except NameError:
+        print('text ->>> ', text)
+        # import unicodedata
+        if text != '' or text is not None:
+            '''
+            # text = text.replace('\xc2\x86', '')
+            # text = text.replace('\xc2\x87', '')
+            '''
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.strip()
+            '''
+            # try:
+                # text = unicode(text, 'utf-8')
+            # except Exception as e:
+                # print('error name ',e)
+                # pass
+            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+            '''
+            text = unicodify(text)
+            text = text.lower()
+        else:
+            text = ''
+        return text
+    except Exception as e:
+        # print('cleantitle error: ', e)
         pass
-    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-    text = text.lower()
-    return str(text)
-
 
 class ZChannel(Renderer):
     def __init__(self):
