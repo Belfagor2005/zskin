@@ -97,8 +97,6 @@ class zPosterXDownloadThread(threading.Thread):
 
             for i in checkMovie:
                 if i in fd.lower():
-
-
                     srch = "movie"
                     break
 

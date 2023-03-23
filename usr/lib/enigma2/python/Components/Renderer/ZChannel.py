@@ -15,7 +15,6 @@ import re
 import json
 import os
 import socket
-import shutil
 import sys
 
 global cur_skin, my_cur_skin, apikey
@@ -53,12 +52,13 @@ def isMountReadonly(mnt):
             try:
                 device, mount_point, filesystem, flags = line
             except Exception as err:
-                   print("Error: %s" % err)
+                print("Error: %s" % err)
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-folder_poster = "/tmp/poster" 
+
+folder_poster = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
         folder_poster = "/media/hdd/poster"
@@ -67,14 +67,14 @@ elif os.path.exists("/media/usb"):
         folder_poster = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"    
+        folder_poster = "/media/mmc/poster"
 else:
-    folder_poster = "/tmp/poster" 
+    folder_poster = "/tmp/poster"
 
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):    
-    folder_poster = "/tmp/poster" 
+if not os.path.exists(folder_poster):
+    folder_poster = "/tmp/poster"
 
 
 try:
@@ -94,13 +94,6 @@ try:
 except:
     my_cur_skin = False
 
-try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_poster, folders, files in os.walk(folder_poster)])
-    ozposter = "%0.f" % (folder_size/(1024*1024.0))
-    if ozposter >= "5":
-        shutil.rmtree(folder_poster)
-except:
-    pass
 
 try:
     from Components.config import config
@@ -137,7 +130,6 @@ REGEX = re.compile(
 
 
 def intCheck():
-    import socket
     try:
         response = urlopen("http://google.com", None, 5)
         response.close()
@@ -149,6 +141,16 @@ def intCheck():
         return False
     else:
         return True
+
+
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
 
 def cleantitle(text=''):
     try:
@@ -177,8 +179,9 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        # print('cleantitle error: ', e)
+        print('cleantitle e: ', e)
         pass
+
 
 class ZChannel(Renderer):
     def __init__(self):
@@ -199,7 +202,7 @@ class ZChannel(Renderer):
             print('what[0] == self.CHANGED_CLEAR')
             self.instance.hide()
             # return
-            
+
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
             self.instance.hide()
@@ -208,12 +211,12 @@ class ZChannel(Renderer):
     def delay(self):
         # self.downloading = False
         self.event = self.source.event
-        if self.event: # and self.instance:
+        if self.event:  # and self.instance:
             print('self.event and self.instance', self.event)
             self.evnt = self.event.getEventName().encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
-            self.pstrNm = "{}/{}.jpg".format(folder_poster, quote(self.evntNm))
+            self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
             if os.path.exists(self.pstrNm):
                 # self.downloading = True
                 self.showPoster()
@@ -289,7 +292,7 @@ class ZChannel(Renderer):
                             return
                 self.timerchan.stop()
             except Exception as e:
-                # print('error except zchannel ', e)
+                print('error except zchannel ', e)
                 self.timerchan.stop()
 
     def savePoster(self):

@@ -226,7 +226,7 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        # print('cleantitle error: ', e)
+        print('cleantitle zposter e: ', e)
         pass
 
 
