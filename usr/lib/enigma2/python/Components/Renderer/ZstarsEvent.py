@@ -77,6 +77,14 @@ REGEX = re.compile(
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
 
 def cleantitle(text=''):
     try:
@@ -90,7 +98,7 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = text.strip()
+            # text = text.strip()
             '''
             # try:
                 # text = unicode(text, 'utf-8')
@@ -131,8 +139,9 @@ class ZstarsEvent(VariableValue, Renderer):
             try:
                 self.event = self.source.event
                 if self.event:  # and self.instance:
-                    self.evnt = self.event.getEventName().encode('utf-8')
-                    self.evntNm = cleantitle(self.evnt).strip()
+                    evnt = self.event.getEventName().encode('utf-8')
+                    self.evnt = evnt.strip()
+                    self.evntNm = cleantitle(self.evnt)
                     rating_json = os.path.join(folder_poster, "url_rate")
                     if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                         with open(rating_json) as f:

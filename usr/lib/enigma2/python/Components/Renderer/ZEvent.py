@@ -146,6 +146,14 @@ def intCheck():
     else:
         return True
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
 
 def cleantitle(text=''):
     try:
@@ -159,7 +167,7 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = text.strip()
+            # text = text.strip()
             '''
             # try:
                 # text = unicode(text, 'utf-8')
@@ -207,7 +215,7 @@ class ZEvent(VariableText, Renderer):
             self.timer30.callback.append(self.infos)
         except:
             self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(150, True)
+        self.timer30.start(100, True)
 
     def infos(self):
         if self.downevent:

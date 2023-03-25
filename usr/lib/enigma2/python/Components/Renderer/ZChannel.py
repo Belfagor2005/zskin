@@ -164,7 +164,7 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = text.strip()
+            # text = text.strip()
             '''
             # try:
                 # text = unicode(text, 'utf-8')
@@ -189,15 +189,15 @@ class ZChannel(Renderer):
         adsl = intCheck()
         if not adsl:
             return
-        self.timerchan = eTimer()
+        # self.timerchan = eTimer()
 
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
         if not self.instance:
             return
-        if self.timerchan:
-            self.timerchan.stop()
+        # if self.timerchan:
+            # self.timerchan.stop()
         if what[0] == self.CHANGED_CLEAR:
             print('what[0] == self.CHANGED_CLEAR')
             self.instance.hide()
@@ -205,27 +205,75 @@ class ZChannel(Renderer):
 
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
-            self.instance.hide()
-            self.delay()
+            # self.instance.hide()
+            # self.delay()
 
-    def delay(self):
-        # self.downloading = False
-        self.event = self.source.event
-        if self.event:  # and self.instance:
-            print('self.event and self.instance', self.event)
-            self.evnt = self.event.getEventName().encode('utf-8')
-            self.evntNm = cleantitle(self.evnt)
-            print('clean event Zchannel: ', self.evntNm)
-            self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
-            if os.path.exists(self.pstrNm):
-                # self.downloading = True
-                self.showPoster()
-            else:
-                try:
-                    self.timerchan.callback.append(self.info)
-                except:
-                    self.timerchan_conn = self.timerchan.timeout.connect(self.info)
-                self.timerchan.start(50, True)
+    # def delay(self):
+            # self.downloading = False
+            self.event = self.source.event
+            if self.event:  # and self.instance:
+                print('self.event and self.instance', self.event)
+                self.evnt = self.event.getEventName().encode('utf-8')
+                self.evntNm = cleantitle(self.evnt)
+                print('clean event Zchannel: ', self.evntNm)
+                self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
+                if os.path.exists(self.pstrNm):
+                    # self.downloading = True
+                    self.showPoster()
+                else:
+                    # try:
+                        # self.timerchan.callback.append(self.info)
+                    # except:
+                        # self.timerchan_conn = self.timerchan.timeout.connect(self.info)
+                    # self.timerchan.start(50, True)
+                    try:
+                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                        if PY3:
+                            url = url.encode()
+                        url2 = urlopen(url).read().decode('utf-8')
+                        jurl = json.loads(url2)
+                        if 'results' in jurl:
+                            if 'id' in jurl['results'][0]:
+                                ids = jurl['results'][0]['id']
+                                url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                                if PY3:
+                                    url_2 = url_2.encode()
+                                url_3 = urlopen(url_2).read().decode('utf-8')
+                                data2 = json.loads(url_3)
+                                with open(("%s/url_rate" % folder_poster), "w") as f:
+                                    json.dump(data2, f)
+                                poster = data2['poster_path']
+                                if poster:
+                                    self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
+                                    self.savePoster()
+                                    return
+                            # self.timerchan.stop()
+                    except:
+                        try:
+                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                            if PY3:
+                                url = url.encode()
+                            url2 = urlopen(url).read().decode('utf-8')
+                            jurl = json.loads(url2)
+                            if 'results' in jurl:
+                                if 'id' in jurl['results'][0]:
+                                    ids = jurl['results'][0]['id']
+                                    url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                                    if PY3:
+                                        url_2 = url_2.encode()
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
+                                    data2 = json.loads(url_3)
+                                    with open(("%s/url_rate" % folder_poster), "w") as f:
+                                        json.dump(data2, f)
+                                    poster = data2['poster_path']
+                                    if poster:
+                                        self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
+                                        self.savePoster()
+                                        return
+                            # self.timerchan.stop()
+                        except Exception as e:
+                            print('error except zchannel ', e)
+                            # self.timerchan.stop()
 
     def showPoster(self):
         size = self.instance.size()
@@ -243,57 +291,57 @@ class ZChannel(Renderer):
             self.instance.show()
         del self.picload
 
-    def info(self):
-        # if self.downloading:
-            # return
-        try:
-            url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
-            if PY3:
-                url = url.encode()
-            url2 = urlopen(url).read().decode('utf-8')
-            jurl = json.loads(url2)
-            if 'results' in jurl:
-                if 'id' in jurl['results'][0]:
-                    ids = jurl['results'][0]['id']
-                    url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
-                    if PY3:
-                        url_2 = url_2.encode()
-                    url_3 = urlopen(url_2).read().decode('utf-8')
-                    data2 = json.loads(url_3)
-                    with open(("%s/url_rate" % folder_poster), "w") as f:
-                        json.dump(data2, f)
-                    poster = data2['poster_path']
-                    if poster:
-                        self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
-                        self.savePoster()
-                        return
-                self.timerchan.stop()
-        except:
-            try:
-                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
-                if PY3:
-                    url = url.encode()
-                url2 = urlopen(url).read().decode('utf-8')
-                jurl = json.loads(url2)
-                if 'results' in jurl:
-                    if 'id' in jurl['results'][0]:
-                        ids = jurl['results'][0]['id']
-                        url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
-                        if PY3:
-                            url_2 = url_2.encode()
-                        url_3 = urlopen(url_2).read().decode('utf-8')
-                        data2 = json.loads(url_3)
-                        with open(("%s/url_rate" % folder_poster), "w") as f:
-                            json.dump(data2, f)
-                        poster = data2['poster_path']
-                        if poster:
-                            self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
-                            self.savePoster()
-                            return
-                self.timerchan.stop()
-            except Exception as e:
-                print('error except zchannel ', e)
-                self.timerchan.stop()
+    # def info(self):
+        # # if self.downloading:
+            # # return
+        # try:
+            # url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+            # if PY3:
+                # url = url.encode()
+            # url2 = urlopen(url).read().decode('utf-8')
+            # jurl = json.loads(url2)
+            # if 'results' in jurl:
+                # if 'id' in jurl['results'][0]:
+                    # ids = jurl['results'][0]['id']
+                    # url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                    # if PY3:
+                        # url_2 = url_2.encode()
+                    # url_3 = urlopen(url_2).read().decode('utf-8')
+                    # data2 = json.loads(url_3)
+                    # with open(("%s/url_rate" % folder_poster), "w") as f:
+                        # json.dump(data2, f)
+                    # poster = data2['poster_path']
+                    # if poster:
+                        # self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
+                        # self.savePoster()
+                        # return
+                # self.timerchan.stop()
+        # except:
+            # try:
+                # url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                # if PY3:
+                    # url = url.encode()
+                # url2 = urlopen(url).read().decode('utf-8')
+                # jurl = json.loads(url2)
+                # if 'results' in jurl:
+                    # if 'id' in jurl['results'][0]:
+                        # ids = jurl['results'][0]['id']
+                        # url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                        # if PY3:
+                            # url_2 = url_2.encode()
+                        # url_3 = urlopen(url_2).read().decode('utf-8')
+                        # data2 = json.loads(url_3)
+                        # with open(("%s/url_rate" % folder_poster), "w") as f:
+                            # json.dump(data2, f)
+                        # poster = data2['poster_path']
+                        # if poster:
+                            # self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
+                            # self.savePoster()
+                            # return
+                # self.timerchan.stop()
+            # except Exception as e:
+                # print('error except zchannel ', e)
+                # self.timerchan.stop()
 
     def savePoster(self):
         import requests
