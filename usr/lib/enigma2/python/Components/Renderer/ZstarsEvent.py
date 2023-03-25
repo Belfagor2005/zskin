@@ -21,6 +21,7 @@ import os
 import re
 import json
 
+
 def isMountReadonly(mnt):
     with open('/proc/mounts') as f:
         for line in f:
@@ -30,12 +31,13 @@ def isMountReadonly(mnt):
             try:
                 device, mount_point, filesystem, flags = line
             except Exception as err:
-                   print("Error: %s" % err)
+                print("Error: %s" % err)
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-folder_poster = "/tmp/poster" 
+
+folder_poster = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
         folder_poster = "/media/hdd/poster"
@@ -44,14 +46,14 @@ elif os.path.exists("/media/usb"):
         folder_poster = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"    
+        folder_poster = "/media/mmc/poster"
 else:
-    folder_poster = "/tmp/poster" 
+    folder_poster = "/tmp/poster"
 
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):    
-    folder_poster = "/tmp/poster" 
+if not os.path.exists(folder_poster):
+    folder_poster = "/tmp/poster"
 
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
@@ -76,6 +78,7 @@ REGEX = re.compile(
         r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+
 
 def unicodify(s, encoding='utf-8', norm=None):
     if not isinstance(s, unicode):
@@ -113,7 +116,7 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        # print('cleantitle error: ', e)
+        print('cleantitle error: ', e)
         pass
 
 

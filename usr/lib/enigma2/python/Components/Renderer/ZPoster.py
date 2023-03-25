@@ -116,20 +116,21 @@ except:
     language = 'en'
     pass
 
-# def setupTimer(method):
-    # from enigma import eTimer  # @UnresolvedImport
-    # timer = eTimer()
-    # try:
-        # conn = timer.timeout.connect(method)
-        # return (timer, conn)
-    # except AttributeError:
-        # timer.callback.append(method)
-        # return (timer, None)
-# SET YOUR PREFERRED BOUQUET FOR AUTOMATIC POSTER GENERATION
-# WITH THE NUMBER OF ITEMS EXPECTED (BLANK LINE IN BOUQUET CONSIDERED)
-# IF NOT SET OR WRONG FILE THE AUTOMATIC POSTER GENERATION WILL WORK FOR
-# THE CHANNELS THAT YOU ARE VIEWING IN THE ENIGMA SESSION
-
+'''
+def setupTimer(method):
+    from enigma import eTimer  # @UnresolvedImport
+    timer = eTimer()
+    try:
+        conn = timer.timeout.connect(method)
+        return (timer, conn)
+    except AttributeError:
+        timer.callback.append(method)
+        return (timer, None)
+SET YOUR PREFERRED BOUQUET FOR AUTOMATIC POSTER GENERATION
+WITH THE NUMBER OF ITEMS EXPECTED (BLANK LINE IN BOUQUET CONSIDERED)
+IF NOT SET OR WRONG FILE THE AUTOMATIC POSTER GENERATION WILL WORK FOR
+THE CHANNELS THAT YOU ARE VIEWING IN THE ENIGMA SESSION
+'''
 
 autobouquet_file = '/etc/enigma2/userbouquet.favourites.tv'
 autobouquet_count = 32
@@ -226,7 +227,7 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        print('cleantitle zposter e: ', e)
+        print('cleantitle error: ', e)
         pass
 
 

@@ -8,7 +8,7 @@
 # <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" />
 # <widget position="1095,310" render="ZChannel" size="260,379" source="ServiceEvent" zPosition="10" />
 from Components.Renderer.Renderer import Renderer
-from enigma import ePixmap, ePicLoad, eTimer
+from enigma import ePixmap, ePicLoad  # , eTimer
 from Components.AVSwitch import AVSwitch
 from Components.config import config
 import re
@@ -28,6 +28,7 @@ except:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
     from urllib import quote
+
 # w92
 # w154
 # w185
@@ -179,7 +180,7 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        print('cleantitle e: ', e)
+        print('cleantitle error: ', e)
         pass
 
 
@@ -205,27 +206,31 @@ class ZChannel(Renderer):
 
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
-            # self.instance.hide()
+            
+            self.instance.hide()
+            '''
             # self.delay()
 
     # def delay(self):
             # self.downloading = False
+            '''
             self.event = self.source.event
             if self.event:  # and self.instance:
-                print('self.event and self.instance', self.event)
+                print('self.event', self.event)
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
                 print('clean event Zchannel: ', self.evntNm)
                 self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
                 if os.path.exists(self.pstrNm):
-                    # self.downloading = True
                     self.showPoster()
                 else:
-                    # try:
-                        # self.timerchan.callback.append(self.info)
-                    # except:
-                        # self.timerchan_conn = self.timerchan.timeout.connect(self.info)
-                    # self.timerchan.start(50, True)
+                    '''
+                    try:
+                        self.timerchan.callback.append(self.info)
+                    except:
+                        self.timerchan_conn = self.timerchan.timeout.connect(self.info)
+                    self.timerchan.start(50, True)
+                    '''
                     try:
                         url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
                         if PY3:
@@ -291,6 +296,7 @@ class ZChannel(Renderer):
             self.instance.show()
         del self.picload
 
+    '''
     # def info(self):
         # # if self.downloading:
             # # return
@@ -342,6 +348,7 @@ class ZChannel(Renderer):
             # except Exception as e:
                 # print('error except zchannel ', e)
                 # self.timerchan.stop()
+    '''
 
     def savePoster(self):
         import requests

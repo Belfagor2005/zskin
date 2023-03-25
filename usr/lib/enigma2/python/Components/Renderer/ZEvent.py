@@ -56,7 +56,8 @@ def isMountReadonly(mnt):
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
-folder_poster = "/tmp/poster" 
+
+folder_poster = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
         folder_poster = "/media/hdd/poster"
@@ -65,14 +66,14 @@ elif os.path.exists("/media/usb"):
         folder_poster = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"    
+        folder_poster = "/media/mmc/poster"
 else:
-    folder_poster = "/tmp/poster" 
+    folder_poster = "/tmp/poster"
 
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):    
-    folder_poster = "/tmp/poster" 
+if not os.path.exists(folder_poster):
+    folder_poster = "/tmp/poster"
 
 try:
     if my_cur_skin is False:
@@ -92,7 +93,7 @@ except:
     my_cur_skin = False
 
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_poster, folders, files in os.walk(folder_poster)])
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
     ozposter = "%0.f" % (folder_size/(1024*1024.0))
     if ozposter >= "5":
         shutil.rmtree(folder_poster)
@@ -146,6 +147,7 @@ def intCheck():
     else:
         return True
 
+
 def unicodify(s, encoding='utf-8', norm=None):
     if not isinstance(s, unicode):
         s = unicode(s, encoding)
@@ -182,7 +184,7 @@ def cleantitle(text=''):
             text = ''
         return text
     except Exception as e:
-        # print('cleantitle error: ', e)
+        print('cleantitle error: ', e)
         pass
 
 
@@ -243,7 +245,7 @@ class ZEvent(VariableText, Renderer):
                         url = url.encode()
                     Title = requests.get(url).json()['results'][0]['original_title']
                     ids = requests.get(url).json()['results'][0]['id']
-                    
+
                 except:
                     url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(apikey, quote(self.evntNm))
                     if PY3:
@@ -327,4 +329,3 @@ class ZEvent(VariableText, Renderer):
                 os.remove("/tmp/rating")
             self.downevent = False
             return ""
-
