@@ -20,8 +20,11 @@ from enigma import eSlider
 import os
 import re
 import json
-
-
+# import sys
+try:
+    from urllib.parse import quote
+except:
+    from urllib import quote
 def isMountReadonly(mnt):
     with open('/proc/mounts') as f:
         for line in f:
@@ -93,7 +96,7 @@ def cleantitle(text=''):
     try:
         print('text ->>> ', text)
         # import unicodedata
-        if text != '' or text is not None:
+        if text != '' or text is not None or text != 'None':
             '''
             # text = text.replace('\xc2\x86', '')
             # text = text.replace('\xc2\x87', '')
@@ -113,7 +116,7 @@ def cleantitle(text=''):
             text = unicodify(text)
             text = text.lower()
         else:
-            text = ''
+            text = text
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -142,10 +145,14 @@ class ZstarsEvent(VariableValue, Renderer):
             try:
                 self.event = self.source.event
                 if self.event:  # and self.instance:
+                    
                     evnt = self.event.getEventName().encode('utf-8')
+                    evnt = cleantitle(evnt)
                     self.evnt = evnt.strip()
-                    self.evntNm = cleantitle(self.evnt)
+                    # rating_json = "{}{}.json".format(folder_poster, quote(self.evntNm))
+
                     rating_json = os.path.join(folder_poster, "url_rate")
+
                     if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                         with open(rating_json) as f:
                             try:
