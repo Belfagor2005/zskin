@@ -1,11 +1,21 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+#  CaidInfo2 - Converter
+#  ver 1.2.8 28.03.2023
+#
+#  Coded by bigroma & 2boom
+# update lululla
 from Components.Converter.Converter import Converter
 from enigma import iServiceInformation
 from Tools.Directories import fileExists
 from Components.Element import cached
 from Components.Converter.Poll import Poll
 import os
+ECM_INFO = '/tmp/ecm.info'
 info = {}
 old_ecm_mtime = None
+
 
 class MMCaidInfo2(Poll, Converter, object):
     CAID = 0
@@ -105,6 +115,8 @@ class MMCaidInfo2(Poll, Converter, object):
             self.type = self.NAGRA_C
         elif type == 'NdsEcm':
             self.type = self.NDS_C
+        elif type == "ConaxCrypt":
+            self.type = self.CONAX
         elif type == 'SecaEcm':
             self.type = self.SECA_C
         elif type == 'ViaEcm':
@@ -123,18 +135,32 @@ class MMCaidInfo2(Poll, Converter, object):
             self.type = self.IS_CRYPTED
         elif type == 'Short':
             self.type = self.SHORT
-        elif type == 'Default' or type == '' or type == None or type == '%':
+        elif type == 'Default' or type == '' or type is None or type == '%':
             self.type = self.ALL
+        # add lululla for sf8008
+        elif type == "VerboseInfo":
+            data = ''
+            try:
+                from Tools.GetEcmInfo import GetEcmInfo
+                self.ecmdata = GetEcmInfo()
+                data = self.ecmdata.getEcmData()[0]
+            except:
+                from Tools.GetEcmInfo import GetEcmInfo
+                self.ecmdata = GetEcmInfo()
+                data = self.ecmdata.getInfo(self.type)
+            return data
+        # end edit
         else:
             self.type = self.FORMAT
             self.sfmt = type[:]
-        self.systemTxtCaids = {'26': 'BiSS',
+        self.systemTxtCaids = {
+         '26': 'BiSS',
          '01': 'Seca Mediaguard',
          '06': 'Irdeto',
          '17': 'BetaCrypt',
          '05': 'Viacces',
-         '18': 'Nagravision',
          '09': 'NDS-Videoguard',
+         '18': 'Nagravision',
          '0B': 'Conax',
          '0D': 'Cryptoworks',
          '4A': 'DRE-Crypt',
@@ -145,13 +171,14 @@ class MMCaidInfo2(Poll, Converter, object):
          '56': 'Verimatrix',
          '7B': 'DRE-Crypt',
          'A1': 'Rosscrypt'}
-        self.systemCaids = {'26': 'BiSS',
+        self.systemCaids = {
+        '26': 'BiSS',
          '01': 'SEC',
          '06': 'IRD',
          '17': 'BET',
          '05': 'VIA',
-         '18': 'NAG',
          '09': 'NDS',
+         '18': 'NAG',
          '0B': 'CON',
          '0D': 'CRW',
          "0E" : "PWV",
@@ -169,7 +196,7 @@ class MMCaidInfo2(Poll, Converter, object):
         else:
             caids = info.getInfoObject(iServiceInformation.sCAIDs)
             if caids:
-            
+
                 if self.type is self.IS_FTA:
                     if caids:
                         return False
@@ -313,7 +340,7 @@ class MMCaidInfo2(Poll, Converter, object):
                             return True
                     else:
                         return False
-            return False
+        return False
 
     boolean = property(getBoolean)
 
@@ -332,10 +359,10 @@ class MMCaidInfo2(Poll, Converter, object):
                         caid = '%0.4X' % int(ecm_info.get('caid', ''), 16)
                         return '%s' % self.systemTxtCaids.get(caid[:2])
                     except:
-                        return 'notdecode'
+                        return 'no decode'
 
                 else:
-                    return 'notdecode'
+                    return 'no decode'
         if service:
             info = service and service.info()
             if info:
@@ -511,6 +538,19 @@ class MMCaidInfo2(Poll, Converter, object):
 
     text = property(getText)
 
+    # def getCaid(self):
+        # global old_ecm_mtime
+        # global data
+        # try:
+            # ecm_mtime = os.stat('/tmp/ecm.info').st_mtime
+        # except:
+            # ecm_mtime = None
+
+        # if ecm_mtime != old_ecm_mtime:
+            # old_ecm_mtime = ecm_mtime
+            # data = self.getCaidFromEcmInfo()
+        # return data
+
     def ecmfile(self):
         global info
         global old_ecm_mtime
@@ -524,106 +564,116 @@ class MMCaidInfo2(Poll, Converter, object):
                 if ecm_mtime == old_ecm_mtime:
                     return info
                 old_ecm_mtime = ecm_mtime
-                ecmf = open('/tmp/ecm.info', 'r')
+                ecmf = open('/tmp/ecm.info', 'rb')
                 ecm = ecmf.readlines()
             except:
                 old_ecm_mtime = None
                 info = {}
                 return info
 
-            if ecm:
-                for line in ecm:
-                    x = line.lower().find('msec')
-                    if x != -1:
-                        info['ecm time'] = line[0:x + 4]
-                    else:
-                        item = line.split(':', 1)
-                        if len(item) > 1:
-                            if item[0] == 'Provider':
-                                item[0] = 'prov'
-                                item[1] = item[1].strip()[2:]
-                            elif item[0] == 'ECM PID':
-                                item[0] = 'pid'
-                            elif item[0] == 'response time':
-                                info['source'] = 'net'
-                                it_tmp = item[1].strip().split(' ')
-                                info['ecm time'] = '%s msec' % it_tmp[0]
-                                y = it_tmp[-1].find('[')
-                                if y != -1:
-                                    info['server'] = it_tmp[-1][:y]
-                                    info['protocol'] = it_tmp[-1][y + 1:-1]
-                                y = it_tmp[-1].find('(')
-                                if y != -1:
-                                    info['server'] = it_tmp[-1].split('(')[-1].split(':')[0]
-                                    info['port'] = it_tmp[-1].split('(')[-1].split(':')[-1].rstrip(')')
-                                elif y == -1:
-                                    item[0] = 'source'
-                                    item[1] = 'sci'
-                                if it_tmp[-1].find('emu') > -1 or it_tmp[-1].find('cache') > -1 or it_tmp[-1].find('card') > -1 or it_tmp[-1].find('biss') > -1:
-                                    item[0] = 'source'
-                                    item[1] = 'emu'
-                            elif item[0] == 'hops':
-                                item[1] = item[1].strip('\n')
-                            elif item[0] == 'system':
-                                item[1] = item[1].strip('\n')
-                            elif item[0] == 'provider':
-                                item[1] = item[1].strip('\n')
-                            elif item[0][:2] == 'cw' or item[0] == 'ChID' or item[0] == 'Service':
-                                pass
-                            elif item[0] == 'source':
-                                if item[1].strip()[:3] == 'net':
-                                    it_tmp = item[1].strip().split(' ')
-                                    info['protocol'] = it_tmp[1][1:]
-                                    info['server'] = it_tmp[-1].split(':', 1)[0]
-                                    info['port'] = it_tmp[-1].split(':', 1)[1][:-1]
-                                    item[1] = 'net'
-                            elif item[0] == 'prov':
-                                y = item[1].find(',')
-                                if y != -1:
-                                    item[1] = item[1][:y]
-                            elif item[0] == 'reader':
-                                if item[1].strip() == 'emu':
-                                    item[0] = 'source'
-                            elif item[0] == 'from':
-                                if item[1].strip() == 'local':
-                                    item[1] = 'sci'
-                                    item[0] = 'source'
-                                else:
-                                    info['source'] = 'net'
-                                    item[0] = 'server'
-                            elif item[0] == 'provid':
-                                item[0] = 'prov'
-                            elif item[0] == 'using':
-                                if item[1].strip() == 'emu' or item[1].strip() == 'sci':
-                                    item[0] = 'source'
-                                else:
-                                    info['source'] = 'net'
-                                    item[0] = 'protocol'
-                            elif item[0] == 'address':
-                                tt = item[1].find(':')
-                                if tt != -1:
-                                    info['server'] = item[1][:tt].strip()
-                                    item[0] = 'port'
-                                    item[1] = item[1][tt + 1:]
-                            info[item[0].strip().lower()] = item[1].strip()
+            try:
+                if ecm:
+                    for line in ecm:
+                        x = line.lower().find("msec")
+                        # ecm time for mgcamd and oscam
+                        if x != -1:
+                            info["ecm time"] = line[0:x+4]
                         else:
-                            if 'caid' not in info or 'CaID' not in info:
-                                x = line.lower().find('caid')
-                                if x != -1:
-                                    y = line.find(',')
+                            item = line.split(":", 1)
+                            if len(item) > 1:
+                                # wicard block
+                                if item[0] == "Provider":
+                                    item[0] = "prov"
+                                    item[1] = item[1].strip()[2:]
+                                elif item[0] == "ECM PID":
+                                    item[0] = "pid"
+                                elif item[0] == "response time":
+                                    info["source"] = "net"
+                                    it_tmp = item[1].strip().split(" ")
+                                    info["ecm time"] = "%s msec" % it_tmp[0]
+                                    y = it_tmp[-1].find('[')
                                     if y != -1:
-                                        info['caid'] = line[x + 5:y]
-                            if 'pid' not in info:
-                                x = line.lower().find('pid')
-                                if x != -1:
-                                    y = line.find(' =')
-                                    z = line.find(' *')
+                                        info["server"] = it_tmp[-1][:y]
+                                        info["protocol"] = it_tmp[-1][y+1:-1]
+                                    # item[0]="port"
+                                    # item[1] = ""
+                                    y = it_tmp[-1].find('(')
                                     if y != -1:
-                                        info['pid'] = line[x + 4:y]
-                                    elif z != -1:
-                                        info['pid'] = line[x + 4:z]
-
-                ecmf.close()
+                                        info["server"] = it_tmp[-1].split("(")[-1].split(":")[0]
+                                        info["port"] = it_tmp[-1].split("(")[-1].split(":")[-1].rstrip(")")
+                                    elif y == -1:
+                                        item[0] = "source"
+                                        item[1] = "sci"
+                                    # y = it_tmp[-1].find('emu')
+                                    if it_tmp[-1].find('emu') > -1 or it_tmp[-1].find('cache') > -1 or it_tmp[-1].find('card') > -1 or it_tmp[-1].find('biss') > -1:
+                                        item[0] = "source"
+                                        item[1] = "emu"
+                                elif item[0] == "hops":
+                                    item[1] = item[1].strip("\n")
+                                elif item[0] == "system":
+                                    item[1] = item[1].strip("\n")
+                                elif item[0] == "provider":
+                                    item[1] = item[1].strip("\n")
+                                elif item[0][:2] == 'cw' or item[0] == 'ChID' or item[0] == "Service":
+                                    pass
+                                # mgcamd new_oscam block
+                                elif item[0] == "source":
+                                    if item[1].strip()[:3] == "net":
+                                        it_tmp = item[1].strip().split(" ")
+                                        info["protocol"] = it_tmp[1][1:]
+                                        info["server"] = it_tmp[-1].split(":", 1)[0]
+                                        info["port"] = it_tmp[-1].split(':', 1)[1][:-1]
+                                        item[1] = "net"
+                                elif item[0] == "prov":
+                                    y = item[1].find(",")
+                                    if y != -1:
+                                        item[1] = item[1][:y]
+                                # old oscam block
+                                elif item[0] == "reader":
+                                    if item[1].strip() == "emu":
+                                        item[0] = "source"
+                                elif item[0] == "from":
+                                    if item[1].strip() == "local":
+                                        item[1] = "sci"
+                                        item[0] = "source"
+                                    else:
+                                        info["source"] = "net"
+                                        item[0] = "server"
+                                # cccam block
+                                elif item[0] == "provid":
+                                    item[0] = "prov"
+                                elif item[0] == "using":
+                                    if item[1].strip() == "emu" or item[1].strip() == "sci":
+                                        item[0] = "source"
+                                    else:
+                                        info["source"] = "net"
+                                        item[0] = "protocol"
+                                elif item[0] == "address":
+                                    tt = item[1].find(":")
+                                    if tt != -1:
+                                        info["server"] = item[1][:tt].strip()
+                                        item[0] = "port"
+                                        item[1] = item[1][tt+1:]
+                                info[item[0].strip().lower()] = item[1].strip()
+                            else:
+                                if "caid" not in info:  # .has_key("caid"):
+                                    x = line.lower().find("caid")
+                                    if x != -1:
+                                        y = line.find(",")
+                                        if y != -1:
+                                            info["caid"] = line[x+5:y]
+                                if "pid" not in info:  # .has_key("pid"):
+                                    x = line.lower().find("pid")
+                                    if x != -1:
+                                        y = line.find(" =")
+                                        z = line.find(" *")
+                                        if y != -1:
+                                            info["pid"] = line[x+4:y]
+                                        elif z != -1:
+                                            info["pid"] = line[x+4:z]
+                    ecmf.close()
+            except:
+                pass
         return info
 
     def changed(self, what):

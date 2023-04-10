@@ -539,16 +539,52 @@
             <convert type="MMCaidInfo2">IsFta</convert>
             <convert type="ConditionalShowHide" />
         </widget>
-        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Emu:" transparent="0" zPosition="20">
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Emu" transparent="0" zPosition="20">
             <convert type="MMCaidInfo2">Emu</convert>
             <convert type="ConditionalShowHide" />
         </widget>
-        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Net:" transparent="0" zPosition="20">
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Net" transparent="0" zPosition="20">
             <convert type="MMCaidInfo2">Net</convert>
             <convert type="ConditionalShowHide" />
         </widget>
-        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="CRD:" transparent="0" zPosition="20">
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="CRD" transparent="0" zPosition="20">
             <convert type="MMCaidInfo2">Crd</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="BetaCrypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">BetaCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>        
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Via Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">ViaCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>     
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Irdeto" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">IrdCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget> 
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Seca Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">SecaCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget> 
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NDS-VideoGuard" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NdsCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget> 
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="CryptoWork" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">CrwCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Conax Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">ConaxCrypt</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NagraVision" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NagraEcm</convert>
+            <convert type="ConditionalShowHide" />
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NagraVision" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NagraCrypt</convert>
             <convert type="ConditionalShowHide" />
         </widget>
         <widget backgroundColor="header" font="Regular;26" foregroundColor="green" halign="left" position="1645,915" render="Label" size="150,33" source="session.CurrentService" transparent="1" zPosition="30">
