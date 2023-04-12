@@ -59,8 +59,8 @@ class MMCaidInfo2(Poll, Converter, object):
     my_interval = 1000
 
     def __init__(self, type):
-        Poll.__init__(self)
         Converter.__init__(self, type)
+        Poll.__init__(self)
         if type == 'CAID':
             self.type = self.CAID
         elif type == 'PID':
