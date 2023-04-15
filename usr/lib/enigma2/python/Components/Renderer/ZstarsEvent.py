@@ -25,6 +25,8 @@ try:
     from urllib.parse import quote
 except:
     from urllib import quote
+
+
 def isMountReadonly(mnt):
     with open('/proc/mounts') as f:
         for line in f:
@@ -94,7 +96,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cleantitle(text=''):
     try:
-        print('text ->>> ', text)
+        print('ZstarsEvent text ->>> ', text)
         # import unicodedata
         if text != '' or text is not None or text != 'None':
             '''
@@ -115,8 +117,10 @@ def cleantitle(text=''):
             '''
             text = unicodify(text)
             text = text.lower()
+            print('ZstarsEvent text <<<- ', text)
         else:
             text = text
+            print('ZstarsEvent text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -147,8 +151,7 @@ class ZstarsEvent(VariableValue, Renderer):
                 if self.event:  # and self.instance:
                     
                     evnt = self.event.getEventName().encode('utf-8')
-                    evnt = cleantitle(evnt)
-                    self.evnt = evnt.strip()
+                    self.evnt = cleantitle(evnt)
                     # rating_json = "{}{}.json".format(folder_poster, quote(self.evntNm))
 
                     rating_json = os.path.join(folder_poster, "url_rate")

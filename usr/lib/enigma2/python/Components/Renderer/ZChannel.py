@@ -155,7 +155,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cleantitle(text=''):
     try:
-        print('text ->>> ', text)
+        print('ZChannel text ->>> ', text)
         # import unicodedata
         if text != '' or text is not None or text != 'None':
             '''
@@ -176,8 +176,10 @@ def cleantitle(text=''):
             '''
             text = unicodify(text)
             text = text.lower()
+            print('ZChannel text <<<- ', text)
         else:
             text = text
+            print('ZChannel text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)

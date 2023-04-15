@@ -8,6 +8,7 @@ import requests
 import socket
 import sys
 import threading
+import json
 from Components.config import config
 global my_cur_skin
 
@@ -128,7 +129,7 @@ class zPosterXDownloadThread(threading.Thread):
             if year:
                 # url_tmdb += "&primary_release_year={}".format(year)
                 url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&primary_release_year={}&include_adult=true&query={}".format(srch, apikey, str(year), quote(title))
-                
+
             # if year:
                 # url_tmdb += "&year={}".format(year)
             if language:

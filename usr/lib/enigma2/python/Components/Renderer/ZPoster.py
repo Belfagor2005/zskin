@@ -216,7 +216,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cleantitle(text=''):
     try:
-        print('text ->>> ', text)
+        print('zPoster text ->>> ', text)
         # import unicodedata
         if text != '' or text is not None or text != 'None':
             '''
@@ -237,8 +237,10 @@ def cleantitle(text=''):
             '''
             text = unicodify(text)
             text = text.lower()
+            print('zPoster text <<<- ', text)
         else:
-            text = ''
+            text = text
+            print('zPoster text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
