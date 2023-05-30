@@ -22,29 +22,8 @@ from Components.Converter.Converter import Converter
 from Components.Element import cached
 from Components.Converter.Poll import Poll
 from enigma import eConsoleAppContainer
-import os, re, socket
-
-try:
-    from urllib.error import URLError, HTTPError
-    from urllib.request import urlopen
-except:
-    from urllib2 import URLError, HTTPError
-    from urllib2 import urlopen
-
-
-def intCheck():
-    try:
-        response = urlopen("http://google.com", None, 5)
-        response.close()
-    except HTTPError:
-        return False
-    except URLError:
-        return False
-    except socket.timeout:
-        return False
-    else:
-        return True
-
+import os, re
+# import socket
 
 class zExtra(Poll, Converter):
     TEMPERATURE = 0
@@ -109,6 +88,7 @@ class zExtra(Poll, Converter):
 
     @cached
     def getText(self):
+        text = ''
         if self.type == self.CPULOAD:
             cpuload = ''
             if os.path.exists('/proc/loadavg'):
@@ -155,28 +135,32 @@ class zExtra(Poll, Converter):
         if self.type == self.HDDTEMP:
             return self.hddtemp
         if self.type == self.IPLOCAL:
-            ipaddr = ''
-            gw = os.popen("ip -4 route show default").read().split()
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect((gw[2], 0))
-            ipaddr = s.getsockname()[0]
-            return "Lan Ip " + "%s" % ipaddr
+            try:
+                c = '127.0.0.1'
+                # gw = os.popen("ip -4 route show default").read().split()
+                # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                # s.connect((gw[2], 0))
+                # c = s.getsockname()[0]
+                file = os.popen('ifconfig')
+                cmd = file.readlines()
+                for line in cmd:
+                    if 'inet addr:' in line:
+                        c = line.split('inet addr:')[1].split(' ')[0]
+                        if c != '127.0.0.1':
+                            return "Lan Ip %s" % c
+                # return "Lan Ip " + "%s" % c
+            except:
+                return ''
         if self.type == self.IPWAN:
             try:
-                adsl = intCheck()
-                if not adsl:
-                    return
-
-                if not os.path.exists('/tmp/currentip'):
-                    os.system('wget -qO- http://checkip.amazonaws.com > /tmp/currentip')
-                public = open('/tmp/currentip', 'r').read()
-                publicIp = "Wan Ip %s" % (str(public))
-                print('publicIp= ', publicIp)
+                file = os.popen('wget -qO - ifconfig.me')
+                public = file.read()
+                publicIp = "Local Ip %s" % (str(public))
                 return "%s" % publicIp
             except:
                 if os.path.exists("/tmp/currentip"):
                     os.remove("/tmp/currentip")
-                return 'NO IP FOUND'
+                return ''
 
         if self.type == self.CPUSPEED:
             try:
