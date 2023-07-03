@@ -6995,7 +6995,6 @@
     </screen>
 
 
-  	ScanLogs
 	<screen backgroundColor="#FF000000" flags="wfNoBorder" name="TVShowRelationNameList" position="0,0" size="1920,1080" title="TV Show relation names">
         <layout name="menu_1230"/>
         <layout name="rgyb-2c-s-1230"/>
