@@ -1,10 +1,10 @@
 <skin>
-    <style name="" revision="2205" time_stamp="2023-01-02 21:51:10.698782" user_mtime="">
-        <style name="ChannelSelection" value="Channel Cover"/>
+    <style name="" revision="2205" time_stamp="2023-07-03 23:12:33.270429" user_mtime="">
+        <style name="ChannelSelection" value="eventChannel"/>
         <style name="EventView" value="InfoEvent Default"/>
         <style name="InfoBar" value="Default"/>
         <style name="MediaPlayer" value="TechnicsMediaPlayer"/>
-        <style name="SecondInfoBar" value="SIB-Cover"/>
+        <style name="SecondInfoBar" value="Default"/>
         <style name="TMDB ApiKey" value="ApiKey Manual Insert"/>
         <style name="Volume" value="Volume-Text"/>
     </style>
@@ -566,64 +566,44 @@
             <convert type="ConditionalShowHide"/>
         </widget>
     </screen>
-    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,00" size="1920,800" title="Second-InfoBar-Cover" zPosition="10">
-        <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/sib1.png" position="0,0" size="1920,800" zPosition="-1"/>
-        <eLabel backgroundColor="#05000000" position="22,22" size="276,395"/>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="25,25" size="270,389"/>
-        <widget position="30,30" render="ZChannel" size="260,379" source="session.Event_Now" zPosition="1"/>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="25,25" size="270,390" zPosition="6"/>
-        <eLabel backgroundColor="#000000" font="Regular;32" halign="left" position="310,25" size="140,50" text="NOW : " transparent="1" valign="center" zPosition="2"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="425,25" render="Label" size="140,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="1920,652" title="Second-InfoBar">
+        <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/sib.png" position="0,0" size="1920,652" zPosition="1"/>
+        <eLabel backgroundColor="#000000" font="Regular;32" halign="left" position="80,60" size="140,50" text="NOW : " transparent="1" valign="center" zPosition="2"/>
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="200,60" render="Label" size="140,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
             <convert type="EventTime">StartTime</convert>
             <convert type="ClockToText">Default</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffff00" halign="left" position="525,25" render="Label" size="140,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffff00" halign="left" position="300,60" render="Label" size="140,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
             <convert type="EventTime">EndTime</convert>
             <convert type="ClockToText">Format:- %H:%M</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ff0000" halign="right" position="710,25" render="Label" size="200,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ff0000" halign="left" position="450,60" render="Label" size="200,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
             <convert type="EventTime">Remaining</convert>
             <convert type="RemainingToText">InMinutes</convert>
         </widget>
-        <eLabel backgroundColor="#303030" position="310,75" size="600,3" transparent="0" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;34" foregroundColor="#FFFF00" halign="left" position="310,80" render="Label" size="600,90" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#FFFF00" halign="center" position="70,150" render="Label" size="850,90" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
             <convert type="EventName">Name</convert>
         </widget>
-        <widget backgroundColor="#10303030" foregroundColor="#b0b0b0" position="310,175" render="Progress" size="600,5" source="session.Event_Now" zPosition="2">
-            <convert type="EventTime">Progress</convert>
-        </widget>
-        <eLabel backgroundColor="#05000000" position="965,22" size="276,395"/>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="968,25" size="270,389"/>
-        <widget alphatest="blend" position="973,30" render="ZChannel" size="260,379" source="session.Event_Next" zPosition="1"/>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="973,25" size="270,390" zPosition="6"/>
-        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="1255,25" size="140,50" text="NEXT :" transparent="1" valign="center" zPosition="2"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="1370,25" render="Label" size="140,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-            <convert type="EventTime">StartTime</convert>
-            <convert type="ClockToText">Default</convert>
-        </widget>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffff00" halign="left" position="1470,25" render="Label" size="140,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-            <convert type="EventTime">EndTime</convert>
-            <convert type="ClockToText">Format:- %H:%M</convert>
-        </widget>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ff0000" halign="left" position="1775,25" render="Label" size="200,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-            <convert type="EventTime">Remaining</convert>
-            <convert type="RemainingToText">InMinutes</convert>
-        </widget>
-        <eLabel backgroundColor="#202020" position="1255,75" size="625,3" transparent="0" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;34" foregroundColor="#FFFF00" halign="left" position="1250,80" render="Label" size="630,90" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-            <convert type="EventName">Name</convert>
-        </widget>
-        <eLabel backgroundColor="#202020" position="1250,175" size="630,5" transparent="0" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="310,230" render="ZEvent" size="600,170" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/>
-        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="30,420" render="zScrollLabel" size="880,360" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
+        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#ffffff" halign="center" position="70,230" render="zScrollLabel" size="840,340" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
             <convert type="EventName">ExtendedDescription</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="1250,230" render="ZEvent" size="625,170" source="session.Event_Next" transparent="1" valign="center" zPosition="9"/>
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="310,195" size="200,20" transparent="1" zPosition="2"/>
-        <widget pixmap="ZSkin-FHD/icons/star.png" position="310,195" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1250,195" size="200,20" transparent="1" zPosition="2"/>
-        <widget pixmap="ZSkin-FHD/icons/star.png" position="1250,195" render="ZstarsEvent" size="200,20" source="session.Event_Next" transparent="1" zPosition="13"/>
-        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="970,420" render="zScrollLabel" size="920,360" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
+        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="970,60" size="140,50" text="NEXT : " transparent="1" valign="center" zPosition="2"/>
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="1080,60" render="Label" size="140,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">StartTime</convert>
+            <convert type="ClockToText">Default</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffff00" halign="left" position="1180,60" render="Label" size="140,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">EndTime</convert>
+            <convert type="ClockToText">Format:- %H:%M</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ff0000" halign="left" position="1320,60" render="Label" size="200,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">Remaining</convert>
+            <convert type="RemainingToText">InMinutes</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#FFFF00" halign="center" position="990,150" render="Label" size="850,90" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventName">Name</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#ffffff" halign="center" position="970,230" render="zScrollLabel" size="840,340" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
             <convert type="EventName">ExtendedDescription</convert>
         </widget>
     </screen>
@@ -821,7 +801,7 @@
         <widget alphatest="blend" backgroundColor="#000000" position="1120,80" render="Picon" scale="1" size="240,132" source="ServiceEvent" transparent="1" zPosition="5">
             <convert type="ServiceName">Reference</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="yellow" halign="center" nowrap="1" position="1385,95" render="Label" size="450,40" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="yellow" halign="center" nowrap="1" position="1385,90" render="Label" size="450,40" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
             <convert type="ServiceName">Name</convert>
         </widget>
         <eLabel backgroundColor="#303030" position="1380,135" size="450,3" zPosition="1"/>
@@ -829,36 +809,31 @@
         <widget backgroundColor="ltbluette" foregroundColor="ltbluette" position="1380,208" render="Progress" size="450,6" source="ServiceEvent" transparent="1" zPosition="3">
             <convert type="EventTime">Progress</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" position="1380,173" render="Label" size="100,32" source="ServiceEvent" transparent="1" zPosition="1">
+        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" position="1380,175" render="Label" size="100,30" source="ServiceEvent" transparent="1" zPosition="1">
             <convert type="EventTime">StartTime</convert>
             <convert type="ClockToText">Default</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="red" halign="left" position="1500,173" render="Label" size="200,30" source="ServiceEvent" transparent="1" zPosition="1">
+        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="red" halign="left" position="1480,175" render="Label" size="200,30" source="ServiceEvent" transparent="1" zPosition="1">
             <convert type="EventTime">Duration</convert>
             <convert type="ClockToText">InMinutes</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="right" position="1675,173" render="Label" size="150,30" source="ServiceEvent" transparent="1">
+        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="right" position="1675,175" render="Label" size="150,30" source="ServiceEvent" transparent="1">
             <convert type="EventTime">Remaining</convert>
             <convert type="RemainingToText"/>
         </widget>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="1850,110" scale="1" size="60,30" transparent="1" zPosition="10"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_info.png" position="1850,185" scale="1" size="60,30" transparent="1" zPosition="10"/>
-        <widget backgroundColor="#000000" font="Regular;34" foregroundColor="yellow" halign="left" position="1090,220" render="Label" size="820,80" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="1090,210" render="Label" size="820,70" source="ServiceEvent" transparent="1" valign="bottom" zPosition="1">
             <convert type="EventName">Name</convert>
         </widget>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" zPosition="4"/>
-        <widget alphatest="blend" position="1090,302" render="ZChannel" size="270,395" source="ServiceEvent" zPosition="5"/>
-        <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="1090,302" size="270,395" zPosition="6"/>
-        <widget backgroundColor="#000000" font="Regular;24" foregroundColor="yellow" halign="left" nowrap="1" position="1090,700" render="ZEvent" size="820,135" source="ServiceEvent" transparent="1" valign="center" zPosition="9"/>
-        <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1370,300" size="200,20" transparent="1" zPosition="2"/>
-        <widget pixmap="ZSkin-FHD/icons/star.png" position="1370,300" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
-        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="left" position="1370,325" render="Label" size="540,380" source="ServiceEvent" transparent="1" zPosition="2">
-            <convert type="EventName">Description</convert>
+        <eLabel backgroundColor="#303030" position="1090,280" size="820,5" zPosition="1"/>
+        <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="left" position="1090,300" render="Label" size="820,520" source="ServiceEvent" transparent="1" zPosition="2">
+            <convert type="EventName">FullDescription</convert>
         </widget>
         <eLabel backgroundColor="trbluette" position="1070,880" size="860,195" zPosition="-2"/>
         <eLabel backgroundColor="#20101010" position="1730,850" size="170,60" zPosition="-2"/>
         <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#20ffffff" halign="center" position="1730,850" size="170,60" text="N E X T" transparent="1" valign="center" zPosition="1"/>
-        <widget backgroundColor="#FF101010" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" position="1080,910" primetimeoffset="0" render="EventListDisplay" rowHeight="35" size="1070,180" source="ServiceEvent" transparent="1" zPosition="50">
+        <widget backgroundColor="#FF101010" column0="0,120,yellow,Regular,30,0,0" column1="130,950,white,Regular,30,0,1" position="1080,910" primetimeoffset="0" render="EventListDisplay" rowHeight="35" size="1070,180" source="ServiceEvent" transparent="1" zPosition="50">
             <convert type="EventList">primetime=no,eventcount=4</convert>
         </widget>
         <eLabel backgroundColor="#20050505" position="0,990" size="1060,85" zPosition="-1"/>
@@ -902,7 +877,7 @@
         <widget backgroundColor="#101010" font="Regular;40" foregroundColor="yellow" halign="left" position="1360,855" render="Label" size="200,45" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
             <convert type="ClockToText">Format:%H:%M:%S</convert>
         </widget>
-        <widget backgroundColor="#ff101010" column0="140,120,#505050,Regular,40,0,0" column1="275,1270,#505050,Regular,40,0,1" position="0,925" primetimeoffset="275" render="EventListDisplay" rowHeight="50" size="1270,50" source="ServiceEvent" transparent="1" zPosition="5">
+        <widget backgroundColor="#ff101010" column0="140,120,#505050,Regular,38,0,0" column1="275,1270,#505050,Regular,38,0,1" position="0,925" primetimeoffset="275" render="EventListDisplay" rowHeight="50" size="1270,50" source="ServiceEvent" transparent="1" zPosition="5">
             <convert type="EventList">primetime=no,eventcount=1</convert>
         </widget>
         <eLabel backgroundColor="#303030" position="275,910" size="1270,10" zPosition="2"/>
@@ -1304,13 +1279,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5"/>
         <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2"/>
-        <widget render="ZInfoPoster" alphatest="blend" position="220,150" size="213,310" source="session.Event_Now" zPosition="5"/>
-        <!-- 		
-        <widget render="ZPoster" source="session.Event_Now" position="220,150" size="213,310" zPosition="5" />
-
-
-        <widget render="ZPoster" source="session.Event_Next" position="520,150" size="213,310" zPosition="5" />
-		 -->
+        <widget alphatest="blend" position="220,150" render="ZChannel" size="213,310" source="session.Event_Now" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" halign="left" name="duration" position="670,210" size="300,50" transparent="1" zPosition="5"/>
@@ -1800,7 +1769,7 @@
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" name="detailtext" position="220,155" size="1230,800" transparent="1" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="InputDeviceManagement" position="0,0" size="1920,1080" title="Input Devices"> &gt;
-        <layout name="menu_1030"/>
+	<layout name="menu_1030"/>
         <layout name="rgyb-2c-n-1030"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/choice.png" position="120,0" size="1330,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="220,155" render="Listbox" scrollbarMode="showOnDemand" size="1030,540" source="list" transparent="1" zPosition="5">
@@ -2903,12 +2872,6 @@
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="MediaPlayer" position="0,0" size="1920,1080" title="MediaPlayer">
         <ePixmap pixmap="ZSkin-FHD/mmp/mp2.png" position="0,0" size="1920,1080" zPosition="-1"/>
-        <!--
-                                                                                                                              
-        <widget backgroundColor="#000000" font="Regular;46" foregroundColor="#606060" halign="right" noWrap="1" position="1180,20" render="Label" size="720,110" source="global.CurrentTime" transparent="1" zPosition="2">
-            <convert type="ClockToText">Format:%-H:%M:%S</convert>
-        </widget>
-        -->
         <widget backgroundColor="#101010" backgroundColorSelected="#124b97" itemHeight="45" name="filelist" position="50,38" scrollbarMode="showOnDemand" scrollbarSliderBackgroundColor="barColor" scrollbarSliderBorderColor="#202020" scrollbarSliderBorderWidth="1" scrollbarSliderForegroundColor="ltbluette" scrollbarWidth="10" size="1290,315" transparent="1" zPosition="2"/>
         <widget backgroundColor="#101010" backgroundColorSelected="barColor" foregroundColor="ltbluette" itemHeight="45" name="playlist" position="50,415" scrollbarMode="showOnDemand" scrollbarSliderBorderColor="#202020" scrollbarSliderBorderWidth="1" scrollbarSliderForegroundColor="bluette" scrollbarWidth="10" size="1290,495" transparent="1" zPosition="2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/cddx.png" position="1350,00" size="550,394" transparent="1" zPosition="1"/>
@@ -4223,7 +4186,6 @@
         <widget backgroundColor="background" font="Regular;32" foregroundColor="yellow" halign="center" name="zoom" position="270,660" size="250,40" transparent="1"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="Gcommander" position="0,0" size="1920,1080" title="GCommander">
-        <!-- ePixmap gradient="#052b4d,#101010,orizontal" position="0,0" size="1920,1080" zPosition="-1" /-->
         <ePixmap pixmap="ZSkin-FHD/menu/panels/gcommander.png" position="0,0" size="1920,1080" zPosition="-1"/>
         <widget name="InfoPic" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/info_neutral.svg" position="1780,67" size="40,40"/>
         <widget name="MenuPic" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/menu_neutral.svg" position="1840,67" size="40,40"/>
@@ -4231,12 +4193,12 @@
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffff00" position="170,10" render="Label" size="1700,130" source="InfoLabel" transparent="1" valign="center"/>
         <widget backgroundColor="bluette" name="List0PathSel" position="30,170" size="770,50" zPosition="1"/>
         <widget backgroundColor="#202020" font="Regular;28" foregroundColor="#ffffff" noWrap="1" position="30,170" render="Label" size="770,50" source="List0Path" valign="center"/>
-        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="45" PictureSize="35" backgroundColor="#20202020" name="listl" position="30,230" backgroundColorSelected="barColor" foregroundColor="#ffffff" scrollbarMode="showOnDemand" size="770,810" transparent="1" zPosition="5"/>
+        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="45" PictureSize="35" backgroundColor="#20202020" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listl" position="30,230" scrollbarMode="showOnDemand" size="770,810" transparent="1" zPosition="5"/>
         <widget backgroundColor="bluette" name="List1PathSel" position="1115,170" size="770,50" zPosition="1"/>
         <widget backgroundColor="#202020" font="Regular;28" foregroundColor="#ffffff" noWrap="1" position="1115,170" render="Label" size="780,50" source="List1Path" valign="center"/>
-        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="45" PictureSize="35" backgroundColor="#404040" name="listr" position="1115,230" backgroundColorSelected="barColor" foregroundColor="#ffffff" scrollbarMode="showOnDemand" size="780,810" transparent="1" zPosition="5"/>
+        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="45" PictureSize="35" backgroundColor="#404040" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listr" position="1115,230" scrollbarMode="showOnDemand" size="780,810" transparent="1" zPosition="5"/>
         <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/arrow_left.svg" position="center,190" size="0,0"/>
-        <eLabel text="gCommander" position="840,170" size="240,50" font="Regular;28" halign="center" foregroundColor="ltbluette" backgroundColor="#00000000" transparent="1" zPosition="1"/>
+        <eLabel backgroundColor="#00000000" font="Regular;28" foregroundColor="ltbluette" halign="center" position="840,170" size="240,50" text="gCommander" transparent="1" zPosition="1"/>
         <ePixmap pixmap="skin_default/buttons/key_1.png" position="840,230" size="80,40"/>
         <eLabel backgroundColor="background" font="Regular;28" foregroundColor="#ffff00" position="930,230" size="140,37" text="del " transparent="1"/>
         <ePixmap pixmap="skin_default/buttons/key_2.png" position="840,290" size="80,40"/>
@@ -7791,55 +7753,34 @@
         <widget font="Regular;34" foregroundColor="#707070" name="artist" position="30,290" size="900,40" transparent="1" zPosition="10"/>
         <widget font="Regular;34" foregroundColor="#707070" name="genre" position="30,340" size="900,40" transparent="1" zPosition="10"/>
     </screen>
-    <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
-        <!-- Skin -->
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" title="MerlinMusicPlayerScreenSaver">
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0"/>
-        <!-- Round Cover 
- 	    	<widget mode="blendCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1430,70" size="375,375" transparent="1" zPosition="13" />
-    	    	<widget arcAngle="120" backgroundColor="#404040" channel="0" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms0" 
-    	    		pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
-    	    		pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient.png" pixmapBackgroundColor1="#46262626" 
-    	    		position="1400,40" size="435,435" smoothing="0.9" startAngle="120" transparent="1" zPosition="13" />
-    	    	<widget arcAngle="120" backgroundColor="#404040" channel="1" clockwise="0" distance="203" drawBackground="1" fadeOutTime="500" maxValue="25" mode="arc" name="rms1" 
-        		pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/kreis_48_48.png" 
-        		pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_down.png" pixmapBackgroundColor1="#46262626" 
-        		position="1400,40" size="435,435" smoothing="0.9" startAngle="300" transparent="1" zPosition="13" />
-    	    	-->
-        <!-- Cover -->
         <widget mode="cover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="1470,40" size="425,425" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="1450,20" size="465,465" zPosition="1"/>
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="1450,500" size="465,130" zPosition="1"/>
-        <!-- Album -->
-        <widget font="Regular;28" foregroundColor="#707070" name="album" position="1460,510" nowrap="1" size="465,40" transparent="1" zPosition="10"/>
-        <widget font="Regular;28" foregroundColor="#707070" name="artist" position="1460,550" nowrap="1" size="465,40" transparent="1" zPosition="10"/>
-        <widget font="Regular;28" foregroundColor="#707070" name="genre" position="1460,590" nowrap="1" size="465,40" transparent="1" zPosition="10"/>
-        <!-- Duration / Buffering -->
+        <widget font="Regular;28" foregroundColor="#707070" name="album" nowrap="1" position="1460,510" size="465,40" transparent="1" zPosition="10"/>
+        <widget font="Regular;28" foregroundColor="#707070" name="artist" nowrap="1" position="1460,550" size="465,40" transparent="1" zPosition="10"/>
+        <widget font="Regular;28" foregroundColor="#707070" name="genre" nowrap="1" position="1460,590" size="465,40" transparent="1" zPosition="10"/>
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="30,800" size="180,150" zPosition="1"/>
-        <widget font="Regular;36" foregroundColor="#ffffff" halign="center" valign="center" position="30,820" render="Label" size="180,50" source="session.CurrentService" transparent="1" zPosition="1">
+        <widget font="Regular;36" foregroundColor="#ffffff" halign="center" position="30,820" render="Label" size="180,50" source="session.CurrentService" transparent="1" valign="center" zPosition="1">
             <convert type="ServicePosition">Length</convert>
         </widget>
-        <widget backgroundColor="#FF000000" font="Regular;36" halign="center" valign="center" foregroundColor="yellow" name="buffering" position="30,820" size="180,50" transparent="1" zPosition="1"/>
+        <widget backgroundColor="#FF000000" font="Regular;36" foregroundColor="yellow" halign="center" name="buffering" position="30,820" size="180,50" transparent="1" valign="center" zPosition="1"/>
         <eLabel backgroundColor="#303030" blending="on" cornerRadius="0" position="40,880" size="160,5" zPosition="1"/>
-        <!-- Remaining -->
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="red" halign="center" valign="center" position="30,895" render="Label" size="180,50" source="session.CurrentService" transparent="1" zPosition="3">
+        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="red" halign="center" position="30,895" render="Label" size="180,50" source="session.CurrentService" transparent="1" valign="center" zPosition="3">
             <convert type="ServicePosition">Remaining</convert>
         </widget>
-        <!-- Title -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="220,800" size="1145,150" zPosition="1"/>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="ltbluette" name="title" nowrap="1" position="240,820" size="1105,50" transparent="1" halign="left" valign="center" zPosition="3"/>
-        <!-- Progress -->
+        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="ltbluette" halign="left" name="title" nowrap="1" position="240,820" size="1105,50" transparent="1" valign="center" zPosition="3"/>
         <widget backgroundColor="#404040" foregroundColor="ltbluette" position="240,880" render="Progress" size="1105,5" source="session.CurrentService" transparent="1" zPosition="3">
             <convert type="ServicePosition">Position</convert>
         </widget>
-        <!-- Next Title -->
         <widget backgroundColor="#000000" font="Regular;36" foregroundColor="#505050" name="nextTitle" nowrap="1" position="240,895" size="1105,40" transparent="1" zPosition="2"/>
-        <!-- Time -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="30,965" size="180,95" zPosition="1"/>
-        <widget backgroundColor="#000000" font="Regular;46" foregroundColor="ltbluette" halign="center" valign="center" position="40,965" render="Label" size="160,95" source="session.CurrentService" transparent="1" zPosition="1">
+        <widget backgroundColor="#000000" font="Regular;46" foregroundColor="ltbluette" halign="center" position="40,965" render="Label" size="160,95" source="session.CurrentService" transparent="1" valign="center" zPosition="1">
             <convert type="ServicePosition">Position</convert>
         </widget>
-        <!-- Player -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="220,965" size="500,95" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="340,987" size="245,60" transparent="1" zPosition="4"/>
         <widget alphatest="blend" name="dvrStatus" pixmaps="ZSkin-FHD/mmp/dvr_pl.png,ZSkin-FHD/mmp/dvr_pau.png" position="340,987" size="245,60" transparent="1" zPosition="5"/>
@@ -7847,7 +7788,6 @@
         <widget alphatest="blend" name="shuffle" pixmaps="ZSkin-FHD/mmp/dvr_shuf1.png,ZSkin-FHD/mmp/dvr_shuf2.png" position="590,970" size="95,95" transparent="1" zPosition="4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_info.png" position="740,970" scale="1" size="80,40" zPosition="2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="740,1020" scale="1" size="80,40" zPosition="2"/>
-        <!-- Buttons FF/RW -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="840,965" size="525,95" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_3.png" position="860,967" scale="1" size="40,30" zPosition="2"/>
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="green" halign="left" position="910,968" size="150,40" text="rw (+30s)" transparent="1"/>
@@ -7861,7 +7801,6 @@
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,998" size="150,40" text="rw (-1m)" transparent="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_7.png" position="1190,1027" scale="1" size="40,30" zPosition="2"/>
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,1028" size="150,40" text="rw (-5m)" transparent="1"/>
-        <!-- VuMeter -->
         <eLabel backgroundColor="#B0202020" blending="on" cornerRadius="20" position="1390,800" size="520,150" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vglass.png" position="1395,805" size="510,140" transparent="1" zPosition="10"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vmeter0.png" position="1400,810" size="247,155" transparent="1" zPosition="1"/>
@@ -7870,152 +7809,121 @@
         <widget backgroundColor="background" channel="1" clockwise="1" maxValue="150" mode="vumeter" name="rms1" pixmap1="ZSkin-FHD/mmp/needle2.png" position="1675,835" size="200,122" smoothing="0.92" startAngle="-63" transparent="1" vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/round.png" position="1499,923" size="40,15" transparent="1" zPosition="4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/round.png" position="1755,923" size="40,15" transparent="1" zPosition="4"/>
-        <!-- VuMeter Visu LCD/LED
-      		<eLabel backgroundColor="#202020" blending="on" cornerRadius="20" position="1390,800" size="520,150" zPosition="20" />
- 		<widget name="visu" position="1390,800" size="520,145" transparent="1" zPosition="21" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png"
-			distance1="12" threshold1="80" mode="visUp" internalSize="2" blendColor="ltbluette" smoothing="0.6" />
-		<widget name="visu" position="1390,800" size="520,150" transparent="1" zPosition="21" backgroundColor="#00000000" pixmapBackground2="ZSkin-FHD/mmp/colorgradient.png" 
-			pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue ="17" fadeOutTime="1600" 
-			internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6" />
-  		-->
-        <!-- RMS 0/1/2/3 
-       		<widget name="rms0" channel="0" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="1450,640" size="547,30" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" 
-       			smoothing="0.93" />
-		<widget name="rms1" channel="1" pixmap="ZSkin-FHD/mmp/mmpbar_rgb.png" zPosition="13" position="1450,670" size="547,30" transparent="1" borderWidth="0" mode="standardEnigmaSlider" maxValue="120" fadeOutTime="1600" 
-			smoothing="0.93" />
-		<widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="1390,950" size="495,70" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" 
-			mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1"
-			pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
-		<widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="1390,1000" size="495,70" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" 
-			mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1"
-			pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95" />
-    		-->
     </screen>
-    <!--MerlinMusicPlayer2SongList-->
-    <screen name="MerlinMusicPlayer2SongList" position="20,30" size="1340,750" backgroundColor="#ff000000" title="Songlist" flags="wfNoBorder">
-        <widget name="headertext" position="10,10" zPosition="1" size="1320,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="list" position="20,90" zPosition="2" size="1310,630" itemHeight="45" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColorSelection="white" foregroundColor="white"/>
+    <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2SongList" position="20,30" size="1340,750" title="Songlist">
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="10,10" size="1320,60" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="45" name="list" position="20,90" scrollbarMode="showOnDemand" size="1310,630" transparent="1" zPosition="2"/>
     </screen>
-    <!--MerlinMusicPlayer2TV-->
-    <screen name="MerlinMusicPlayer2TV" backgroundColor="#ff262626" flags="wfNoBorder" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
-        <!-- Skin -->
+    <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2TV" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0"/>
         <widget backgroundColor="#ff202020" name="video" position="0,0" size="1920,1080" zPosition="-3"/>
-        <widget name="infobar" position="0,800" size="1920,280" zPosition="-1" backgroundColor="#FF202020" cornerRadius="20" transparent="1"/>
-        <widget name="cover" backgroundColor="#16262626" position="20,810" size="255,255" transparent="1" mode="visRoundCover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" zPosition="3"/>
-        <widget name="display" position="290,810" size="1600,50" zPosition="2" valign="center" backgroundColor="#000000" font="Regular;32" foregroundColor="#fcc000" transparent="1"/>
-        <widget backgroundColor="#16262626" font="Regular;30" foregroundColor="yellow" position="1700,875" render="Label" size="200,45" source="global.CurrentTime" valign="center" halign="right" transparent="1" zPosition="2">
+        <widget backgroundColor="#FF202020" cornerRadius="20" name="infobar" position="0,800" size="1920,280" transparent="1" zPosition="-1"/>
+        <widget backgroundColor="#16262626" mode="visRoundCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="20,810" size="255,255" transparent="1" zPosition="3"/>
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#fcc000" name="display" position="290,810" size="1600,50" transparent="1" valign="center" zPosition="2"/>
+        <widget backgroundColor="#16262626" font="Regular;30" foregroundColor="yellow" halign="right" position="1700,875" render="Label" size="200,45" source="global.CurrentTime" transparent="1" valign="center" zPosition="2">
             <convert type="ClockToText">Default</convert>
         </widget>
-        <widget name="NowChannel" position="350,875" size="1620,50" zPosition="2" valign="center" backgroundColor="#16262626" font="Regular;38" foregroundColor="#00f0f0f0" transparent="1"/>
+        <widget backgroundColor="#16262626" font="Regular;38" foregroundColor="#00f0f0f0" name="NowChannel" position="350,875" size="1620,50" transparent="1" valign="center" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00f0f0f0" halign="left" name="NowEPG" position="350,950" size="1050,42" transparent="1" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00f0f0f0" halign="right" name="NowTime" position="1569,950" size="186,42" transparent="1" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00aaaaaa" halign="left" name="NextEPG" position="350,1010" size="1050,42" transparent="1" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00aaaaaa" halign="right" name="NextTime" position="1569,1010" size="186,42" transparent="1" zPosition="2"/>
     </screen>
-    <!--MerlinMusicPlayer2Video-->
-    <screen name="MerlinMusicPlayer2Video" backgroundColor="#ff262626" flags="wfNoBorder" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
+    <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2Video" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0"/>
         <widget backgroundColor="#ff202020" name="video" position="0,0" size="1920,1080" zPosition="-3"/>
-        <widget name="infobar" position="0,800" size="1920,280" zPosition="-1" backgroundColor="#FF202020" cornerRadius="20" transparent="1"/>
-        <widget name="cover" backgroundColor="#16262626" position="20,810" size="255,255" transparent="1" mode="visRoundCover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" zPosition="3"/>
-        <widget name="title" position="350,815" size="1550,82" zPosition="2" valign="top" backgroundColor="#16262626" font="Regular;36" foregroundColor="#fcc000" transparent="1"/>
-        <widget source="global.CurrentTime" backgroundColor="#16262626" font="Regular;32" foregroundColor="yellow" position="350,930" render="Label" size="250,45" valign="center" halign="left" transparent="1" zPosition="2">
+        <widget backgroundColor="#FF202020" cornerRadius="20" name="infobar" position="0,800" size="1920,280" transparent="1" zPosition="-1"/>
+        <widget backgroundColor="#16262626" mode="visRoundCover" name="cover" noCoverAvailablePic="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/no-cover.png" position="20,810" size="255,255" transparent="1" zPosition="3"/>
+        <widget backgroundColor="#16262626" font="Regular;36" foregroundColor="#fcc000" name="title" position="350,815" size="1550,82" transparent="1" valign="top" zPosition="2"/>
+        <widget backgroundColor="#16262626" font="Regular;32" foregroundColor="yellow" halign="left" position="350,930" render="Label" size="250,45" source="global.CurrentTime" transparent="1" valign="center" zPosition="2">
             <convert type="ClockToText">Default</convert>
         </widget>
-        <widget source="session.CurrentService" render="Label" position="650,930" size="250,45" font="Regular;32" halign="left" backgroundColor="#16262626" transparent="1">
+        <widget backgroundColor="#16262626" font="Regular;32" halign="left" position="650,930" render="Label" size="250,45" source="session.CurrentService" transparent="1">
             <convert type="ServicePosition">Position,ShowHours</convert>
         </widget>
-        <widget source="session.CurrentService" render="Label" position="950,930" size="250,45" font="Regular;32" halign="left" backgroundColor="#b0b0b0" transparent="1">
+        <widget backgroundColor="#b0b0b0" font="Regular;32" halign="left" position="950,930" render="Label" size="250,45" source="session.CurrentService" transparent="1">
             <convert type="ServicePosition">Length,ShowHours,HideZero</convert>
         </widget>
-        <widget name="next_title" position="350,1020" size="1550,42" halign="left" font="Regular;34" backgroundColor="#262626" transparent="1"/>
+        <widget backgroundColor="#262626" font="Regular;34" halign="left" name="next_title" position="350,1020" size="1550,42" transparent="1"/>
     </screen>
-    <!--MerlinMusicPlayer2MovieFileList-->
-    <screen name="MerlinMusicPlayer2MovieFileList" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#00000000" title="Merlin Music Player">
+    <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2MovieFileList" position="0,0" size="1920,1080" title="Merlin Music Player">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
             <convert type="ClockToText">Format:%-H:%M:%S</convert>
         </widget>
-        <widget name="headertext" position="20,10" zPosition="1" size="1450,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="list" position="20,90" zPosition="2" size="1450,850" itemHeight="50" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColorSelection="white" foregroundColor="white"/>
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="20,10" size="1450,60" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="50" name="list" position="20,90" scrollbarMode="showOnDemand" size="1450,850" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/icons/dmm_logo.png" position="20,1000" size="477,60" zPosition="2"/>
     </screen>
-    <!--MerlinMusicPlayer2DVBRadioSelection-->
-    <screen name="MerlinMusicPlayer2DVBRadioSelection" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#ff000000" title="Channel Selection">
-        <widget render="Label" source="Title" position="10,10" zPosition="1" size="1320,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="list" position="20,90" zPosition="2" size="1310,630" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#46262626" colorEventProgressbarBorder="#555555" colorEventProgressbarBorderSelected="#00aaaaaa" colorServiceDescription="#DBB96E" foregroundColorServiceNotAvail="#00656565" itemHeight="45" serviceInfoFont="Regular;30" serviceItemHeight="45" serviceNameFont="Regular;35" serviceNumberFont="Regular;35"/>
+    <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2DVBRadioSelection" position="0,0" size="1920,1080" title="Channel Selection">
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" padding="36,0" position="10,10" render="Label" size="1320,60" source="Title" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#46262626" colorEventProgressbarBorder="#555555" colorEventProgressbarBorderSelected="#00aaaaaa" colorServiceDescription="#DBB96E" foregroundColorServiceNotAvail="#00656565" itemHeight="45" name="list" position="20,90" scrollbarMode="showOnDemand" serviceInfoFont="Regular;30" serviceItemHeight="45" serviceNameFont="Regular;35" serviceNumberFont="Regular;35" size="1310,630" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_red.png" position="20,1010" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_red" position="110,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_red" position="110,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="110,1010" render="Label" size="210,40" source="key_red" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_red" position="110,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_green.png" position="350,990" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_green" position="440,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_green" position="440,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="440,1010" render="Label" size="210,40" source="key_green" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_green" position="440,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_yellow.png" position="700,990" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_yellow" position="790,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_yellow" position="790,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="790,1010" render="Label" size="210,40" source="key_yellow" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_yellow" position="790,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_blue.png" position="1010,990" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_blue" position="1100,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_blue" position="1100,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="1100,1010" render="Label" size="210,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_blue" position="1100,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
     </screen>
-    <!--MerlinMusicPlayer2FileList-->
-    <screen name="MerlinMusicPlayer2FileList" position="0,0" size="1920,1080" backgroundColor="#ff000000" title="Filelist" flags="wfNoBorder">
+    <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2FileList" position="0,0" size="1920,1080" title="Filelist">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
             <convert type="ClockToText">Format:%-H:%M:%S</convert>
         </widget>
-        <widget name="headertext" position="20,10" zPosition="1" size="1450,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="list" position="20,90" zPosition="2" size="1450,850" itemHeight="50" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColorSelection="white" foregroundColor="white"/>
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="20,10" size="1450,60" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="50" name="list" position="20,90" scrollbarMode="showOnDemand" size="1450,850" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/icons/dmm_logo.png" position="20,1000" size="477,60" zPosition="2"/>
     </screen>
-    <!--MerlinMusicPlayer2Lyrics-->
-    <screen name="MerlinMusicPlayer2Lyrics" position="20,30" size="1340,750" backgroundColor="#ff000000" title="Songlist" flags="wfNoBorder">
-        <widget name="headertext" position="10,10" zPosition="1" size="1320,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="resulttext" position="10,90" zPosition="1" size="1340,50" halign="center" valign="center" font="Regular;30" transparent="0" foregroundColor="ltbluette" backgroundColor="#46262626" cornerRadius="20"/>
-        <widget name="lyric_text" position="20,140" zPosition="1" size="1310,624" font="Regular;33" transparent="1" backgroundColor="#46262626"/>
+    <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2Lyrics" position="20,30" size="1340,750" title="Songlist">
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="10,10" size="1320,60" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#46262626" cornerRadius="20" font="Regular;30" foregroundColor="ltbluette" halign="center" name="resulttext" position="10,90" size="1340,50" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#46262626" font="Regular;33" name="lyric_text" position="20,140" size="1310,624" transparent="1" zPosition="1"/>
     </screen>
-    <!--MerlinMusicPlayer2Setup-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayer2Setup" position="0,0" size="1920,1080" title="Merlin Music Player Setup">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
-        <eLabel backgroundColor="#202020" font="Regular;36" foregroundColor="#fcc000" position="20,10" size="1450,60" text="Merlin MusicPlayer2 Setup" transparent="0" valign="center" padding="36,0" cornerRadius="20" zPosition="1"/>
+        <eLabel backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" padding="36,0" position="20,10" size="1450,60" text="Merlin MusicPlayer2 Setup" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
             <convert type="ClockToText">Format:%-H:%M:%S</convert>
         </widget>
-        <widget name="config" position="20,90" zPosition="2" size="1450,850" itemHeight="50" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColorSelection="white" foregroundColor="white"/>
+        <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="50" name="config" position="20,90" scrollbarMode="showOnDemand" size="1450,850" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_red.png" position="20,1010" size="80,40" zPosition="1"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" position="110,1010" render="Label" size="200,40" source="key_red" valign="center" transparent="1" zPosition="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" position="110,1010" render="Label" size="200,40" source="key_red" transparent="1" valign="center" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_green.png" position="350,1010" size="80,40" zPosition="1"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" position="440,1010" render="Label" size="200,40" source="key_green" valign="center" transparent="1" zPosition="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" position="440,1010" render="Label" size="200,40" source="key_green" transparent="1" valign="center" zPosition="1"/>
     </screen>
-    <!--iDream2-->
-    <screen name="iDream" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#FF000000" title="iDream">
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="iDream" position="0,0" size="1920,1080" title="iDream">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
             <convert type="ClockToText">Format:%-H:%M:%S</convert>
         </widget>
-        <widget name="headertext" position="20,10" zPosition="1" size="1450,60" font="Regular;36" transparent="0" valign="center" foregroundColor="#fcc000" backgroundColor="#202020" padding="36,0" cornerRadius="20"/>
-        <widget name="list" position="20,90" zPosition="2" size="1450,840" itemHeight="50" scrollbarMode="showOnDemand" transparent="1" backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColorSelection="white" foregroundColor="white"/>
+        <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="20,10" size="1450,60" transparent="0" valign="center" zPosition="1"/>
+        <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="50" name="list" position="20,90" scrollbarMode="showOnDemand" size="1450,840" transparent="1" zPosition="2"/>
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_red.png" position="20,1010" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_red" position="110,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_red" position="110,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="110,1010" render="Label" size="210,40" source="key_red" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_red" position="110,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_green.png" position="350,1010" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_green" position="440,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_green" position="440,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="440,1010" render="Label" size="210,40" source="key_green" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_green" position="440,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_yellow.png" position="700,1010" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_yellow" position="790,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_yellow" position="790,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="790,1010" render="Label" size="210,40" source="key_yellow" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_yellow" position="790,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_blue.png" position="1010,1010" size="80,40" zPosition="1"/>
-        <widget render="Label" source="key_blue" position="1100,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
-        <widget name="key_blue" position="1100,1010" size="210,40" zPosition="5" valign="center" halign="left" backgroundColor="#000000" font="Regular;32" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" position="1100,1010" render="Label" size="210,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_blue" position="1100,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
     </screen>
-    <!--SelectPath1-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="SelectPath" position="0,0" size="1920,1080" title="Select Path">
         <eLabel backgroundColor="#00000000" font="main;80" foregroundColor="ltbluette" position="20,10" size="1200,110" text="MMP  Path Select" transparent="1" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
@@ -8032,7 +7940,6 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" name="target" position="250,1180" size="1400,40" transparent="1" verticalAlignment="center"/>
     </screen>
-    <!--iDreamMerlin1-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="iDreamMerlin" position="0,0" size="1920,1080" title="iDream">
         <widget backgroundColor="#00000000" font="main;80" foregroundColor="ltbluette" name="headertext" position="20,10" size="1200,110" transparent="1" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
@@ -8051,7 +7958,6 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/key_blue.png" position="550,1025" size="30,30" zPosition="1"/>
         <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="600,1020" render="Label" size="300,40" source="key_blue" transparent="1" valign="center" zPosition="2"/>
     </screen>
-    <!--iDream1AddToDatabase-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="iDreamAddToDatabase" position="0,0" size="1920,1080" title="Create iDream DB">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1180,30" render="Label" size="720,50" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -8066,7 +7972,6 @@
         <eLabel backgroundColor="#202020" position="20,930" size="1460,3"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
     </screen>
-    <!--MerlinMusicPlayer1Lyrics-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayerLyrics" position="0,0" size="1920,1080" title="Music Player Lyrics">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1180,30" render="Label" size="720,50" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -8080,12 +7985,10 @@
         <eLabel backgroundColor="#202020" position="20,950" size="1460,2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
     </screen>
-    <!--MerlinMusicPlayer1TV-->
     <screen backgroundColor="transparent" flags="wfNoBorder" name="MerlinMusicPlayerTV" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
         <widget backgroundColor="#FF000000" name="video" position="0,0" size="1920,1080" zPosition="1"/>
         <widget backgroundColor="#33000000" font="Regular;34" foregroundColor="ltbluette" halign="center" name="display" position="0,1000" size="1920,80" valign="center" zPosition="2"/>
     </screen>
-    <!--MerlinMusicPlayer1ScreenSaver-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayerScreenSaver" position="0,0" size="1920,1080" title="MerlinMusicPlayerScreenSaver">
         <widget name="coverArt" pixmap="ZSkin-FHD/mmp/mplogo.png" position="0,0" size="500,267"/>
         <widget backgroundColor="#000000" font="Regular;28" foregroundColor="yellow" halign="center" name="display" position="0,60" size="500,100" zPosition="1"/>

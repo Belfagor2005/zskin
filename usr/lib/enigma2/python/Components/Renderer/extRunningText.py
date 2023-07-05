@@ -45,8 +45,8 @@ RIGHT = 1
 TOP = 2
 BOTTOM = 3
 # halign:
-# LEFT     = 0
-# RIGHT    = 1
+# LEFT = 0
+# RIGHT = 1
 CENTER = 2
 BLOCK = 3
 
@@ -58,7 +58,7 @@ class extRunningText(Renderer):
         self.txfont = gFont("Regular", 14)
         self.soffset = (0, 0)
         self.txtflags = 0
-        self.txtext = ""
+        self.txtext = " "
         self.scroll_label = self.__timer = self.mStartPoint = None
         self.X = self.Y = self.W = self.H = self.mStartDelay = 0
         self.mAlways = 0  # always move text
@@ -139,7 +139,7 @@ class extRunningText(Renderer):
                 elif attrib == "options":
                     options = value.split(',')
                     for o in options:
-                        if o.find('=') != -1:
+                        if '=' in o:
                             opt, val = (x.strip() for x in o.split('=', 1))
                         else:
                             opt, val = o.strip(), ""
@@ -237,9 +237,9 @@ class extRunningText(Renderer):
         if not (self.txtflags & RT_WRAP):
             self.txtext = self.txtext.replace("\xe0\x8a", " ").replace(chr(0x8A), " ").replace("\n", " ").replace("\r", " ")
 
-        self.scroll_label.setText(self.txtext)
+        self.scroll_label.setText(str(self.txtext))
 
-        if self.txtext == "" or \
+        if self.txtext == " " or \
            self.type == NONE or \
            self.scroll_label is None:
             return False
