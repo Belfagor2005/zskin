@@ -824,7 +824,7 @@
 			<ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/sib1.png" position="0,0" size="1920,800" zPosition="-1" />
 			<eLabel backgroundColor="#05000000" position="22,22" size="276,395" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="25,25" size="270,389" />
-			<widget position="30,30" render="ZInfoPoster" size="260,379" source="session.Event_Now" zPosition="1" />
+			<widget position="30,30" render="ZChannel" size="260,379" source="session.Event_Now" zPosition="1" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="25,25" size="270,390" zPosition="6" />
 			<eLabel backgroundColor="#000000" font="Regular;32" halign="left" position="310,25" size="140,50" text="NOW : " transparent="1" valign="center" zPosition="2" />
 			<widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="425,25" render="Label" size="140,50" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
@@ -848,7 +848,7 @@
 			</widget>
 			<eLabel backgroundColor="#05000000" position="965,22" size="276,395" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="968,25" size="270,389" />
-			<widget alphatest="blend" position="973,30" render="ZInfoPoster" size="260,379" source="session.Event_Next" zPosition="1" />
+			<widget alphatest="blend" position="973,30" render="ZChannel" size="260,379" source="session.Event_Next" zPosition="1" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="973,25" size="270,390" zPosition="6" />
 			<eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="1255,25" size="140,50" text="NEXT :" transparent="1" valign="center" zPosition="2" />
 			<widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" halign="left" position="1370,25" render="Label" size="140,50" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
@@ -1097,18 +1097,6 @@
 			<widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="left" position="1370,325" render="Label" size="540,380" source="ServiceEvent" transparent="1" zPosition="2">
 			    <convert type="EventName">Description</convert>
 			</widget>
-<!--             
-            <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" zPosition="4"/>
-            <widget alphatest="blend" position="1090,302" render="ZChannel" size="270,395" source="ServiceEvent" zPosition="5"/>
-            <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="1090,302" size="270,395" zPosition="6"/>
-            <widget backgroundColor="#000000" font="Regular;24" foregroundColor="yellow" halign="left" nowrap="1" position="1090,700" render="ZEvent" size="820,135" source="ServiceEvent" transparent="1" valign="center" zPosition="9"/>
-            <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1370,300" size="200,20" transparent="1" zPosition="2"/>
-            <widget pixmap="ZSkin-FHD/icons/star.png" position="1370,300" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
-            <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="left" position="1370,325" render="Label" size="540,380" source="ServiceEvent" transparent="1" zPosition="2">
-                <convert type="EventName">Description</convert>
-            </widget>
-             -->
-            
 			<eLabel backgroundColor="trbluette" position="1070,880" size="860,195" zPosition="-2" />
 			<eLabel backgroundColor="#20101010" position="1730,850" size="170,60" zPosition="-2" />
 			<eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#20ffffff" halign="center" position="1730,850" size="170,60" text="N E X T" transparent="1" valign="center" zPosition="1" />
@@ -1449,7 +1437,7 @@
 			<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5" />
 			<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="220,137" size="218,320" zPosition="4" />
-			<widget position="220,150" render="ZInfoPoster" size="213,310" source="session.Event_Now" zPosition="5" />
+			<widget position="220,150" render="ZChannel" size="213,310" source="session.Event_Now" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="220,132" size="218,350" zPosition="6" />
 			<widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5" />
 			<widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5" />

@@ -1,0 +1,1275 @@
+<skin>
+	<!--
+	############ DE-FHD_ v.1.3.0 ##################
+	#                                             #
+	#    Version 1.3.0 released		25-10-2018    #
+	#                                             #
+	###############################################
+	-->
+	<!--  +++  Skin DE-FHD 1.3 by mmark  +++
+	      no unauthorized use or mods unless 
+	      prior approval of Dream-Elite Team
+	         http://www.dream-elite.net
+	-->
+
+	<!-- ***** DREAM ELITE TEAM 12/03/2020 ***** -->
+	
+	<!-- DE panel FHD --> 
+	<screen name="DEPanel" position="0,0" size="2560,1440" title="Dream-Elite Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code -->
+		<widget name="info" position="294,207" size="1374,67" font="Regular;39" halign="left" valign="center" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="5" />
+		<widget source="panel" render="Listbox" position="294,294" size="1374,934" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="5" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (240, 2), size = (1160, 47), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (240, 47), size = (1160, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (200, 88), png = 2),
+								],
+				"fonts": [gFont("Regular", 40), gFont("Regular", 35)],
+				"itemHeight": 94
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1314" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png" position="294,1340"  size="40,40" alphatest="on" zPosition="5" />
+		<widget name="key_blue"  render="Label" position="360,1334" size="400,54" font="Regular;40" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" zPosition="5"  />
+		<!-- eLabel name="DEBUG" text="DE01" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Addons Panel FHD -->
+	<screen name="Addon_Menu" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code -->
+		<widget name="info" position="294,207" size="1374,67" font="Regular;39" halign="left" valign="center" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="5" />
+		<widget source="menu" render="Listbox" position="294,294" size="1374,880" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="5" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (240, 2), size = (1160, 47), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (240, 47), size = (1160, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (200, 88), png = 2),
+								],
+				"fonts": [gFont("Regular", 40), gFont("Regular", 35)],
+				"itemHeight": 94
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1107,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE02" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+        <!-- DE Manager -->
+	<screen name="DEManager" position="0,0" size="2560,1440" title="DE Manager" backgroundColor="#FF000000" flags="wfNoBorder">
+ 		<widget source="Title" render="Label" position="294,27" size="1734,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1907,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="2214,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1974,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="2223,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code -->
+		<ePixmap position="294,207" pixmap="ZSkin-UHD/icons/smartcard.png" size="214,134" blend="blend" zPosition="5" />
+		<widget source="emulist" render="Listbox" position="560,207" size="1640,160" scrollbarMode="showOnDemand" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+					MultiContentEntryText(pos = (174, 0), size = (1334, 80), font=0, flags = RT_HALIGN_LEFT|RT_VALIGN_CENTER, text = 0), # index 0 is the emu name
+					MultiContentEntryPixmapAlphaTest(pos = (0, 11),   size = (134, 60), png = 1), # index 1 is the type and ON/OFF pixmap 
+					MultiContentEntryPixmapAlphaTest(pos = (1494, 11), size = (134, 60), png = 2), # index 2 is the emu isBoot pixmap
+					MultiContentEntryPixmapAlphaTest(pos = (0, 79), size = (1640, 2),   png = 3), # index 3 is the div pixmap
+					],
+					"fonts": [gFont("Regular", 48),gFont("Regular", 40)],
+					"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="1374,214" size="667,67" font="Regular;48" halign="right" valign="center" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="6" >
+			<convert type="DEEcmInfo">Crypt</convert>
+		</widget> 
+		<!-- Connection -->
+		<ePixmap position="560,387" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" zPosition="6" />
+		<!-- Panel SatType -->
+		<widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-UHD/icons/scan-s.png" position="294,427" size="214,214" scale="aspect"  zPosition="5" blend="on" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">0,0</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-UHD/icons/scan-t.png" position="294,427" size="214,214" scale="aspect" zPosition="5" blend="on" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">2,2</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-UHD/icons/scan-c.png" position="294,427" size="214,214" scale="aspect"  zPosition="5" blend="on" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">1,1</convert>
+			<convert type="ConditionalShowHide" />
+		</widget> 
+		<!-- DEVICE Info -->
+		<widget source="session.FrontendInfo" render="FixedLabel" text="DVB-SATELLITE" position="560,420" size="734,67" font="Regular; 46" foregroundColor="yellow" backgroundColor="#10000000" transparent="1" zPosition="5" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">0,0</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.FrontendInfo" render="FixedLabel" text="DVB-CABLE" position="560,420" size="734,67" font="Regular; 46" foregroundColor="yellow" backgroundColor="#10000000" transparent="1" zPosition="5" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">1,1</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.FrontendInfo" render="FixedLabel" text="DVB-TERRESTRIAL" position="560,420" size="667,67" font="Regular; 46" foregroundColor="yellow" backgroundColor="#10000000" transparent="1" zPosition="5" >
+			<convert type="FrontendInfo">TYPE</convert>
+			<convert type="ValueRange">2,2</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<eLabel name="SNR"  text="SNR :" position="1134,420" size="160,54" halign="left" font="Regular;40" foregroundColor="ltbluette" backgroundColor="#10000000" transparent="1" zPosition="5" />
+		<widget source="session.FrontendStatus" render="Label" position="1267,420" size="267,54" font="Regular;40" halign="left" foregroundColor="#ffffff" backgroundColor="#10000000" transparent="1" zPosition="5">
+			<convert type="FrontendInfo">SNR</convert>
+		</widget>
+		<widget render="Label" source="session.FrontendStatus" position="1400,420" size="800,54" font="Regular;40" halign="right" foregroundColor="ltbluette" backgroundColor="#404040" transparent="1" zPosition="5" >
+			<convert type="FrontendInfo">SNRdB</convert> selectionPixmap="ZSkin-UHD/icons/sliderb.png"
+		</widget>
+		<widget source="session.FrontendStatus" render="Progress" position="1134,467" size="1067,11" borderWidth="3" backgroundColor="blue" foregroundColor="ltbluette" borderColor="blue" zPosition="5" >
+			<convert type="FrontendInfo">SNR</convert>
+		</widget>
+		<!-- Crypt icon (encrypted service?) --> 1040
+		<ePixmap pixmap="ZSkin-UHD/icons/ico_crypt_off.png" position="560,534" size="134,60" zPosition="5" blend="blend" />
+		<widget source="session.CurrentService" render="Pixmap" pixmap="ZSkin-UHD/icons/ico_crypt_on.png" position="560,534" size="134,60" zPosition="5" blend="blend">
+			<convert type="ServiceInfo">IsCrypted</convert>
+			<convert type="ConditionalShowHide" />
+		</widget>
+		<widget source="session.CurrentService" render="Label" position="720,527" size="1067,67" font="Regular;46" halign="left" backgroundColor="header" foregroundColor="#ffffff" transparent="1" zPosition="5" >
+			<convert type="ServiceName">Name</convert>
+		</widget> 
+         	<!-- Provider -->
+		<widget source="session.CurrentService" render="Label" position="1127,527" size="1067,67" font="Regular;46" halign="right" backgroundColor="header" foregroundColor="yellow" transparent="1" zPosition="5" >
+			<convert type="ServiceName">Provider</convert>
+		</widget>
+		<!-- ID Provider -->
+		<widget source="session.CurrentService" render="Label" position="720,607" size="267,54" font="Regular; 38" halign="left" foregroundColor="white" backgroundColor="header" transparent="1" zPosition="5" >
+			<convert type="DEEcmInfo">Pid</convert>
+		</widget>
+        	<widget source="session.CurrentService" render="Label" position="1134,607" size="867,54" font="Regular;38" halign="left" backgroundColor="header" foregroundColor="ltbluette" transparent="1" zPosition="5" >
+            		<convert type="extServiceName2">%F %p %Y %f %b %M %s  %O</convert>
+		</widget>
+		<ePixmap position="560,680" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" zPosition="6" />
+		<ePixmap position="294,747" pixmap="ZSkin-UHD/icons/lan.png" size="267,174" scale="strech" blend="blend" zPosition="5" />
+		<widget source="session.CurrentService" render="Label" position="560,734" size="1600,67" font="Regular;54" halign="left" valign="top" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="5" >
+			<convert type="DEEcmInfo">ReaderAddress</convert>
+		</widget> 
+		<!-- Ecm Info -->
+		<ePixmap position="560,840" pixmap="ZSkin-UHD/icons/itimer.png" size="54,54" blend="blend" zPosition="5" />
+		<widget source="session.CurrentService" render="Label" position="640,840" size="267,54" font="Regular; 54" halign="left" foregroundColor="#ffffff" backgroundColor="header" transparent="1" zPosition="5" >
+			<convert type="DEEcmInfo">EcmTime,Poll,5</convert>
+		</widget>
+		<eLabel text="@" position="934,840" size="67,80" font="Regular;54" foregroundColor="ltbluette" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget source="session.CurrentService" render="Label" position="1000,840" size="134,67" font="Regular; 54" halign="left" foregroundColor="red" backgroundColor="header" transparent="1" zPosition="5" >
+			<convert type="DEEcmInfo">Hops,Poll,5</convert>
+		</widget> 
+		<!-- Emu Info -->
+		<widget name="emuInfo" position="560,867" size="1867,294" font="Regular;38" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="6" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1907,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="2160,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="2160,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source ="key_red"     render="Label" position="360,1254"   size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"    render="Label" position="360,1334"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_yellow"   render="Label" position="1734,1254"  size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE03" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+ 	</screen>
+	
+	<!-- DE EPG FHD -->
+	<screen name="DreamEliteEPG" position="0,0" size="2560,1440" title="Dream-Elite EPG" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+  		<widget name="config" position="294,207" size="1374,400" itemHeight="67" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" zPosition="5"	
+  			enableWrapAround="1" transparent="1" />
+		<widget name="statusbar" position="294,1040" size="1080,67" font="Regular;54" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="5"/>
+		<widget name="status"    position="294,1134" size="1080,67" font="Regular;54" foregroundColor="white"     backgroundColor="header" transparent="1" zPosition="5"/>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1627,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1627,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="key_red"    position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget name="key_green"  position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget name="key_blue"   position="1200,1334" size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget name="key_yellow" position="1200,1254"  size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE04" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000" /-->
+	</screen>
+
+	<!-- DE DVB-USB Panel FHD -->
+	<screen name="DVBPanel" position="0,0" size="2560,1440" title="Dream-Elite DVB-USB Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<eLabel text="Select DVB-USB Tuner:" position="294,207" size="1374,67" foregroundColor="yellow" backgroundColor="#202020" font="Regular;40" halign="center" valign="center" transparent="0" zPosition="5" />
+		<!-- Code --> 
+  		<widget name="menu" position="294,307" size="1374,867" itemHeight="67" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" zPosition="5"	
+  			enableWrapAround="1" transparent="1" />
+		<widget name="Preview"  position="1094,774" size="560,427" zPosition="5" backgroundColor="background" transparent="0" blend="on" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1627,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<widget name="key_red"    position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget name="key_green"  position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget name="key_yellow" position="1200,1254"  size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="Model" render="Label" position="1000,1334" size="667,54" font="Regular;40" transparent="1" halign="right" backgroundColor="header" foregroundColor="yellow" zPosition="5" >
+		    <convert type="DreamboxModel" />
+		</widget>
+		<!-- eLabel name="DEBUG" text="DE05" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000" /-->
+	</screen>
+	
+	<!-- DE Dreamy Setup FHD  -->
+	<screen name="EliteSetup" title="Elite Skin Setup" position="0,0" size="2560,1440" backgroundColor="transparent" flags="wfNoBorder">
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<eLabel text="Select DVB-USB Tuner:" position="294,207" size="1374,67" foregroundColor="yellow" backgroundColor="#202020" font="Regular;40" halign="center" valign="center" transparent="0" zPosition="5" />
+		<!-- Code --> 
+  		<widget name="config" position="294,287" size="1374,867" itemHeight="67" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" zPosition="5"	
+  			enableWrapAround="1" transparent="1" />
+		<eLabel position="1760,867" size="734,427" backgroundColor="bluette" zPosition="5" />
+		<eLabel position="1767,874" size="720,414" backgroundColor="header" zPosition="5" />
+		<eLabel position="1780,887" size="694,394" backgroundColor="#FFFFFFFF" zPosition="5" />
+		<widget name="Preview" position="1787,884" size="680,399" backgroundColor="header" blend="on" zPosition="6" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1627,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"  render="Label"  position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green" render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_yellow" render="Label" position="1200,1254"  size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE06" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE PiconLoader -->
+	<screen name="DEPiconLoader" position="0,0" size="2560,1440" backgroundColor="transparent" flags="wfNoBorder">
+ 		<widget source="Title" render="Label" position="294,27" size="1867,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1907,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="2214,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1974,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="2223,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+        	<widget font="Regular;39" name="piconpath"      position="294,207" size="400,67" halign="left" valign="center" foregroundColor="ltbluette" backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget font="Regular;39" name="piconpath2"     position="667,207" size="800,67" halign="left" valign="center" foregroundColor="white"    backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<eLabel backgroundColor="#202020"               position="294,267" size="1307,3" zPosition="5"/>
+        	<widget font="Regular;35" name="name_label"     position="314,287" size="267,67" halign="left" valign="center" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="5"/>
+        	<widget font="Regular;35" name="size_label"     position="507,287" size="267,67" halign="left" valign="center" foregroundColor="white" backgroundColor="header" transparent="1" zPosition="5"/>
+        	<widget font="Regular;35" name="bit_label"      position="774,287" size="267,67" halign="left" valign="center" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="5"/>
+		<widget font="Regular;35" name="creator_label"  position="960,287" size="267,67" halign="left" valign="center" foregroundColor="white" backgroundColor="header" transparent="1" zPosition="5"/>
+        	<eLabel backgroundColor="#202020"               position="294,354" size="1307,3" zPosition="5"/>
+		<widget name="list"                             position="294,387" size="1307,800" itemHeight="54" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" enableWrapAround="1" transparent="1" zPosition="5" />
+		<widget name="picon_preview"                    position="1640,227" size="556,334" backgroundColor="header" zPosition="5" />
+        	<widget font="Regular;39" name="space_label"    position="1640,600" size="560,107" halign="left" valign="center" foregroundColor="ltbluette" backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget font="Regular;39" name="count_label"    position="1640,734" size="560,107" halign="left" valign="center" foregroundColor="white"     backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget font="Regular;39" name="download_label" position="1640,867" size="560,67" halign="left" valign="center" foregroundColor="yellow"    backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget font="Regular;39" name="error_label"    position="1640,934" size="560,67" halign="left" valign="center" foregroundColor="white"     backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget name="slider_label"                     position="1640,1080" size="560,67" font="Regular;40" halign="left" valign="center" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="5"/>
+        	<widget name="slider"                           position="1640,1147" size="560,16" borderColor="#404040" backgroundColor="#202020" borderWidth="3" zPosition="5" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1907,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="2160,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="2160,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_blue"   render="Label" position="1734,1334" size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_yellow" render="Label" position="1734,1254"  size="400,54" zPosition="5" font="Regular;40" halign="right" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE06" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE Boot Panel -->
+	<screen name="DEBootPanel" position="0,0" size="2560,1440" title="Dream-Elite Boot Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="bootpanel" render="Listbox" position="294,207" size="1374,880" zPosition="5" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE07" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Boot Preview -->
+	<screen name="Bootlogo" position="0,0" size="2560,1440" title="Dream-Elite Boot Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1107,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1414,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1174,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1423,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget name="boot" position="294,207" size="1107,600" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" enableWrapAround="1" transparent="1" zPosition="5" />
+		<eLabel position="387,767" size="920,524" backgroundColor="bluette" zPosition="5" />
+		<widget name="Preview" position="394,774" size="907,511" backgroundColor="header" zPosition="6" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1314" size="1107,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="7" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="7" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="7" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE08" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE BootVideo Preview -->
+	<screen name="Bootvideo" position="0,0" size="2560,1440" title="Dream-Elite Boot Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1107,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1414,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1174,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1423,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget name="video" position="294,207" size="1107,600" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" enableWrapAround="1" transparent="1" zPosition="5" />
+		<eLabel position="387,767" size="920,524" backgroundColor="bluette" zPosition="5" />
+		<widget name="Preview" position="394,774" size="907,511" backgroundColor="header" zPosition="6" />
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1314" size="1107,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="7" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="7" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="7" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE09" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE Addons Panel FHD -->
+	<screen name="Addon_Menu" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="menu" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="bootpanel" render="Listbox" position="294,207" size="1374,880" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE10" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE Utility FHD -->
+	<screen name="Utility_Panel" position="0,0" size="2560,1440" title="Dream-Elite Utility Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="util" render="Listbox" position="294,207" size="1374,880" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE11" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Sccript Executer FHD -->
+	<screen name="Script_Executer" position="0,0" size="2560,1440" title="Dream-Elite Utility Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="294,207" size="1374,67" font="Regular;40"  backgroundColor="#202020" foregroundColor="yellow" transparent="1" zPosition="5" />
+		<widget source="scriptlist" render="Listbox" position="294,294" size="1374,880" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (87, 14), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 1),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1300" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="7" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="7" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="7" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE11" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+  	<!-- DE Settings FHD --> 
+	<screen name="Settings" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="setting" render="Listbox" position="294,207" size="1374,880" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="5" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE12" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Cyrus Settings -->
+	<screen name="MenuCyrusSettingE2" position="0,0" size="2560,1440" title="Cyrus Settings v1.1" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Antenna:" position="307,207"  size="187,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Name:"    position="667,207"  size="134,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Date:"    position="1387,207" size="134,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="187,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="654,287" size="940,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dataDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+	</screen>
+	
+	<!-- DE Cyrus Settings -->
+	<screen name="Menu_Select" position="0,0" size="2560,1440" title="Cyrus Settings v1.1" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Bouquet selected:" position="307,207"  size="520,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Choose Bouquet:"   position="987,207"  size="934,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="1640,587" font="Regular;40" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="520,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="987,287" size="940,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dataDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+	</screen>
+
+	<!-- DE GioppyGio Settings-->
+	<screen name="MenuGio" position="0,0" size="2560,1440" title="GioppyGio Settings v2.4" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Antenna:" position="307,207"  size="520,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Name:"    position="867,207"  size="400,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Date:"    position="1487,207" size="400,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="1640,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="520,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="840,287" size="934,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dateDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+	</screen>
+
+	<!-- DE GioppyGio Settings-->
+	<screen name="MenuSelect_Gio" position="0,0" size="2560,1440" title="GioppyGio Settings v2.4" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Bouquet selected:" position="307,207"  size="520,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Choose Bouquet:"   position="987,207"  size="934,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="1640,587" font="Regular;40" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="520,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="987,287" size="940,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dateDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+		<!--widget position="387,587" size="547,42" name="data"     font="Regular;27" halign="left" foregroundColor="#808080" backgroundColor="#101010" transparent="1" zPosition="3" /-->	
+	</screen>
+  
+	<!-- DE VHannibal Autosettings -->
+	<screen name="MenuvHannibalSettingE2" position="0,0" size="2560,1440" title="vHannibal Settings v1.5" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Antenna:" position="307,207"  size="187,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Name:"    position="667,207"  size="134,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Date:"    position="1387,207" size="134,67"  font="Regular;46" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="187,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="654,287" size="940,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dataDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+	</screen>
+
+	<!-- DE VHannibal Autosettings -->
+	<screen name="MenuSelect" position="0,0" size="2560,1440" title="vHannibal Settings v1.5" backgroundColor="#FF000000" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1640,11"    pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"   size="1947,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"   size="1707,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"   size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1956,0"  size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"     size="1774,1440" pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Header -->
+		<eLabel                 position="294,207"  size="1640,67" backgroundColor="#202020" transparent="0" zPosition="5"  />
+		<eLabel text="Bouquet selected:" position="307,207"  size="520,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<eLabel text="Choose Bouquet:"   position="987,207"  size="934,67"  font="Regular;43" backgroundColor="#202020" foregroundColor="#ffffff" transparent="0" zPosition="5"  />
+		<!-- Info -->
+		<widget name="text"     position="294,287" size="1640,587" font="Regular;40" halign="left" foregroundColor="#808080" backgroundColor="#202020" transparent="1" zPosition="5" />			
+		<!-- Lists -->
+		<widget name="A"        position="294,287" size="520,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			                scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="5" />
+		<widget name="B"        position="987,287" size="940,667" scrollbarMode="showNever" enableWrapAround="1" transparent="1" zPosition="5" foregroundColor="#5dafff" 
+			                foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" selectionPixmap="ZSkin-UHD/icons/sliderb.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget name="Key_Green" position="294,1080" size="400,54" font="Regular;40" halign="left" foregroundColor="#ffffff"   backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="namesat"   position="740,1080" size="667,54" font="Regular;40" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="5" />
+		<widget name="dataDow"   position="294,1147" size="814,54" font="Regular;40" halign="left" foregroundColor="yellow"    backgroundColor="#101010" transparent="1" zPosition="5" />	
+		<ePixmap position="294,1214" size="1640,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_yellow.png" position="1894,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_blue.png"   position="1894,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget name="Key_Personal" position="1467,1254"  size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<widget name="autotimer"    position="1467,1334" size="400,54" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5" />
+		<eLabel text="Exit"         position="360,1254"   size="400,54" font="Regular;40" halign="left"  valign="center" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" zPosition="5"  />
+		<widget name="Key_Red" position="0,0" size="0,0" />
+		<widget name="Green"   position="0,0" pixmap="DE-FHD/buttons/key_green.png" size="0,0" />
+		<widget name="Blue"    position="0,0" pixmap="DE-FHD/buttons/key_blue.png"  size="0,0" />
+	</screen>
+  
+  	<!-- DE Settings Matze -->
+	<screen name="MatzeMenu" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="matze" render="Listbox" position="294,207" size="1374,880" zPosition="5" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1000 -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE12" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+		
+  	<!-- DE Settings Matze -->
+	<screen name="MatzeSat" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="matze" render="Listbox" position="294,207" size="1374,960" zPosition="5" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (187, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (187, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 7), size = (167, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE13" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Plugins FHD --> 
+	<screen name="Plugins" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="plugin" render="Listbox" position="294,207" size="1374,960" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+						MultiContentEntryText(pos = (87, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+						MultiContentEntryText(pos = (87, 42), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+						MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+						],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE14" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Skins FHD -->
+	<screen name="Skins" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="skin" render="Listbox" position="294,207" size="1374,960" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (87, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (87, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE15" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Soft Menu FHD -->
+	<screen name="SoftMenu" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="softcam" render="Listbox" position="294,207" size="1374,960" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (87, 14), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 1),
+								],
+				"fonts": [gFont("Regular", 38)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors -->
+		<ePixmap position="294,1274" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap position="294,1294" size="1000,94" pixmap="ZSkin-UHD/menu/panels/nameteam.png" blend="blend" zPosition="5" />
+		<!-- eLabel name="DEBUG" text="DE16" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftOS  -->
+	<screen name="SoftOS" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="osc" render="Listbox" position="294,207" size="1374,960" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (87, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (87, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE17" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftCC  -->
+	<screen name="SoftCC" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="ccc" render="Listbox" position="294,207" size="1374,960" selectionPixmap="ZSkin-UHD/icons/sliderb.png" scrollbarMode="showOnDemand" transparent="1" zPosition="6">
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 42), size = (1294, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE18" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftGB  -->
+	<screen name="SoftGB" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="gbo" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 42), size = (1294, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE19" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftNC  -->
+	<screen name="SoftNC" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="nca" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 44), size = (1294, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE20" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftGC  -->
+	<screen name="SoftGC" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="gca" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 44), size = (1294, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE21" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+		
+	<!-- DE SoftSC  -->
+	<screen name="SoftSC" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="sca" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" selectionPixmap="ZSkin-UHD/icons/sliderb.png" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (87, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (87, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE22" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE SoftConf  -->
+	<screen name="SoftConf" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="softconf" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (1294, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 44), size = (1294, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE23" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE Soft Tools -->
+	<screen name="SoftTools" position="0,0" size="2560,1440" title="Dream-Elite Addon Panel" backgroundColor="#FF000000" flags="wfNoBorder" >
+ 		<widget source="Title" render="Label" position="294,27" size="1467,134" font="main;102" halign="left" valign="center" foregroundColor="#808060" backgroundColor="header" transparent="1" zPosition="5" />
+		<ePixmap position="294,174" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<eLabel  position="134,0"  size="1680,1440" backgroundColor="#60000000" zPosition="1" />
+		<ePixmap position="254,0"  size="1440,1440" pixmap="ZSkin-UHD/menu/panels/fulltop.png"  blend="blend" scale="stretch" zPosition="3" />
+		<ePixmap position="254,0"  size="4,1440"    pixmap="ZSkin-UHD/menu/panels/b-left.png"   blend="blend" zPosition="5" />
+		<ePixmap position="1690,0" size="110,1440"   pixmap="ZSkin-UHD/menu/panels/sh-right.png" blend="blend" zPosition="5" />
+		<ePixmap position="0,0"   size="1774,1440"  pixmap="ZSkin-UHD/bigbak/setmain.png"  blend="blend" zPosition="2" />
+		<!-- Code --> 
+		<widget name="info" position="0,0" size="0,0" font="Regular;0" />
+		<widget source="tools" render="Listbox" position="294,207" size="1374,960" scrollbarMode="showOnDemand" transparent="1" zPosition="6" >
+			<convert type="TemplatedMultiContent">
+				{"template": [
+								MultiContentEntryText(pos = (100, 2), size = (894, 67), font = 0, flags = RT_HALIGN_LEFT, text = 0),
+								MultiContentEntryText(pos = (100, 44), size = (894, 67), font = 1, flags = RT_HALIGN_LEFT, text = 1),
+								MultiContentEntryPixmapAlphaTest(pos = (6, 6), size = (67, 67), png = 2),
+								],
+				"fonts": [gFont("Regular", 38), gFont("Regular", 27)],
+				"itemHeight": 80
+				}
+			</convert>
+		</widget>
+		<!-- Colors 1030 -->
+		<ePixmap position="294,1214" size="1374,11" pixmap="ZSkin-UHD/menu/panels/sep.png" blend="blend" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_red.png"    position="294,1260"  size="40,40" alphatest="on" zPosition="5" />
+		<ePixmap pixmap="ZSkin-UHD/buttons/key_green.png"  position="294,1340" size="40,40" alphatest="on" zPosition="5" />
+		<widget source="key_red"    render="Label" position="360,1254"  size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<widget source="key_green"  render="Label" position="360,1334" size="400,54" zPosition="5" font="Regular;40" halign="left" valign="center" backgroundColor="#000000" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE24" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Disclaimer  -->
+	<screen name="Disclaimer" position="center,200" size="1867,1040" title="Disclaimer" backgroundColor="#20000000" >
+		<widget source="Disclaimer"   render="Label" position="80,40" size="1707,94"  font="Regular;48" halign="center" foregroundColor="yellow"  backgroundColor="header" transparent="1" />
+		<widget source="Dissociation" render="Label" position="54,147" size="1760,1134" font="Regular;38" halign="center" foregroundColor="#808080" backgroundColor="header" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE25" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- DE Cyrus Settings-->
+	<screen name="MenuCyrusSettingE2" position="0,0" size="2560,1440" title="Cyrus Settings v1.1" backgroundColor="#FF000000" >
+		<ePixmap position="60,63"  size="134,107" pixmap="DE-FHD/menu/Cyrus_logo.png" blend="blend" zPosition="1"/>		
+		<!-- Text Maintain -->	
+		<widget name="text" position="60,360" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#10202020" transparent="1" zPosition="1" />			
+		<!-- Lists -->
+		<eLabel text="Antenna:" position="60,294" size="187,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Name:" position="387,294" size="134,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Date:" position="1160,294" size="134,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<widget name="A" position="47,360" size="174,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72"
+			scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png"
+			transparent="1" zPosition="5" />
+		<!-- Lists -->
+		<widget name="B"  position="387,360" size="940,667" scrollbarMode="showOnDemand" enableWrapAround="1" transparent="1" zPosition="5" 
+			foregroundColor="#5dafff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget position="60,1127" size="400,54" name="Key_Green" font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" zPosition="1" transparent="1" />
+		<widget position="474,1127" size="667,54" name="namesat"  font="Regular;38" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="3" />
+		<widget position="60,1174" size="814,42" name="dataDow"     font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" transparent="1" zPosition="3" />	
+		<!--widget position="387,587" size="547,42" name="data"     font="Regular;27" halign="left" foregroundColor="#808080" backgroundColor="#101010" transparent="1" zPosition="3" /-->	
+		<ePixmap position="87,1352" pixmap="DE-FHD/buttons/key_red.png"    size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Red" position="154,1331" size="400,94" zPosition="1" font="Regular;40" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Green" position="87,1282"  pixmap="DE-FHD/buttons/key_green.png"  size="47,47" blend="blend" zPosition="2" />
+		<widget name="Yellow" position="1294,1352" pixmap="DE-FHD/buttons/key_yellow.png" size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Personal"   position="867,1331"  size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Blue" position="1294,1282" pixmap="DE-FHD/buttons/key_blue.png"   size="47,47" blend="blend" zPosition="2" />
+		<widget name="autotimer"     position="867,1258" size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE26" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- DE Cyrus Settings-->
+	<screen name="Menu_Select" position="0,0" size="2560,1440" title="Cyrus Settings v1.1" backgroundColor="#FF000000" >
+		<ePixmap position="60,63"  size="134,107" pixmap="DE-FHD/menu/Cyrus_logo.png" blend="blend" zPosition="1"/>		
+		<!-- Text Maintain -->	
+		<widget name="text" position="60,360" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#10202020" transparent="1" zPosition="1" />			
+		<!-- Lists -->
+		<eLabel text="Bouquet selected:" position="60,294" size="400,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Choose Bouquet:" position="520,294" size="400,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<widget name="A" position="60,360" size="294,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72"
+			scrollbarMode="showNever" enableWrapAround="1" selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png"
+			transparent="1" zPosition="5" />
+		<!-- Lists -->
+		<widget name="B"  position="520,360" size="690,667" scrollbarMode="showOnDemand" enableWrapAround="1" transparent="1" zPosition="5" 
+			foregroundColor="#5dafff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget position="60,1127" size="400,54" name="Key_Green" font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" zPosition="1" transparent="1" />
+		<widget position="474,1127" size="667,54" name="namesat"  font="Regular;38" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="3" />
+		<widget position="60,1174" size="814,42" name="dataDow"     font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" transparent="1" zPosition="3" />	
+		<!--widget position="387,587" size="547,42" name="data"     font="Regular;27" halign="left" foregroundColor="#808080" backgroundColor="#101010" transparent="1" zPosition="3" /-->	
+		<ePixmap position="87,1352" pixmap="DE-FHD/buttons/key_red.png"    size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Red" position="154,1331" size="400,94" zPosition="1" font="Regular;40" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Green" position="87,1282"  pixmap="DE-FHD/buttons/key_green.png"  size="47,47" blend="blend" zPosition="2" />
+		<widget name="Yellow" position="1294,1352" pixmap="DE-FHD/buttons/key_yellow.png" size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Personal"   position="867,1331"  size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Blue" position="1294,1282" pixmap="DE-FHD/buttons/key_blue.png"   size="47,47" blend="blend" zPosition="2" />
+		<widget name="autotimer"     position="867,1258" size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE27" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+
+	<!-- GioppyGio Settings-->
+	<screen name="MenuGio" position="0,0" size="2560,1440" title="GioppyGio Settings v2.4" backgroundColor="#FF000000" >
+		<ePixmap position="60,63"  size="134,107" pixmap="DE-FHD/menu/Gioppy_logo.png" blend="blend" zPosition="1"/>
+		<!-- Text Maintain -->	
+		<widget name="text" position="67,360" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#10202020" transparent="1" zPosition="1" />			
+		<!-- Lists -->
+		<eLabel text="Antenna:" position="60,294" size="187,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Name:" position="387,294" size="134,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Date:" position="1067,294" size="134,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<widget name="A" position="47,360" size="254,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72"
+			scrollbarMode="showOnDemand" enableWrapAround="1" selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png"
+			transparent="1" zPosition="5" />
+		<!-- Lists -->
+		<widget name="B"  position="387,360" size="940,667" scrollbarMode="showOnDemand" enableWrapAround="1" transparent="1" zPosition="5" 
+			foregroundColor="#5dafff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget position="60,1127" size="400,54" name="Key_Green" font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" zPosition="1" transparent="1" />
+		<widget position="474,1127" size="667,54" name="namesat"  font="Regular;38" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="3" />
+		<widget position="60,1174" size="814,42" name="dateDow"     font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#ffffff" transparent="1" zPosition="3" />	
+		<!--widget position="387,587" size="547,42" name="data"     font="Regular;27" halign="left" foregroundColor="#808080" backgroundColor="#101010" transparent="1" zPosition="3" /-->	
+		<ePixmap position="87,1352" pixmap="DE-FHD/buttons/key_red.png"    size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Red" position="154,1331" size="400,94" zPosition="1" font="Regular;40" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Green" position="87,1282"  pixmap="DE-FHD/buttons/key_green.png"  size="47,47" blend="blend" zPosition="2" />
+		<widget name="Yellow" position="1294,1352" pixmap="DE-FHD/buttons/key_yellow.png" size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Personal"   position="867,1331"  size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Blue" position="1294,1282" pixmap="DE-FHD/buttons/key_blue.png"   size="47,47" blend="blend" zPosition="2" />
+		<widget name="autotimer"     position="867,1258" size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE28" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+	
+	<!-- GioppyGio Settings-->
+	<screen name="MenuSelect_Gio" position="0,0" size="2560,1440" title="GioppyGio Settings v2.4" backgroundColor="#FF000000" >
+		<ePixmap position="60,63"  size="134,107" pixmap="DE-FHD/menu/Gioppy_logo.png" blend="blend" zPosition="1"/>		
+		<!-- Text Maintain -->	
+		<widget name="text" position="60,360" size="324,587" font="Regular;34" halign="left" foregroundColor="#808080" backgroundColor="#10202020" transparent="1" zPosition="1" />			
+		<!-- Lists -->
+		<eLabel text="Bouquet selected:" position="60,294" size="400,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<eLabel text="Choose Bouquet:" position="520,294" size="400,67" font="Regular;38" backgroundColor="bluette" foregroundColor="#ffffff" transparent="1" zPosition="1"  />
+		<widget name="A" position="60,360" size="294,534" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72"
+			scrollbarMode="showOnDemand" enableWrapAround="1" selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png"
+			transparent="1" zPosition="5" />
+		<!-- Lists -->
+		<widget name="B"  position="520,360" size="690,667" scrollbarMode="showOnDemand" enableWrapAround="1" transparent="1" zPosition="5" 
+			foregroundColor="#5dafff" foregroundColorSelected="#ffffff" backgroundColor="#303030" backgroundColorSelected="#002f72" 
+			selectionPixmap="/usr/share/enigma2/skin_default/slider35.png"
+			backgroundPixmap="/usr/share/enigma2/skin_default/sliderp.png" />
+		<!-- Setting Installed Text / Update -->	
+		<widget position="60,1127" size="400,54" name="Key_Green" font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" zPosition="1" transparent="1" />
+		<widget position="474,1127" size="667,54" name="namesat"  font="Regular;38" halign="left" foregroundColor="ltbluette" backgroundColor="#101010" transparent="1" zPosition="3" />
+		<widget position="60,1174" size="814,42" name="dateDow"     font="Regular;38" halign="left" foregroundColor="#ffffff" backgroundColor="#101010" transparent="1" zPosition="3" />	
+		<!--widget position="387,587" size="547,42" name="data"     font="Regular;27" halign="left" foregroundColor="#808080" backgroundColor="#101010" transparent="1" zPosition="3" /-->	
+		<ePixmap position="87,1352" pixmap="DE-FHD/buttons/key_red.png"    size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Red" position="154,1331" size="400,94" zPosition="1" font="Regular;40" halign="left" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Green" position="87,1282"  pixmap="DE-FHD/buttons/key_green.png"  size="47,47" blend="blend" zPosition="2" />
+		<widget name="Yellow" position="1294,1352" pixmap="DE-FHD/buttons/key_yellow.png" size="47,47" blend="blend" zPosition="2" />
+		<widget name="Key_Personal"   position="867,1331"  size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<widget name="Blue" position="1294,1282" pixmap="DE-FHD/buttons/key_blue.png"   size="47,47" blend="blend" zPosition="2" />
+		<widget name="autotimer"     position="867,1258" size="400,94" zPosition="1" font="Regular;40" halign="right" valign="center" foregroundColor="#ffffff" backgroundColor="header" transparent="1" />
+		<!-- eLabel name="DEBUG" text="DE29" position="54,34" size="667,67" font="Regular;54" backgroundColor="#10000000" foregroundColor="#bc0004" transparent="1" zPosition="1000"/-->
+	</screen>
+</skin>

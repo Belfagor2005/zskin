@@ -551,6 +551,42 @@
             <convert type="MMCaidInfo2">Crd</convert>
             <convert type="ConditionalShowHide"/>
         </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="BetaCrypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">BetaCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Via Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">ViaCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Irdeto" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">IrdCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Seca Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">SecaCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NDS-VideoGuard" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NdsCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="CryptoWork" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">CrwCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="Conax Crypt" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">ConaxCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NagraVision" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NagraEcm</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
+        <widget backgroundColor="#10000000" font="Regular;26" foregroundColor="white" halign="left" position="1585,915" render="FixedLabel" size="70,33" source="session.CurrentService" text="NagraVision" transparent="0" zPosition="20">
+            <convert type="MMCaidInfo2">NagraCrypt</convert>
+            <convert type="ConditionalShowHide"/>
+        </widget>
         <widget backgroundColor="header" font="Regular;26" foregroundColor="green" halign="left" position="1645,915" render="Label" size="150,33" source="session.CurrentService" transparent="1" zPosition="30">
             <convert type="MMCaidInfo2">CryptInfo2</convert>
         </widget>
@@ -1278,8 +1314,6 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/fulltop.png" position="190,0" scale="stretch" size="1280,1080" zPosition="-1"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5"/>
-        <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2"/>
-        <widget alphatest="blend" position="220,150" render="ZChannel" size="213,310" source="session.Event_Now" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" halign="left" name="duration" position="670,210" size="300,50" transparent="1" zPosition="5"/>
@@ -1306,6 +1340,8 @@
             <convert type="EventName">Name</convert>
         </widget>
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="epg_description" position="220,485" size="1230,420" transparent="1" zPosition="5"/>
+        <ePixmap pixmap="ZSkin-FHD/menu/panels/nocover.png" position="220,150" scale="strech" size="213,320" zPosition="2"/>
+        <widget render="ZChannel" alphatest="blend" position="220,150" size="213,310" source="session.Event_Now" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="genuineDreambox" position="0,0" size="1920,1080" title="Genuine Dreambox">
         <layout name="menu_1030"/>
@@ -6955,9 +6991,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/setmain.png" position="0,0" size="1330,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" itemHeight="50" name="list" position="220,150" scrollbarMode="showOnDemand" size="1230,750" transparent="1" zPosition="2"/>
     </screen>
-
-
-	<screen backgroundColor="#FF000000" flags="wfNoBorder" name="TVShowRelationNameList" position="0,0" size="1920,1080" title="TV Show relation names">
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="TVShowRelationNameList" position="0,0" size="1920,1080" title="TV Show relation names">
         <layout name="menu_1230"/>
         <layout name="rgyb-2c-s-1230"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/setmain.png" position="0,0" size="1330,1080" zPosition="-2"/>
@@ -7781,6 +7815,7 @@
         <widget backgroundColor="#000000" font="Regular;46" foregroundColor="ltbluette" halign="center" position="40,965" render="Label" size="160,95" source="session.CurrentService" transparent="1" valign="center" zPosition="1">
             <convert type="ServicePosition">Position</convert>
         </widget>
+        <!-- Player -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="220,965" size="500,95" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/dvr.png" position="340,987" size="245,60" transparent="1" zPosition="4"/>
         <widget alphatest="blend" name="dvrStatus" pixmaps="ZSkin-FHD/mmp/dvr_pl.png,ZSkin-FHD/mmp/dvr_pau.png" position="340,987" size="245,60" transparent="1" zPosition="5"/>
@@ -7788,6 +7823,7 @@
         <widget alphatest="blend" name="shuffle" pixmaps="ZSkin-FHD/mmp/dvr_shuf1.png,ZSkin-FHD/mmp/dvr_shuf2.png" position="590,970" size="95,95" transparent="1" zPosition="4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_info.png" position="740,970" scale="1" size="80,40" zPosition="2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_menu.png" position="740,1020" scale="1" size="80,40" zPosition="2"/>
+        <!-- Buttons FF/RW -->
         <eLabel backgroundColor="#B0303030" blending="on" cornerRadius="20" position="840,965" size="525,95" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_3.png" position="860,967" scale="1" size="40,30" zPosition="2"/>
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="green" halign="left" position="910,968" size="150,40" text="rw (+30s)" transparent="1"/>
@@ -7801,6 +7837,7 @@
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,998" size="150,40" text="rw (-1m)" transparent="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_7.png" position="1190,1027" scale="1" size="40,30" zPosition="2"/>
         <eLabel backgroundColor="#000000" font="Regular;24" foregroundColor="red" halign="left" position="1240,1028" size="150,40" text="rw (-5m)" transparent="1"/>
+        <!-- VuMeter -->
         <eLabel backgroundColor="#B0202020" blending="on" cornerRadius="20" position="1390,800" size="520,150" zPosition="1"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vglass.png" position="1395,805" size="510,140" transparent="1" zPosition="10"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/vmeter0.png" position="1400,810" size="247,155" transparent="1" zPosition="1"/>
@@ -7814,7 +7851,9 @@
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="10,10" size="1320,60" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="45" name="list" position="20,90" scrollbarMode="showOnDemand" size="1310,630" transparent="1" zPosition="2"/>
     </screen>
+                               
     <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2TV" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
+                     
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0"/>
         <widget backgroundColor="#ff202020" name="video" position="0,0" size="1920,1080" zPosition="-3"/>
@@ -7830,6 +7869,7 @@
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00aaaaaa" halign="left" name="NextEPG" position="350,1010" size="1050,42" transparent="1" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;33" foregroundColor="#00aaaaaa" halign="right" name="NextTime" position="1569,1010" size="186,42" transparent="1" zPosition="2"/>
     </screen>
+                                  
     <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2Video" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
         <ePixmap pixmap="ZSkin-FHD/mmp/merlin3.png" position="0,0" size="1920,1080" zPosition="-4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/mmp/overlay2.png" position="0,780" size="1920,300" transparent="0"/>
@@ -7848,6 +7888,7 @@
         </widget>
         <widget backgroundColor="#262626" font="Regular;34" halign="left" name="next_title" position="350,1020" size="1550,42" transparent="1"/>
     </screen>
+                                          
     <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2MovieFileList" position="0,0" size="1920,1080" title="Merlin Music Player">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7858,6 +7899,7 @@
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/icons/dmm_logo.png" position="20,1000" size="477,60" zPosition="2"/>
     </screen>
+                                              
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2DVBRadioSelection" position="0,0" size="1920,1080" title="Channel Selection">
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" padding="36,0" position="10,10" render="Label" size="1320,60" source="Title" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" colorEventProgressbarBorder="#555555" colorEventProgressbarBorderSelected="#00aaaaaa" colorServiceDescription="#DBB96E" foregroundColorServiceNotAvail="#00656565" itemHeight="45" name="list" position="20,90" scrollbarMode="showOnDemand" serviceInfoFont="Regular;30" serviceItemHeight="45" serviceNameFont="Regular;35" serviceNumberFont="Regular;35" size="1310,630" transparent="1" zPosition="2"/>
@@ -7875,6 +7917,7 @@
         <widget backgroundColor="#000000" font="Regular;32" halign="left" position="1100,1010" render="Label" size="210,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_blue" position="1100,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
     </screen>
+                                     
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2FileList" position="0,0" size="1920,1080" title="Filelist">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7885,11 +7928,13 @@
         <eLabel backgroundColor="#202020" position="20,970" size="1800,5" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/icons/dmm_logo.png" position="20,1000" size="477,60" zPosition="2"/>
     </screen>
+                                   
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2Lyrics" position="20,30" size="1340,750" title="Songlist">
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" name="headertext" padding="36,0" position="10,10" size="1320,60" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" cornerRadius="20" font="Regular;30" foregroundColor="ltbluette" halign="center" name="resulttext" position="10,90" size="1340,50" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" font="Regular;33" name="lyric_text" position="20,140" size="1310,624" transparent="1" zPosition="1"/>
     </screen>
+                                  
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayer2Setup" position="0,0" size="1920,1080" title="Merlin Music Player Setup">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <eLabel backgroundColor="#202020" cornerRadius="20" font="Regular;36" foregroundColor="#fcc000" padding="36,0" position="20,10" size="1450,60" text="Merlin MusicPlayer2 Setup" transparent="0" valign="center" zPosition="1"/>
@@ -7903,6 +7948,7 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/80/key_green.png" position="350,1010" size="80,40" zPosition="1"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="white" position="440,1010" render="Label" size="200,40" source="key_green" transparent="1" valign="center" zPosition="1"/>
     </screen>
+                  
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="iDream" position="0,0" size="1920,1080" title="iDream">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1650,85" render="Label" size="250,60" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7924,6 +7970,7 @@
         <widget backgroundColor="#000000" font="Regular;32" halign="left" position="1100,1010" render="Label" size="210,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;32" halign="left" name="key_blue" position="1100,1010" size="210,40" transparent="1" valign="center" zPosition="5"/>
     </screen>
+    <!--SelectPath1-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="SelectPath" position="0,0" size="1920,1080" title="Select Path">
         <eLabel backgroundColor="#00000000" font="main;80" foregroundColor="ltbluette" position="20,10" size="1200,110" text="MMP  Path Select" transparent="1" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
@@ -7940,6 +7987,7 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
         <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" name="target" position="250,1180" size="1400,40" transparent="1" verticalAlignment="center"/>
     </screen>
+    <!--iDreamMerlin1-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="iDreamMerlin" position="0,0" size="1920,1080" title="iDream">
         <widget backgroundColor="#00000000" font="main;80" foregroundColor="ltbluette" name="headertext" position="20,10" size="1200,110" transparent="1" zPosition="1"/>
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
@@ -7958,6 +8006,7 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/buttons/key_blue.png" position="550,1025" size="30,30" zPosition="1"/>
         <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="600,1020" render="Label" size="300,40" source="key_blue" transparent="1" valign="center" zPosition="2"/>
     </screen>
+    <!--iDream1AddToDatabase-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="iDreamAddToDatabase" position="0,0" size="1920,1080" title="Create iDream DB">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1180,30" render="Label" size="720,50" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7972,6 +8021,7 @@
         <eLabel backgroundColor="#202020" position="20,930" size="1460,3"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
     </screen>
+    <!--MerlinMusicPlayer1Lyrics-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayerLyrics" position="0,0" size="1920,1080" title="Music Player Lyrics">
         <ePixmap pixmap="ZSkin-FHD/mmp/mplist.png" position="0,0" size="1920,1080" transparent="0" zPosition="-3"/>
         <widget backgroundColor="#000000" font="Regular;50" foregroundColor="#606060" halign="right" noWrap="1" position="1180,30" render="Label" size="720,50" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7985,10 +8035,12 @@
         <eLabel backgroundColor="#202020" position="20,950" size="1460,2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="30,970" size="500,90" zPosition="1"/>
     </screen>
+    <!--MerlinMusicPlayer1TV-->
     <screen backgroundColor="transparent" flags="wfNoBorder" name="MerlinMusicPlayerTV" position="0,0" size="1920,1080" title="MerlinMusicPlayerTV">
         <widget backgroundColor="#FF000000" name="video" position="0,0" size="1920,1080" zPosition="1"/>
         <widget backgroundColor="#33000000" font="Regular;34" foregroundColor="ltbluette" halign="center" name="display" position="0,1000" size="1920,80" valign="center" zPosition="2"/>
     </screen>
+    <!--MerlinMusicPlayer1ScreenSaver-->
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayerScreenSaver" position="0,0" size="1920,1080" title="MerlinMusicPlayerScreenSaver">
         <widget name="coverArt" pixmap="ZSkin-FHD/mmp/mplogo.png" position="0,0" size="500,267"/>
         <widget backgroundColor="#000000" font="Regular;28" foregroundColor="yellow" halign="center" name="display" position="0,60" size="500,100" zPosition="1"/>
