@@ -1100,7 +1100,7 @@
 			<eLabel backgroundColor="trbluette" position="1427,1174" size="1147,260" zPosition="-2" />
 			<eLabel backgroundColor="#20101010" position="2307,1134" size="227,80" zPosition="-2" />
 			<eLabel backgroundColor="#000000" font="Regular;54" foregroundColor="#20ffffff" halign="center" position="2307,1134" size="227,80" text="N E X T" transparent="1" valign="center" zPosition="1" />
-			<widget backgroundColor="#FF101010" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1427,240" source="ServiceEvent" transparent="1" zPosition="50">
+			<widget backgroundColor="#FF101010" column0="0,140,yellow,Regular,30,0,0" column1="150,950,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1427,240" source="ServiceEvent" transparent="1" zPosition="50">
 			    <convert type="EventList">primetime=no,eventcount=4</convert>
 			</widget>
 			<eLabel backgroundColor="#20050505" position="0,1320" size="1414,114" zPosition="-1" />
@@ -1184,16 +1184,16 @@
 			<eLabel position="1160,740" size="1294,3" backgroundColor="#303030" zPosition="30" />
 			<eLabel text="N  E  X  T" position="1160,734" size="1334,240" font="Regular;227" halign="center" valign="center" foregroundColor="#20202020" backgroundColor="header" transparent="1" zPosition="30" />
 	        	<widget source="ServiceEvent" render="EventListDisplay" position="1160,754" backgroundColor="#FF101010" transparent="1" zPosition="50" 
-	        		column0="0,100,yellow,Regular,28,0,0" 
-	        		column1="100,950,ltbluette,Regular,28,0,1"  
+	        		column0="0,100,yellow,Regular,26,0,0" 
+	        		column1="100,950,ltbluette,Regular,26,0,1"  
 	        		primetimeoffset="0" rowHeight="47" size="1427,240" >
 	            		<convert type="EventList">primetime=no,eventcount=5</convert>
 	        	</widget>
 			<!-- NEXT EVENTS -->
 		       	<!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
 	        	<widget source="ServiceEvent" render="EventListDisplay" position="0,1234" backgroundColor="#ff101010" transparent="1" zPosition="5" 
-	        		column0="360,120,#606060,Regular,34,0,0" 
-	        		column1="470,1310,#606060,Regular,34,0,1"  
+	        		column0="360,120,#606060,Regular,30,0,0" 
+	        		column1="470,1310,#606060,Regular,30,0,1"  
 	        		primetimeoffset="367" rowHeight="67" size="1694,67" >
 	       			<convert type="EventList">primetime=no,eventcount=1</convert>
 	        	</widget>
@@ -1368,7 +1368,7 @@
 	                <eLabel  text="N E X T" position="2307,1134" size="227,80" font="Regular;54" halign="center" valign="center" foregroundColor="#20ffffff" backgroundColor="#000000" transparent="1" zPosition="1" />
 	       		<!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
 	        	<widget source="ServiceEvent" render="EventListDisplay" position="1440,1214" backgroundColor="#FF101010" transparent="1" zPosition="50" 
-	        		column0="0,100,yellow,Regular,30,0,0" 
+	        		column0="0,100,yellow,Regular,28,0,0" 
 	        		column1="100,950,white,Regular,28,0,1"  
 	        		primetimeoffset="0" rowHeight="47" size="1427,240" >
 	            		<convert type="EventList">primetime=no,eventcount=4</convert>
@@ -1437,7 +1437,7 @@
 			<ePixmap blend="blend" pixmap="ZSkin-UHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5" />
 			<ePixmap blend="blend" pixmap="ZSkin-UHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-UHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4" />
-			<widget position="294,200" render="ZInfoPoster" size="284,414" source="session.Event_Now" zPosition="5" />
+			<widget position="294,200" render="ZChannel" size="284,414" source="session.Event_Now" zPosition="5" />
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-UHD/menu/panels/nocoverTop.png" position="294,176" size="291,467" zPosition="6" />
 			<widget backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" position="600,207" size="1147,67" transparent="1" zPosition="5" />
 			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" position="600,280" size="334,67" transparent="1" zPosition="5" />
