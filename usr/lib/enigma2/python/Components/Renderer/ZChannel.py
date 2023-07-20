@@ -16,7 +16,7 @@ import json
 import os
 import socket
 import sys
-
+import shutil
 global cur_skin, my_cur_skin, apikey
 
 PY3 = sys.version_info.major >= 3
@@ -106,29 +106,35 @@ except:
 print('language: ', language)
 
 
+# REGEX = re.compile(
+        # r'([\(\[]).*?([\)\]])|'
+        # r'(: odc.\d+)|'
+        # r'(\d+: odc.\d+)|'
+        # r'(\d+ odc.\d+)|(:)|'
+        # r'( -(.*?).*)|(,)|'
+        # r'!|'
+        # r'/.*|'
+        # r'\|\s[0-9]+\+|'
+        # r'[0-9]+\+|'
+        # r'\s\d{4}\Z|'
+        # r'([\(\[\|].*?[\)\]\|])|'
+        # r'(\"|\"\.|\"\,|\.)\s.+|'
+        # r'\"|:|'
+        # r'Премьера\.\s|'
+        # r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+        # r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+        # r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+        # r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+        # r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+        # r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+        # r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
-
+        r'\s\*\d{4}\Z|'                 # remove ( *1234)
+        r'([\(\[\|].*?[\)\]\|])|'       # remove ([xxx] or (xxx) or |xxx|)
+        # r'(\s{1,}\:\s{1,}).+|'        # remove ( : xxx)
+        r'(\.\s{1,}\").+|'              # remove (. "xxx)
+        r'(\?\s{1,}\").+|'              # remove (? "xxx)
+        r'(\.{2,}\Z)', re.DOTALL)       # remove (..)
 
 def intCheck():
     try:
@@ -142,6 +148,15 @@ def intCheck():
         return False
     else:
         return True
+
+
+try:
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
+    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
+    if ozposter >= "5":
+        shutil.rmtree(folder_poster)
+except:
+    pass
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -208,7 +223,6 @@ class ZChannel(Renderer):
 
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
-            
             self.instance.hide()
             '''
             # self.delay()
@@ -253,7 +267,7 @@ class ZChannel(Renderer):
                                 if poster:
                                     self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                                     self.savePoster()
-                                    return
+                                    # return
                             # self.timerchan.stop()
                     except:
                         try:
@@ -276,7 +290,7 @@ class ZChannel(Renderer):
                                     if poster:
                                         self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                         self.savePoster()
-                                        return
+                                        # return
                             # self.timerchan.stop()
                         except Exception as e:
                             print('error except zchannel ', e)

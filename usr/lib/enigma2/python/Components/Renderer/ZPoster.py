@@ -9,7 +9,6 @@
 # by beber...03.2022,
 # 03.2022 several enhancements : several renders with one queue thread, google search (incl. molotov for france) + autosearch & autoclean thread ...
 #
-                           
 # for infobar,
 # <widget source="session.Event_Now" render="ZPoster" position="100,100" size="185,278" />
 # <widget source="session.Event_Next" render="ZPoster" position="100,100" size="100,150" />
@@ -41,7 +40,7 @@ import socket
 import sys
 import time
 import unicodedata
-
+import shutil
 PY3 = (sys.version_info[0] == 3)
 try:
     if PY3:
@@ -89,7 +88,8 @@ apdb = dict()
 # WITH THE NUMBER OF ITEMS EXPECTED (BLANK LINE IN BOUQUET CONSIDERED)
 # IF NOT SET OR WRONG FILE THE AUTOMATIC POSTER GENERATION WILL WORK FOR
 # THE CHANNELS THAT YOU ARE VIEWING IN THE ENIGMA SESSION
-#
+
+
 def SearchBouquetTerrestrial():
     import glob
     for file in sorted(glob.glob('/etc/enigma2/*.tv')):
@@ -145,17 +145,17 @@ if not os.path.exists(path_folder):
 REGEX = re.compile(
         r'\s\*\d{4}\Z|'                 # remove ( *1234)
         r'([\(\[\|].*?[\)\]\|])|'       # remove ([xxx] or (xxx) or |xxx|)
-#       r'(\s{1,}\:\s{1,}).+|'          # remove ( : xxx)
+        # r'(\s{1,}\:\s{1,}).+|'        # remove ( : xxx)
         r'(\.\s{1,}\").+|'              # remove (. "xxx)
         r'(\?\s{1,}\").+|'              # remove (? "xxx)
-        r'(\.{2,}\Z)'                   # remove (..)
-        , re.DOTALL)
+        r'(\.{2,}\Z)', re.DOTALL)       # remove (..)
+
 
 def convtext(text):
     text = text.replace('\xc2\x86', '')
     text = text.replace('\xc2\x87', '')
     text = REGEX.sub('', text)
-    text = re.sub(r"[-,!/\.\":]",' ',text)  # replace (- or , or ! or / or . or " or :) by space
+    text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
     text = re.sub(r'\s{1,}', ' ', text)     # replace multiple space by one space
     text = text.strip()
 
@@ -186,6 +186,16 @@ def intCheck():
         return False
     else:
         return True
+
+
+try:
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
+    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
+    if ozposter >= "5":
+        shutil.rmtree(path_folder)
+except:
+    pass
+
 
 class PosterDB(zPosterXDownloadThread):
     def __init__(self):
