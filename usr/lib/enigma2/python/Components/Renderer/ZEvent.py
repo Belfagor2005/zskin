@@ -100,6 +100,7 @@ try:
 except:
     pass
 
+
 try:
     from Components.config import config
     language = config.osd.language.value

@@ -1088,10 +1088,12 @@
 			<widget backgroundColor="#000000" font="Regular;46" foregroundColor="yellow" halign="left" position="1454,294" render="Label" size="1094,107" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
 			    <convert type="EventName">Name</convert>
 			</widget>
+			<widget source="ServiceEvent" render="ZEvent" position="1454,934" size="1094,180" font="Regular;32" halign="left" nowrap="1" valign="center" zPosition="9" foregroundColor="yellow" backgroundColor="#000000" transparent="1" /> 
+            
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-UHD/menu/panels/nocover.png" position="1454,403" size="360,527" zPosition="4" />
 			<widget source="ServiceEvent" render="ZChannel" position="1454,403" size="360,527" alphatest="blend" zPosition="5" /> 
+<!-- 			<widget source="ServiceEvent" render="ZChannel" position="1454,403" size="360,527" alphatest="blend" zPosition="5" />  -->            
 			<ePixmap pixmap="/usr/share/enigma2/ZSkin-UHD/menu/panels/nocoverTop.png" position="1454,403" size="360,527" zPosition="6" />
-			<widget source="ServiceEvent" render="ZEvent" position="1454,934" size="1094,180" font="Regular;32" halign="left" nowrap="1" valign="center" zPosition="9" foregroundColor="yellow" backgroundColor="#000000" transparent="1" /> 
 			<ePixmap alphatest="blend" pixmap="ZSkin-UHD/icons/star_b.png" position="1827,400" size="267,27" transparent="1" zPosition="2" />
 			<widget pixmap="ZSkin-UHD/icons/star.png" position="1827,400" render="ZstarsEvent" size="267,27" source="session.Event_Now" transparent="1" zPosition="13" />
 			<widget backgroundColor="#000000" font="Regular;35" foregroundColor="#ffffff" halign="left" position="1827,434" render="Label" size="720,507" source="ServiceEvent" transparent="1" zPosition="2">
