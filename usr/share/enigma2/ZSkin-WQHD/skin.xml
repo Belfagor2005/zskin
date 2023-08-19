@@ -2165,13 +2165,12 @@
         <widget font="Regular;40" halign="center" name="tries" position="14,107" size="1174,54"/>
         <widget font="Regular;80" halign="center" name="input" position="14,187" size="1174,80"/>
     </screen>
-    
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
         <layout name="menu_1030"/>
         <layout name="rg-2c-nn-1030"/>
         <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
-		<!-- 
+        <!-- 
         <widget backgroundPixmap="ZSkin-WQHD/images/grid.svg" selectionPixmap="ZSkin-WQHD/images/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" size="2570,1140" source="pluginlist" transparent="1"> 
         -->
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
@@ -7857,9 +7856,7 @@
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;48" foregroundColor="#fcc000" name="headertext" padding="36,0" position="14,14" size="1760,80" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#202020" backgroundColorSelection="barColor" foregroundColor="white" foregroundColorSelection="white" itemHeight="60" name="list" position="27,120" scrollbarMode="showOnDemand" size="1747,840" transparent="1" zPosition="2"/>
     </screen>
-                               
     <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2TV" position="0,0" size="2560,1440" title="MerlinMusicPlayerTV">
-                     
         <ePixmap pixmap="ZSkin-WQHD/mmp/merlin3.png" position="0,0" size="2560,1440" zPosition="-2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/overlay2.png" position="0,1040" size="2560,400" transparent="0"/>
         <widget backgroundColor="#ff202020" name="video" position="0,0" size="2560,1440" zPosition="-3"/>
@@ -7875,7 +7872,6 @@
         <widget backgroundColor="#262626" font="Regular;44" foregroundColor="#00aaaaaa" halign="left" name="NextEPG" position="467,1347" size="1400,56" transparent="1" zPosition="2"/>
         <widget backgroundColor="#262626" font="Regular;44" foregroundColor="#00aaaaaa" halign="right" name="NextTime" position="2092,1347" size="248,56" transparent="1" zPosition="2"/>
     </screen>
-                                  
     <screen backgroundColor="#ff262626" flags="wfNoBorder" name="MerlinMusicPlayer2Video" position="0,0" size="2560,1440" title="MerlinMusicPlayerTV">
         <ePixmap pixmap="ZSkin-WQHD/mmp/merlin3.png" position="0,0" size="2560,1440" zPosition="-4"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/overlay2.png" position="0,1040" size="2560,400" transparent="0"/>
@@ -7894,7 +7890,6 @@
         </widget>
         <widget backgroundColor="#262626" font="Regular;46" halign="left" name="next_title" position="467,1360" size="2067,56" transparent="1"/>
     </screen>
-                                          
     <screen backgroundColor="#00000000" flags="wfNoBorder" name="MerlinMusicPlayer2MovieFileList" position="0,0" size="2560,1440" title="Merlin Music Player">
         <ePixmap pixmap="ZSkin-WQHD/mmp/mplist.png" position="0,0" size="2560,1440" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;67" foregroundColor="#606060" halign="right" noWrap="1" position="2200,114" render="Label" size="334,80" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7905,7 +7900,6 @@
         <eLabel backgroundColor="#202020" position="27,1294" size="2400,7" zPosition="1"/>
         <ePixmap pixmap="ZSkin-WQHD/icons/dmm_logo.png" position="27,1334" size="636,80" zPosition="2"/>
     </screen>
-                                              
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2DVBRadioSelection" position="0,0" size="2560,1440" title="Channel Selection">
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;48" foregroundColor="#fcc000" padding="36,0" position="14,14" render="Label" size="1760,80" source="Title" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" colorEventProgressbarBorder="#555555" colorEventProgressbarBorderSelected="#00aaaaaa" colorServiceDescription="#DBB96E" foregroundColorServiceNotAvail="#00656565" itemHeight="60" name="list" position="27,120" scrollbarMode="showOnDemand" serviceInfoFont="Regular;40" serviceItemHeight="80" serviceNameFont="Regular;47" serviceNumberFont="Regular;47" size="1747,840" transparent="1" zPosition="2"/>
@@ -7923,7 +7917,6 @@
         <widget backgroundColor="#000000" font="Regular;43" halign="left" position="1467,1347" render="Label" size="280,54" source="key_blue" transparent="1" valign="center" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;43" halign="left" name="key_blue" position="1467,1347" size="280,54" transparent="1" valign="center" zPosition="5"/>
     </screen>
-                                     
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2FileList" position="0,0" size="2560,1440" title="Filelist">
         <ePixmap pixmap="ZSkin-WQHD/mmp/mplist.png" position="0,0" size="2560,1440" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;67" foregroundColor="#606060" halign="right" noWrap="1" position="2200,114" render="Label" size="334,80" source="global.CurrentTime" transparent="1" zPosition="2">
@@ -7934,13 +7927,11 @@
         <eLabel backgroundColor="#202020" position="27,1294" size="2400,7" zPosition="1"/>
         <ePixmap pixmap="ZSkin-WQHD/icons/dmm_logo.png" position="27,1334" size="636,80" zPosition="2"/>
     </screen>
-                                   
     <screen backgroundColor="#ff000000" flags="wfNoBorder" name="MerlinMusicPlayer2Lyrics" position="27,40" size="1787,1000" title="Songlist">
         <widget backgroundColor="#202020" cornerRadius="20" font="Regular;48" foregroundColor="#fcc000" name="headertext" padding="36,0" position="14,14" size="1760,80" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" cornerRadius="20" font="Regular;40" foregroundColor="ltbluette" halign="center" name="resulttext" position="14,120" size="1787,67" transparent="0" valign="center" zPosition="1"/>
         <widget backgroundColor="#46262626" font="Regular;44" name="lyric_text" position="27,187" size="1747,832" transparent="1" zPosition="1"/>
     </screen>
-                                  
     <screen backgroundColor="#000000" flags="wfNoBorder" name="MerlinMusicPlayer2Setup" position="0,0" size="2560,1440" title="Merlin Music Player Setup">
         <ePixmap pixmap="ZSkin-WQHD/mmp/mplist.png" position="0,0" size="2560,1440" zPosition="-2"/>
         <eLabel backgroundColor="#202020" cornerRadius="20" font="Regular;48" foregroundColor="#fcc000" padding="36,0" position="27,14" size="1934,80" text="Merlin MusicPlayer2 Setup" transparent="0" valign="center" zPosition="1"/>
@@ -7954,7 +7945,6 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_green.png" position="467,1347" size="107,54" zPosition="1"/>
         <widget backgroundColor="#000000" font="Regular;43" foregroundColor="white" position="587,1347" render="Label" size="267,54" source="key_green" transparent="1" valign="center" zPosition="1"/>
     </screen>
-                  
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="iDream" position="0,0" size="2560,1440" title="iDream">
         <ePixmap pixmap="ZSkin-WQHD/mmp/mplist.png" position="0,0" size="2560,1440" zPosition="-2"/>
         <widget backgroundColor="#000000" font="Regular;67" foregroundColor="#606060" halign="right" noWrap="1" position="2200,114" render="Label" size="334,80" source="global.CurrentTime" transparent="1" zPosition="2">

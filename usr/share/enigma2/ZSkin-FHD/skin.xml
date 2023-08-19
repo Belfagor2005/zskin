@@ -6,6 +6,7 @@
         <style name="MediaPlayer" value="TechnicsMediaPlayer"/>
         <style name="SecondInfoBar" value="Default"/>
         <style name="TMDB ApiKey" value="ApiKey Manual Insert"/>
+        <style name="PluginBrowser" value="Default"/>
         <style name="Volume" value="Volume-Text"/>
     </style>
     <copyright>
