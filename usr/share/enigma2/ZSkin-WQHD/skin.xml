@@ -6,6 +6,7 @@
         <style name="MediaPlayer" value="TechnicsMediaPlayer"/>
         <style name="SecondInfoBar" value="Default"/>
         <style name="TMDB ApiKey" value="ApiKey Manual Insert"/>
+        <style name="PluginBrowser" value="Default"/>
         <style name="Volume" value="Volume-Text"/>
     </style>
     <copyright>
@@ -2164,11 +2165,15 @@
         <widget font="Regular;40" halign="center" name="tries" position="14,107" size="1174,54"/>
         <widget font="Regular;80" halign="center" name="input" position="14,187" size="1174,80"/>
     </screen>
+    
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
         <layout name="menu_1030"/>
         <layout name="rg-2c-nn-1030"/>
         <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
+		<!-- 
+        <widget backgroundPixmap="ZSkin-WQHD/images/grid.svg" selectionPixmap="ZSkin-WQHD/images/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" size="2570,1140" source="pluginlist" transparent="1"> 
+        -->
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
             <convert type="TemplatedMultiContent">
 			{"templates":

@@ -10,6 +10,7 @@
 		<sort id="4" name="EventView"/>
 		<sort id="5" name="MediaPlayer"/>
 		<sort id="6" name="Volume"/>
+		<sort id="8" name="PluginBrowser"/>        
 		<sort id="7" name="ApiKey"/>
 	</sorted>
 	
@@ -21,7 +22,8 @@
 			<style name="EventView" value="Default"/>
 			<style name="MediaPlayer" value="Default"/>
 			<style name="Volume" value="Default"/>
-			<style name="ApyKey" value="Default"/>
+            <style name="PluginBrowser" value="Default"/>
+			<style name="ApiKey" value="Default"/>
 		</default>
 	</presets>
 	
@@ -508,7 +510,7 @@
 			    <convert type="ConditionalShowHide" />
 			</widget>
 			<!-- Param %F%p  %Y  %f  %M  %b%O  -->
-			<widget backgroundColor="gradient" font="Regular;32" position="2254,1178" render="Label" size="147,35" source="session.CurrentService" foregroundColor="ltbluette" transparent="1" zPosition="5" >
+			<widget backgroundColor="#131a1d" font="Regular;32" position="2254,1178" render="Label" size="147,35" source="session.CurrentService" foregroundColor="ltbluette" transparent="1" zPosition="5" >
 			    <convert type="extServiceName2">%b%O</convert>
 			</widget>
 			<eLabel backgroundColor="#000000" font="Regular;35" foregroundColor="#ffffff" position="2380,1175" size="80,36" text="Snr:" transparent="1" zPosition="3" />
@@ -716,47 +718,105 @@
 		     </screen>
 		</style>
 
+
+        <style name="PluginBrowser" value="Default" preview="preview/PbDefault.jpg">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
+                <layout name="menu_1030"/>
+                <layout name="rg-2c-nn-1030"/>
+                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
+                <!-- 
+                <widget backgroundPixmap="ZSkin-WQHD/images/grid.svg" selectionPixmap="ZSkin-WQHD/images/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" size="2570,1140" source="pluginlist" transparent="1"> 
+                -->
+                <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
+                    <convert type="TemplatedMultiContent">
+                    {"templates":
+                        {"default": (94,[
+                                MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (174, 94), png = 3), # index 3 is the icon
+                                MultiContentEntryText(pos = (214, 0), size = (1134, 47), font = 0, text = 1), # index 1 is the plugin.name
+                                MultiContentEntryText(pos = (214, 47), size = (1134, 47), font = 1, color=0xb0b0b0, color_sel=0xffd877, text = 2), # index 2 is the plugin.description
+                            ]),
+                        },
+                        "fonts": [gFont("Regular", 40), gFont("Regular", 38)],
+                        "itemHeight": 94
+                    }
+                    </convert>
+                </widget>
+            </screen>
+        </style>
+
+
+		<!-- ##############################  PANELS PLUGINBROWSER ###########################-->
+	<style name="PluginBrowser" value="Grid" preview="preview/Pb.jpg">
+
+        <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
+            <widget backgroundColor="#000000" font="main;102" foregroundColor="#808060" halign="left" position="294,27" render="Label" size="1334,134" source="Title" transparent="1" valign="center" zPosition="5"/>
+
+            <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="0,0" size="2560,1440" zPosition="-1"/>
+
+            <ePixmap alphatest="on" pixmap="ZSkin-WQHD/buttons/key_red.png" position="1943,30" size="40,40" zPosition="5" />
+            <ePixmap alphatest="on" pixmap="ZSkin-WQHD/buttons/key_green.png" position="1943,89" size="40,40" zPosition="5" />
+            <widget backgroundColor="#000000" font="Regular;40" halign="left" name="red" position="1999,26" size="400,54" transparent="1" valign="center" zPosition="5" />
+            <widget backgroundColor="#000000" font="Regular;40" halign="left" name="green" position="1999,80" size="400,54" transparent="1" valign="center" zPosition="5" />
+
+            <!-- <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="40,20" size="1800,54" text="Plugin Manager" transparent="1" zPosition="5"/> -->
+            <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
+
+            <widget backgroundPixmap="ZSkin-WQHD/images/grid.svg" selectionPixmap="ZSkin-WQHD/images/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" size="2570,1140" source="pluginlist" transparent="1"> 
+                <convert type="TemplatedMultiContent">
+                {"template":[MultiContentEntryText(pos=(10,140),size=(300,68),flags=RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP,text=1,backcolor=MultiContentTemplateColor("#131a1d"),backcolor_sel=MultiContentTemplateColor("#41535c"),color=MultiContentTemplateColor("foreground"),color_sel=0xFF000004),
+                MultiContentEntryPixmapAlphaTest(pos=(30,20),size=(260,104),png=3),],
+                "fonts":[gFont("Regular",30)],"itemHeight":265,"itemWidth":355}
+                </convert>               
+            </widget> 
+
+            <widget font="Regular;36" position="308,1380" render="Label" size="1800,42" source="pluginlist" transparent="1">
+                <convert type="StringListSelection">2</convert>
+            </widget>           
+ 
+        </screen>
+		</style>
 		<!-- ##############################  PANELS SECONDINFOBAR ###########################-->
 		
 		<style name="SecondInfoBar" value="Default" preview="preview/SIB-Slim.jpg">
 			<screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
 			<ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/sib.png" position="0,0" size="2560,870" zPosition="1" />
-			<eLabel backgroundColor="#000000" font="Regular;43" halign="left" position="107,80" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2" />
-			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" position="267,80" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+			<eLabel backgroundColor="#000000" font="Regular;43" halign="left" position="312,65" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2" />
+			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" position="502,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">StartTime</convert>
 				<convert type="ClockToText">Default</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffff00" halign="left" position="400,80" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffff00" halign="left" position="635,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">EndTime</convert>
 				<convert type="ClockToText">Format:- %H:%M</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ff0000" halign="left" position="600,80" render="Label" size="267,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ff0000" halign="left" position="860,65" render="Label" size="267,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">Remaining</convert>
 				<convert type="RemainingToText">InMinutes</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="94,200" render="Label" size="1134,120" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="114,200" render="Label" size="1134,120" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
 				<convert type="EventName">Name</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="94,307" render="zScrollLabel" size="1120,454" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
+			<widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="227,307" render="zScrollLabel" size="934,505" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
 				<convert type="EventName">ExtendedDescription</convert>
 			</widget>
-			<eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1294,80" size="187,67" text="NEXT : " transparent="1" valign="center" zPosition="2" />
-			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1440,80" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+			<eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1479,65" size="187,67" text="NEXT : " transparent="1" valign="center" zPosition="2" />
+			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1690,65" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">StartTime</convert>
 				<convert type="ClockToText">Default</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" halign="left" position="1574,80" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" halign="left" position="1819,68" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">EndTime</convert>
 				<convert type="ClockToText">Format:- %H:%M</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ff0000" halign="left" position="1760,80" render="Label" size="267,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ff0000" halign="left" position="2020,65" render="Label" size="267,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
 				<convert type="EventTime">Remaining</convert>
 				<convert type="RemainingToText">InMinutes</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="1320,200" render="Label" size="1134,120" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+			<widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="1292,200" render="Label" size="1134,120" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
 				<convert type="EventName">Name</convert>
 			</widget>
-			<widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="1294,307" render="zScrollLabel" size="1120,454" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
+			<widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="1389,307" render="zScrollLabel" size="934,535" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
 				<convert type="EventName">ExtendedDescription</convert>
 			</widget>
 			</screen>
