@@ -22,7 +22,10 @@
 
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap
-from Components.AVSwitch import AVSwitch
+try:
+    from Components.AVSwitch import eAVSwitch
+except Exception:
+    from Components.AVSwitch import iAVSwitch as eAVSwitch
 from enigma import eEnv, ePicLoad, eRect, eSize, gPixmapPtr
 
 

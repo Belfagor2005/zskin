@@ -198,6 +198,8 @@ class ZEvent(VariableText, Renderer):
         adsl = intCheck()
         if not adsl:
             return
+        if os.path.exists("/tmp/rating"):
+            os.remove("/tmp/rating")
         self.timer30 = eTimer()
         self.downevent = False
 
