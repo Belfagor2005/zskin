@@ -221,10 +221,10 @@ class ZChannel(Renderer):
         if what[0] == self.CHANGED_CLEAR:
             print('what[0] == self.CHANGED_CLEAR')
             # self.instance.hide()
-            # return
+            return
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
-            # self.instance.hide()
+            self.instance.hide()
             self.delay()
 
     def applySkin(self, desktop, parent):
