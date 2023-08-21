@@ -603,7 +603,7 @@
             <convert type="ConditionalShowHide"/>
         </widget>
     </screen>
-    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
+    <!-- <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
         <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/sib.png" position="0,0" size="2560,870" zPosition="1"/>
         <eLabel backgroundColor="#000000" font="Regular;43" halign="left" position="107,80" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2"/>
         <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" position="267,80" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
@@ -641,6 +641,47 @@
             <convert type="EventName">Name</convert>
         </widget>
         <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="1294,307" render="zScrollLabel" size="1120,454" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
+            <convert type="EventName">ExtendedDescription</convert>
+        </widget>
+    </screen> -->
+    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
+        <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/sib.png" position="0,0" size="2560,870" zPosition="1" />
+        <eLabel backgroundColor="#000000" font="Regular;43" halign="left" position="387,65" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2" />
+        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" position="542,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">StartTime</convert>
+            <convert type="ClockToText">Default</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffff00" halign="left" position="675,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">EndTime</convert>
+            <convert type="ClockToText">Format:- %H:%M</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ff0000" halign="left" position="860,65" render="Label" size="267,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">Remaining</convert>
+            <convert type="RemainingToText">InMinutes</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="124,200" render="Label" size="1087,120" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+            <convert type="EventName">Name</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="206,307" render="zScrollLabel" size="955,505" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
+            <convert type="EventName">ExtendedDescription</convert>
+        </widget>
+        <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1529,70" size="187,67" text="NEXT : " transparent="1" valign="center" zPosition="2" />
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1705,70" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">StartTime</convert>
+            <convert type="ClockToText">Default</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" halign="left" position="1819,70" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">EndTime</convert>
+            <convert type="ClockToText">Format:- %H:%M</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ff0000" halign="left" position="2010,70" render="Label" size="267,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventTime">Remaining</convert>
+            <convert type="RemainingToText">InMinutes</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="1292,200" render="Label" size="1134,120" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+            <convert type="EventName">Name</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="1399,307" render="zScrollLabel" size="934,535" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
             <convert type="EventName">ExtendedDescription</convert>
         </widget>
     </screen>
@@ -1343,6 +1384,7 @@
         <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
         <ePixmap pixmap="ZSkin-WQHD/menu/panels/nocover.png" position="294,200" scale="strech" size="284,427" zPosition="2"/>
         <widget render="ZChannel" alphatest="blend" position="294,200" size="284,414" source="session.Event_Now" zPosition="5"/>
+        <!-- <widget render="ZPoster" alphatest="blend" position="294,200" size="284,414" source="session.Event_Now" zPosition="5"/> -->
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="genuineDreambox" position="0,0" size="2560,1440" title="Genuine Dreambox">
         <layout name="menu_1030"/>
@@ -4233,10 +4275,10 @@
         <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" position="227,14" render="Label" size="2267,174" source="InfoLabel" transparent="1" valign="center"/>
         <widget backgroundColor="bluette" name="List0PathSel" position="40,227" size="1027,67" zPosition="1"/>
         <widget backgroundColor="#202020" font="Regular;38" foregroundColor="#ffffff" noWrap="1" position="40,227" render="Label" size="1027,67" source="List0Path" valign="center"/>
-        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="60" PictureSize="35" backgroundColor="#20202020" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listl" position="40,307" scrollbarMode="showOnDemand" size="1027,1080" transparent="1" zPosition="5"/>
+        <widget FileNameFont="Regular;28" FreeSizeWidth="400" InfoFont="Regular;28" InfoWidth="120" ItemHeight="60" PictureSize="35" backgroundColor="#20202020" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listl" position="40,307" scrollbarMode="showOnDemand" size="1027,1080" transparent="1" zPosition="5"/>
         <widget backgroundColor="bluette" name="List1PathSel" position="1487,227" size="1027,67" zPosition="1"/>
         <widget backgroundColor="#202020" font="Regular;38" foregroundColor="#ffffff" noWrap="1" position="1487,227" render="Label" size="1040,67" source="List1Path" valign="center"/>
-        <widget FileNameFont="Regular;26" FreeSizeWidth="400" InfoFont="Regular;26" InfoWidth="120" ItemHeight="60" PictureSize="35" backgroundColor="#404040" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listr" position="1487,307" scrollbarMode="showOnDemand" size="1040,1080" transparent="1" zPosition="5"/>
+        <widget FileNameFont="Regular;28" FreeSizeWidth="400" InfoFont="Regular;28" InfoWidth="120" ItemHeight="60" PictureSize="35" backgroundColor="#404040" backgroundColorSelected="barColor" foregroundColor="#ffffff" name="listr" position="1487,307" scrollbarMode="showOnDemand" size="1040,1080" transparent="1" zPosition="5"/>
         <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/arrow_left.svg" position="center,254" size="0,0"/>
         <eLabel backgroundColor="#00000000" font="Regular;38" foregroundColor="ltbluette" halign="center" position="1120,227" size="320,67" text="gCommander" transparent="1" zPosition="1"/>
         <ePixmap pixmap="skin_default/buttons/key_1.png" position="1120,307" size="107,54"/>
@@ -8962,7 +9004,7 @@ self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)//2,(1440-wsizey)//2
 			</applet>
     </screen>
     <screen backgroundColor="#10000000" name="ChoiceBox" position="center,center" size="1120,800" title="Input">
-        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" name="text" position="14,14" size="1067,54" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" name="text" position="14,14" size="1067,70" transparent="1" valign="center" zPosition="5"/>
         <widget backgroundColor="barColor" backgroundColorSelected="barColor" enableWrapAround="1" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" name="list" position="14,7" scrollbarMode="showOnDemand" size="1067,780" transparent="1"/>
         <applet type="onLayoutFinish">
 # this should be factored out into some helper code,but currently demonstrates applets.
