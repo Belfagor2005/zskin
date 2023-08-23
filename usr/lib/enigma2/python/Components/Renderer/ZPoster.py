@@ -151,13 +151,6 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-# REGEX = re.compile(
-        # r'\s\*\d{4}\Z|'                 # remove ( *1234)
-        # r'([\(\[\|].*?[\)\]\|])|'       # remove ([xxx] or (xxx) or |xxx|)
-        # # r'(\s{1,}\:\s{1,}).+|'        # remove ( : xxx)
-        # r'(\.\s{1,}\").+|'              # remove (. "xxx)
-        # r'(\?\s{1,}\").+|'              # remove (? "xxx)
-        # r'(\.{2,}\Z)', re.DOTALL)       # remove (..)
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
         r'(: odc.\d+)|'
@@ -185,24 +178,10 @@ REGEX = re.compile(
 def convtext(text=''):
     try:
         print('ZChannel text ->>> ', text)
-        # import unicodedata
         if text != '' or text is not None or text != 'None':
-            '''
-            # text = text.replace('\xc2\x86', '')
-            # text = text.replace('\xc2\x87', '')
-            '''
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # text = text.strip()
-            '''
-            # try:
-                # text = unicode(text, 'utf-8')
-            # except Exception as e:
-                # print('error name ',e)
-                # pass
-            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-            '''
             text = unicodify(text)
             text = text.lower()
             print('ZChannel text <<<- ', text)
@@ -213,23 +192,6 @@ def convtext(text=''):
     except Exception as e:
         print('cleantitle error: ', e)
         pass
-
-
-# def convtext(text):
-    # text = text.replace('\xc2\x86', '')
-    # text = text.replace('\xc2\x87', '')
-    # text = REGEX.sub('', text)
-    # text = re.sub(r"[-,!/\.\":]", ' ', text)  # replace (- or , or ! or / or . or " or :) by space
-    # text = re.sub(r'\s{1,}', ' ', text)     # replace multiple space by one space
-    # text = text.strip()
-
-    # try:
-        # text = unicode(text, 'utf-8')
-    # except NameError:
-        # pass
-    # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-    # text = text.lower()
-    # return str(text)
 
 
 if PY3:
@@ -251,8 +213,6 @@ def intCheck():
     else:
         return True
 adsl = intCheck()
-if not adsl:
-    return
 
 
 try:
@@ -403,7 +363,6 @@ threadAutoDB.start()
 class ZPoster(Renderer):
     def __init__(self):
         Renderer.__init__(self)
-        adsl = intCheck()
         if not adsl:
             return
         self.nxts = 0
@@ -416,7 +375,6 @@ class ZPoster(Renderer):
         except:
             self.timer.callback.append(self.showPoster)
         self.timer.start(50, True)
-        # self.timer.callback.append(self.showPoster)
         self.logdbg = None
 
     def applySkin(self, desktop, parent):

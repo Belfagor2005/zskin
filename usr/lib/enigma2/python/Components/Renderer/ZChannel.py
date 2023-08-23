@@ -150,8 +150,7 @@ def intCheck():
     else:
         return True
 adsl = intCheck()
-if not adsl:
-    return
+
 
 try:
     folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
@@ -174,24 +173,10 @@ def unicodify(s, encoding='utf-8', norm=None):
 def cleantitle(text=''):
     try:
         print('ZChannel text ->>> ', text)
-        # import unicodedata
         if text != '' or text is not None or text != 'None':
-            '''
-            # text = text.replace('\xc2\x86', '')
-            # text = text.replace('\xc2\x87', '')
-            '''
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # text = text.strip()
-            '''
-            # try:
-                # text = unicode(text, 'utf-8')
-            # except Exception as e:
-                # print('error name ',e)
-                # pass
-            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-            '''
             text = unicodify(text)
             text = text.lower()
             print('ZChannel text <<<- ', text)
@@ -207,7 +192,6 @@ def cleantitle(text=''):
 class ZChannel(Renderer):
     def __init__(self):
         Renderer.__init__(self)
-        adsl = intCheck()
         if not adsl:
             return
         self.nxts = 0
@@ -222,7 +206,6 @@ class ZChannel(Renderer):
             return
         if what[0] == self.CHANGED_CLEAR:
             print('what[0] == self.CHANGED_CLEAR')
-            # self.instance.hide()
             return
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
@@ -261,6 +244,9 @@ class ZChannel(Renderer):
                 self.showPoster()
             else:
                 try:
+                    if os.path.exists("%s/url_rate" % folder_poster):
+                        os.remove("%s/url_rate" % folder_poster)
+                        print("%s has been removed successfully" %folder_poster)
                     url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
                     if PY3:
                         url = url.encode()

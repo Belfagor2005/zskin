@@ -62,11 +62,6 @@ class ZInfoPoster(Renderer):
     def changed(self, what):
         if self.timer50:
             self.timer50.stop()
-        # if what[0] == self.CHANGED_CLEAR:
-            # self.instance.hide()
-        # if what[0] != self.CHANGED_CLEAR:
-            # self.delay()
-
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         # if what[0] != self.CHANGED_CLEAR:
@@ -95,8 +90,6 @@ class ZInfoPoster(Renderer):
         if ptr is not None:
             self.instance.setPixmap(ptr)
             self.instance.show()
-        # else:
-            # self.instance.hide()
         del self.picload
 
     def info(self):
@@ -123,8 +116,3 @@ class ZInfoPoster(Renderer):
             if fileExists(self.pstrNm):
                 self.timer50.stop()
                 self.showPoster()
-            # else:
-                # # self.downloading = False
-                # self.instance.hide()
-        # else:
-            # return

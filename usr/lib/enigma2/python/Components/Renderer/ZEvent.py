@@ -148,8 +148,6 @@ def intCheck():
     else:
         return True
 adsl = intCheck()
-if not adsl:
-    return
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -164,24 +162,10 @@ def unicodify(s, encoding='utf-8', norm=None):
 def cleantitle(text=''):
     try:
         print('ZEvent text ->>> ', text)
-        # import unicodedata
         if text != '' or text is not None or text != 'None':
-            '''
-            # text = text.replace('\xc2\x86', '')
-            # text = text.replace('\xc2\x87', '')
-            '''
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # text = text.strip()
-            '''
-            # try:
-                # text = unicode(text, 'utf-8')
-            # except Exception as e:
-                # print('error name ',e)
-                # pass
-            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-            '''
             text = unicodify(text)
             text = text.lower()
             print('ZEvent text <<<- ', text)
@@ -198,13 +182,11 @@ class ZEvent(VariableText, Renderer):
     def __init__(self):
         Renderer.__init__(self)
         VariableText.__init__(self)
-        adsl = intCheck()
         if not adsl:
             return
-        if os.path.exists("/tmp/rating"):
-            os.remove("/tmp/rating")
         self.timer30 = eTimer()
         self.downevent = False
+        self.text = ''
 
     GUI_WIDGET = eLabel
 
@@ -212,11 +194,9 @@ class ZEvent(VariableText, Renderer):
         if self.timer30:
             self.timer30.stop()
         if what[0] == self.CHANGED_CLEAR:
-            self.text = ''
             return
         if what[0] != self.CHANGED_CLEAR:
             print('what[0] != self.CHANGED_CLEAR')
-            # self.instance.hide()
             self.delay()
 
     def delay(self):
@@ -225,13 +205,12 @@ class ZEvent(VariableText, Renderer):
             self.timer30.callback.append(self.infos)
         except:
             self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(100, True)
+        self.timer30.start(250, True)
 
     def infos(self):
         if self.downevent:
             return
         try:
-            self.text = ''
             Title = ''
             ImdbRating = '0'
             Rated = ''
@@ -326,14 +305,14 @@ class ZEvent(VariableText, Renderer):
                             self.text += "\nRated : %s" % str(Rated)
                             print("text= ", self.text)
                 except:
-                    return ""
+                    return self.text
                     pass
 
             else:
                 self.downevent = False
-                return ""
+                return self.text
         except:
             if os.path.exists("/tmp/rating"):
                 os.remove("/tmp/rating")
             self.downevent = False
-            return ""
+            return self.text

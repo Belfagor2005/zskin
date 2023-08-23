@@ -51,7 +51,7 @@ print('my apikey in use: ', tmdb_api)
 
 try:
     folder_size = sum([sum([os.path.getsize(os.path.join(path_folder, fname)) for fname in files]) for path_folder, folders, files in os.walk(path_folder)])
-    eventx = "%0.f" % (folder_size/(1024*1024.0))
+    eventx = "%0.f" % (folder_size // (1024 * 1024.0))
     if eventx >= "5":
         shutil.rmtree(path_folder)
 except:
@@ -90,28 +90,36 @@ REGEX = re.compile(
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    else:
+        return True
+adsl = intCheck()
+
 
 class infoEvent(Renderer, VariableText):
 
     def __init__(self):
         Renderer.__init__(self)
         VariableText.__init__(self)
-
-        self.intCheck()
-
-    def intCheck(self):
-        try:
-            socket.setdefaulttimeout(0.5)
-            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
-            return True
-        except:
-            return False
+        if not adsl:
+            return
+        self.text = ''
 
     GUI_WIDGET = eLabel
 
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
-            self.text = ''
+            # self.text = ''
+            return
         else:
             self.delay()
 
@@ -120,7 +128,6 @@ class infoEvent(Renderer, VariableText):
             return
         self.downloading = True
         try:
-            self.text = ''
             Title = ''
             ImdbRating = ''
             Rated = ''
@@ -231,18 +238,15 @@ class infoEvent(Renderer, VariableText):
                             os.remove("/tmp/rating")
                             print('/tmp/rating removed')
                             self.downloading = False
-                        return ""
+                        return self.text
                 else:
                     self.downloading = False
-                    return ""
-            # #test su cover che non va via lasciando il posto a nocover
-            # else:
-                # self.instance.hide()
+                    return self.text
 
         except:
             if os.path.exists("/tmp/rating"):
                 os.remove("/tmp/rating")
-            return ""
+            return self.text
 
     def delay(self):
         self.downloading = False

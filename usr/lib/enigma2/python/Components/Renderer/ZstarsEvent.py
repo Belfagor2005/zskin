@@ -20,7 +20,6 @@ from enigma import eSlider
 import os
 import re
 import json
-# import sys
 try:
     from urllib.parse import quote
 except:
@@ -97,24 +96,10 @@ def unicodify(s, encoding='utf-8', norm=None):
 def cleantitle(text=''):
     try:
         print('ZstarsEvent text ->>> ', text)
-        # import unicodedata
         if text != '' or text is not None or text != 'None':
-            '''
-            # text = text.replace('\xc2\x86', '')
-            # text = text.replace('\xc2\x87', '')
-            '''
             text = REGEX.sub('', text)
             text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # text = text.strip()
-            '''
-            # try:
-                # text = unicode(text, 'utf-8')
-            # except Exception as e:
-                # print('error name ',e)
-                # pass
-            # text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
-            '''
             text = unicodify(text)
             text = text.lower()
             print('ZstarsEvent text <<<- ', text)
@@ -139,7 +124,6 @@ class ZstarsEvent(VariableValue, Renderer):
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
             (self.range, self.value) = ((0, 1), 0)
-            # return
 
         if what[0] != self.CHANGED_CLEAR:
             print('zstar what[0] != self.CHANGED_CLEAR')
@@ -149,13 +133,9 @@ class ZstarsEvent(VariableValue, Renderer):
             try:
                 self.event = self.source.event
                 if self.event:  # and self.instance:
-                    
                     evnt = self.event.getEventName().encode('utf-8')
                     self.evnt = cleantitle(evnt)
-                    # rating_json = "{}{}.json".format(folder_poster, quote(self.evntNm))
-
                     rating_json = os.path.join(folder_poster, "url_rate")
-
                     if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
                         with open(rating_json) as f:
                             try:
@@ -163,7 +143,7 @@ class ZstarsEvent(VariableValue, Renderer):
                             except:
                                 rating = json.load(f)['imdbRating']
                         if rating:
-                            rtng = int(10*(float(rating)))
+                            rtng = int(10 * (float(rating)))
                         else:
                             rtng = 0
                     else:
