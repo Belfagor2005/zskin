@@ -147,6 +147,9 @@ def intCheck():
         return False
     else:
         return True
+adsl = intCheck()
+if not adsl:
+    return
 
 
 def unicodify(s, encoding='utf-8', norm=None):

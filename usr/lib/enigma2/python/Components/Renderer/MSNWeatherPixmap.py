@@ -44,7 +44,7 @@ class MSNWeatherPixmap(Renderer):
 				x, y = value.split(',')
 				self._scaleSize = eSize(int(x), int(y))
 				break
-		sc = AVSwitch().getFramebufferScale()
+		sc = eAVSwitch().getFramebufferScale()
 		self._aspectRatio = eSize(sc[0], sc[1])
 		self.picload.setPara((self._scaleSize.width(), self._scaleSize.height(), sc[0], sc[1], True, 2, '#ff000000'))
 

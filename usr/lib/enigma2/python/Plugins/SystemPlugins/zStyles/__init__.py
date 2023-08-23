@@ -11,7 +11,7 @@ PLUGIN_PATH = resolveFilename(SCOPE_PLUGINS) + "SystemPlugins/" + PLUGIN_NAME + 
 
 
 def getPluginIcon():
-    plugin_icon = "skin/images/zstyle.svg"
+    plugin_icon = "skin/images/zstyles.svg"
     try:
         import os
         from Tools.LoadPixmap import LoadPixmap
@@ -19,7 +19,7 @@ def getPluginIcon():
         print("[zStyle] svg support")
     except:
         print("[zStyle] no svg support")
-        plugin_icon = "skin/images/zstyle.png"
+        plugin_icon = "skin/images/zstyles.png"
     return plugin_icon
 
 

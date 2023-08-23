@@ -149,7 +149,9 @@ def intCheck():
         return False
     else:
         return True
-
+adsl = intCheck()
+if not adsl:
+    return
 
 try:
     folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
