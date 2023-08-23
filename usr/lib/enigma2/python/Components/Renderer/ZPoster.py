@@ -106,7 +106,7 @@ try:
 except:
     autobouquet_file = '/etc/enigma2/userbouquet.favourites.tv'
 print('autobouquet_file = ', autobouquet_file)
-autobouquet_count = 32
+autobouquet_count = 85
 # Short script for Automatic poster generation on your preferred bouquet
 if not os.path.exists(autobouquet_file):
     autobouquet_file = None

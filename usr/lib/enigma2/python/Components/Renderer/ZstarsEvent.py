@@ -73,7 +73,6 @@ REGEX = re.compile(
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
-        # r'\*|'
         r'Премьера\.\s|'
         r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
         r'(х|Х|м|М|т|Т|д|Д)/с\s|'
@@ -124,7 +123,7 @@ class ZstarsEvent(VariableValue, Renderer):
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
             (self.range, self.value) = ((0, 1), 0)
-
+            return
         if what[0] != self.CHANGED_CLEAR:
             print('zstar what[0] != self.CHANGED_CLEAR')
             rtng = 0
