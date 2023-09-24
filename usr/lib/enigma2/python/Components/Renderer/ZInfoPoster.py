@@ -60,8 +60,8 @@ class ZInfoPoster(Renderer):
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
-        if self.timer50:
-            self.timer50.stop()
+        # if self.timer50:
+            # self.timer50.stop()
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         # if what[0] != self.CHANGED_CLEAR:

@@ -205,10 +205,10 @@ class ZChannel(Renderer):
             print('not istance')
             return
         if what[0] == self.CHANGED_CLEAR:
-            print('what[0] == self.CHANGED_CLEAR')
+            print('zchannel A what[0] == self.CHANGED_CLEAR')
             return
         if what[0] != self.CHANGED_CLEAR:
-            print('what[0] != self.CHANGED_CLEAR')
+            print('Zchannel B what[0] != self.CHANGED_CLEAR')
             self.instance.hide()
             self.delay()
 

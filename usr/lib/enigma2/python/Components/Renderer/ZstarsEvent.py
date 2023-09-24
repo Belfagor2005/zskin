@@ -125,7 +125,7 @@ class ZstarsEvent(VariableValue, Renderer):
             (self.range, self.value) = ((0, 1), 0)
             return
         if what[0] != self.CHANGED_CLEAR:
-            print('zstar what[0] != self.CHANGED_CLEAR')
+            print('zstar event what[0] != self.CHANGED_CLEAR')
             rtng = 0
             range = 0
             value = 0

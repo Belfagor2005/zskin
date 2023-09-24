@@ -152,15 +152,16 @@ class zExtra(Poll, Converter):
             except:
                 return ''
         if self.type == self.IPWAN:
+            publicIp = ''
             try:
                 file = os.popen('wget -qO - ifconfig.me')
                 public = file.read()
                 publicIp = "Local Ip %s" % (str(public))
-                return "%s" % publicIp
+                # return "%s" % publicIp
             except:
                 if os.path.exists("/tmp/currentip"):
                     os.remove("/tmp/currentip")
-                return ''
+            return str(publicIp)
 
         if self.type == self.CPUSPEED:
             try:

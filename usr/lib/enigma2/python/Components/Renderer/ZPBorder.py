@@ -64,11 +64,12 @@ class ZPBorder(Renderer):
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
-        if self.timer40:
-            self.timer40.stop()
+        # if self.timer40:
+            # self.timer40.stop()
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
+            print('zborder what[0] != self.CHANGED_CLEAR: ')
             self.delay()
 
     def delay(self):

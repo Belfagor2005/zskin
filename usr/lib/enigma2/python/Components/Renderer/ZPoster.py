@@ -396,6 +396,7 @@ class ZPoster(Renderer):
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
+            print('zposter what[0] != self.CHANGED_CLEAR: ')
             servicetype = None
             try:
                 service = None

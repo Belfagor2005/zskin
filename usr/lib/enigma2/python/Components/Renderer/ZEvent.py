@@ -191,12 +191,12 @@ class ZEvent(VariableText, Renderer):
     GUI_WIDGET = eLabel
 
     def changed(self, what):
-        if self.timer30:
-            self.timer30.stop()
+        # if self.timer30:
+            # self.timer30.stop()
         if what[0] == self.CHANGED_CLEAR:
             return
         if what[0] != self.CHANGED_CLEAR:
-            print('what[0] != self.CHANGED_CLEAR')
+            print('zevent what[0] != self.CHANGED_CLEAR')
             self.delay()
 
     def delay(self):
