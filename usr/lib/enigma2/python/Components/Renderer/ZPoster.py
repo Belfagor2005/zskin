@@ -71,7 +71,21 @@ def isMountReadonly(mnt):
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
+path_folder = "/tmp/poster/"
+if os.path.exists("/media/hdd"):
+    if not isMountReadonly("/media/hdd"):
+        path_folder = "/media/hdd/poster/"
+elif os.path.exists("/media/usb"):
+    if not isMountReadonly("/media/usb"):
+        path_folder = "/media/usb/poster/"
+elif os.path.exists("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        path_folder = "/media/mmc/poster/"
 
+if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+if not os.path.exists(path_folder):
+    path_folder = "/tmp/poster/"
 epgcache = eEPGCache.getInstance()
 
 try:
@@ -92,24 +106,28 @@ apdb = dict()
 
 def SearchBouquetTerrestrial():
     import glob
+    import codecs
+    file = '/etc/enigma2/userbouquet.favourites.tv'
     for file in sorted(glob.glob('/etc/enigma2/*.tv')):
-        f = open(file, 'r').read()
-        x = f.strip().lower()
-        if x.find('eeee0000') != -1:
-            if x.find('82000') == -1 and x.find('c0000') == -1:
-                return file
-                break
+        with codecs.open(file, "r", encoding="utf-8") as f:
+            file = f.read()
+        # f = open(file, 'r').read()
+            x = file.strip().lower()
+            if x.find('eeee0000') != -1:
+                if x.find('82000') == -1 and x.find('c0000') == -1:
+                    return file
+                    break
 
 
-try:
+if SearchBouquetTerrestrial():
     autobouquet_file = SearchBouquetTerrestrial()
-except:
+else:
     autobouquet_file = '/etc/enigma2/userbouquet.favourites.tv'
 print('autobouquet_file = ', autobouquet_file)
-autobouquet_count = 85
+autobouquet_count = 70
 # Short script for Automatic poster generation on your preferred bouquet
 if not os.path.exists(autobouquet_file):
-    autobouquet_file = None
+    # autobouquet_file = ''
     autobouquet_count = 0
 else:
     with open(autobouquet_file, 'r') as f:
@@ -125,21 +143,14 @@ else:
                     service = ':'.join((line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10]))
                     apdb[i] = service
 
-path_folder = "/tmp/poster/"
-if os.path.exists("/media/hdd"):
-    if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster/"
-elif os.path.exists("/media/usb"):
-    if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster/"
-elif os.path.exists("/media/mmc"):
-    if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster/"
 
-if not os.path.exists(path_folder):
-    os.makedirs(path_folder)
-if not os.path.exists(path_folder):
-    path_folder = "/tmp/poster/"
+try:
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
+    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
+    if ozposter >= "5":
+        shutil.rmtree(path_folder)
+except:
+    pass
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -212,16 +223,6 @@ def intCheck():
         return False
     else:
         return True
-adsl = intCheck()
-
-
-try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
-    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
-    if ozposter >= "5":
-        shutil.rmtree(path_folder)
-except:
-    pass
 
 
 class PosterDB(zPosterXDownloadThread):
@@ -234,7 +235,8 @@ class PosterDB(zPosterXDownloadThread):
         while True:
             canal = pdb.get()
             self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-            dwn_poster = path_folder + canal[5] + ".jpg"
+            pstcanal = convtext(canal[5])
+            dwn_poster = path_folder + pstcanal + ".jpg"
             if os.path.exists(dwn_poster):
                 os.utime(dwn_poster, (time.time(), time.time()))
             if language == "fr":
@@ -289,7 +291,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                     newcn = None
                     for evt in events:
                         canal = [None, None, None, None, None, None]
-                        canal[0] = ServiceReference(service).getServiceName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '')
+                        canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')
                         if evt[1] is None or evt[4] is None or evt[5] is None or evt[6] is None:
                             self.logAutoDB("[AutoDB] *** missing epg for {}".format(canal[0]))
                         else:
@@ -297,9 +299,10 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[2] = evt[4]
                             canal[3] = evt[5]
                             canal[4] = evt[6]
-                            canal[5] = convtext(canal[2])
+                            canal[5] = canal[2]
                             # self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
-                            dwn_poster = path_folder + canal[5] + ".jpg"
+                            pstcanal = convtext(canal[5])
+                            dwn_poster = path_folder + pstcanal + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
                             if language == "fr":
@@ -315,15 +318,15 @@ class PosterAutoDB(zPosterXDownloadThread):
                                 val, log = self.search_imdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
-                            if not os.path.exists(dwn_poster):
+                            elif not os.path.exists(dwn_poster):
                                 val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
-                            if not os.path.exists(dwn_poster):
+                            elif not os.path.exists(dwn_poster):
                                 val, log = self.search_tvdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
-                            if not os.path.exists(dwn_poster):
+                            elif not os.path.exists(dwn_poster):
                                 val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
@@ -363,19 +366,20 @@ threadAutoDB.start()
 class ZPoster(Renderer):
     def __init__(self):
         Renderer.__init__(self)
+        adsl = intCheck()
         if not adsl:
             return
         self.nxts = 0
         self.path = path_folder
         self.canal = [None, None, None, None, None, None]
         self.oldCanal = None
+        self.logdbg = None
         self.timer = eTimer()
         try:
             self.timer_conn = self.timer.timeout.connect(self.showPoster)
         except:
             self.timer.callback.append(self.showPoster)
         self.timer.start(50, True)
-        self.logdbg = None
 
     def applySkin(self, desktop, parent):
         attribs = []
@@ -418,7 +422,8 @@ class ZPoster(Renderer):
                         self.canal[2] = self.source.event.getEventName()
                         self.canal[3] = self.source.event.getExtendedDescription()
                         self.canal[4] = self.source.event.getShortDescription()
-                        self.canal[5] = convtext(self.canal[2])
+                        self.canal[5] = self.canal[2]
+                        pstcanal = convtext(self.canal[5])
                     servicetype = "Event"
                 if service:
                     events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
@@ -427,9 +432,9 @@ class ZPoster(Renderer):
                     self.canal[2] = events[self.nxts][4]
                     self.canal[3] = events[self.nxts][5]
                     self.canal[4] = events[self.nxts][6]
-                    self.canal[5] = convtext(self.canal[2])
+                    self.canal[5] = self.canal[2]
+                    pstcanal = convtext(self.canal[5])
                     if not autobouquet_file:
-                        # if not apdb.has_key(self.canal[0]):
                         if self.canal[0] not in apdb:
                             apdb[self.canal[0]] = service.toString()
             except Exception as e:
@@ -446,7 +451,9 @@ class ZPoster(Renderer):
                     return
                 self.oldCanal = curCanal
                 self.logPoster("Service : {} [{}] : {} : {}".format(servicetype, self.nxts, self.canal[0], self.oldCanal))
-                pstrNm = self.path + self.canal[5] + ".jpg"
+                pstcanal = convtext(self.canal[5])
+                pstrNm = self.path + pstcanal + ".jpg"
+                pstrNm = str(pstrNm)
                 if os.path.exists(pstrNm):
                     self.timer.start(100, True)
                 else:
@@ -454,24 +461,28 @@ class ZPoster(Renderer):
                     pdb.put(canal)
                     start_new_thread(self.waitPoster, ())
             except Exception as e:
-                self.logPoster("Error (eFile) : "+str(e))
+                self.logPoster("Error (eFile) : " + str(e))
                 self.instance.hide()
                 return
 
     def showPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstrNm = self.path + self.canal[5] + ".jpg"
+            pstcanal = convtext(self.canal[5])
+            pstrNm = self.path + pstcanal + ".jpg"
+            pstrNm = str(pstrNm)
             if os.path.exists(pstrNm):
                 self.logPoster("[LOAD : showPoster] {}".format(pstrNm))
                 self.instance.setPixmap(loadJPG(pstrNm))
-                self.instance.setScale(2)
+                self.instance.setScale(1)
                 self.instance.show()
 
     def waitPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstrNm = self.path + self.canal[5] + ".jpg"
+            pstcanal = convtext(self.canal[5])
+            pstrNm = self.path + pstcanal + ".jpg"
+            pstrNm = str(pstrNm)
             loop = 180
             found = None
             self.logPoster("[LOOP : waitPoster] {}".format(pstrNm))

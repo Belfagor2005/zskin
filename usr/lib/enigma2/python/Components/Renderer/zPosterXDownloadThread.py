@@ -76,11 +76,11 @@ def intCheck():
         return False
     else:
         return True
-adsl = intCheck()
 
 
 class zPosterXDownloadThread(threading.Thread):
     def __init__(self):
+        adsl = intCheck()
         if not adsl:
             return
         threading.Thread.__init__(self)
