@@ -97,13 +97,13 @@ def cleantitle(text=''):
         print('ZstarsEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
-            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             text = unicodify(text)
             text = text.lower()
             print('ZstarsEvent text <<<- ', text)
         else:
-            text = text
+            text = str(text)
             print('ZstarsEvent text <<<->>> ', text)
         return text
     except Exception as e:

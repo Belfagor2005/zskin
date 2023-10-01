@@ -43,22 +43,19 @@ import unicodedata
 import shutil
 PY3 = False
 PY3 = (sys.version_info[0] == 3)
-try:
-    if PY3:
-        PY3 = True
-        unicode = str
-        import queue
-        from _thread import start_new_thread
-        from urllib.error import HTTPError, URLError
-        from urllib.request import urlopen
-    else:
-        str = unicode
-        import Queue
-        from thread import start_new_thread
-        from urllib2 import HTTPError, URLError
-        from urllib2 import urlopen
-except:
-    pass
+if PY3:
+    PY3 = True
+    unicode = str
+    import queue
+    from _thread import start_new_thread
+    from urllib.error import HTTPError, URLError
+    from urllib.request import urlopen
+else:
+    str = unicode
+    import Queue
+    from thread import start_new_thread
+    from urllib2 import HTTPError, URLError
+    from urllib2 import urlopen
 
 
 def isMountReadonly(mnt):
@@ -368,10 +365,10 @@ threadAutoDB.start()
 
 class ZPoster(Renderer):
     def __init__(self):
-        Renderer.__init__(self)
         adsl = intCheck()
         if not adsl:
-            return
+            return    
+        Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
         self.canal = [None, None, None, None, None, None]

@@ -147,7 +147,6 @@ def intCheck():
         return False
     else:
         return True
-adsl = intCheck()
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -164,13 +163,13 @@ def cleantitle(text=''):
         print('ZEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
-            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             text = unicodify(text)
             text = text.lower()
             print('ZEvent text <<<- ', text)
         else:
-            text = text
+            text = str(text)
             print('ZEvent text <<<->>> ', text)
         return text
     except Exception as e:
@@ -180,10 +179,11 @@ def cleantitle(text=''):
 
 class ZEvent(VariableText, Renderer):
     def __init__(self):
-        Renderer.__init__(self)
-        VariableText.__init__(self)
+        adsl = intCheck()
         if not adsl:
             return
+        Renderer.__init__(self)
+        VariableText.__init__(self)
         self.timer30 = eTimer()
         self.downevent = False
         self.text = ''
@@ -191,8 +191,6 @@ class ZEvent(VariableText, Renderer):
     GUI_WIDGET = eLabel
 
     def changed(self, what):
-        # if self.timer30:
-            # self.timer30.stop()
         if what[0] == self.CHANGED_CLEAR:
             return
         if what[0] != self.CHANGED_CLEAR:
@@ -200,12 +198,11 @@ class ZEvent(VariableText, Renderer):
             self.delay()
 
     def delay(self):
-        # self.downevent = False
         try:
             self.timer30.callback.append(self.infos)
         except:
             self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(250, True)
+        self.timer30.start(150, True)
 
     def infos(self):
         if self.downevent:

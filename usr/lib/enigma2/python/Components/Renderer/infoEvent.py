@@ -102,16 +102,16 @@ def intCheck():
         return False
     else:
         return True
-adsl = intCheck()
 
 
 class infoEvent(Renderer, VariableText):
 
     def __init__(self):
-        Renderer.__init__(self)
-        VariableText.__init__(self)
+        adsl = intCheck()
         if not adsl:
             return
+        Renderer.__init__(self)
+        VariableText.__init__(self)
         self.text = ''
 
     GUI_WIDGET = eLabel

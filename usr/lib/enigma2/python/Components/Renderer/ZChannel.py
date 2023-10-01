@@ -17,12 +17,10 @@ import os
 import socket
 import sys
 import shutil
-
 # from enigma import loadJPG
 
 global cur_skin, my_cur_skin
 
-# PY3 = sys.version_info.major >= 3
 PY3 = (sys.version_info[0] == 3)
 
 if PY3:
