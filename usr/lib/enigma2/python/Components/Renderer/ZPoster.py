@@ -22,9 +22,9 @@
 # for epg, event
 # <widget source="Event" render="ZPoster" position="100,100" size="185,278" />
 # <widget source="Event" render="ZPoster" position="100,100" size="185,278" nexts="2" />
-
-from Components.Renderer.zPosterXDownloadThread import zPosterXDownloadThread
+from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
+from Components.Renderer.zPosterXDownloadThread import zPosterXDownloadThread
 from Components.Sources.CurrentService import CurrentService
 from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
@@ -41,14 +41,18 @@ import sys
 import time
 import unicodedata
 import shutil
+PY3 = False
 PY3 = (sys.version_info[0] == 3)
 try:
     if PY3:
+        PY3 = True
+        unicode = str
         import queue
         from _thread import start_new_thread
         from urllib.error import HTTPError, URLError
         from urllib.request import urlopen
     else:
+        str = unicode
         import Queue
         from thread import start_new_thread
         from urllib2 import HTTPError, URLError
@@ -89,11 +93,10 @@ if not os.path.exists(path_folder):
 epgcache = eEPGCache.getInstance()
 
 try:
-
-    language = config.osd.language.value
-    language = language[:-3]
+    lng = config.osd.language.value
+    lng = lng[:-3]
 except:
-    language = 'en'
+    lng = 'en'
     pass
 
 apdb = dict()
@@ -188,17 +191,17 @@ REGEX = re.compile(
 
 def convtext(text=''):
     try:
-        print('ZChannel text ->>> ', text)
+        print('zposter text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
-            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             text = unicodify(text)
             text = text.lower()
-            print('ZChannel text <<<- ', text)
+            print('zposter text <<<- ', text)
         else:
-            text = text
-            print('ZChannel text <<<->>> ', text)
+            text = str(text)
+            print('zposter text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -239,7 +242,7 @@ class PosterDB(zPosterXDownloadThread):
             dwn_poster = path_folder + pstcanal + ".jpg"
             if os.path.exists(dwn_poster):
                 os.utime(dwn_poster, (time.time(), time.time()))
-            if language == "fr":
+            if lng == "fr":
                 if not os.path.exists(dwn_poster):
                     val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
                     self.logDB(log)
@@ -305,7 +308,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             dwn_poster = path_folder + pstcanal + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
-                            if language == "fr":
+                            if lng == "fr":
                                 if not os.path.exists(dwn_poster):
                                     val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
                                     if val and log.find("SUCCESS"):

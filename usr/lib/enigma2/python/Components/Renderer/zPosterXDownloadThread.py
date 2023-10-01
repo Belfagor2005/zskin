@@ -17,10 +17,12 @@ try:
         from urllib.parse import quote
         import html
         html_parser = html
+        unicode = str
     else:
         from urllib2 import quote
         from HTMLParser import HTMLParser
         html_parser = HTMLParser()
+        str = unicode
 except:
     pass
 try:
@@ -31,13 +33,13 @@ except:
     from urllib2 import urlopen
 
 try:
-    language = config.osd.language.value
-    language = language[:-3]
+    lng = config.osd.language.value
+    lng = lng[:-3]
 except:
-    language = 'en'
+    lng = 'en'
     pass
 
-apikey = "3c3efcf47c3577558812bb9d64019d65"
+tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
@@ -51,7 +53,7 @@ try:
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
-                apikey = f.read()
+                tmdb_api = f.read()
         if os.path.exists(omdb_skin):
             with open(omdb_skin, "r") as f:
                 omdb_api = f.read()
@@ -127,11 +129,11 @@ class zPosterXDownloadThread(threading.Thread):
                 year = ''
                 pass
 
-            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&query={}".format(srch, apikey, quote(title))
+            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&query={}".format(srch, tmdb_api, quote(title))
             if year:
                 url_tmdb += "&year={}".format(year)
-            if language:
-                url_tmdb += "&language={}".format(language)
+            if lng:
+                url_tmdb += "&language={}".format(lng)
 
             poster = requests.get(url_tmdb).json()
             if poster and poster['results'] and poster['results'][0] and poster['results'][0]['poster_path']:
@@ -421,8 +423,8 @@ class zPosterXDownloadThread(threading.Thread):
                     series_name = ''
                 if self.PMATCH(ptitle, series_name):
                     url_tvdb = "https://thetvdb.com/api/{}/series/{}".format(thetvdbkey, series_id[series_nb])
-                    if language:
-                        url_tvdb += "/{}".format(language)
+                    if lng:
+                        url_tvdb += "/{}".format(lng)
                     else:
                         url_tvdb += "/en"
 
