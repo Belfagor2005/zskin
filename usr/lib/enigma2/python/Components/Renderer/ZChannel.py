@@ -9,11 +9,7 @@
 # <widget position="1095,310" render="ZChannel" size="260,379" source="ServiceEvent" zPosition="10" />
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap, ePicLoad  # , eTimer
-try:
-    from Components.AVSwitch import AVSwitch as eAVSwitch
-except Exception:
-    from Components.AVSwitch import iAVSwitch as eAVSwitch
-# from Components.AVSwitch import AVSwitch as eAVSwitch
+from Components.AVSwitch import AVSwitch
 from Components.config import config
 import re
 import json
@@ -24,17 +20,24 @@ import shutil
 
 # from enigma import loadJPG
 
-global cur_skin, my_cur_skin, apikey
+global cur_skin, my_cur_skin
 
-PY3 = sys.version_info.major >= 3
-try:
+# PY3 = sys.version_info.major >= 3
+PY3 = (sys.version_info[0] == 3)
+
+if PY3:
+    PY3 = True
+    unicode = str
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
     from urllib.parse import quote
-except:
+else:
+    str = unicode
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
     from urllib import quote
+
+
 
 # w92
 # w154
@@ -44,9 +47,10 @@ except:
 # w780
 # original
 formatImg = 'w185'
-apikey = "3c3efcf47c3577558812bb9d64019d65"
+tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
-thetvdbkey = 'D19315B88B2DE21F'
+# thetvdbkey = 'D19315B88B2DE21F'
+thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
@@ -92,7 +96,7 @@ try:
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
-                apikey = f.read()
+                tmdb_api = f.read()
         if os.path.exists(omdb_skin):
             with open(omdb_skin, "r") as f:
                 omdb_api = f.read()
@@ -105,12 +109,21 @@ except:
 
 try:
     from Components.config import config
-    language = config.osd.language.value
-    language = language[:-3]
+    lng = config.osd.language.value
+    lng = lng[:-3]
 except:
-    language = 'en'
+    lng = 'en'
     pass
-print('language: ', language)
+print('language: ', lng)
+
+
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
 
 
 REGEX = re.compile(
@@ -137,6 +150,25 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
+def cleantitle(text=''):
+    try:
+        print('zposter text ->>> ', text)
+        if text != '' or text is not None or text != 'None':
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = unicodify(text)
+            text = text.lower()
+            print('zposter text <<<- ', text)
+        else:
+            text = str(text)
+            print('zposter text <<<->>> ', text)
+        return text
+    except Exception as e:
+        print('cleantitle error: ', e)
+        pass
+
+
 def intCheck():
     try:
         response = urlopen("http://google.com", None, 5)
@@ -149,7 +181,6 @@ def intCheck():
         return False
     else:
         return True
-adsl = intCheck()
 
 
 try:
@@ -161,37 +192,10 @@ except:
     pass
 
 
-def unicodify(s, encoding='utf-8', norm=None):
-    if not isinstance(s, unicode):
-        s = unicode(s, encoding)
-    if norm:
-        from unicodedata import normalize
-        s = normalize(norm, s)
-    return s
-
-
-def cleantitle(text=''):
-    try:
-        print('ZChannel text ->>> ', text)
-        if text != '' or text is not None or text != 'None':
-            text = REGEX.sub('', text)
-            text = re.sub(r"[-,!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = unicodify(text)
-            text = text.lower()
-            print('ZChannel text <<<- ', text)
-        else:
-            text = text
-            print('ZChannel text <<<->>> ', text)
-        return text
-    except Exception as e:
-        print('cleantitle error: ', e)
-        pass
-
-
 class ZChannel(Renderer):
     def __init__(self):
         Renderer.__init__(self)
+        adsl = intCheck()
         if not adsl:
             return
         self.nxts = 0
@@ -246,8 +250,8 @@ class ZChannel(Renderer):
                 try:
                     if os.path.exists("%s/url_rate" % folder_poster):
                         os.remove("%s/url_rate" % folder_poster)
-                        print("%s has been removed successfully" %folder_poster)
-                    url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                        print("%s has been removed successfully" % folder_poster)
+                    url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
                         url = url.encode()
                     url2 = urlopen(url).read().decode('utf-8')
@@ -255,7 +259,7 @@ class ZChannel(Renderer):
                     if 'results' in jurl:
                         if 'id' in jurl['results'][0]:
                             ids = jurl['results'][0]['id']
-                            url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                            url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), tmdb_api, str(lng))
                             if PY3:
                                 url_2 = url_2.encode()
                             url_3 = urlopen(url_2).read().decode('utf-8')
@@ -269,7 +273,7 @@ class ZChannel(Renderer):
                                 return
                 except:
                     try:
-                        url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                        url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                         if PY3:
                             url = url.encode()
                         url2 = urlopen(url).read().decode('utf-8')
@@ -277,7 +281,7 @@ class ZChannel(Renderer):
                         if 'results' in jurl:
                             if 'id' in jurl['results'][0]:
                                 ids = jurl['results'][0]['id']
-                                url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), apikey, str(language))
+                                url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), tmdb_api, str(lng))
                                 if PY3:
                                     url_2 = url_2.encode()
                                 url_3 = urlopen(url_2).read().decode('utf-8')
@@ -298,7 +302,7 @@ class ZChannel(Renderer):
             self.picload = ePicLoad()
             if self.picload:
                 print('self.picload: loading')
-                sc = eAVSwitch().getFramebufferScale()
+                sc = AVSwitch().getFramebufferScale()
                 print('self.picload: loaded')
                 self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, '#00000000'])
                 if os.path.exists('/var/lib/dpkg/status'):

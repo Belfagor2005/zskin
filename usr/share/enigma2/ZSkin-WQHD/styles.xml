@@ -756,46 +756,46 @@
         </style>
         <!-- ##############################  PANELS SECONDINFOBAR ###########################-->
         <style name="SecondInfoBar" value="Default" preview="preview/SIB-Slim.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
-                <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/sib.png" position="0,0" size="2560,870" zPosition="1" />
-                <eLabel backgroundColor="#000000" font="Regular;43" halign="left" position="387,65" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2" />
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" position="542,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">StartTime</convert>
-                    <convert type="ClockToText">Default</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffff00" halign="left" position="675,65" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">EndTime</convert>
-                    <convert type="ClockToText">Format:- %H:%M</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ff0000" halign="left" position="860,65" render="Label" size="267,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">Remaining</convert>
-                    <convert type="RemainingToText">InMinutes</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="124,200" render="Label" size="1087,120" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventName">Name</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="206,307" render="zScrollLabel" size="955,505" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
-                    <convert type="EventName">ExtendedDescription</convert>
-                </widget>
-                <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1529,70" size="187,67" text="NEXT : " transparent="1" valign="center" zPosition="2" />
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="left" position="1705,70" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">StartTime</convert>
-                    <convert type="ClockToText">Default</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" halign="left" position="1819,70" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">EndTime</convert>
-                    <convert type="ClockToText">Format:- %H:%M</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ff0000" halign="left" position="2010,70" render="Label" size="267,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventTime">Remaining</convert>
-                    <convert type="RemainingToText">InMinutes</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#FFFF00" halign="center" position="1292,200" render="Label" size="1134,120" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
-                    <convert type="EventName">Name</convert>
-                </widget>
-                <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#ffffff" halign="center" position="1399,307" render="zScrollLabel" size="934,535" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
-                    <convert type="EventName">ExtendedDescription</convert>
-                </widget>
+            <screen backgroundColor="transparent" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,870" title="Second-InfoBar">
+              <ePixmap blend="blend" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/sib.png" position="0,0" size="2560,870" zPosition="1" />
+              <eLabel backgroundColor="black" font="Regular;43" halign="left" position="387,55" size="187,67" text="NOW : " transparent="1" valign="center" zPosition="2" />
+              <widget backgroundColor="black" font="Regular;43" foregroundColor="foreground" halign="left" position="542,55" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">StartTime</convert>
+                <convert type="ClockToText">Default</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;43" foregroundColor="#ffff00" halign="left" position="675,55" render="Label" size="187,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">EndTime</convert>
+                <convert type="ClockToText">Format:- %H:%M</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;43" foregroundColor="#ff0000" halign="left" position="860,55" render="Label" size="267,67" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">Remaining</convert>
+                <convert type="RemainingToText">InMinutes</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;40" foregroundColor="#ffff00" halign="center" position="161,200" render="Label" size="1065,120" source="session.Event_Now" transparent="1" valign="center" zPosition="2">
+                <convert type="EventName">Name</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;38" foregroundColor="foreground" halign="center" position="243,307" render="zScrollLabel" size="915,535" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
+                <convert type="EventName">ExtendedDescription</convert>
+              </widget>
+              <eLabel backgroundColor="black" font="Regular;40" foregroundColor="foreground" halign="left" position="1529,60" size="187,67" text="NEXT : " transparent="1" valign="center" zPosition="2" />
+              <widget backgroundColor="black" font="Regular;40" foregroundColor="foreground" halign="left" position="1705,60" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">StartTime</convert>
+                <convert type="ClockToText">Default</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;40" foregroundColor="#ffff00" halign="left" position="1819,60" render="Label" size="187,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">EndTime</convert>
+                <convert type="ClockToText">Format:- %H:%M</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;40" foregroundColor="#ff0000" halign="left" position="2010,60" render="Label" size="267,67" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+                <convert type="EventTime">Remaining</convert>
+                <convert type="RemainingToText">InMinutes</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;40" foregroundColor="#ffff00" halign="center" position="1292,200" render="Label" size="1065,120" source="session.Event_Next" transparent="1" valign="center" zPosition="2">
+                <convert type="EventName">Name</convert>
+              </widget>
+              <widget backgroundColor="black" font="Regular;38" foregroundColor="foreground" halign="center" position="1364,307" render="zScrollLabel" size="915,535" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
+                <convert type="EventName">ExtendedDescription</convert>
+              </widget>
             </screen>
         </style>
         <style name="SecondInfoBar" value="SIBtop" preview="preview/SIB-Top.jpg">
