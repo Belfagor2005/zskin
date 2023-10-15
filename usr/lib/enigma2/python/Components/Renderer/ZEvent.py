@@ -224,21 +224,21 @@ class ZEvent(VariableText, Renderer):
                 print('clean event zinfo poster: ', self.evntNm)
                 import requests
                 try:
-                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
-                    Title = requests.get(url).json()['results'][0]['original_title']
+                    # Title = requests.get(url).json()['results'][0]['original_title']
                     ids = requests.get(url).json()['results'][0]['id']
 
                 except:
-                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(apikey, quote(self.evntNm))
+                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
-                    Title = requests.get(url).json()['results'][0]['title']
+                    # Title = requests.get(url).json()['results'][0]['title']
                     ids = requests.get(url).json()['results'][0]['id']
 
                 try:
-                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), apikey, str(language))
+                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(apikey))
                     data2 = requests.get(url3, timeout=5)
                     if data2.status_code == 200:
                         with open(("%s/url_rate" % folder_poster), "w") as f:
@@ -301,6 +301,7 @@ class ZEvent(VariableText, Renderer):
                             self.text += "\nImdb : %s" % str(ImdbRating)
                             self.text += "\nRated : %s" % str(Rated)
                             print("text= ", self.text)
+                            return self.text
                 except:
                     return self.text
                     pass

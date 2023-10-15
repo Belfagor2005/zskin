@@ -234,6 +234,10 @@
                     <convert type="ServiceInfo">HasTelext</convert>
                     <convert type="ConditionalShowHide"/>
                 </widget>
+                
+                
+                <!-- <widget position="32,660" size="350,350" type="default" render="AdvancedMovieSelectionImageRenderer" source="session.CurrentService" zPosition="2"/> -->
+                
                 <!--
 			<eLabel backgroundColor="#20000000" cornerRadius="70" font="Regular;35" foregroundColor="#20000000" halign="center" position="2274,1327" size="94,94" text="TXT" valign="center"/>
 			<widget source="session.CurrentService" render="Label" text="Cam..." position="14,334" size="2534,534" font="Regular;35" halign="left" foregroundColor="yellow" backgroundColor="#20000000" transparent="0" zPosition="40">
@@ -1116,7 +1120,14 @@
                 <!-- 			<widget source="ServiceEvent" render="ZChannel" position="1454,403" size="360,527" alphatest="blend" zPosition="5" />  -->
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="1454,403" size="360,527" zPosition="6"/>
                 <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/star_b.png" position="1827,400" size="267,27" transparent="1" zPosition="2"/>
-                <widget pixmap="ZSkin-WQHD/icons/star.png" position="1827,400" render="ZstarsEvent" size="267,27" source="session.Event_Now" transparent="1" zPosition="13"/>
+                
+                <!-- paused lululla -->
+                <!--
+                <widget pixmap="ZSkin-WQHD/icons/star.png" position="1827,400" render="ZstarsEvent" size="267,27" source="ServiceEvent" transparent="1" zPosition="13"/>
+                -->
+                <!-- test -->
+                <widget pixmap="ZSkin-WQHD/icons/star.png" position="1827,400" render="ZstarsEvent" size="267,27" source="ServiceEvent" transparent="1" zPosition="13"/>
+                
                 <widget backgroundColor="#000000" font="Regular;35" foregroundColor="#ffffff" halign="left" position="1827,434" render="Label" size="720,507" source="ServiceEvent" transparent="1" zPosition="2">
                     <convert type="EventName">Description</convert>
                 </widget>

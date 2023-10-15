@@ -235,13 +235,6 @@ class ZChannel(Renderer):
             self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
             print('self.pstrNm: ', self.pstrNm)
             if os.path.exists(self.pstrNm):
-                # from Tools.LoadPixmap import LoadPixmap
-                # # self.instance.hide()
-                # # self.instance.setPixmap(loadJPG(self.pstrNm))
-                # pixmap = LoadPixmap(cached=True, path=self.pstrNm)
-                # self.instance.setPixmap(pixmap)
-                # self.instance.setScale(2)
-                # self.instance.show()
                 print('showposter')
                 self.showPoster()
             else:

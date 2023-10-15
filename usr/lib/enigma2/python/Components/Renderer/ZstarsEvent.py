@@ -4,26 +4,49 @@
 # by digiteng
 # v1 07.2020, 11.2021
 # for channellist
-# <widget source="ServiceEvent" render="zStarX" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
+# <widget source="ServiceEvent" render="ZstarsEvent" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 # or
-# <widget source="ServiceEvent" render="zStarX" pixmap="xtra/star.png" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
+# <widget source="ServiceEvent" render="ZstarsEvent" pixmap="xtra/star.png" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 # edit lululla 05-2022
 # <ePixmap pixmap="MetriXconfluencExp/star.png" position="136,104" size="200,20" alphatest="blend" zPosition="10" transparent="1" />
-# <widget source="session.Event_Now" render="zStarX" pixmap="MetriXconfluencExp/star.png" position="560,367" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
+# <widget source="session.Event_Now" render="ZstarsEvent" pixmap="MetriXconfluencExp/star.png" position="560,367" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 # <ePixmap pixmap="MetriXconfluencExp/star.png" position="136,104" size="200,20" alphatest="blend" zPosition="10" transparent="1" />
-# <widget source="session.Event_Next" render="zStarX" pixmap="MetriXconfluencExp/star.png" position="560,367" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
+# <widget source="session.Event_Next" render="ZstarsEvent" pixmap="MetriXconfluencExp/star.png" position="560,367" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
 from Components.VariableValue import VariableValue
 from enigma import eSlider
-import os
+from Components.config import config
+from enigma import eTimer
+# from enigma import eLabel
 import re
 import json
+import os
+import socket
+import sys
+
+
+global cur_skin, my_cur_skin, apikey
+PY3 = sys.version_info.major >= 3
 try:
     from urllib.parse import quote
 except:
     from urllib import quote
+try:
+    from urllib.error import URLError, HTTPError
+    from urllib.request import urlopen
+except:
+    from urllib2 import URLError, HTTPError
+    from urllib2 import urlopen
+
+
+formatImg = 'w185'
+apikey = "3c3efcf47c3577558812bb9d64019d65"
+omdb_api = "cb1d9f55"
+thetvdbkey = 'D19315B88B2DE21F'
+my_cur_skin = False
+cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
 
 def isMountReadonly(mnt):
@@ -54,10 +77,26 @@ elif os.path.exists("/media/mmc"):
 else:
     folder_poster = "/tmp/poster"
 
+
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
 if not os.path.exists(folder_poster):
     folder_poster = "/tmp/poster"
+
+
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    else:
+        return True
+
 
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
@@ -81,6 +120,15 @@ REGEX = re.compile(
         r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+
+try:
+    from Components.config import config
+    language = config.osd.language.value
+    language = language[:-3]
+except:
+    language = 'en'
+    pass
+print('language: ', language)
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -113,50 +161,103 @@ def cleantitle(text=''):
 
 class ZstarsEvent(VariableValue, Renderer):
     def __init__(self):
+        adsl = intCheck()
+        if not adsl:
+            return
         Renderer.__init__(self)
         VariableValue.__init__(self)
+        self.timer30 = eTimer()
         self.__start = 0
         self.__end = 100
+        self.text = ''
 
     GUI_WIDGET = eSlider
 
     def changed(self, what):
+        if not self.instance:
+            print('zstar event not istance')
+            return
         if what[0] == self.CHANGED_CLEAR:
+            print('zstar event A what[0] == self.CHANGED_CLEAR')
             (self.range, self.value) = ((0, 1), 0)
             return
         if what[0] != self.CHANGED_CLEAR:
-            print('zstar event what[0] != self.CHANGED_CLEAR')
+            print('zstar event B what[0] != self.CHANGED_CLEAR')
+            self.instance.hide()
+            try:
+                self.timer30.callback.append(self.infos)
+            except:
+                self.timer30_conn = self.timer30.timeout.connect(self.infos)
+            self.timer30.start(100, True)
+
+    def infos(self):
+        try:
             rtng = 0
             range = 0
             value = 0
-            try:
-                self.event = self.source.event
-                if self.event:  # and self.instance:
-                    evnt = self.event.getEventName().encode('utf-8')
-                    self.evnt = cleantitle(evnt)
-                    rating_json = os.path.join(folder_poster, "url_rate")
-                    if os.path.exists(rating_json) and os.stat(rating_json).st_size > 0:
-                        with open(rating_json) as f:
-                            try:
-                                rating = json.load(f)['vote_average']
-                            except:
-                                rating = json.load(f)['imdbRating']
-                        if rating:
-                            rtng = int(10 * (float(rating)))
+            ImdbRating = "0"
+            ids = ''
+            self.event = self.source.event
+            if self.event:  # and self.instance:
+                self.evnt = self.event.getEventName().encode('utf-8')
+                self.evntNm = cleantitle(self.evnt)
+                print('clean zstar: ', self.evntNm)
+                import requests
+                try:
+                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
+                    if PY3:
+                        url = url.encode()
+                    print('url1:', url)
+                    # Title = requests.get(url).json()['results'][0]['original_title']
+                    ids = requests.get(url).json()['results'][0]['id']
+                    # print('url1 ids:', ids)
+                except:
+                    try:
+                        url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
+                        if PY3:
+                            url = url.encode()
+                        # print('url2:', url)
+                        ids = requests.get(url).json()['results'][0]['id']
+                        # print('url2 ids:', ids)
+                    except Exception as e:
+                        print('no ids in zstar', e)
+
+                if ids != '':
+                    try:
+                        url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(apikey))
+
+                        data2 = requests.get(url3, timeout=10)
+                        with open(("%s/url_rate" % folder_poster), "w") as f:
+                            json.dump(data2.json(), f)
+                        myFile = open(("%s/url_rate" % folder_poster), 'r')
+                        myObject = myFile.read()
+                        u = myObject.decode('utf-8-sig')
+                        data = u.encode('utf-8')
+                        # data.encoding
+                        # data.close()
+                        data = json.loads(myObject, 'utf-8')
+                        if "vote_average" in data:
+                            ImdbRating = data['vote_average']
+                            print('ImdbRating vote average', ImdbRating)
+                        elif "imdbRating" in data:
+                            print('ok vote imdbRating')
+                            ImdbRating = data['imdbRating']
+                        else:
+                            print('no vote starx')
+                            ImdbRating = '0'
+                        print('ImdbRating: ', ImdbRating)
+                        if ImdbRating and ImdbRating != '0':
+                            rtng = int(10 * (float(ImdbRating)))
                         else:
                             rtng = 0
-                    else:
-                        rtng = 0
-                else:
-                    rtng = 0
-                print('value d ', rtng)
-
-            except Exception as e:
-                print('my e ', str(e))
-
-            range = 100
-            value = rtng
-            (self.range, self.value) = ((0, range), value)
+                        range = 100
+                        value = rtng
+                        (self.range, self.value) = ((0, range), value)
+                        self.instance.show()
+                    except Exception as e:
+                        print('pass: ', e)
+        except Exception as e:
+            print('pass: ', e)
 
     def postWidgetCreate(self, instance):
         instance.setRange(self.__start, self.__end)

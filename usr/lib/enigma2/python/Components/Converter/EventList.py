@@ -17,7 +17,7 @@
 # you have to keep MY license and inform me about the modifications by mail.
 # <widget source="ServiceEvent" render="EventListDisplay" position="1080,610" size="1070,180" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" primetimeoffset="0"
 # rowHeight="35" backgroundColor="#FF101010" transparent="1" zPosition="50">
-# <convert type="EventList">primetime=yed,eventcount=4</convert>
+# <convert type="EventList">primetime=yes,eventcount=4</convert>
 # </widget>
 
 from __future__ import absolute_import

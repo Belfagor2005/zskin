@@ -153,92 +153,92 @@ class infoEvent(Renderer, VariableText):
                     jurl = json.loads(url2)
                     if 'id' in jurl['results'][0]:
                         ids = jurl['results'][0]['id']
-                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), tmdb_api, str(language))
-                    if six.PY3:
-                        url3 = url3.encode()
-                    data = urlopen(url3).read().decode('utf-8')
-                    data = json.loads(data)
-                    # print('jurl2 data = ', data)
-                    with open(("%surl_rate" % path_folder), "w") as f:
-                        json.dump(data, f)
-                    with open("%surl_rate" % path_folder) as json_file:
-                        data = json.load(json_file)
+                        url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), tmdb_api)
+                        if six.PY3:
+                            url3 = url3.encode()
+                        data = urlopen(url3).read().decode('utf-8')
+                        data = json.loads(data)
+                        # print('jurl2 data = ', data)
+                        with open(("%surl_rate" % path_folder), "w") as f:
+                            json.dump(data, f)
+                        with open("%surl_rate" % path_folder) as json_file:
+                            data = json.load(json_file)
 
-                    if "original_title" in data and data['original_title']:
-                        Title = data['original_title']
-                        print('title = ', Title)
-                    else:
-                        if "title" in data and data['title']:
-                            Title = data['title']
+                        if "original_title" in data and data['original_title']:
+                            Title = data['original_title']
                             print('title = ', Title)
+                        else:
+                            if "title" in data and data['title']:
+                                Title = data['title']
+                                print('title = ', Title)
 
-                    if "production_countries" in data and data['production_countries']:
-                        production_countries = data['production_countries']
-                        for pcountry in data["production_countries"]:
-                            Country = (str(pcountry["name"]))
-                        print('country = ', Country)
-                    if "genres" in data and data["genres"]:
-                        i = 0
-                        for name in data["genres"]:
-                            if "name" in name:
-                                Genres.append(str(name["name"]))
-                                print('genres = ', Genres)
-                                i = i+1
-                        Genres = " | ".join(map(str, Genres))
-                        print('genre = ', Genres)
-                    if "release_date" in data and data['release_date']:
-                        Year = data['release_date']
-                        print('year = ', Year)
-
-                    if "vote_average" in data and data['vote_average']:
-                        ImdbRating = data['vote_average']
-                        print('imdrating = ', ImdbRating)
-                    else:
-                        ImdbRating = '0'
-                        print('imdrating = ', ImdbRating)
-
-                    if "vote_count" in data and data['vote_count']:
-                        Rated = data['vote_count']
-                        print('rated = ', Rated)
-                    else:
-                        Rated = '0'
-                        print('rated = ', Rated)
-
-                    if "credits" in data and data["credits"]:
-                        if "cast" in data["credits"]:
+                        if "production_countries" in data and data['production_countries']:
+                            production_countries = data['production_countries']
+                            for pcountry in data["production_countries"]:
+                                Country = (str(pcountry["name"]))
+                            print('country = ', Country)
+                        if "genres" in data and data["genres"]:
                             i = 0
-                            for actor in data["credits"]["cast"]:
-                                if "name" in actor:
-                                    Cast.append(str(actor["name"]))
-                                    print('actor= ', Cast)
+                            for name in data["genres"]:
+                                if "name" in name:
+                                    Genres.append(str(name["name"]))
+                                    print('genres = ', Genres)
                                     i = i+1
-                            Cast = ", ".join(map(str, Cast[:3]))
-                            print('actor = ', Cast)
-                    if "credits" in data and "crew" in data["credits"]:
-                        z = 0
-                        for actor in data["credits"]["crew"]:
-                            if "job" in actor:
-                                Director = (str(actor["name"]) + ',')
-                                print('director = ', Director)
-                                z = z+1
-                    if Title and Title != "N/A":
-                        with open("/tmp/rating", "w") as f:
-                            f.write("%s\n%s" % (ImdbRating, Rated))
-                        self.text = "Title : %s" % str(Title)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nYear : %s" % str(Year)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nCountry : %s" % str(Country)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nGenre : %s" % str(Genres)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nDirector : %s" % str(Director)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nCast : %s" % str(Cast)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nRated : %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
-                        self.text += "\nImdb : %s" % str(ImdbRating)  # .encode('utf-8').decode('utf-8')
-                        print("text= ", self.text)
-                    else:
-                        if os.path.exists("/tmp/rating"):
-                            os.remove("/tmp/rating")
-                            print('/tmp/rating removed')
-                            self.downloading = False
-                        return self.text
+                            Genres = " | ".join(map(str, Genres))
+                            print('genre = ', Genres)
+                        if "release_date" in data and data['release_date']:
+                            Year = data['release_date']
+                            print('year = ', Year)
+
+                        if "vote_average" in data and data['vote_average']:
+                            ImdbRating = data['vote_average']
+                            print('imdrating = ', ImdbRating)
+                        else:
+                            ImdbRating = '0'
+                            print('imdrating = ', ImdbRating)
+
+                        if "vote_count" in data and data['vote_count']:
+                            Rated = data['vote_count']
+                            print('rated = ', Rated)
+                        else:
+                            Rated = '0'
+                            print('rated = ', Rated)
+
+                        if "credits" in data and data["credits"]:
+                            if "cast" in data["credits"]:
+                                i = 0
+                                for actor in data["credits"]["cast"]:
+                                    if "name" in actor:
+                                        Cast.append(str(actor["name"]))
+                                        print('actor= ', Cast)
+                                        i = i+1
+                                Cast = ", ".join(map(str, Cast[:3]))
+                                print('actor = ', Cast)
+                        if "credits" in data and "crew" in data["credits"]:
+                            z = 0
+                            for actor in data["credits"]["crew"]:
+                                if "job" in actor:
+                                    Director = (str(actor["name"]) + ',')
+                                    print('director = ', Director)
+                                    z = z+1
+                        if Title and Title != "N/A":
+                            with open("/tmp/rating", "w") as f:
+                                f.write("%s\n%s" % (ImdbRating, Rated))
+                            self.text = "Title : %s" % str(Title)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nYear : %s" % str(Year)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nCountry : %s" % str(Country)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nGenre : %s" % str(Genres)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nDirector : %s" % str(Director)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nCast : %s" % str(Cast)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nRated : %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
+                            self.text += "\nImdb : %s" % str(ImdbRating)  # .encode('utf-8').decode('utf-8')
+                            print("text= ", self.text)
+                        else:
+                            if os.path.exists("/tmp/rating"):
+                                os.remove("/tmp/rating")
+                                print('/tmp/rating removed')
+                                self.downloading = False
+                            return self.text
                 else:
                     self.downloading = False
                     return self.text

@@ -1118,7 +1118,13 @@
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="1090,302" size="270,395" zPosition="6"/>
                 <widget source="ServiceEvent" render="ZEvent" position="1090,700" size="820,135" font="Regular;24" halign="left" nowrap="1" valign="center" zPosition="9" foregroundColor="yellow" backgroundColor="#000000" transparent="1"/>
                 <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1370,300" size="200,20" transparent="1" zPosition="2"/>
+                
+                <!-- paused lululla -->
+                <!--
                 <widget pixmap="ZSkin-FHD/icons/star.png" position="1370,300" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
+                -->
+                <widget pixmap="ZSkin-FHD/icons/star.png" position="1370,300" render="ZstarsEvent" size="200,20" source="ServiceEvent" transparent="1" zPosition="13"/>                
+                
                 <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" halign="left" position="1370,325" render="Label" size="540,380" source="ServiceEvent" transparent="1" zPosition="2">
                     <convert type="EventName">Description</convert>
                 </widget>
