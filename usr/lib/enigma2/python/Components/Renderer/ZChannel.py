@@ -8,16 +8,15 @@
 # <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" />
 # <widget position="1095,310" render="ZChannel" size="260,379" source="ServiceEvent" zPosition="10" />
 from Components.Renderer.Renderer import Renderer
-from enigma import ePixmap, ePicLoad  # , eTimer
+from enigma import ePixmap, ePicLoad
 from Components.AVSwitch import AVSwitch
 from Components.config import config
 import re
 import json
 import os
 import socket
-import sys
 import shutil
-# from enigma import loadJPG
+import sys
 
 global cur_skin, my_cur_skin
 
@@ -54,6 +53,7 @@ cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
 
 def isMountReadonly(mnt):
+    mount_point = ''
     with open('/proc/mounts') as f:
         for line in f:
             line = line.split(',')[0]
@@ -78,8 +78,7 @@ elif os.path.exists("/media/usb"):
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
         folder_poster = "/media/mmc/poster"
-else:
-    folder_poster = "/tmp/poster"
+
 
 if not os.path.exists(folder_poster):
     os.makedirs(folder_poster)
@@ -115,15 +114,6 @@ except:
 print('language: ', lng)
 
 
-def unicodify(s, encoding='utf-8', norm=None):
-    if not isinstance(s, unicode):
-        s = unicode(s, encoding)
-    if norm:
-        from unicodedata import normalize
-        s = normalize(norm, s)
-    return s
-
-
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
         r'(: odc.\d+)|'
@@ -148,19 +138,28 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
+
 def cleantitle(text=''):
     try:
-        print('zposter text ->>> ', text)
+        print('ZstarsEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             text = unicodify(text)
             text = text.lower()
-            print('zposter text <<<- ', text)
+            print('ZstarsEvent text <<<- ', text)
         else:
             text = str(text)
-            print('zposter text <<<->>> ', text)
+            print('ZstarsEvent text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -192,10 +191,10 @@ except:
 
 class ZChannel(Renderer):
     def __init__(self):
-        Renderer.__init__(self)
         adsl = intCheck()
         if not adsl:
             return
+        Renderer.__init__(self)
         self.nxts = 0
         self.path = folder_poster
         self.picload = ePicLoad()
@@ -239,9 +238,9 @@ class ZChannel(Renderer):
                 self.showPoster()
             else:
                 try:
-                    if os.path.exists("%s/url_rate" % folder_poster):
-                        os.remove("%s/url_rate" % folder_poster)
-                        print("%s has been removed successfully" % folder_poster)
+                    if os.path.exists("%s/%s" % (folder_poster, self.evntNm)):
+                        os.remove("%s/%s" % (folder_poster, self.evntNm))
+                        print("%s has been removed successfully" % self.evntNm)
                     url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
                         url = url.encode()
@@ -255,7 +254,7 @@ class ZChannel(Renderer):
                                 url_2 = url_2.encode()
                             url_3 = urlopen(url_2).read().decode('utf-8')
                             data2 = json.loads(url_3)
-                            with open(("%s/url_rate" % folder_poster), "w") as f:
+                            with open(("%s/%s" % (folder_poster, self.evntNm)), "w") as f:
                                 json.dump(data2, f)
                             poster = data2['poster_path']
                             if poster:
@@ -277,7 +276,7 @@ class ZChannel(Renderer):
                                     url_2 = url_2.encode()
                                 url_3 = urlopen(url_2).read().decode('utf-8')
                                 data2 = json.loads(url_3)
-                                with open(("%s/url_rate" % folder_poster), "w") as f:
+                                with open(("%s/%s" % (folder_poster, self.evntNm)), "w") as f:
                                     json.dump(data2, f)
                                 poster = data2['poster_path']
                                 if poster:

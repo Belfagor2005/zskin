@@ -7,34 +7,68 @@
 # from Tools.Directories import resolveFilename, SCOPE_SKIN
 from Components.Renderer.Renderer import Renderer
 from Components.VariableText import VariableText
+from enigma import eLabel
+from enigma import eTimer
 from Components.config import config
-from enigma import eLabel, eTimer
+import re
 import json
 import os
-import re
-import six
 import socket
 import shutil
-from six.moves.urllib.request import urlopen
-from six.moves.urllib.parse import quote
+import sys
 global cur_skin, myz_skinz, tmdb_api
+PY3 = (sys.version_info[0] == 3)
 
-
-path_folder = "/tmp/poster/"
-if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
+if PY3:
+    PY3 = True
+    unicode = str
+    from urllib.error import URLError, HTTPError
+    from urllib.request import urlopen
+    from urllib.parse import quote
 else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
-    os.makedirs(path_folder)
+    str = unicode
+    from urllib2 import URLError, HTTPError
+    from urllib2 import urlopen
+    from urllib import quote
 
 
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 myz_skinz = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 print('skin name  /usr/share/enigma2/', cur_skin)
+
+
+def isMountReadonly(mnt):
+    mount_point = ''
+    with open('/proc/mounts') as f:
+        for line in f:
+            line = line.split(',')[0]
+            line = line.split()
+            print('line ', line)
+            try:
+                device, mount_point, filesystem, flags = line
+            except Exception as err:
+                print("Error: %s" % err)
+            if mount_point == mnt:
+                return 'ro' in flags
+    return "mount: '%s' doesn't exist" % mnt
+
+
+path_folder = "/tmp/poster/"
+if os.path.exists("/media/hdd"):
+    if not isMountReadonly("/media/hdd"):
+        path_folder = "/media/hdd/poster/"
+elif os.path.exists("/media/usb"):
+    if not isMountReadonly("/media/usb"):
+        path_folder = "/media/usb/poster/"
+elif os.path.exists("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        path_folder = "/media/mmc/poster/"
+
+if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+
+
 try:
     if myz_skinz is False:
         myz_skin = "/usr/share/enigma2/%s/apikey" % cur_skin
@@ -46,25 +80,24 @@ try:
 
 except:
     myz_skinz = False
-    tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-print('my apikey in use: ', tmdb_api)
 
 try:
-    folder_size = sum([sum([os.path.getsize(os.path.join(path_folder, fname)) for fname in files]) for path_folder, folders, files in os.walk(path_folder)])
-    eventx = "%0.f" % (folder_size // (1024 * 1024.0))
-    if eventx >= "5":
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
+    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
+    if ozposter >= "5":
         shutil.rmtree(path_folder)
 except:
     pass
 
+
 try:
     from Components.config import config
-    language = config.osd.language.value
-    language = language[:-3]
+    lng = config.osd.language.value
+    lng = lng[:-3]
 except:
-    language = 'en'
+    lng = 'en'
     pass
-print('language: ', language)
+print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -90,6 +123,7 @@ REGEX = re.compile(
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
+
 def intCheck():
     try:
         response = urlopen("http://google.com", None, 5)
@@ -104,6 +138,34 @@ def intCheck():
         return True
 
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
+
+def cleantitle(text=''):
+    try:
+        print('ZstarsEvent text ->>> ', text)
+        if text != '' or text is not None or text != 'None':
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = unicodify(text)
+            text = text.lower()
+            print('ZstarsEvent text <<<- ', text)
+        else:
+            text = str(text)
+            print('ZstarsEvent text <<<->>> ', text)
+        return text
+    except Exception as e:
+        print('cleantitle error: ', e)
+        pass
+
+
 class infoEvent(Renderer, VariableText):
 
     def __init__(self):
@@ -112,147 +174,122 @@ class infoEvent(Renderer, VariableText):
             return
         Renderer.__init__(self)
         VariableText.__init__(self)
+        self.timer = eTimer()
+        self.downevent = False
         self.text = ''
 
     GUI_WIDGET = eLabel
 
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
-            # self.text = ''
             return
         else:
             self.delay()
 
+    def delay(self):
+        try:
+            self.timer.callback.append(self.infos)
+        except:
+            self.timer_conn = self.timer.timeout.connect(self.infos)
+        self.timer.start(150, False)
+
     def infos(self):
         if self.downloading:
             return
-        self.downloading = True
         try:
             Title = ''
-            ImdbRating = ''
+            ImdbRating = '0'
             Rated = ''
+            production_countries = ''
+            Country = ''
             Cast = []
             Director = []
             Genres = []
             self.event = self.source.event
             if self.event:
-                # evntNm = REGEX.sub('', self.event.getEventName()).strip()
-                # evntNm = evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
-                # evntNm = evntNm.replace('FILM ', '').replace('FILM - ', '').replace('film - ', '').replace('TELEFILM ', '').replace('TELEFILM - ', '').replace('telefilm - ', '')
-                
-                self.evnt = self.event.getEventName()
-                self.evntNm = REGEX.sub('', self.evnt).strip()
-                self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
-                
-                # self.evntNm = evntNm
-                if self.intCheck():
+                self.evnt = self.event.getEventName().encode('utf-8')
+                self.evntNm = cleantitle(self.evnt)
+                print('clean event InfoEvent: ', self.evntNm)
+                if not os.path.exists("%s%s" % (path_folder, self.evntNm)):
+                    self.downloading = True
                     url = 'https://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
-                    if six.PY3:
+                    if PY3:
                         url = url.encode()
                     url2 = urlopen(url).read().decode('utf-8')
                     jurl = json.loads(url2)
                     if 'id' in jurl['results'][0]:
                         ids = jurl['results'][0]['id']
                         url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), tmdb_api)
-                        if six.PY3:
+                        if PY3:
                             url3 = url3.encode()
                         data = urlopen(url3).read().decode('utf-8')
                         data = json.loads(data)
-                        # print('jurl2 data = ', data)
-                        with open(("%surl_rate" % path_folder), "w") as f:
+                        with open(("%s%s" % (path_folder, self.evntNm)), "w") as f:
                             json.dump(data, f)
-                        with open("%surl_rate" % path_folder) as json_file:
-                            data = json.load(json_file)
 
-                        if "original_title" in data and data['original_title']:
-                            Title = data['original_title']
-                            print('title = ', Title)
-                        else:
-                            if "title" in data and data['title']:
-                                Title = data['title']
-                                print('title = ', Title)
+                with open("%s%s" % (path_folder, self.evntNm)) as json_file:
+                    data = json.load(json_file)
 
-                        if "production_countries" in data and data['production_countries']:
-                            production_countries = data['production_countries']
-                            for pcountry in data["production_countries"]:
-                                Country = (str(pcountry["name"]))
-                            print('country = ', Country)
-                        if "genres" in data and data["genres"]:
-                            i = 0
-                            for name in data["genres"]:
-                                if "name" in name:
-                                    Genres.append(str(name["name"]))
-                                    print('genres = ', Genres)
-                                    i = i+1
-                            Genres = " | ".join(map(str, Genres))
-                            print('genre = ', Genres)
-                        if "release_date" in data and data['release_date']:
-                            Year = data['release_date']
-                            print('year = ', Year)
-
-                        if "vote_average" in data and data['vote_average']:
-                            ImdbRating = data['vote_average']
-                            print('imdrating = ', ImdbRating)
-                        else:
-                            ImdbRating = '0'
-                            print('imdrating = ', ImdbRating)
-
-                        if "vote_count" in data and data['vote_count']:
-                            Rated = data['vote_count']
-                            print('rated = ', Rated)
-                        else:
-                            Rated = '0'
-                            print('rated = ', Rated)
-
-                        if "credits" in data and data["credits"]:
-                            if "cast" in data["credits"]:
-                                i = 0
-                                for actor in data["credits"]["cast"]:
-                                    if "name" in actor:
-                                        Cast.append(str(actor["name"]))
-                                        print('actor= ', Cast)
-                                        i = i+1
-                                Cast = ", ".join(map(str, Cast[:3]))
-                                print('actor = ', Cast)
-                        if "credits" in data and "crew" in data["credits"]:
-                            z = 0
-                            for actor in data["credits"]["crew"]:
-                                if "job" in actor:
-                                    Director = (str(actor["name"]) + ',')
-                                    print('director = ', Director)
-                                    z = z+1
-                        if Title and Title != "N/A":
-                            with open("/tmp/rating", "w") as f:
-                                f.write("%s\n%s" % (ImdbRating, Rated))
-                            self.text = "Title : %s" % str(Title)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nYear : %s" % str(Year)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nCountry : %s" % str(Country)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nGenre : %s" % str(Genres)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nDirector : %s" % str(Director)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nCast : %s" % str(Cast)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nRated : %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
-                            self.text += "\nImdb : %s" % str(ImdbRating)  # .encode('utf-8').decode('utf-8')
-                            print("text= ", self.text)
-                        else:
-                            if os.path.exists("/tmp/rating"):
-                                os.remove("/tmp/rating")
-                                print('/tmp/rating removed')
-                                self.downloading = False
-                            return self.text
+                if "original_title" in data and data['original_title']:
+                    Title = data['original_title']
                 else:
-                    self.downloading = False
+                    if "title" in data and data['title']:
+                        Title = data['title']
+
+                if "production_countries" in data and data['production_countries']:
+                    production_countries = data['production_countries']
+                    for pcountry in data["production_countries"]:
+                        Country = (str(pcountry["name"]))
+                if "genres" in data and data["genres"]:
+                    i = 0
+                    for name in data["genres"]:
+                        if "name" in name:
+                            Genres.append(str(name["name"]))
+                            i = i+1
+                    Genres = " | ".join(map(str, Genres))
+                if "release_date" in data and data['release_date']:
+                    Year = data['release_date']
+
+                if "vote_average" in data and data['vote_average']:
+                    ImdbRating = data['vote_average']
+                else:
+                    ImdbRating = '0'
+
+                if "vote_count" in data and data['vote_count']:
+                    Rated = data['vote_count']
+                else:
+                    Rated = '0'
+
+                if "credits" in data and data["credits"]:
+                    if "cast" in data["credits"]:
+                        i = 0
+                        for actor in data["credits"]["cast"]:
+                            if "name" in actor:
+                                Cast.append(str(actor["name"]))
+                                i = i+1
+                        Cast = ", ".join(map(str, Cast[:3]))
+                if "credits" in data and "crew" in data["credits"]:
+                    z = 0
+                    for actor in data["credits"]["crew"]:
+                        if "job" in actor:
+                            Director = (str(actor["name"]) + ',')
+                            z += 1
+                if Title and Title != "N/A":
+                    with open("/tmp/rating", "w") as f:
+                        f.write("%s\n%s" % (ImdbRating, Rated))
+                    self.text = "Title: %s" % str(Title)
+                    self.text += "\nYear: %s" % str(Year)
+                    self.text += "\nCountry: %s" % str(Country)
+                    self.text += "\nGenre: %s" % str(Genres)
+                    self.text += "\nDirector: %s" % str(Director)
+                    self.text += "\nCast: %s" % str(Cast)
+                    self.text += "\nImdb: %s" % str(ImdbRating)
+                    self.text += "\nRated: %s" % str(Rated)
+                    print("text= ", self.text)
                     return self.text
 
         except:
             if os.path.exists("/tmp/rating"):
                 os.remove("/tmp/rating")
+            self.downevent = False
             return self.text
-
-    def delay(self):
-        self.downloading = False
-        self.timer = eTimer()
-        try:
-            self.timer.callback.append(self.infos)
-        except:
-            self.timer_conn = self.timer.timeout.connect(self.infos)
-        self.timer.start(150, False)

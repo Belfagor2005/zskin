@@ -39,7 +39,6 @@ import re
 import socket
 import sys
 import time
-import unicodedata
 import shutil
 PY3 = False
 PY3 = (sys.version_info[0] == 3)
@@ -59,6 +58,7 @@ else:
 
 
 def isMountReadonly(mnt):
+    mount_point = ''
     with open('/proc/mounts') as f:
         for line in f:
             line = line.split(',')[0]
@@ -71,6 +71,7 @@ def isMountReadonly(mnt):
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
+
 
 path_folder = "/tmp/poster/"
 if os.path.exists("/media/hdd"):
@@ -85,8 +86,8 @@ elif os.path.exists("/media/mmc"):
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
-if not os.path.exists(path_folder):
-    path_folder = "/tmp/poster/"
+
+
 epgcache = eEPGCache.getInstance()
 
 try:
@@ -153,15 +154,6 @@ except:
     pass
 
 
-def unicodify(s, encoding='utf-8', norm=None):
-    if not isinstance(s, unicode):
-        s = unicode(s, encoding)
-    if norm:
-        from unicodedata import normalize
-        s = normalize(norm, s)
-    return s
-
-
 REGEX = re.compile(
         r'([\(\[]).*?([\)\]])|'
         r'(: odc.\d+)|'
@@ -186,25 +178,6 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
-def convtext(text=''):
-    try:
-        print('zposter text ->>> ', text)
-        if text != '' or text is not None or text != 'None':
-            text = REGEX.sub('', text)
-            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = unicodify(text)
-            text = text.lower()
-            print('zposter text <<<- ', text)
-        else:
-            text = str(text)
-            print('zposter text <<<->>> ', text)
-        return text
-    except Exception as e:
-        print('cleantitle error: ', e)
-        pass
-
-
 if PY3:
     pdb = queue.LifoQueue()
 else:
@@ -225,6 +198,53 @@ def intCheck():
         return True
 
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
+
+def cleantitle(text=''):
+    try:
+        print('ZEvent text ->>> ', text)
+        if text != '' or text is not None or text != 'None':
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = unicodify(text)
+            text = text.lower()
+            print('ZEvent text <<<- ', text)
+        else:
+            text = str(text)
+            print('ZEvent text <<<->>> ', text)
+        return text
+    except Exception as e:
+        print('cleantitle error: ', e)
+        pass
+
+
+# def convtext(text=''):
+    # try:
+        # print('zposter text ->>> ', text)
+        # if text != '' or text is not None or text != 'None':
+            # text = REGEX.sub('', text)
+            # text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            # text = unicodify(text)
+            # text = text.lower()
+            # print('zposter text <<<- ', text)
+        # else:
+            # text = str(text)
+            # print('zposter text <<<->>> ', text)
+        # return text
+    # except Exception as e:
+        # print('cleantitle error: ', e)
+        # pass
+
+
 class PosterDB(zPosterXDownloadThread):
     def __init__(self):
         zPosterXDownloadThread.__init__(self)
@@ -235,7 +255,7 @@ class PosterDB(zPosterXDownloadThread):
         while True:
             canal = pdb.get()
             self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-            pstcanal = convtext(canal[5])
+            pstcanal = cleantitle(canal[5])
             dwn_poster = path_folder + pstcanal + ".jpg"
             if os.path.exists(dwn_poster):
                 os.utime(dwn_poster, (time.time(), time.time()))
@@ -301,7 +321,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[4] = evt[6]
                             canal[5] = canal[2]
                             # self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
-                            pstcanal = convtext(canal[5])
+                            pstcanal = cleantitle(canal[5])
                             dwn_poster = path_folder + pstcanal + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
@@ -367,7 +387,7 @@ class ZPoster(Renderer):
     def __init__(self):
         adsl = intCheck()
         if not adsl:
-            return    
+            return
         Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
@@ -423,7 +443,7 @@ class ZPoster(Renderer):
                         self.canal[3] = self.source.event.getExtendedDescription()
                         self.canal[4] = self.source.event.getShortDescription()
                         self.canal[5] = self.canal[2]
-                        pstcanal = convtext(self.canal[5])
+                        pstcanal = cleantitle(self.canal[5])
                     servicetype = "Event"
                 if service:
                     events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
@@ -433,7 +453,7 @@ class ZPoster(Renderer):
                     self.canal[3] = events[self.nxts][5]
                     self.canal[4] = events[self.nxts][6]
                     self.canal[5] = self.canal[2]
-                    pstcanal = convtext(self.canal[5])
+                    pstcanal = cleantitle(self.canal[5])
                     if not autobouquet_file:
                         if self.canal[0] not in apdb:
                             apdb[self.canal[0]] = service.toString()
@@ -451,7 +471,7 @@ class ZPoster(Renderer):
                     return
                 self.oldCanal = curCanal
                 self.logPoster("Service : {} [{}] : {} : {}".format(servicetype, self.nxts, self.canal[0], self.oldCanal))
-                pstcanal = convtext(self.canal[5])
+                pstcanal = cleantitle(self.canal[5])
                 pstrNm = self.path + pstcanal + ".jpg"
                 pstrNm = str(pstrNm)
                 if os.path.exists(pstrNm):
@@ -468,7 +488,7 @@ class ZPoster(Renderer):
     def showPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstcanal = convtext(self.canal[5])
+            pstcanal = cleantitle(self.canal[5])
             pstrNm = self.path + pstcanal + ".jpg"
             pstrNm = str(pstrNm)
             if os.path.exists(pstrNm):
@@ -480,7 +500,7 @@ class ZPoster(Renderer):
     def waitPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstcanal = convtext(self.canal[5])
+            pstcanal = cleantitle(self.canal[5])
             pstrNm = self.path + pstcanal + ".jpg"
             pstrNm = str(pstrNm)
             loop = 180

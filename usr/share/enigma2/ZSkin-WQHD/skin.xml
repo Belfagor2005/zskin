@@ -179,6 +179,23 @@
         <color color="#000000" name="WindowTitleBackground"/>
     </windowstyle>
     <globals>
+        <value name="blue_key_big_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="yellow_key_big_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="green_key_big_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="red_key_big_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="blue_key_small_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="yellow_key_small_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="green_key_small_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="red_key_small_tile" value="{'ani':'slide_left_left'}"/>
+        <value name="blue_key_big_list" value="{'ani':'slide_left_left'}"/>
+        <value name="yellow_key_big_list" value="{'ani':'slide_left_left'}"/>
+        <value name="green_key_big_list" value="{'ani':'slide_left_left'}"/>
+        <value name="red_key_big_list" value="{'ani':'slide_left_left'}"/>
+        <value name="blue_key_small_list" value="{'ani':'slide_left_left'}"/>
+        <value name="yellow_key_small_list" value="{'ani':'slide_left_left'}"/>
+        <value name="green_key_small_list" value="{'ani':'slide_left_left'}"/>
+        <value name="red_key_small_list" value="{'ani':'slide_left_left'}"/>
+    
         <value name="gcommander_key_menu" value="{'ani':'slide_left_left'}"/>
         <value name="gcommander_key_red" value="{'ani':'slide_left_left'}"/>
         <value name="gcommander_file_info" value="{'ani':'simple_fade_slide_top'}"/>
@@ -194,6 +211,7 @@
         <value name="gcommanderlist_list_8_1" value="{'lines':9, 'columns':1}"/>
         <value name="gcommanderlist_list_4Line" value="{'lines':5, 'columns':1}"/>
         <value name="gcommanderlist_list_small" value="{'lines':7,'columns':1}"/>
+        <value name="gcommanderlist_biglist_small" value="{'lines':12,'columns':1}"/>
         <value name="gcomm_splayer_slideshow" value="{'ani':'simple_fade_long'}"/>
         <value name="gcomm_player_icon0" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_file_browser" value="{'ani':'slide_left_left'}"/>
@@ -204,6 +222,10 @@
         <value name="gcomm_menu_screen" value="{'ani':'simple_fade_slide_left'}"/>
         <value name="gcomm_move_screen" value="{'ani':'simple_fade_slide_left'}"/>
         <value name="gcomm_player_stop" value="{'ani':'slide_right_right', 'x':1220, 'y':0}"/>
+        <value name="gcomm_player_icon_menu" value="{'ani':'slide_left_left'}"/>
+        <value name="gcomm_player_icon_res" value="{'ani':'slide_left_left'}"/>
+        <value name="gcomm_player_icon_audio" value="{'ani':'slide_left_left'}"/>
+        <value name="gcomm_player_icon_sub" value="{'ani':'slide_left_left'}"/>
         <value name="blue_key_menu" value="{'ani':'slide_left_left'}"/>
         <value name="yellow_key_menu" value="{'ani':'slide_left_left'}"/>
         <value name="playlist_select" value="{'ani':'simple_fade_slide_top'}"/>

@@ -509,7 +509,7 @@ class zPosterXDownloadThread(threading.Thread):
                                 if self.PMATCH(ptitle, imdb[1]) or self.PMATCH(ptitle, imdb[4]) or (paka != '' and self.PMATCH(paka, imdb[1])) or (paka != '' and self.PMATCH(paka, imdb[4])):
                                     pfound = True
                                     break
-                            elif not url_poster and (int(year) -1 == int(imdb[2]) or int(year) +1 == int(imdb[2])):
+                            elif not url_poster and (int(year) - 1 == int(imdb[2]) or int(year) + 1 == int(imdb[2])):
                                 url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
                                 imsg = "Found title : '{}', aka : '{}', year : '+/-{}'".format(imdb[1], imdb[4], imdb[2])
                                 if ptitle == imdb[1] or ptitle == imdb[4] or (paka != '' and paka == imdb[1]) or (paka != '' and paka == imdb[4]):

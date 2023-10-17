@@ -16,16 +16,22 @@ import os
 import socket
 import shutil
 import sys
-global cur_skin, my_cur_skin, apikey
-PY3 = sys.version_info.major >= 3
-try:
+
+
+global cur_skin, my_cur_skin, tmdb_api
+PY3 = (sys.version_info[0] == 3)
+if PY3:
+    PY3 = True
+    unicode = str
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
     from urllib.parse import quote
-except:
+else:
+    str = unicode
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
     from urllib import quote
+
 
 # w92
 # w154
@@ -35,14 +41,16 @@ except:
 # w780
 # original
 formatImg = 'w185'
-apikey = "3c3efcf47c3577558812bb9d64019d65"
+tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
-thetvdbkey = 'D19315B88B2DE21F'
+# thetvdbkey = 'D19315B88B2DE21F'
+thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
 
 def isMountReadonly(mnt):
+    mount_point = ''
     with open('/proc/mounts') as f:
         for line in f:
             line = line.split(',')[0]
@@ -51,29 +59,26 @@ def isMountReadonly(mnt):
             try:
                 device, mount_point, filesystem, flags = line
             except Exception as err:
-                   print("Error: %s" % err)
+                print("Error: %s" % err)
             if mount_point == mnt:
                 return 'ro' in flags
     return "mount: '%s' doesn't exist" % mnt
 
 
-folder_poster = "/tmp/poster"
+path_folder = "/tmp/poster/"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        folder_poster = "/media/hdd/poster"
+        path_folder = "/media/hdd/poster/"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        folder_poster = "/media/usb/poster"
+        path_folder = "/media/usb/poster/"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"
-else:
-    folder_poster = "/tmp/poster"
+        path_folder = "/media/mmc/poster/"
 
-if not os.path.exists(folder_poster):
-    os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):
-    folder_poster = "/tmp/poster"
+if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+
 
 try:
     if my_cur_skin is False:
@@ -82,7 +87,7 @@ try:
         thetvdb_skin = "/usr/share/enigma2/%s/thetvdbkey" % (cur_skin)
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
-                apikey = f.read()
+                tmdb_api = f.read()
         if os.path.exists(omdb_skin):
             with open(omdb_skin, "r") as f:
                 omdb_api = f.read()
@@ -92,23 +97,24 @@ try:
 except:
     my_cur_skin = False
 
+
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
-    ozposter = "%0.f" % (folder_size/(1024*1024.0))
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
+    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
     if ozposter >= "5":
-        shutil.rmtree(folder_poster)
+        shutil.rmtree(path_folder)
 except:
     pass
 
 
 try:
     from Components.config import config
-    language = config.osd.language.value
-    language = language[:-3]
+    lng = config.osd.language.value
+    lng = lng[:-3]
 except:
-    language = 'en'
+    lng = 'en'
     pass
-print('language: ', language)
+print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -178,6 +184,7 @@ def cleantitle(text=''):
 
 
 class ZEvent(VariableText, Renderer):
+
     def __init__(self):
         adsl = intCheck()
         if not adsl:
@@ -211,6 +218,7 @@ class ZEvent(VariableText, Renderer):
             Title = ''
             ImdbRating = '0'
             Rated = ''
+            production_countries = ''
             Country = ''
             Cast = []
             Director = []
@@ -219,31 +227,32 @@ class ZEvent(VariableText, Renderer):
             self.event = self.source.event
             if self.event:  # and self.instance:
                 self.evnt = self.event.getEventName().encode('utf-8')
-                self.evntNm = cleantitle(self.evntNm)
-                self.downevent = True
+                self.evntNm = cleantitle(self.evnt)
                 print('clean event zinfo poster: ', self.evntNm)
+                # if os.path.exists("%s%s" % (path_folder, self.evntNm))
+                    # return
                 import requests
                 try:
-                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
+                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
                     # Title = requests.get(url).json()['results'][0]['original_title']
                     ids = requests.get(url).json()['results'][0]['id']
 
                 except:
-                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(apikey), quote(self.evntNm))
+                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
                     # Title = requests.get(url).json()['results'][0]['title']
                     ids = requests.get(url).json()['results'][0]['id']
 
                 try:
-                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(apikey))
+                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(tmdb_api))
                     data2 = requests.get(url3, timeout=5)
                     if data2.status_code == 200:
-                        with open(("%s/url_rate" % folder_poster), "w") as f:
+                        self.downevent = True
+                        with open("%s%s" % (path_folder, self.evntNm), "w") as f:
                             json.dump(data2, f)
-
                         try:
                             Title = data2.json()['original_title']
                         except:
@@ -261,7 +270,6 @@ class ZEvent(VariableText, Renderer):
                                     Genres.append(str(name["name"]))
                                     i = i+1
                             Genres = " | ".join(map(str, Genres))
-
                         if "release_date" in data2 and data2.json()['release_date']:
                             Year = data2.json()['release_date']
                         if "vote_average" in data2 and data2.json()['vote_average']:
@@ -287,19 +295,19 @@ class ZEvent(VariableText, Renderer):
                             for actor in data2.json()["credits"]["crew"]:
                                 if "job" in actor:
                                     Director = (str(actor["name"]) + ',')
-                                    z = z + 1
+                                    z += 1
 
                         if Title and Title != "N/A":
                             with open("/tmp/rating", "w") as f:
                                 f.write("%s\n%s" % (ImdbRating, Rated))
-                            self.text = "Title : %s" % str(Title)
-                            self.text += "\nYear : %s" % str(Year)
-                            self.text += "\nCountry : %s" % str(Country)
-                            self.text += "\nGenre : %s" % str(Genres)
-                            self.text += "\nDirector : %s" % str(Director)
-                            self.text += "\nCast : %s" % str(Cast)
-                            self.text += "\nImdb : %s" % str(ImdbRating)
-                            self.text += "\nRated : %s" % str(Rated)
+                            self.text = "Title: %s" % str(Title)
+                            self.text += "\nYear: %s" % str(Year)
+                            self.text += "\nCountry: %s" % str(Country)
+                            self.text += "\nGenre: %s" % str(Genres)
+                            self.text += "\nDirector: %s" % str(Director)
+                            self.text += "\nCast: %s" % str(Cast)
+                            self.text += "\nImdb: %s" % str(ImdbRating)
+                            self.text += "\nRated: %s" % str(Rated)
                             print("text= ", self.text)
                             return self.text
                 except:

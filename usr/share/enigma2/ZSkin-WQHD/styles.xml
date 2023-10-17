@@ -226,7 +226,7 @@
                 <widget source="session.CurrentService" render="Label" position="2114,1260" size="400,44" font="Regular;35" halign="left" foregroundColor="yellow" backgroundColor="#000000" transparent="1" noWrap="1" zPosition="3">
                     <convert type="MMCaidInfo2">%PR %T</convert>
                 </widget>
-                <widget source="session.CurrentService" render="Label" position="2020,1120" size="534,40" font="Regular;35" halign="right" foregroundColor="#808080" backgroundColor="#000000" transparent="1" zPosition="4">
+                <widget source="session.CurrentService" render="Label" position="2134,1154" size="414,80" font="Regular;34" halign="right" valign="center" foregroundColor="#808080" backgroundColor="#000000" transparent="1" zPosition="4">
                     <convert type="MMCaidInfo2">%R %S %SP %H</convert>
                 </widget>
                 <ePixmap blend="blend" pixmap="ZSkin-WQHD/icons/teletext_off.png" position="2107,1316" size="214,40" zPosition="1"/>
@@ -234,21 +234,6 @@
                     <convert type="ServiceInfo">HasTelext</convert>
                     <convert type="ConditionalShowHide"/>
                 </widget>
-                
-                
-                <!-- <widget position="32,660" size="350,350" type="default" render="AdvancedMovieSelectionImageRenderer" source="session.CurrentService" zPosition="2"/> -->
-                
-                <!--
-			<eLabel backgroundColor="#20000000" cornerRadius="70" font="Regular;35" foregroundColor="#20000000" halign="center" position="2274,1327" size="94,94" text="TXT" valign="center"/>
-			<widget source="session.CurrentService" render="Label" text="Cam..." position="14,334" size="2534,534" font="Regular;35" halign="left" foregroundColor="yellow" backgroundColor="#20000000" transparent="0" zPosition="40">
-				<convert type="MMCaidInfo2">%S %H %SY %PV %SP %PR %C %P %p %O %R %T %t %n</convert>
-			</widget>
-			<widget backgroundColor="#20000000" cornerRadius="70" font="Regular;35" foregroundColor="#808080" halign="center" position="2274,1327" render="FixedLabel" size="94,94"
-				source="session.CurrentService" text="TXT" valign="center" zPosition="1">
-				<convert type="ServiceInfo">HasTelext</convert>
-				<convert type="ConditionalShowHide"/>
-			</widget>
-			 -->
             </screen>
         </style>
         <style name="InfoBar" value="BigPicon" preview="preview/INF-BigPicon.jpg">
@@ -384,12 +369,6 @@
                     <convert type="EventTime">StartTime</convert>
                     <convert type="ClockToText">Default</convert>
                 </widget>
-                <!--
-			<widget source="session.Event_Next" render="Label" position="367,1240" size="1467,60" font="Regular;54" valign="center" foregroundColor="#505050" backgroundColor="#10202020" noWrap="0" transparent="1" zPosition="5" >
-				options="movetype=swimming,direction=left,repeat=4,steptime=40,startdelay=5000,noWrap">
-				<convert type="EventName">Name</convert>
-			</widget>
-			-->
                 <!-- Required Renderer extRunningText.py -->
                 <widget source="session.Event_Next" render="extRunningText" position="367,1240" size="1467,60" font="Regular;54" valign="center" foregroundColor="#505050" backgroundColor="#10202020" noWrap="0" transparent="1" zPosition="5" options="movetype=swimming,direction=left,repeat=4,steptime=40,startdelay=5000,noWrap">
                     <convert type="EventName">Name</convert>
@@ -450,18 +429,6 @@
                     <convert type="HbbtvApplicationInfo">Name</convert>
                 </widget>
                 <!-- SUSPEND -->
-                <!-- Bit error rate
-			<eLabel text="Ber:" position="2120,1234" size="134,54" font="Regular;40" noWrap="1" foregroundColor="#ffffff" backgroundColor="#000000" zPosition="3" transparent="1"/>
-			<widget source="session.FrontendStatus" render="Label" position="2220,1234" size="134,54" font="Regular;40" foregroundColor="#ffffff" backgroundColor="#000000" transparent="1" noWrap="1" zPosition="3" >
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			-->
-                <!-- Hbbtv Icon
-			<ePixmap pixmap="ZSkin-WQHD/icons/hbbtv_off.png" position="654,1334" size="187,54" blend="on" zPosition="2" />
-			<widget source="HbbtvApplication" render="Pixmap" pixmap="ZSkin-WQHD/icons/hbbtv_on.png" position="654,1334" size="187,54" blend="on" zPosition="3" >
-				<convert type="ConditionalShowHide" />
-			</widget>
-			-->
             </screen>
         </style>
         <screen backgroundColor="transparent" flags="wfNoBorder" name="InfoBar" position="0,0" size="2560,1440" title="InfoBar">
@@ -716,9 +683,6 @@
                 <layout name="rg-2c-nn-1030"/>
                 <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
                 <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
-                <!--
-                <widget backgroundPixmap="ZSkin-WQHD/images/grid.svg" selectionPixmap="ZSkin-WQHD/images/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" size="2570,1140" source="pluginlist" transparent="1">
-                -->
                 <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
                     <convert type="TemplatedMultiContent">
                     {"templates":
@@ -1117,7 +1081,6 @@
                 <widget source="ServiceEvent" render="ZEvent" position="1454,934" size="1094,180" font="Regular;32" halign="left" nowrap="1" valign="center" zPosition="9" foregroundColor="yellow" backgroundColor="#000000" transparent="1"/>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="1454,403" size="360,527" zPosition="4"/>
                 <widget source="ServiceEvent" render="ZChannel" position="1454,403" size="360,527" alphatest="blend" zPosition="5"/>
-                <!-- 			<widget source="ServiceEvent" render="ZChannel" position="1454,403" size="360,527" alphatest="blend" zPosition="5" />  -->
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="1454,403" size="360,527" zPosition="6"/>
                 <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/star_b.png" position="1827,400" size="267,27" transparent="1" zPosition="2"/>
                 
@@ -1208,12 +1171,12 @@
                 <!-- NEXT EVENT -->
                 <eLabel position="1160,740" size="1294,3" backgroundColor="#303030" zPosition="30"/>
                 <eLabel text="N  E  X  T" position="1160,734" size="1334,240" font="Regular;227" halign="center" valign="center" foregroundColor="#20202020" backgroundColor="header" transparent="1" zPosition="30"/>
-                <widget source="ServiceEvent" render="EventListDisplay" position="1160,754" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,26,0,0" column1="100,950,ltbluette,Regular,26,0,1" primetimeoffset="0" rowHeight="47" size="1427,240">
+                <widget source="ServiceEvent" render="EventListDisplay" position="1160,754" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,28,0,0" column1="100,950,ltbluette,Regular,28,0,1" primetimeoffset="0" rowHeight="47" size="1427,240">
                     <convert type="EventList">primetime=no,eventcount=5</convert>
                 </widget>
                 <!-- NEXT EVENTS -->
                 <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
-                <widget source="ServiceEvent" render="EventListDisplay" position="0,1234" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="360,120,#606060,Regular,30,0,0" column1="470,1310,#606060,Regular,30,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
+                <widget source="ServiceEvent" render="EventListDisplay" position="0,1234" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="360,120,#606060,Regular,34,0,0" column1="470,1310,#606060,Regular,34,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
                     <convert type="EventList">primetime=no,eventcount=1</convert>
                 </widget>
                 <!-- CHANNELS -->
@@ -1474,7 +1437,7 @@
             <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
         </screen>
         <!-- ##############################  PANELS MEDIAPLAYER ###########################-->
-        <style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg.jpg"/>
+        <style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg"/>
         <style name="MediaPlayer" value="Def-Player" preview="preview/MED-DefPlayer.jpg">
             <screen name="MediaPlayer" position="0,0" size="2560,1440" title="Audio Player" backgroundColor="#FF000000" flags="wfNoBorder">
                 <ePixmap pixmap="ZSkin-WQHD/menu/panels/radiook.jpg" position="0,0" size="2560,1440" zPosition="-1"/>
@@ -1591,12 +1554,6 @@
                 <widget name="artist" position="480,1380" size="547,40" font="Regular;35" foregroundColor="yellow" backgroundColor="#101010" transparent="1" zPosition="6"/>
                 <widget name="albumtext" position="1040,1380" size="160,40" font="Regular;35" foregroundColor="white" backgroundColor="#101010" transparent="1" zPosition="6"/>
                 <widget name="album" position="1174,1380" size="800,54" font="Regular;35" foregroundColor="yellow" backgroundColor="#101010" transparent="1" zPosition="6"/>
-                <!--
-			<widget name="titletext"   position="40,827"  size="160,54" font="Regular;40" foregroundColor="white"  backgroundColor="#101010" transparent="1" zPosition="6" />
-			<widget name="yeartext"    position="40,2360" size="200,50" backgroundColor="noTransBG" transparent="1" foregroundColor="darkgrey" font="Regular;40" valign="top" zPosition="6" />
-			<widget name="genretext"   position="40,2427" size="200,50" font="Regular;40" backgroundColor="noTransBG" transparent="1" foregroundColor="darkgrey" valign="top" zPosition="6" />
-			<widget name="genre"       position="467,2427" size="690,50" font="Regular;40" backgroundColor="noTransBG" transparent="1" foregroundColor="darkgrey" valign="top" zPosition="6" />
-			-->
                 <widget name="coverArt" pixmap="ZSkin-WQHD/menu/panels/zlogo.png" position="27,1174" size="280,254" transparent="0" scale="1" zPosition="6"/>
                 <!-- PlayerKeys  FW -->
                 <eLabel text="3" position="2127,1160" size="27,47" font="Regular;35" foregroundColor="green" backgroundColor="#10000000" transparent="1" zPosition="6"/>
@@ -1665,9 +1622,39 @@
                 <widget backgroundColor="#101010" font="Regular;40" foregroundColor="#808080" halign="left" name="currenttext" noWrap="1" position="40,1320" size="1640,0" transparent="1" valign="center" zPosition="6"/>
             </screen>
         </style>
-        <!-- ##############################  PANELS SECONDINFOBAR ###########################-->
-        <style name="Volume" value="Default" preview="preview/VOL-VolCenter.jpg">
-		</style>
+        <!-- ##############################  PANELS MERLIN2 MEDIAPLAYER ###########################-->
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default" preview="preview/MED-Merlin-Vu.jpg"/>
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Merlin-Vu" preview="preview/MED-Merlin-Vu.jpg">
+            <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="2560,1440" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
+                <layout name="merlin2player"/>
+                <!-- Display Vumeter -->
+                <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/vmeter0.png" position="1867,1080" size="330,207" transparent="1" zPosition="1"/>
+                <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/vmeter0.png" position="2207,1080" size="330,207" transparent="1" zPosition="1"/>
+                <widget backgroundColor="background" channel="0" clockwise="1" maxValue="150" mode="vumeter" name="rms0" pixmap1="ZSkin-WQHD/mmp/needle2.png" position="1894,1114" size="267,163" smoothing="0.92" startAngle="-63" transparent="1" vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3"/>
+                <widget backgroundColor="background" channel="1" clockwise="1" maxValue="150" mode="vumeter" name="rms1" pixmap1="ZSkin-WQHD/mmp/needle2.png" position="2234,1114" size="267,163" smoothing="0.92" startAngle="-63" transparent="1" vumeterAttack="0.1" vumeterAxis="100,100" vumeterLocation="0,0" zPosition="3"/>
+                <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/round.png" position="1999,1231" size="54,20" transparent="1" zPosition="4"/>
+                <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/mmp/round.png" position="2340,1231" size="54,20" transparent="1" zPosition="4"/>
+            </screen>
+        </style>
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Merlin2-Led" preview="preview/MED-Merlin-Led.jpg">
+            <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="2560,1440" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
+                <layout name="merlin2player"/>
+                <!-- Display LED -->
+                <eLabel backgroundColor="#202020" blending="on" cornerRadius="20" position="1854,1067" size="694,200" zPosition="20"/>
+                <widget name="visu" position="1854,1067" size="694,194" transparent="1" zPosition="21" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/bar_88_226.png" distance1="12" threshold1="80" mode="visUp" internalSize="2" blendColor="ltbluette" smoothing="0.6"/>
+                <widget name="visu" position="1854,1067" size="694,200" transparent="1" zPosition="21" backgroundColor="#00000000" pixmapBackground2="ZSkin-WQHD/mmp/colorgradient.png" pixmap2="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_30x20_h8.png" distance1="18" distance2="8" mode="visImagesUp" maxValue="17" fadeOutTime="1600" internalSize="0" pixmapBackgroundColor1="#0F0F0F" drawBackground="1" smoothing="0.6"/>
+            </screen>
+        </style>
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Merlin2-Lcd" preview="preview/MED-Merlin-Lcd.jpg">
+            <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="2560,1440" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
+                <layout name="merlin2player"/>
+                <!-- VuMeter Visu LED -->
+                <widget name="rms2" channel="0" backgroundColor="#404040" zPosition="13" position="1854,1067" size="714,107" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationLeft" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor.png" drawBackground="1" pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95"/>
+                <widget name="rms3" channel="1" backgroundColor="#404040" zPosition="13" position="1880,1147" size="714,107" pixmap1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/led_60x90_t9.png" transparent="1" mode="imagesOrientationRight" pixmapBackground1="/usr/lib/enigma2/python/Plugins/Extensions/MerlinMusicPlayer2/images/colorgradient_hor_right.png" drawBackground="1" pixmapBackgroundColor1="#0F0F0F" distance="15" maxValue="30" fadeOutTime="500" smoothing="0.95"/>
+            </screen>
+        </style>
+        <!-- ##############################  PANELS VOLUME ###########################-->
+        <style name="Volume" value="Default" preview="preview/VOL-VolCenter.jpg"/>
         <style name="Volume" value="Volume-Left" preview="preview/VOL-VolLeft.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="Volume" position="0,0" size="2560,1440" title="Volume">
                 <ePixmap pixmap="ZSkin-WQHD/menu/panels/vvolume.png" position="67,100" size="107,1094" zPosition="10"/>
@@ -1691,6 +1678,84 @@
                 <ePixmap pixmap="ZSkin-WQHD/menu/panels/volpic.png" position="0,0" size="334,160" blend="blend" zPosition="2" transparent="1"/>
                 <widget name="Volume" pixmap="ZSkin-WQHD/menu/panels/volumeon.png" position="147,27" orientation="orBottomToTop" size="0,0" transparent="1" zPosition="3"/>
                 <widget source="global.CurrentTime" render="extvolumeText" position="160,0" size="160,147" font="LCD;120" halign="center" valign="center" foregroundColor="#ffffff" backgroundColor="bluette" transparent="1" zPosition="4"/>
+            </screen>
+        </style>
+        <!-- ##############################  PANELS WETTERBAR ########################### -->
+        <style name="WetterComScreen" value="Default" preview="preview/WET-Wetter-mmk.jpg"/>
+        <style name="WetterComScreen" value="Wetter-mmk" preview="preview/WET-Wetter-mmk.jpg">
+            <screen backgroundColor="transparent" name="WetterComScreen" position="0,0" size="2560,174" flags="wfNoBorder">
+                <!-- title=0, stationname=1, wettertext=2, wettericon=3, temperature=4, updatetime=5, namelong=6, lastcheck=7, raintext=8, rainamounttext=9, winddirectiontext=10, winddirectionicon=11 winspeed=12-->
+                <!-- Icona Meteo Temperatura Citta Descrizione -->
+                <eLabel backgroundColor="background" cornerRadius="0" position="0,0" size="2560,214" zPosition="-1"/>
+                <widget position="0,14" render="Pixmap" size="187,160" source="global.WetterCom">
+                    <convert type="WetterCom">3</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;67" position="214,14" render="Label" size="134,80" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">4</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;51" foregroundColor="yellow" halign="left" position="387,14" render="Label" size="800,67" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">1</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;40" halign="left" position="214,94" render="Label" size="534,54" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">2</convert>
+                </widget>
+                <!-- Ultimo Aggiornamento -->
+                <eLabel backgroundColor="background" cornerRadius="0" font="Regular;40" foregroundColor="#ffffff" position="2120,14" size="267,54" text="Update Time :" transparent="1" zPosition="1"/>
+                <widget backgroundColor="background" font="Regular;40" halign="right" position="2267,14" render="Label" size="267,54" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">5</convert>
+                </widget>
+                <!-- Vento -->
+                <ePixmap pixmap="ZSkin-WQHD/icons/windwetter.png" position="1800,94" size="63,54"/>
+                <widget position="1880,94" render="Pixmap" size="54,54" source="global.WetterCom">
+                    <convert type="WetterCom">11</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;40" halign="center" position="1927,100" render="Label" size="134,94" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">10</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;40" halign="left" position="2040,100" render="Label" size="200,54" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">12</convert>
+                </widget>
+                <!-- Pioggia -->
+                <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/WetterCom/icons/ic_modern_precipitation_risk_s.png" position="2214,94" size="54,54"/>
+                <widget backgroundColor="background" font="Regular;40" halign="left" position="2300,100" render="Label" size="134,54" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">8</convert>
+                </widget>
+                <widget backgroundColor="background" font="Regular;40" foregroundColor="yellow" halign="right" position="2400,100" render="Label" size="134,54" source="global.WetterCom" transparent="1">
+                    <convert type="WetterCom">9</convert>
+                </widget>
+                <!-- Date Long City Long 
+				<widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;38" position="534,14" size="534,40" halign="left" transparent="1">
+					<convert type="WetterCom">7</convert>
+				</widget>
+				<widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;40" position="800,100" size="934,54" halign="left" transparent="1">
+					<convert type="WetterCom">6</convert>
+				</widget>
+				-->
+            </screen>
+        </style>
+        <style name="WetterComScreen" value="WetterBox" preview="preview/WET-Wetter-box.jpg">
+            <screen backgroundColor="transparent" name="WetterComScreen" position="2054,67" size="480,374" flags="wfNoBorder">
+                <eLabel backgroundColor="background" cornerRadius="30" position="0,0" size="480,374" zPosition="-1"/>
+                <widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;32" position="14,7" size="454,40" halign="center" transparent="1">
+                    <convert type="WetterCom">1</convert>
+                </widget>
+                <widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;32" position="360,104" size="107,34" halign="right" transparent="1">
+                    <convert type="WetterCom">5</convert>
+                </widget>
+                <eLabel backgroundColor="background" font="Regular;32" position="267,67" size="200,34" text="Weatherdata" halign="right" transparent="1"/>
+                <widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;43" position="14,67" size="134,47" transparent="1">
+                    <convert type="WetterCom">4</convert>
+                </widget>
+                <widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;32" position="14,307" size="454,40" halign="center" transparent="1">
+                    <convert type="WetterCom">2</convert>
+                </widget>
+                <widget source="global.WetterCom" render="Pixmap" position="100,107" size="267,214">
+                    <convert type="WetterCom">3</convert>
+                </widget>
+                <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/WetterCom/icons/ic_modern_precipitation_risk_s.png" position="414,160" size="54,54"/>
+                <widget backgroundColor="background" source="global.WetterCom" render="Label" font="Regular;32" position="400,214" size="67,40" halign="right" transparent="1">
+                    <convert type="WetterCom">8</convert>
+                </widget>
             </screen>
         </style>
     </screens>

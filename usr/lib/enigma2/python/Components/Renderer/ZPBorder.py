@@ -15,15 +15,37 @@ import re
 
 global cur_skin
 
+
+def isMountReadonly(mnt):
+    mount_point = ''
+    with open('/proc/mounts') as f:
+        for line in f:
+            line = line.split(',')[0]
+            line = line.split()
+            print('line ', line)
+            try:
+                device, mount_point, filesystem, flags = line
+            except Exception as err:
+                print("Error: %s" % err)
+            if mount_point == mnt:
+                return 'ro' in flags
+    return "mount: '%s' doesn't exist" % mnt
+
+
 path_folder = "/tmp/poster/"
-if os.path.isdir("/media/hdd"):
-    path_folder = "/media/hdd/poster/"
-elif os.path.isdir("/media/usb"):
-    path_folder = "/media/usb/poster/"
-else:
-    path_folder = "/tmp/poster/"
-if not os.path.isdir(path_folder):
+if os.path.exists("/media/hdd"):
+    if not isMountReadonly("/media/hdd"):
+        path_folder = "/media/hdd/poster/"
+elif os.path.exists("/media/usb"):
+    if not isMountReadonly("/media/usb"):
+        path_folder = "/media/usb/poster/"
+elif os.path.exists("/media/mmc"):
+    if not isMountReadonly("/media/mmc"):
+        path_folder = "/media/mmc/poster/"
+
+if not os.path.exists(path_folder):
     os.makedirs(path_folder)
+
 
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 nocover = '/usr/share/enigma2/%s/menu/panels/nocover.png' % cur_skin
@@ -56,16 +78,43 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
+def unicodify(s, encoding='utf-8', norm=None):
+    if not isinstance(s, unicode):
+        s = unicode(s, encoding)
+    if norm:
+        from unicodedata import normalize
+        s = normalize(norm, s)
+    return s
+
+
+def cleantitle(text=''):
+    try:
+        print('ZEvent text ->>> ', text)
+        if text != '' or text is not None or text != 'None':
+            text = REGEX.sub('', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = unicodify(text)
+            text = text.lower()
+            print('ZEvent text <<<- ', text)
+        else:
+            text = str(text)
+            print('ZEvent text <<<->>> ', text)
+        return text
+    except Exception as e:
+        print('cleantitle error: ', e)
+        pass
+
+
 class ZPBorder(Renderer):
     def __init__(self):
         Renderer.__init__(self)
         self.timer40 = eTimer()
+        self.downloading = False
 
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
-        # if self.timer40:
-            # self.timer40.stop()
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
@@ -73,7 +122,6 @@ class ZPBorder(Renderer):
             self.delay()
 
     def delay(self):
-        self.downloading = False
         try:
             self.timer40.callback.append(self.info)
         except:
@@ -112,13 +160,12 @@ class ZPBorder(Renderer):
         if self.event:
             # self.evnt = self.event.getEventName()
             # self.evntNm = REGEX.sub('', self.evnt).strip()
-            
-            self.evnt = self.event.getEventName()
-            self.evntNm = REGEX.sub('', self.evnt).strip()
-            self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
-            
-            print('clean event Zborder: ', self.evntNm)
-            self.pstrNm = "/tmp/ZPoster/{}.jpg".format(self.evntNm)
+            # self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
+            self.evnt = self.event.getEventName().encode('utf-8')
+            self.evntNm = cleantitle(self.evnt)
+            print('clean Zborder: ', self.evntNm)
+            self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
+            print('self.pstrNm: ', self.pstrNm)
             if fileExists(self.pstrNm) and self.instance:
                 print('fileExists')
                 self.showPoster()
