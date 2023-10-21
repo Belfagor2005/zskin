@@ -73,16 +73,16 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-path_folder = "/tmp/poster/"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster/"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster/"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster/"
+        path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
@@ -226,25 +226,6 @@ def cleantitle(text=''):
         pass
 
 
-# def convtext(text=''):
-    # try:
-        # print('zposter text ->>> ', text)
-        # if text != '' or text is not None or text != 'None':
-            # text = REGEX.sub('', text)
-            # text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # text = unicodify(text)
-            # text = text.lower()
-            # print('zposter text <<<- ', text)
-        # else:
-            # text = str(text)
-            # print('zposter text <<<->>> ', text)
-        # return text
-    # except Exception as e:
-        # print('cleantitle error: ', e)
-        # pass
-
-
 class PosterDB(zPosterXDownloadThread):
     def __init__(self):
         zPosterXDownloadThread.__init__(self)
@@ -256,7 +237,7 @@ class PosterDB(zPosterXDownloadThread):
             canal = pdb.get()
             self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
             pstcanal = cleantitle(canal[5])
-            dwn_poster = path_folder + pstcanal + ".jpg"
+            dwn_poster = path_folder + '/' + pstcanal + ".jpg"
             if os.path.exists(dwn_poster):
                 os.utime(dwn_poster, (time.time(), time.time()))
             if lng == "fr":
@@ -322,7 +303,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[5] = canal[2]
                             # self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
                             pstcanal = cleantitle(canal[5])
-                            dwn_poster = path_folder + pstcanal + ".jpg"
+                            dwn_poster = path_folder + '/' + pstcanal + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
                             if lng == "fr":
@@ -359,12 +340,12 @@ class PosterAutoDB(zPosterXDownloadThread):
             emptyfd = 0
             oldfd = 0
             for f in os.listdir(path_folder):
-                diff_tm = now_tm - os.path.getmtime(path_folder + f)
-                if diff_tm > 120 and os.path.getsize(path_folder + f) == 0:  # Detect empty files > 2 minutes
+                diff_tm = now_tm - os.path.getmtime(path_folder + '/' + f)
+                if diff_tm > 120 and os.path.getsize(path_folder + '/' +  f) == 0:  # Detect empty files > 2 minutes
                     os.remove(path_folder + f)
                     emptyfd = emptyfd + 1
                 if diff_tm > 259200:  # Detect old files > 3 days old
-                    os.remove(path_folder + f)
+                    os.remove(path_folder + '/' +   f)
                     oldfd = oldfd + 1
             self.logAutoDB("[AutoDB] {} old file(s) removed".format(oldfd))
             self.logAutoDB("[AutoDB] {} empty file(s) removed".format(emptyfd))

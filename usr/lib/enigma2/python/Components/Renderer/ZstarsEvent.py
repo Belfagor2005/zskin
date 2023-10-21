@@ -66,29 +66,19 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-path_folder = "/tmp/poster/"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster/"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster/"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster/"
+        path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
-
-
-try:
-    from Components.config import config
-    lng = config.osd.language.value
-    lng = lng[:-3]
-except:
-    lng = 'en'
-    pass
-print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -201,8 +191,7 @@ class ZstarsEvent(VariableValue, Renderer):
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
                 print('clean zstar: ', self.evntNm)
-
-                if not os.path.exists("%s%s" % (path_folder, self.evntNm)):
+                if not os.path.exists("%s/%s" % (path_folder, self.evntNm)):
                     import requests
                     try:
                         url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
@@ -228,13 +217,12 @@ class ZstarsEvent(VariableValue, Renderer):
                             url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(tmdb_api))
 
                             data2 = requests.get(url3, timeout=10)
-                            with open(("%s%s" % (path_folder, self.evntNm)), "w") as f:
+                            with open(("%s/%s" % (path_folder, self.evntNm)), "w") as f:
                                 json.dump(data2.json(), f)
                         except Exception as e:
                             print('pass: ', e)
 
-
-                myFile = open(("%s%s" % (path_folder, self.evntNm)), 'r')
+                myFile = open(("%s/%s" % (path_folder, self.evntNm)), 'r')
                 myObject = myFile.read()
                 u = myObject.decode('utf-8-sig')
                 data = u.encode('utf-8')
@@ -259,7 +247,6 @@ class ZstarsEvent(VariableValue, Renderer):
                 value = rtng
                 (self.range, self.value) = ((0, range), value)
                 self.instance.show()
-
         except Exception as e:
             print('pass: ', e)
 

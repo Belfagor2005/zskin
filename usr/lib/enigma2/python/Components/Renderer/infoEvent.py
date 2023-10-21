@@ -54,16 +54,16 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-path_folder = "/tmp/poster/"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster/"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster/"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster/"
+        path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
@@ -210,7 +210,7 @@ class infoEvent(Renderer, VariableText):
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
                 print('clean event InfoEvent: ', self.evntNm)
-                if not os.path.exists("%s%s" % (path_folder, self.evntNm)):
+                if not os.path.exists("%s/%s" % (path_folder, self.evntNm)):
                     self.downloading = True
                     url = 'https://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
@@ -224,10 +224,10 @@ class infoEvent(Renderer, VariableText):
                             url3 = url3.encode()
                         data = urlopen(url3).read().decode('utf-8')
                         data = json.loads(data)
-                        with open(("%s%s" % (path_folder, self.evntNm)), "w") as f:
+                        with open(("%s/%s" % (path_folder, self.evntNm)), "w") as f:
                             json.dump(data, f)
 
-                with open("%s%s" % (path_folder, self.evntNm)) as json_file:
+                with open("%s/%s" % (path_folder, self.evntNm)) as json_file:
                     data = json.load(json_file)
 
                 if "original_title" in data and data['original_title']:

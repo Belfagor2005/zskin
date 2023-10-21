@@ -65,16 +65,16 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-path_folder = "/tmp/poster/"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster/"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster/"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster/"
+        path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
@@ -229,7 +229,7 @@ class ZEvent(VariableText, Renderer):
                 self.evnt = self.event.getEventName().encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
                 print('clean event zinfo poster: ', self.evntNm)
-                # if os.path.exists("%s%s" % (path_folder, self.evntNm))
+                # if os.path.exists("%s/%s" % (path_folder, self.evntNm))
                     # return
                 import requests
                 try:
@@ -251,7 +251,7 @@ class ZEvent(VariableText, Renderer):
                     data2 = requests.get(url3, timeout=5)
                     if data2.status_code == 200:
                         self.downevent = True
-                        with open("%s%s" % (path_folder, self.evntNm), "w") as f:
+                        with open("%s/%s" % (path_folder, self.evntNm), "w") as f:
                             json.dump(data2, f)
                         try:
                             Title = data2.json()['original_title']

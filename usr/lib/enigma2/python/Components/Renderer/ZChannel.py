@@ -68,22 +68,22 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-folder_poster = "/tmp/poster"
+path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        folder_poster = "/media/hdd/poster"
+        path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        folder_poster = "/media/usb/poster"
+        path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        folder_poster = "/media/mmc/poster"
+        path_folder = "/media/mmc/poster"
 
 
-if not os.path.exists(folder_poster):
-    os.makedirs(folder_poster)
-if not os.path.exists(folder_poster):
-    folder_poster = "/tmp/poster"
+if not os.path.exists(path_folder):
+    os.makedirs(path_folder)
+if not os.path.exists(path_folder):
+    path_folder = "/tmp/poster"
 
 
 try:
@@ -181,10 +181,10 @@ def intCheck():
 
 
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(folder_poster, fname)), files)) for folder_p, folders, files in os.walk(folder_poster)])
+    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
     ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
     if ozposter >= "5":
-        shutil.rmtree(folder_poster)
+        shutil.rmtree(path_folder)
 except:
     pass
 
@@ -196,7 +196,7 @@ class ZChannel(Renderer):
             return
         Renderer.__init__(self)
         self.nxts = 0
-        self.path = folder_poster
+        self.path = path_folder
         self.picload = ePicLoad()
 
     GUI_WIDGET = ePixmap
@@ -231,15 +231,15 @@ class ZChannel(Renderer):
             self.evnt = self.event.getEventName().encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
-            self.pstrNm = "{}/{}.jpg".format(folder_poster, self.evntNm)
+            self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
             print('self.pstrNm: ', self.pstrNm)
             if os.path.exists(self.pstrNm):
                 print('showposter')
                 self.showPoster()
             else:
                 try:
-                    if os.path.exists("%s/%s" % (folder_poster, self.evntNm)):
-                        os.remove("%s/%s" % (folder_poster, self.evntNm))
+                    if os.path.exists("%s/%s" % (path_folder, self.evntNm)):
+                        os.remove("%s/%s" % (path_folder, self.evntNm))
                         print("%s has been removed successfully" % self.evntNm)
                     url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
@@ -254,7 +254,7 @@ class ZChannel(Renderer):
                                 url_2 = url_2.encode()
                             url_3 = urlopen(url_2).read().decode('utf-8')
                             data2 = json.loads(url_3)
-                            with open(("%s/%s" % (folder_poster, self.evntNm)), "w") as f:
+                            with open(("%s/%s" % (path_folder, self.evntNm)), "w") as f:
                                 json.dump(data2, f)
                             poster = data2['poster_path']
                             if poster:
@@ -276,7 +276,7 @@ class ZChannel(Renderer):
                                     url_2 = url_2.encode()
                                 url_3 = urlopen(url_2).read().decode('utf-8')
                                 data2 = json.loads(url_3)
-                                with open(("%s/%s" % (folder_poster, self.evntNm)), "w") as f:
+                                with open(("%s/%s" % (path_folder, self.evntNm)), "w") as f:
                                     json.dump(data2, f)
                                 poster = data2['poster_path']
                                 if poster:
