@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from PIL import Image
@@ -12,7 +13,6 @@ from Components.config import config
 global my_cur_skin
 
 PY3 = (sys.version_info[0] == 3)
-
 if PY3:
     from urllib.parse import quote
     import html
@@ -24,12 +24,14 @@ else:
     html_parser = HTMLParser()
     str = unicode
 
+
 try:
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
 except:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
+
 
 try:
     lng = config.osd.language.value
@@ -38,12 +40,14 @@ except:
     lng = 'en'
     pass
 
+
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
+
 
 try:
     if my_cur_skin is False:
@@ -61,6 +65,7 @@ try:
                 thetvdbkey = f.read()
 except:
     my_cur_skin = False
+
 
 isz = "185,278"
 
@@ -112,12 +117,12 @@ class zPosterXDownloadThread(threading.Thread):
             poster = None
 
             chkType, fd = self.checkType(shortdesc, fulldesc)
-            if chkType == "":
-                srch = "multi"
-            elif chkType.startswith("movie"):
-                srch = "movie"
-            else:
-                srch = "tv"
+            # if chkType == "multi":
+                # srch = "multi"
+            # elif chkType.startswith("movie"):
+                # srch = "movie"
+            # else:
+                # srch = "tv"
 
             try:
                 if re.findall('19\d{2}|20\d{2}', title):
@@ -128,23 +133,175 @@ class zPosterXDownloadThread(threading.Thread):
                 year = ''
                 pass
 
-            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&query={}".format(srch, tmdb_api, quote(title))
-            if year:
-                url_tmdb += "&year={}".format(year)
-            if lng:
-                url_tmdb += "&language={}".format(lng)
+            # url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&include_adult=true&query={}".format(srch, tmdb_api, quote(title))
+            # http://api.themoviedb.org/3/search/movie?api_key=' + str(self.check(self.token)) + '&primary_release_year=' + str(year) + '&query=' + str(searchtitle)
+            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}".format(chkType, tmdb_api)  # , quote(title))           #  &query={}".format(srch, tmdb_api, quote(title))
+            if year != '':
+                url_tmdb += "&primary_release_year={}".format(year)
+            # if lng:
+                # url_tmdb += "&language={}".format(lng)
+            url_tmdb += "&query={}".format(quote(title))
+            print('url_tmdb= ', url_tmdb)
 
             poster = requests.get(url_tmdb).json()
             if poster and poster['results'] and poster['results'][0] and poster['results'][0]['poster_path']:
                 url_poster = "https://image.tmdb.org/t/p/w{}{}".format(str(isz.split(",")[0]), poster['results'][0]['poster_path'])
                 self.savePoster(dwn_poster, url_poster)
-                return True, "[SUCCESS : tmdb] {} [{}-{}] => {} => {}".format(title, chkType, year, url_tmdb, url_poster)
+                return True, "[SUCCESS poster: tmdb] {} [{}-{}] => {} => {}".format(title, chkType, year, url_tmdb, url_poster)
             else:
                 return False, "[SKIP : tmdb] {} [{}-{}] => {} (Not found)".format(title, chkType, year, url_tmdb)
         except Exception as e:
             if os.path.exists(dwn_poster):
                 os.remove(dwn_poster)
             return False, "[ERROR : tmdb] {} [{}-{}] => {} ({})".format(title, chkType, year, url_tmdb, str(e))
+
+    def search_tvdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
+        try:
+            series_nb = -1
+
+            chkType, fd = self.checkType(shortdesc, fulldesc)
+
+            ptitle = self.UNAC(title)
+
+            year = re.findall('19\d{2}|20\d{2}', fd)
+            if len(year) > 0:
+                year = year[0]
+            else:
+                year = ''
+
+            url_tvdbg = "https://thetvdb.com/api/GetSeries.php?seriesname={}".format(quote(title))
+            url_read = requests.get(url_tvdbg).text
+            series_id = re.findall('<seriesid>(.*?)</seriesid>', url_read)
+            series_name = re.findall('<SeriesName>(.*?)</SeriesName>', url_read)
+            series_year = re.findall('<FirstAired>(19\d{2}|20\d{2})-\d{2}-\d{2}</FirstAired>', url_read)
+            i = 0
+            for iseries_year in series_year:
+                if year == '':
+                    series_nb = 0
+                    break
+                elif year == iseries_year:
+                    series_nb = i
+                    break
+                i += 1
+
+            poster = ""
+            if series_nb >= 0 and series_id and series_id[series_nb]:
+                if series_name and series_name[series_nb]:
+                    series_name = self.UNAC(series_name[series_nb])
+                else:
+                    series_name = ''
+                if self.PMATCH(ptitle, series_name):
+                    url_tvdb = "https://thetvdb.com/api/{}/series/{}".format(thetvdbkey, series_id[series_nb])
+                    if lng:
+                        url_tvdb += "/{}".format(lng)
+                    else:
+                        url_tvdb += "/en"
+                    url_read = requests.get(url_tvdb).text
+                    poster = re.findall('<poster>(.*?)</poster>', url_read)
+
+            if poster and poster[0]:
+                url_poster = "https://artworks.thetvdb.com/banners/{}".format(poster[0])
+                self.savePoster(dwn_poster, url_poster)
+
+                return True, "[SUCCESS : tvdb] {} [{}-{}] => {} => {} => {}".format(title, chkType, year, url_tvdbg, url_tvdb, url_poster)
+            else:
+                return False, "[SKIP : tvdb] {} [{}-{}] => {} (Not found)".format(title, chkType, year, url_tvdbg)
+
+        except Exception as e:
+            if os.path.exists(dwn_poster):
+                os.remove(dwn_poster)
+            return False, "[ERROR : tvdb] {} => {} ({})".format(title, url_tvdbg, str(e))
+
+    def search_imdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
+        try:
+            url_poster = None
+
+            chkType, fd = self.checkType(shortdesc, fulldesc)
+
+            ptitle = self.UNAC(title)
+
+            aka = re.findall('\((.*?)\)', fd)
+            if len(aka) > 1 and not aka[1].isdigit():
+                aka = aka[1]
+            elif len(aka) > 0 and not aka[0].isdigit():
+                aka = aka[0]
+            else:
+                aka = None
+            if aka:
+                paka = self.UNAC(aka)
+            else:
+                paka = ''
+
+            year = re.findall('19\d{2}|20\d{2}', fd)
+            if len(year) > 0:
+                year = year[0]
+            else:
+                year = ''
+
+            imsg = ''
+            url_mimdb = ''
+            url_imdb = ''
+
+            if aka and aka != title:
+                url_mimdb = "https://m.imdb.com/find?q={}%20({})".format(quote(title), quote(aka))
+            else:
+                url_mimdb = "https://m.imdb.com/find?q={}".format(quote(title))
+            url_read = requests.get(url_mimdb).text
+            rc = re.compile('<img src="(.*?)".*?<span class="h3">\n(.*?)\n</span>.*?\((\d+)\)(\s\(.*?\))?(.*?)</a>', re.DOTALL)
+            url_imdb = rc.findall(url_read)
+
+            if len(url_imdb) == 0 and aka:
+                url_mimdb = "https://m.imdb.com/find?q={}".format(quote(title))
+                url_read = requests.get(url_mimdb).text
+                rc = re.compile('<img src="(.*?)".*?<span class="h3">\n(.*?)\n</span>.*?\((\d+)\)(\s\(.*?\))?(.*?)</a>', re.DOTALL)
+                url_imdb = rc.findall(url_read)
+
+            len_imdb = len(url_imdb)
+            idx_imdb = 0
+            pfound = False
+
+            for imdb in url_imdb:
+                imdb = list(imdb)
+                imdb[1] = self.UNAC(imdb[1])
+                tmp = re.findall('aka <i>"(.*?)"</i>', imdb[4])
+                if tmp:
+                    imdb[4] = tmp[0]
+                else:
+                    imdb[4] = ''
+                imdb[4] = self.UNAC(imdb[4])
+                imdb_poster = re.search("(.*?)._V1_.*?.jpg", imdb[0])
+                if imdb_poster:
+                    if imdb[3] == '':
+                        if year and year != '':
+                            if year == imdb[2]:
+                                url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
+                                imsg = "Found title : '{}', aka : '{}', year : '{}'".format(imdb[1], imdb[4], imdb[2])
+                                if self.PMATCH(ptitle, imdb[1]) or self.PMATCH(ptitle, imdb[4]) or (paka != '' and self.PMATCH(paka, imdb[1])) or (paka != '' and self.PMATCH(paka, imdb[4])):
+                                    pfound = True
+                                    break
+                            elif not url_poster and (int(year) - 1 == int(imdb[2]) or int(year) + 1 == int(imdb[2])):
+                                url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
+                                imsg = "Found title : '{}', aka : '{}', year : '+/-{}'".format(imdb[1], imdb[4], imdb[2])
+                                if ptitle == imdb[1] or ptitle == imdb[4] or (paka != '' and paka == imdb[1]) or (paka != '' and paka == imdb[4]):
+                                    pfound = True
+                                    break
+                        else:
+                            url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
+                            imsg = "Found title : '{}', aka : '{}', year : ''".format(imdb[1], imdb[4])
+                            if ptitle == imdb[1] or ptitle == imdb[4] or (paka != '' and paka == imdb[1]) or (paka != '' and paka == imdb[4]):
+                                pfound = True
+                                break
+                idx_imdb += 1
+
+            if url_poster and pfound:
+                self.savePoster(dwn_poster, url_poster)
+                return True, "[SUCCESS url_poster: imdb] {} [{}-{}] => {} [{}/{}] => {} => {}".format(title, chkType, year, imsg, idx_imdb, len_imdb, url_mimdb, url_poster)
+            else:
+                return False, "[SKIP : imdb] {} [{}-{}] => {} (No Entry found [{}])".format(title, chkType, year, url_mimdb, len_imdb)
+        except Exception as e:
+            if os.path.exists(dwn_poster):
+                os.remove(dwn_poster)
+            return False, "[ERROR : imdb] {} [{}-{}] => {} ({})".format(title, chkType, year, url_mimdb, str(e))
 
     def search_programmetv_google(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
         try:
@@ -189,7 +346,7 @@ class zPosterXDownloadThread(threading.Thread):
                         url_poster = re.sub('crop-from/top/', '', url_poster)
                         self.savePoster(dwn_poster, url_poster)
                         if self.verifyPoster(dwn_poster) and url_poster_size:
-                            return True, "[SUCCESS : programmetv-google] {} [{}] => Found title : '{}' => {} => {} (initial size: {}) [{}]".format(title, chkType, get_title, url_ptv, url_poster, url_poster_size, ptv_id)
+                            return True, "[SUCCESS url_poster: programmetv-google] {} [{}] => Found title : '{}' => {} => {} (initial size: {}) [{}]".format(title, chkType, get_title, url_ptv, url_poster, url_poster_size, ptv_id)
                         else:
                             if os.path.exists(dwn_poster):
                                 os.remove(dwn_poster)
@@ -310,7 +467,7 @@ class zPosterXDownloadThread(threading.Thread):
                 url_poster = re.sub('/\d+x\d+/', "/" + re.sub(',', 'x', isz) + "/", poster)
                 self.savePoster(dwn_poster, url_poster)
                 if self.verifyPoster(dwn_poster):
-                    return True, "[SUCCESS : molotov-google] {} ({}) [{}] => {} => {} => {}".format(title, channel, chkType, imsg, url_mgoo, url_poster)
+                    return True, "[SUCCESS url_poster: molotov-google] {} ({}) [{}] => {} => {} => {}".format(title, channel, chkType, imsg, url_mgoo, url_poster)
                 else:
                     if os.path.exists(dwn_poster):
                         os.remove(dwn_poster)
@@ -374,7 +531,7 @@ class zPosterXDownloadThread(threading.Thread):
                     break
 
             if poster:
-                return True, "[SUCCESS : google] {} [{}-{}] => {} => {}".format(title, chkType, year, url_google, url_poster)
+                return True, "[SUCCESS poster: google] {} [{}-{}] => {} => {}".format(title, chkType, year, url_google, url_poster)
             else:
                 if os.path.exists(dwn_poster):
                     os.remove(dwn_poster)
@@ -384,154 +541,6 @@ class zPosterXDownloadThread(threading.Thread):
             if os.path.exists(dwn_poster):
                 os.remove(dwn_poster)
             return False, "[ERROR : google] {} [{}-{}] => {} => {} ({})".format(title, chkType, year, url_google, url_poster, str(e))
-
-    def search_tvdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
-        try:
-            series_nb = -1
-
-            chkType, fd = self.checkType(shortdesc, fulldesc)
-
-            ptitle = self.UNAC(title)
-
-            year = re.findall('19\d{2}|20\d{2}', fd)
-            if len(year) > 0:
-                year = year[0]
-            else:
-                year = ''
-
-            url_tvdbg = "https://thetvdb.com/api/GetSeries.php?seriesname={}".format(quote(title))
-            url_read = requests.get(url_tvdbg).text
-            series_id = re.findall('<seriesid>(.*?)</seriesid>', url_read)
-            series_name = re.findall('<SeriesName>(.*?)</SeriesName>', url_read)
-            series_year = re.findall('<FirstAired>(19\d{2}|20\d{2})-\d{2}-\d{2}</FirstAired>', url_read)
-            i = 0
-            for iseries_year in series_year:
-                if year == '':
-                    series_nb = 0
-                    break
-                elif year == iseries_year:
-                    series_nb = i
-                    break
-                i += 1
-
-            poster = ""
-            if series_nb >= 0 and series_id and series_id[series_nb]:
-                if series_name and series_name[series_nb]:
-                    series_name = self.UNAC(series_name[series_nb])
-                else:
-                    series_name = ''
-                if self.PMATCH(ptitle, series_name):
-                    url_tvdb = "https://thetvdb.com/api/{}/series/{}".format(thetvdbkey, series_id[series_nb])
-                    if lng:
-                        url_tvdb += "/{}".format(lng)
-                    else:
-                        url_tvdb += "/en"
-
-                    url_read = requests.get(url_tvdb).text
-                    poster = re.findall('<poster>(.*?)</poster>', url_read)
-
-            if poster and poster[0]:
-                url_poster = "https://artworks.thetvdb.com/banners/{}".format(poster[0])
-                self.savePoster(dwn_poster, url_poster)
-                return True, "[SUCCESS : tvdb] {} [{}-{}] => {} => {} => {}".format(title, chkType, year, url_tvdbg, url_tvdb, url_poster)
-            else:
-                return False, "[SKIP : tvdb] {} [{}-{}] => {} (Not found)".format(title, chkType, year, url_tvdbg)
-
-        except Exception as e:
-            if os.path.exists(dwn_poster):
-                os.remove(dwn_poster)
-            return False, "[ERROR : tvdb] {} => {} ({})".format(title, url_tvdbg, str(e))
-
-    def search_imdb(self, dwn_poster, title, shortdesc, fulldesc, channel=None):
-        try:
-            url_poster = None
-
-            chkType, fd = self.checkType(shortdesc, fulldesc)
-
-            ptitle = self.UNAC(title)
-
-            aka = re.findall('\((.*?)\)', fd)
-            if len(aka) > 1 and not aka[1].isdigit():
-                aka = aka[1]
-            elif len(aka) > 0 and not aka[0].isdigit():
-                aka = aka[0]
-            else:
-                aka = None
-            if aka:
-                paka = self.UNAC(aka)
-            else:
-                paka = ''
-
-            year = re.findall('19\d{2}|20\d{2}', fd)
-            if len(year) > 0:
-                year = year[0]
-            else:
-                year = ''
-
-            imsg = ''
-            url_mimdb = ''
-            url_imdb = ''
-
-            if aka and aka != title:
-                url_mimdb = "https://m.imdb.com/find?q={}%20({})".format(quote(title), quote(aka))
-            else:
-                url_mimdb = "https://m.imdb.com/find?q={}".format(quote(title))
-            url_read = requests.get(url_mimdb).text
-            rc = re.compile('<img src="(.*?)".*?<span class="h3">\n(.*?)\n</span>.*?\((\d+)\)(\s\(.*?\))?(.*?)</a>', re.DOTALL)
-            url_imdb = rc.findall(url_read)
-
-            if len(url_imdb) == 0 and aka:
-                url_mimdb = "https://m.imdb.com/find?q={}".format(quote(title))
-                url_read = requests.get(url_mimdb).text
-                rc = re.compile('<img src="(.*?)".*?<span class="h3">\n(.*?)\n</span>.*?\((\d+)\)(\s\(.*?\))?(.*?)</a>', re.DOTALL)
-                url_imdb = rc.findall(url_read)
-
-            len_imdb = len(url_imdb)
-            idx_imdb = 0
-            pfound = False
-
-            for imdb in url_imdb:
-                imdb = list(imdb)
-                imdb[1] = self.UNAC(imdb[1])
-                tmp = re.findall('aka <i>"(.*?)"</i>', imdb[4])
-                if tmp:
-                    imdb[4] = tmp[0]
-                else:
-                    imdb[4] = ''
-                imdb[4] = self.UNAC(imdb[4])
-                imdb_poster = re.search("(.*?)._V1_.*?.jpg", imdb[0])
-                if imdb_poster:
-                    if imdb[3] == '':
-                        if year and year != '':
-                            if year == imdb[2]:
-                                url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
-                                imsg = "Found title : '{}', aka : '{}', year : '{}'".format(imdb[1], imdb[4], imdb[2])
-                                if self.PMATCH(ptitle, imdb[1]) or self.PMATCH(ptitle, imdb[4]) or (paka != '' and self.PMATCH(paka, imdb[1])) or (paka != '' and self.PMATCH(paka, imdb[4])):
-                                    pfound = True
-                                    break
-                            elif not url_poster and (int(year) - 1 == int(imdb[2]) or int(year) + 1 == int(imdb[2])):
-                                url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
-                                imsg = "Found title : '{}', aka : '{}', year : '+/-{}'".format(imdb[1], imdb[4], imdb[2])
-                                if ptitle == imdb[1] or ptitle == imdb[4] or (paka != '' and paka == imdb[1]) or (paka != '' and paka == imdb[4]):
-                                    pfound = True
-                                    break
-                        else:
-                            url_poster = "{}._V1_UY278,1,185,278_AL_.jpg".format(imdb_poster.group(1))
-                            imsg = "Found title : '{}', aka : '{}', year : ''".format(imdb[1], imdb[4])
-                            if ptitle == imdb[1] or ptitle == imdb[4] or (paka != '' and paka == imdb[1]) or (paka != '' and paka == imdb[4]):
-                                pfound = True
-                                break
-                idx_imdb += 1
-
-            if url_poster and pfound:
-                self.savePoster(dwn_poster, url_poster)
-                return True, "[SUCCESS : imdb] {} [{}-{}] => {} [{}/{}] => {} => {}".format(title, chkType, year, imsg, idx_imdb, len_imdb, url_mimdb, url_poster)
-            else:
-                return False, "[SKIP : imdb] {} [{}-{}] => {} (No Entry found [{}])".format(title, chkType, year, url_mimdb, len_imdb)
-        except Exception as e:
-            if os.path.exists(dwn_poster):
-                os.remove(dwn_poster)
-            return False, "[ERROR : imdb] {} [{}-{}] => {} ({})".format(title, chkType, year, url_mimdb, str(e))
 
     def savePoster(self, dwn_poster, url_poster):
         with open(dwn_poster, 'wb') as f:
@@ -581,16 +590,16 @@ class zPosterXDownloadThread(threading.Thread):
         else:
             fd = ''
 
-        srch = ""
+        srch = "multi"
         fds = fd[:60]
         for i in self.checkMovie:
             if i in fds.lower():
-                srch = "movie:"+i
+                srch = "movie"  # :" + i
                 break
 
         for i in self.checkTV:
             if i in fds.lower():
-                srch = "tv:" + i
+                srch = "tv"  # :" + i
                 break
 
         return srch, fd
@@ -602,8 +611,7 @@ class zPosterXDownloadThread(threading.Thread):
         string = re.sub(u"u0026", "&", string)
         string = re.sub(u"u003d", "=", string)
         string = html_parser.unescape(string)
-#       string = re.sub(r"[-,!/\.\":']",' ',string)
-        string = re.sub(r"[,!\.\"]", ' ', string)
+        string = re.sub(r"[,!?\.\"]", ' ', string)
         string = re.sub(r"[-/:']", '', string)
         string = re.sub(u"[ÀÁÂÃÄàáâãäåª]", 'a', string)
         string = re.sub(u"[ÈÉÊËèéêë]", 'e', string)
@@ -635,5 +643,5 @@ class zPosterXDownloadThread(threading.Thread):
         for id in textA:
             if id in textB:
                 cId += len(id)
-        cId = 100*cId/lId
+        cId = 100 * cId / lId
         return cId

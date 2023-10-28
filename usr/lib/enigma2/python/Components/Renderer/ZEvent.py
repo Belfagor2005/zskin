@@ -171,11 +171,12 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
             print('ZEvent text <<<- ', text)
         else:
-            text = str(text)
+            text = text
             print('ZEvent text <<<->>> ', text)
         return text
     except Exception as e:
@@ -225,9 +226,10 @@ class ZEvent(VariableText, Renderer):
             Genres = []
             ids = ''
             self.event = self.source.event
-            if self.event:  # and self.instance:
-                self.evnt = self.event.getEventName().encode('utf-8')
+            if self.event and self.event != 'None' or self.event is not None:
+                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
+                self.dataNm = "{}/{}.event.txt".format(path_folder, self.evntNm)
                 print('clean event zinfo poster: ', self.evntNm)
                 # if os.path.exists("%s/%s" % (path_folder, self.evntNm))
                     # return
@@ -245,74 +247,74 @@ class ZEvent(VariableText, Renderer):
                         url = url.encode()
                     # Title = requests.get(url).json()['results'][0]['title']
                     ids = requests.get(url).json()['results'][0]['id']
+                if ids != '':
+                    try:
+                        url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(tmdb_api))
+                        data2 = requests.get(url3, timeout=5)
+                        if data2.status_code == 200:
+                            self.downevent = True
+                            with open(self.dataNm, "w") as f:
+                                json.dump(data2, f)
+                            try:
+                                Title = data2.json()['original_title']
+                            except:
+                                Title = data2.json()['title']
 
-                try:
-                    url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(tmdb_api))
-                    data2 = requests.get(url3, timeout=5)
-                    if data2.status_code == 200:
-                        self.downevent = True
-                        with open("%s/%s" % (path_folder, self.evntNm), "w") as f:
-                            json.dump(data2, f)
-                        try:
-                            Title = data2.json()['original_title']
-                        except:
-                            Title = data2.json()['title']
+                            if "production_countries" in data2 and data2.json()['production_countries']:
+                                production_countries = data2.json()['production_countries']
+                                for pcountry in data2.json()["production_countries"]:
+                                    Country = (str(pcountry["name"]))
 
-                        if "production_countries" in data2 and data2.json()['production_countries']:
-                            production_countries = data2.json()['production_countries']
-                            for pcountry in data2.json()["production_countries"]:
-                                Country = (str(pcountry["name"]))
-
-                        if "genres" in data2 and data2.json()["genres"]:
-                            i = 0
-                            for name in data2.json()["genres"]:
-                                if "name" in name:
-                                    Genres.append(str(name["name"]))
-                                    i = i+1
-                            Genres = " | ".join(map(str, Genres))
-                        if "release_date" in data2 and data2.json()['release_date']:
-                            Year = data2.json()['release_date']
-                        if "vote_average" in data2 and data2.json()['vote_average']:
-                            ImdbRating = data2.json()['vote_average']
-                        elif "imdbRating" in data2 and data2.json()['imdbRating']:
-                            ImdbRating = data2.json()['imdbRating']
-                        else:
-                            ImdbRating = '0'
-                        if "vote_count" in data2 and data2.json()['vote_count']:
-                            Rated = data2.json()['vote_count']
-                        else:
-                            Rated = '0'
-                        if "credits" in data2 and data2.json()["credits"]:
-                            if "cast" in data2.json()["credits"]:
+                            if "genres" in data2 and data2.json()["genres"]:
                                 i = 0
-                                for actor in data2.json()["credits"]["cast"]:
-                                    if "name" in actor:
-                                        Cast.append(str(actor["name"]))
+                                for name in data2.json()["genres"]:
+                                    if "name" in name:
+                                        Genres.append(str(name["name"]))
                                         i = i+1
-                                Cast = ", ".join(map(str, Cast[:3]))
-                        if "credits" in data2 and "crew" in data2.json()["credits"]:
-                            z = 0
-                            for actor in data2.json()["credits"]["crew"]:
-                                if "job" in actor:
-                                    Director = (str(actor["name"]) + ',')
-                                    z += 1
+                                Genres = " | ".join(map(str, Genres))
+                            if "release_date" in data2 and data2.json()['release_date']:
+                                Year = data2.json()['release_date']
+                            if "vote_average" in data2 and data2.json()['vote_average']:
+                                ImdbRating = data2.json()['vote_average']
+                            elif "imdbRating" in data2 and data2.json()['imdbRating']:
+                                ImdbRating = data2.json()['imdbRating']
+                            else:
+                                ImdbRating = '0'
+                            if "vote_count" in data2 and data2.json()['vote_count']:
+                                Rated = data2.json()['vote_count']
+                            else:
+                                Rated = '0'
+                            if "credits" in data2 and data2.json()["credits"]:
+                                if "cast" in data2.json()["credits"]:
+                                    i = 0
+                                    for actor in data2.json()["credits"]["cast"]:
+                                        if "name" in actor:
+                                            Cast.append(str(actor["name"]))
+                                            i = i+1
+                                    Cast = ", ".join(map(str, Cast[:3]))
+                            if "credits" in data2 and "crew" in data2.json()["credits"]:
+                                z = 0
+                                for actor in data2.json()["credits"]["crew"]:
+                                    if "job" in actor:
+                                        Director = (str(actor["name"]) + ',')
+                                        z += 1
 
-                        if Title and Title != "N/A":
-                            with open("/tmp/rating", "w") as f:
-                                f.write("%s\n%s" % (ImdbRating, Rated))
-                            self.text = "Title: %s" % str(Title)
-                            self.text += "\nYear: %s" % str(Year)
-                            self.text += "\nCountry: %s" % str(Country)
-                            self.text += "\nGenre: %s" % str(Genres)
-                            self.text += "\nDirector: %s" % str(Director)
-                            self.text += "\nCast: %s" % str(Cast)
-                            self.text += "\nImdb: %s" % str(ImdbRating)
-                            self.text += "\nRated: %s" % str(Rated)
-                            print("text= ", self.text)
-                            return self.text
-                except:
-                    return self.text
-                    pass
+                            if Title and Title != "N/A":
+                                with open("/tmp/rating", "w") as f:
+                                    f.write("%s\n%s" % (ImdbRating, Rated))
+                                self.text = "Title: %s" % str(Title)
+                                self.text += "\nYear: %s" % str(Year)
+                                self.text += "\nCountry: %s" % str(Country)
+                                self.text += "\nGenre: %s" % str(Genres)
+                                self.text += "\nDirector: %s" % str(Director)
+                                self.text += "\nCast: %s" % str(Cast)
+                                self.text += "\nImdb: %s" % str(ImdbRating)
+                                self.text += "\nRated: %s" % str(Rated)
+                                print("text= ", self.text)
+                                return self.text
+                    except:
+                        return self.text
+                        pass
 
             else:
                 self.downevent = False

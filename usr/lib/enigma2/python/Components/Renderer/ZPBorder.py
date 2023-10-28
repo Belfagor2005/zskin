@@ -94,12 +94,13 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZEvent text <<<- ', text)
+            print('ZBorder text <<<- ', text)
         else:
-            text = str(text)
-            print('ZEvent text <<<->>> ', text)
+            text = text
+            print('ZBorder text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -159,9 +160,7 @@ class ZPBorder(Renderer):
         self.event = self.source.event
         if self.event:
             # self.evnt = self.event.getEventName()
-            # self.evntNm = REGEX.sub('', self.evnt).strip()
-            # self.evntNm = self.evntNm.replace('\xc2\x86', '').replace('\xc2\x87', '')
-            self.evnt = self.event.getEventName().encode('utf-8')
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean Zborder: ', self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)

@@ -22,7 +22,7 @@
 # for epg, event
 # <widget source="Event" render="ZPoster" position="100,100" size="185,278" />
 # <widget source="Event" render="ZPoster" position="100,100" size="185,278" nexts="2" />
-from __future__ import absolute_import
+from __future__ import print_function
 from Components.Renderer.Renderer import Renderer
 from Components.Renderer.zPosterXDownloadThread import zPosterXDownloadThread
 from Components.Sources.CurrentService import CurrentService
@@ -50,7 +50,7 @@ if PY3:
     from urllib.error import HTTPError, URLError
     from urllib.request import urlopen
 else:
-    str = unicode
+    # str = unicode
     import Queue
     from thread import start_new_thread
     from urllib2 import HTTPError, URLError
@@ -89,6 +89,8 @@ if not os.path.exists(path_folder):
 
 
 epgcache = eEPGCache.getInstance()
+apdb = dict()
+
 
 try:
     lng = config.osd.language.value
@@ -97,7 +99,6 @@ except:
     lng = 'en'
     pass
 
-apdb = dict()
 #
 # SET YOUR PREFERRED BOUQUET FOR AUTOMATIC POSTER GENERATION
 # WITH THE NUMBER OF ITEMS EXPECTED (BLANK LINE IN BOUQUET CONSIDERED)
@@ -207,22 +208,23 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-def cleantitle(text=''):
+def convtext(text=''):
     try:
-        print('ZEvent text ->>> ', text)
+        print('zposter text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZEvent text <<<- ', text)
+            print('zposter text <<<- ', text)
         else:
-            text = str(text)
-            print('ZEvent text <<<->>> ', text)
+            text = text
+            print('zposter text <<<->>> ', text)
         return text
     except Exception as e:
-        print('cleantitle error: ', e)
+        print('convtext error: ', e)
         pass
 
 
@@ -236,30 +238,31 @@ class PosterDB(zPosterXDownloadThread):
         while True:
             canal = pdb.get()
             self.logDB("[QUEUE] : {} : {}-{} ({})".format(canal[0], canal[1], canal[2], canal[5]))
-            pstcanal = cleantitle(canal[5])
-            dwn_poster = path_folder + '/' + pstcanal + ".jpg"
-            if os.path.exists(dwn_poster):
-                os.utime(dwn_poster, (time.time(), time.time()))
-            if lng == "fr":
+            pstcanal = convtext(canal[5])
+            if pstcanal and pstcanal != 'None' or pstcanal is not None:
+                dwn_poster = path_folder + '/' + pstcanal + ".jpg"
+                if os.path.exists(dwn_poster):
+                    os.utime(dwn_poster, (time.time(), time.time()))
+                # if lng == "fr":
+                    # if not os.path.exists(dwn_poster):
+                        # val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                        # self.logDB(log)
+                    # if not os.path.exists(dwn_poster):
+                        # val, log = self.search_programmetv_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                        # self.logDB(log)
                 if not os.path.exists(dwn_poster):
-                    val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                    val, log = self.search_tmdb(dwn_poster, pstcanal, canal[4], canal[3])
                     self.logDB(log)
-                if not os.path.exists(dwn_poster):
-                    val, log = self.search_programmetv_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                elif not os.path.exists(dwn_poster):
+                    val, log = self.search_tvdb(dwn_poster, pstcanal, canal[4], canal[3])
                     self.logDB(log)
-            if not os.path.exists(dwn_poster):
-                val, log = self.search_imdb(dwn_poster, canal[5], canal[4], canal[3])
-                self.logDB(log)
-            if not os.path.exists(dwn_poster):
-                val, log = self.search_tmdb(dwn_poster, canal[5], canal[4], canal[3])
-                self.logDB(log)
-            if not os.path.exists(dwn_poster):
-                val, log = self.search_tvdb(dwn_poster, canal[5], canal[4], canal[3])
-                self.logDB(log)
-            if not os.path.exists(dwn_poster):
-                val, log = self.search_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
-                self.logDB(log)
-            pdb.task_done()
+                # elif not os.path.exists(dwn_poster):
+                    # val, log = self.search_imdb(dwn_poster, pstcanal, canal[4], canal[3])
+                    # self.logDB(log)
+                # elif not os.path.exists(dwn_poster):
+                    # val, log = self.search_google(dwn_poster, pstcanal, canal[4], canal[3], canal[0])
+                    # self.logDB(log)
+                pdb.task_done()
 
     def logDB(self, logmsg):
         try:
@@ -292,7 +295,7 @@ class PosterAutoDB(zPosterXDownloadThread):
                     newcn = None
                     for evt in events:
                         canal = [None, None, None, None, None, None]
-                        canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                        canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                         if evt[1] is None or evt[4] is None or evt[5] is None or evt[6] is None:
                             self.logAutoDB("[AutoDB] *** missing epg for {}".format(canal[0]))
                         else:
@@ -302,50 +305,50 @@ class PosterAutoDB(zPosterXDownloadThread):
                             canal[4] = evt[6]
                             canal[5] = canal[2]
                             # self.logAutoDB("[AutoDB] : {} : {}-{} ({})".format(canal[0],canal[1],canal[2],canal[5]))
-                            pstcanal = cleantitle(canal[5])
+                            pstcanal = convtext(canal[5])
                             dwn_poster = path_folder + '/' + pstcanal + ".jpg"
                             if os.path.exists(dwn_poster):
                                 os.utime(dwn_poster, (time.time(), time.time()))
-                            if lng == "fr":
-                                if not os.path.exists(dwn_poster):
-                                    val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
-                                    if val and log.find("SUCCESS"):
-                                        newfd += 1
-                                if not os.path.exists(dwn_poster):
-                                    val, log = self.search_programmetv_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
-                                    if val and log.find("SUCCESS"):
-                                        newfd += 1
+                            # if lng == "fr":
+                                # if not os.path.exists(dwn_poster):
+                                    # val, log = self.search_molotov_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                                    # if val and log.find("SUCCESS"):
+                                        # newfd += 1
+                                # if not os.path.exists(dwn_poster):
+                                    # val, log = self.search_programmetv_google(dwn_poster, canal[5], canal[4], canal[3], canal[0])
+                                    # if val and log.find("SUCCESS"):
+                                        # newfd += 1
                             if not os.path.exists(dwn_poster):
-                                val, log = self.search_imdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                val, log = self.search_tmdb(dwn_poster, pstcanal, canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
                             elif not os.path.exists(dwn_poster):
-                                val, log = self.search_tmdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                val, log = self.search_tvdb(dwn_poster, pstcanal, canal[4], canal[3], canal[0])
                                 if val and log.find("SUCCESS"):
                                     newfd += 1
-                            elif not os.path.exists(dwn_poster):
-                                val, log = self.search_tvdb(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                                if val and log.find("SUCCESS"):
-                                    newfd += 1
-                            elif not os.path.exists(dwn_poster):
-                                val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
-                                if val and log.find("SUCCESS"):
-                                    newfd += 1
+                            # elif not os.path.exists(dwn_poster):
+                                # val, log = self.search_imdb(dwn_poster, pstcanal, canal[4], canal[3], canal[0])
+                                # if val and log.find("SUCCESS"):
+                                    # newfd += 1
+                            # elif not os.path.exists(dwn_poster):
+                                # val, log = self.search_google(dwn_poster, canal[2], canal[4], canal[3], canal[0])
+                                # if val and log.find("SUCCESS"):
+                                    # newfd += 1
                         newcn = canal[0]
-                    self.logAutoDB("[AutoDB] {} new file(s) added ({})".format(newfd, newcn))
+                        self.logAutoDB("[AutoDB] {} new file(s) added ({})".format(newfd, newcn))
                 except Exception as e:
-                    self.logAutoDB("[AutoDB] *** service error : {} ({})".format(service, e))
+                    self.logAutoDB("[AutoDB] *** service error ({})".format(e))
             # AUTO REMOVE OLD FILES
             now_tm = time.time()
             emptyfd = 0
             oldfd = 0
             for f in os.listdir(path_folder):
                 diff_tm = now_tm - os.path.getmtime(path_folder + '/' + f)
-                if diff_tm > 120 and os.path.getsize(path_folder + '/' +  f) == 0:  # Detect empty files > 2 minutes
-                    os.remove(path_folder + f)
+                if diff_tm > 120 and os.path.getsize(path_folder + '/' + f) == 0:  # Detect empty files > 2 minutes
+                    os.remove(path_folder + '/' + f)
                     emptyfd = emptyfd + 1
                 if diff_tm > 259200:  # Detect old files > 3 days old
-                    os.remove(path_folder + '/' +   f)
+                    os.remove(path_folder + '/' + f)
                     oldfd = oldfd + 1
             self.logAutoDB("[AutoDB] {} old file(s) removed".format(oldfd))
             self.logAutoDB("[AutoDB] {} empty file(s) removed".format(emptyfd))
@@ -371,7 +374,7 @@ class ZPoster(Renderer):
             return
         Renderer.__init__(self)
         self.nxts = 0
-        self.path = path_folder
+        self.path = path_folder + '/'
         self.canal = [None, None, None, None, None, None]
         self.oldCanal = None
         self.logdbg = None
@@ -401,7 +404,6 @@ class ZPoster(Renderer):
         if what[0] == self.CHANGED_CLEAR:
             self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
-            print('zposter what[0] != self.CHANGED_CLEAR: ')
             servicetype = None
             try:
                 service = None
@@ -424,17 +426,17 @@ class ZPoster(Renderer):
                         self.canal[3] = self.source.event.getExtendedDescription()
                         self.canal[4] = self.source.event.getShortDescription()
                         self.canal[5] = self.canal[2]
-                        pstcanal = cleantitle(self.canal[5])
+                        pstcanal = convtext(self.canal[5])
                     servicetype = "Event"
                 if service:
                     events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
-                    self.canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                    self.canal[0] = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                     self.canal[1] = events[self.nxts][1]
                     self.canal[2] = events[self.nxts][4]
                     self.canal[3] = events[self.nxts][5]
                     self.canal[4] = events[self.nxts][6]
                     self.canal[5] = self.canal[2]
-                    pstcanal = cleantitle(self.canal[5])
+                    pstcanal = convtext(self.canal[5])
                     if not autobouquet_file:
                         if self.canal[0] not in apdb:
                             apdb[self.canal[0]] = service.toString()
@@ -452,11 +454,11 @@ class ZPoster(Renderer):
                     return
                 self.oldCanal = curCanal
                 self.logPoster("Service : {} [{}] : {} : {}".format(servicetype, self.nxts, self.canal[0], self.oldCanal))
-                pstcanal = cleantitle(self.canal[5])
+                pstcanal = convtext(self.canal[5])
                 pstrNm = self.path + pstcanal + ".jpg"
-                pstrNm = str(pstrNm)
-                if os.path.exists(pstrNm):
-                    self.timer.start(100, True)
+                self.pstrNm = str(pstrNm)
+                if os.path.exists(self.pstrNm):
+                    self.timer.start(50, True)
                 else:
                     canal = self.canal[:]
                     pdb.put(canal)
@@ -469,27 +471,27 @@ class ZPoster(Renderer):
     def showPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstcanal = cleantitle(self.canal[5])
+            pstcanal = convtext(self.canal[5])
             pstrNm = self.path + pstcanal + ".jpg"
-            pstrNm = str(pstrNm)
-            if os.path.exists(pstrNm):
-                self.logPoster("[LOAD : showPoster] {}".format(pstrNm))
-                self.instance.setPixmap(loadJPG(pstrNm))
+            self.pstrNm = str(pstrNm)
+            if os.path.exists(self.pstrNm):
+                self.logPoster("[LOAD : showPoster] {}".format(self.pstrNm))
+                self.instance.setPixmap(loadJPG(self.pstrNm))
                 self.instance.setScale(1)
                 self.instance.show()
 
     def waitPoster(self):
         self.instance.hide()
         if self.canal[5]:
-            pstcanal = cleantitle(self.canal[5])
+            pstcanal = convtext(self.canal[5])
             pstrNm = self.path + pstcanal + ".jpg"
-            pstrNm = str(pstrNm)
+            self.pstrNm = str(pstrNm)
             loop = 180
             found = None
-            self.logPoster("[LOOP : waitPoster] {}".format(pstrNm))
+            self.logPoster("[LOOP : waitPoster] {}".format(self.pstrNm))
             while loop >= 0:
-                if os.path.exists(pstrNm):
-                    if os.path.getsize(pstrNm) > 0:
+                if os.path.exists(self.pstrNm):
+                    if os.path.getsize(self.pstrNm) > 0:
                         loop = 0
                         found = True
                 time.sleep(0.5)

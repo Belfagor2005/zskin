@@ -154,11 +154,12 @@ def cleantitle(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
             print('ZstarsEvent text <<<- ', text)
         else:
-            text = str(text)
+            text = text
             print('ZstarsEvent text <<<->>> ', text)
         return text
     except Exception as e:
@@ -207,10 +208,11 @@ class infoEvent(Renderer, VariableText):
             Genres = []
             self.event = self.source.event
             if self.event:
-                self.evnt = self.event.getEventName().encode('utf-8')
+                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                 self.evntNm = cleantitle(self.evnt)
+                self.dataNm = "{}/{}.InfoEvent.txt".format(path_folder, self.evntNm)
                 print('clean event InfoEvent: ', self.evntNm)
-                if not os.path.exists("%s/%s" % (path_folder, self.evntNm)):
+                if not os.path.exists(self.dataNm):
                     self.downloading = True
                     url = 'https://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
@@ -224,10 +226,10 @@ class infoEvent(Renderer, VariableText):
                             url3 = url3.encode()
                         data = urlopen(url3).read().decode('utf-8')
                         data = json.loads(data)
-                        with open(("%s/%s" % (path_folder, self.evntNm)), "w") as f:
+                        with open(self.dataNm, "w") as f:
                             json.dump(data, f)
 
-                with open("%s/%s" % (path_folder, self.evntNm)) as json_file:
+                with open(self.dataNm) as json_file:
                     data = json.load(json_file)
 
                 if "original_title" in data and data['original_title']:

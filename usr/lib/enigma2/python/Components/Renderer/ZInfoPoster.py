@@ -10,7 +10,6 @@
 # <widget source="session.Event_Now" render="ZInfoPoster" position="1620,505" size="300,438" alphatest="blend" zPosition="9" />
 # <widget source="session.Event_Next" render="ZInfoPoster" position="1620,505" size="300,438" alphatest="blend" zPosition="9" />
 from Components.Renderer.Renderer import Renderer
-
 from Components.AVSwitch import AVSwitch
 from Tools.Directories import fileExists
 from enigma import ePixmap, eTimer, ePicLoad
@@ -84,17 +83,18 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cleantitle(text=''):
     try:
-        print('ZstarsEvent text ->>> ', text)
+        print('ZInfoposter text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZstarsEvent text <<<- ', text)
+            print('ZInfoposter text <<<- ', text)
         else:
-            text = str(text)
-            print('ZstarsEvent text <<<->>> ', text)
+            text = text
+            print('ZInfoposter text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -143,7 +143,7 @@ class ZInfoPoster(Renderer):
         self.evntNm = ''
         self.event = self.source.event
         if self.event:   # and self.instance:
-            self.evnt = self.event.getEventName().encode('utf-8')
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
             print('clean event Zchannel: ', self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
