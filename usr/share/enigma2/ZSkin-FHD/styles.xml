@@ -690,7 +690,7 @@
                 <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/ibbot.png" position="0,828" size="1920,347" zPosition="0"/>
                 <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/ibtop.png" position="0,773" size="1920,347" zPosition="1"/>
                 <widget position="1565,300" size="360,520" render="ZPBorder" source="session.Event_Now" zPosition="7"/>
-                <widget position="1585,320" size="320,472" render="ZPoster" source="session.Event_Now" zPosition="6"/>
+                <widget position="1585,320" size="320,472" render="ZChannel" source="session.Event_Now" zPosition="6"/>
                 <eLabel backgroundColor="#000000" font="Regular;26" foregroundColor="#ffffff" position="1585,882" size="60,40" text="Tun:" transparent="1" zPosition="3"/>
                 <widget backgroundColor="#000000" font="Regular;26" foregroundColor="#ffff00" position="1645,882" render="TunerLabel,0,input" size="40,40" source="session.FrontendInfo" transparent="1" zPosition="3">
                     <convert type="FrontendInfo">INPUT</convert>
@@ -1665,7 +1665,7 @@
                 <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/b-left.png" position="190,0" size="3,1080" zPosition="5"/>
                 <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sh-right.png" position="1467,0" size="82,1080" zPosition="5"/>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="220,137" size="218,320" zPosition="4"/>
-                <widget position="220,150" render="ZInfoPoster" size="213,310" source="session.Event_Now" zPosition="5"/>
+                <widget position="220,150" render="ZChannel" size="213,310" source="session.Event_Now" zPosition="5"/>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="220,132" size="218,350" zPosition="6"/>
                 <widget backgroundColor="#000000" font="Regular;44" foregroundColor="yellow" name="channel" position="450,155" size="860,50" transparent="1" zPosition="5"/>
                 <widget backgroundColor="#000000" font="Regular;32" foregroundColor="ltbluette" halign="left" name="datetime" position="450,210" size="250,50" transparent="1" zPosition="5"/>

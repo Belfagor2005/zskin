@@ -145,7 +145,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cleantitle(text=''):
     try:
-        print('ZChannel text ->>> ', text)
+        # print('ZChannel text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -153,10 +153,10 @@ def cleantitle(text=''):
             text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('Zchannel text <<<- ', text)
+            # print('Zchannel text <<<- ', text)
         else:
             text = text
-            print('Zchannel text <<<->>> ', text)
+            # print('Zchannel text <<<->>> ', text)
         return text
     except Exception as e:
         print('cleantitle error: ', e)
@@ -224,20 +224,20 @@ class ZChannel(Renderer):
     def delay(self):
         self.event = self.source.event
         if self.event:  # and self.instance:
-            print('self.event', self.event)
+            # print('self.event', self.event)
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
             self.evntNm = cleantitle(self.evnt)
-            print('clean event Zchannel: ', self.evntNm)
+            # print('clean event Zchannel: ', self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
-            print('self.pstrNm: ', self.pstrNm)
+            # print('self.pstrNm: ', self.pstrNm)
             if os.path.exists(self.pstrNm):
-                print('showposter')
+                # print('showposter')
                 self.showPoster()
             else:
                 try:
-                    if os.path.exists(self.self.dataNm):
-                        os.remove(self.self.dataNm)
+                    if os.path.exists(self.dataNm):
+                        os.remove(self.dataNm)
                         print("%s has been removed successfully" % self.evntNm)
                     url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                     if PY3:
@@ -259,8 +259,7 @@ class ZChannel(Renderer):
                                 self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                                 self.savePoster()
                                 return
-                except:
-                    try:
+                    else:   
                         url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                         if PY3:
                             url = url.encode()
@@ -281,17 +280,40 @@ class ZChannel(Renderer):
                                     self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                     self.savePoster()
                                     return
-                    except Exception as e:
-                        print('error except zchannel ', e)
+
+                # except:
+                    # try:
+                        # url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
+                        # if PY3:
+                            # url = url.encode()
+                        # url2 = urlopen(url).read().decode('utf-8')
+                        # jurl = json.loads(url2)
+                        # if 'results' in jurl:
+                            # if 'id' in jurl['results'][0]:
+                                # ids = jurl['results'][0]['id']
+                                # url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), tmdb_api, str(lng))
+                                # if PY3:
+                                    # url_2 = url_2.encode()
+                                # url_3 = urlopen(url_2).read().decode('utf-8')
+                                # data2 = json.loads(url_3)
+                                # with open(self.dataNm, "w") as f:
+                                    # json.dump(data2, f)
+                                # poster = data2['poster_path']
+                                # if poster:
+                                    # self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
+                                    # self.savePoster()
+                                    # return
+                except Exception as e:
+                    print('error except zchannel ', e)
 
     def showPoster(self):
         if self.instance:
             size = self.instance.size()
             self.picload = ePicLoad()
             if self.picload:
-                print('self.picload: loading')
+                # print('self.picload: loading')
                 sc = AVSwitch().getFramebufferScale()
-                print('self.picload: loaded')
+                # print('self.picload: loaded')
                 self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, '#00000000'])
                 if os.path.exists('/var/lib/dpkg/status'):
                     self.picload.startDecode(self.pstrNm, False)
