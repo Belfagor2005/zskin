@@ -1615,8 +1615,8 @@
             </screen>
         </style>
         <!-- ##############################  EVENTVIEW ############################ -->
-        <style name="EventView" value="InfoEvent Default" preview="preview/Event-Def.jpg"/>
-        <style name="EventView" value="InfoEvent Default" preview="preview/Event-Def.jpg">
+        <style name="EventView" value="Default" preview="preview/Event-Def.jpg"/>
+        <style name="EventView" value="Default" preview="preview/Event-Def.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="2560,1440" title="Eventview">
                 <layout name="rgyb-2c-n-1230"/>
                 <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5"/>
