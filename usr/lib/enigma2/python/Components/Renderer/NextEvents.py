@@ -1,6 +1,10 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 # <widget source="ServiceEvent" borderWidth="2" render="NextEvents" position="59,770" zPosition="3" size="500,235" font="Regular;24" foregroundColor="white" backgroundColor="black" transparent="1">
     # <convert type="ServiceName">Reference</convert>
 # </widget>
+
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
 from enigma import eLabel, eEPGCache

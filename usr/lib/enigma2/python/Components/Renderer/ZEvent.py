@@ -3,8 +3,10 @@
 
 # by digiteng...04.2020
 # 07.2021 start edit lululla
+# edit by lululla 07.2022
+# recode from lululla 2023
 # <widget render="ZEvent" source="session.Event_Now" position="0,500" size="800,20" font="Regular; 24" halign="left" valign="top" zPosition="2" foregroundColor="#000000" backgroundColor="#ffffff" transparent="1" />
-# from Tools.Directories import resolveFilename, SCOPE_SKIN
+
 from Components.Renderer.Renderer import Renderer
 from Components.VariableText import VariableText
 from enigma import eLabel
@@ -164,9 +166,8 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-def cleantitle(text=''):
+def convtext(text=''):
     try:
-        print('ZEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -174,13 +175,11 @@ def cleantitle(text=''):
             text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZEvent text <<<- ', text)
         else:
             text = text
-            print('ZEvent text <<<->>> ', text)
         return text
     except Exception as e:
-        print('cleantitle error: ', e)
+        print('convtext error: ', e)
         pass
 
 
@@ -228,9 +227,8 @@ class ZEvent(VariableText, Renderer):
             self.event = self.source.event
             if self.event and self.event != 'None' or self.event is not None:
                 self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-                self.evntNm = cleantitle(self.evnt)
+                self.evntNm = convtext(self.evnt)
                 self.dataNm = "{}/{}.event.txt".format(path_folder, self.evntNm)
-                print('clean event zinfo poster: ', self.evntNm)
                 # if os.path.exists("%s/%s" % (path_folder, self.evntNm))
                     # return
                 import requests

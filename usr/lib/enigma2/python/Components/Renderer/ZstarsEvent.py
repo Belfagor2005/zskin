@@ -3,11 +3,13 @@
 
 # by digiteng
 # v1 07.2020, 11.2021
+# edit lululla 05-2022
+# edit by lululla 07.2022
+# recode from lululla 2023
 # for channellist
 # <widget source="ServiceEvent" render="ZstarsEvent" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 # or
 # <widget source="ServiceEvent" render="ZstarsEvent" pixmap="xtra/star.png" position="750,390" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
-# edit lululla 05-2022
 # <ePixmap pixmap="ZSkin-FHD/icons/star.png" position="136,104" size="200,20" alphatest="blend" zPosition="10" transparent="1" />
 # <widget source="session.Event_Now" render="ZstarsEvent" pixmap="ZSkin-FHD/icons/star.png" position="560,367" size="200,20" alphatest="blend" transparent="1" zPosition="3" />
 # <ePixmap pixmap="ZSkin-FHD/icons/star.png" position="136,104" size="200,20" alphatest="blend" zPosition="10" transparent="1" />
@@ -176,7 +178,6 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def convtext(text=''):
     try:
-        print('ZstarsEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -184,10 +185,8 @@ def convtext(text=''):
             text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZstarsEvent text <<<- ', text)
         else:
             text = text
-            print('ZstarsEvent text <<<->>> ', text)
         return text
     except Exception as e:
         print('convtext error: ', e)

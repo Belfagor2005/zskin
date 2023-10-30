@@ -4,6 +4,8 @@
 # by digiteng...07.2021
 # russian and py3 support by sunriser...
 # 07.2021 start edit lululla
+# edit by lululla 07.2022
+# recode from lululla 2023
 # <widget source="session.Event_Now" render="ZPBorder" position="1620,505" size="300,438" alphatest="blend" trasparent="1" zPosition="8" />
 from Components.Renderer.Renderer import Renderer
 from Components.AVSwitch import AVSwitch
@@ -87,9 +89,8 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-def cleantitle(text=''):
+def convtext(text=''):
     try:
-        print('ZEvent text ->>> ', text)
         if text != '' or text is not None or text != 'None':
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -97,13 +98,11 @@ def cleantitle(text=''):
             text = text.replace('PrimaTv', '').replace(' mag', '')
             text = unicodify(text)
             text = text.lower()
-            print('ZBorder text <<<- ', text)
         else:
             text = text
-            print('ZBorder text <<<->>> ', text)
         return text
     except Exception as e:
-        print('cleantitle error: ', e)
+        print('convtext error: ', e)
         pass
 
 
@@ -159,9 +158,8 @@ class ZPBorder(Renderer):
         self.downloading = False
         self.event = self.source.event
         if self.event:
-            # self.evnt = self.event.getEventName()
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-            self.evntNm = cleantitle(self.evnt)
+            self.evntNm = convtext(self.evnt)
             print('clean Zborder: ', self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
             print('self.pstrNm: ', self.pstrNm)
