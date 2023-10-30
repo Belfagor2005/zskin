@@ -274,7 +274,7 @@ class ZChannel(Renderer):
                                     self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                     self.savePoster()
                                     return
-                '''
+                    '''
                 except:
                     try:
                         url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
@@ -297,7 +297,7 @@ class ZChannel(Renderer):
                                     self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                     self.savePoster()
                                     return
-                '''
+                    '''
                 except Exception as e:
                     print('error except zchannel ', e)
 
