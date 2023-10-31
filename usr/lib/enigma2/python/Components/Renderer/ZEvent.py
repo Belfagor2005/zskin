@@ -29,7 +29,6 @@ if PY3:
     from urllib.request import urlopen
     from urllib.parse import quote
 else:
-    str = unicode
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
     from urllib import quote

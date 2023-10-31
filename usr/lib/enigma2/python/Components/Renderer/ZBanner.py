@@ -6,8 +6,9 @@
 # 07.2021 start edit lululla
 # edit by lululla 07.2022
 # recode from lululla 2023
+# eg:
 # <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" />
-# <widget position="1095,310" render="ZChannel" size="260,379" source="ServiceEvent" zPosition="10" />
+# <widget position="1095,310" render="ZBanner" size="260,379" source="ServiceEvent" zPosition="10" />
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap, ePicLoad
 from Components.AVSwitch import AVSwitch
@@ -35,14 +36,20 @@ else:
     from urllib import quote
 
 
-# w92
-# w154
-# w185
-# w342
-# w500
-# w780
-# original
-formatImg = 'w185'
+# isz = "w780"
+# "backdrop_sizes": [
+      # "w45",
+      # "w92",
+      # "w154",
+      # "w185",
+      # "w300",
+      # "w500",
+      # "w780",
+      # "w1280",
+      # "w1920",
+      # "original"
+    # ]
+formatImg = 'w780'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
@@ -67,16 +74,16 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
-path_folder = "/tmp/poster"
+path_folder = "/tmp/backdrop"
 if os.path.exists("/media/hdd"):
     if not isMountReadonly("/media/hdd"):
-        path_folder = "/media/hdd/poster"
+        path_folder = "/media/hdd/backdrop"
 elif os.path.exists("/media/usb"):
     if not isMountReadonly("/media/usb"):
-        path_folder = "/media/usb/poster"
+        path_folder = "/media/usb/backdrop"
 elif os.path.exists("/media/mmc"):
     if not isMountReadonly("/media/mmc"):
-        path_folder = "/media/mmc/poster"
+        path_folder = "/media/mmc/backdrop"
 
 if not os.path.exists(path_folder):
     os.makedirs(path_folder)
@@ -183,7 +190,7 @@ except:
     pass
 
 
-class ZChannel(Renderer):
+class ZBanner(Renderer):
     def __init__(self):
         adsl = intCheck()
         if not adsl:
@@ -200,10 +207,10 @@ class ZChannel(Renderer):
             print('not istance')
             return
         if what[0] == self.CHANGED_CLEAR:
-            print('zchannel A what[0] == self.CHANGED_CLEAR')
+            print('ZBanner A what[0] == self.CHANGED_CLEAR')
             return
         if what[0] != self.CHANGED_CLEAR:
-            print('Zchannel B what[0] != self.CHANGED_CLEAR')
+            print('ZBanner B what[0] != self.CHANGED_CLEAR')
             self.instance.hide()
             self.delay()
 
@@ -226,7 +233,7 @@ class ZChannel(Renderer):
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
             if os.path.exists(self.pstrNm):
-                self.showPoster()
+                self.showBackdrop()
             else:
                 try:
                     if os.path.exists(self.dataNm):
@@ -247,9 +254,9 @@ class ZChannel(Renderer):
                             data2 = json.loads(url_3)
                             with open(self.dataNm, "w") as f:
                                 json.dump(data2, f)
-                            poster = data2['poster_path']
-                            if poster:
-                                self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
+                            backdrop = data2['backdrop_path']
+                            if backdrop:
+                                self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
                                 self.savePoster()
                                 return
                     else:   
@@ -268,9 +275,9 @@ class ZChannel(Renderer):
                                 data2 = json.loads(url_3)
                                 with open(self.dataNm, "w") as f:
                                     json.dump(data2, f)
-                                poster = data2['poster_path']
-                                if poster:
-                                    self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
+                                backdrop = data2['backdrop_path']
+                                if backdrop:
+                                    self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
                                     self.savePoster()
                                     return
                     '''
@@ -291,16 +298,16 @@ class ZChannel(Renderer):
                                 data2 = json.loads(url_3)
                                 with open(self.dataNm, "w") as f:
                                     json.dump(data2, f)
-                                poster = data2['poster_path']
-                                if poster:
-                                    self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
+                                backdrop = data2['backdrop_path']
+                                if backdrop:
+                                    self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
                                     self.savePoster()
                                     return
                     '''
                 except Exception as e:
-                    print('error except zchannel ', e)
+                    print('error except ZBanner ', e)
 
-    def showPoster(self):
+    def showBackdrop(self):
         if self.instance:
             size = self.instance.size()
             self.picload = ePicLoad()
@@ -320,8 +327,8 @@ class ZChannel(Renderer):
     def savePoster(self):
         import requests
         with open(self.pstrNm, 'wb') as f:
-            f.write(requests.get(self.url_poster, stream=True, verify=False, allow_redirects=True).content)
+            f.write(requests.get(self.url_backdrop, stream=True, verify=False, allow_redirects=True).content)
             f.close()
         if os.path.exists(self.pstrNm):
-            self.showPoster()
+            self.showBackdrop()
         return
