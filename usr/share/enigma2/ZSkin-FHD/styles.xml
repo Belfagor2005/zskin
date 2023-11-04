@@ -1604,16 +1604,15 @@
                 <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_green.png" position="1483,89" size="40,40" zPosition="5"/>
                 <widget backgroundColor="#000000" font="Regular;40" halign="left" name="red" position="1534,26" size="400,54" transparent="1" valign="center" zPosition="5"/>
                 <widget backgroundColor="#000000" font="Regular;40" halign="left" name="green" position="1534,80" size="400,54" transparent="1" valign="center" zPosition="5"/>
-                <!-- <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="40,20" size="1800,54" text="Plugin Manager" transparent="1" zPosition="5"/> -->
                 <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/plugin.png" position="0,0" size="1920,1080" zPosition="-2"/>
-                <widget backgroundPixmap="ZSkin-FHD/menu/grid.svg" enableWrapAround="1" margin="40,40" mode="grid" position="17,190" render="Listbox" scrollbarMode="showNever" selectionPixmap="ZSkin-FHD/menu/grid_sel.svg" selectionZoom="1.2" size="2570,1140" source="pluginlist" transparent="1">
-                    <convert type="TemplatedMultiContent">
-                    {"template":[MultiContentEntryText(pos=(40,80),size=(150,25),flags=RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP,text=1,backcolor=MultiContentTemplateColor("#131a1d"),backcolor_sel=MultiContentTemplateColor("#41535c"),color=MultiContentTemplateColor("#ffffff"),color_sel=0xFF000004),
-                    MultiContentEntryPixmapAlphaTest(pos=(40,15),size=(150,60),png=3),],
-                    "fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":230}
+                <widget backgroundPixmap="ZSkin-FHD/menu/grid.svg" selectionPixmap="ZSkin-FHD/menu/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="15,15" mode="grid" position="20,170" render="Listbox" scrollbarMode="showNever" size="1920,850" source="pluginlist" transparent="1">
+                     <convert type="TemplatedMultiContent">
+                        {"template":[MultiContentEntryText(pos=(40,85),size=(150,25),flags=RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP,text=1,backcolor=MultiContentTemplateColor("#131a1d"),backcolor_sel=MultiContentTemplateColor("#41535c"),color=MultiContentTemplateColor("foreground"),color_sel=0xFF000004),
+                        MultiContentEntryPixmapAlphaTest(pos=(40,15),size=(150,60),png=3),],
+                        "fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":230}
                     </convert>
-                </widget>
-                <widget font="Regular;36" position="93,1009" render="Label" size="1800,42" source="pluginlist" transparent="1">
+                </widget>                
+                <widget font="Regular;36" position="20,1030" render="Label" size="1900,40" source="pluginlist" transparent="1">
                     <convert type="StringListSelection">2</convert>
                 </widget>
             </screen>
