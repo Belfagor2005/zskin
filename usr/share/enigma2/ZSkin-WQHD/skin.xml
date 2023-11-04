@@ -10237,35 +10237,30 @@
         <widget blend="blend" name="QuestionPixmap" pixmap="ZSkin-WQHD/icons/input_question.png" position="27,34" size="107,107"/>
         <widget blend="blend" name="InfoPixmap" pixmap="ZSkin-WQHD/icons/input_info.png" position="27,34" size="107,107"/>
         <widget backgroundColor="barColor" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="67" name="list" position="27,80" size="1254,467" transparent="1"/>
-        <applet type="onLayoutFinish">
-# this should be factored out into some helper code, but currently demonstrates applets.
-from enigma import eSize, ePoint
-orgwidth = self.instance.size().width() + 40
-orgpos = self.instance.position()
-textsize = self["text"].getSize()
-# y size still must be fixed in font stuff... h/w text
-textsize = (textsize[0] + 280, textsize[1] + 80)
-offset = 90
-if self.type == self.TYPE_YESNO:
-	offset = 110
-wsizex = textsize[0] + 120
-wsizey = textsize[1] + offset
+  <widget enableWrapAround="1" name="list" selectionDia="70" position="20,160" size="1060,300" />
+  <applet type="onLayoutFinish">
+from enigma import eSize,ePoint
+orgwidth=self.instance.size().width()
+orgpos=self.instance.position()
+textsize=self["text"].getSize()
+textsize=(textsize[0] + 100,textsize[1] + 100)
+offset=50
+if self.type==self.TYPE_YESNO:
+	offset=150
+wsizex=textsize[0] + 220
+wsizey=textsize[1] + offset
 if (800 &gt; wsizex):
-	wsizex = 800
-wsize = (wsizex, wsizey)
-# resize
+	wsizex=800
+wsize=(wsizex,wsizey)
 self.instance.resize(eSize(*wsize))
-# resize label
 self["text"].instance.resize(eSize(*textsize))
-# move list height item
-listsize = (wsizex - 20, 100)
-self["list"].instance.move(ePoint(10, textsize[1]))
+listsize=(wsizex - 20,140)
+self["list"].instance.move(ePoint(10,textsize[1]))
 self["list"].instance.resize(eSize(*listsize))
-# center window
-newwidth = wsize[0]
-self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2, orgpos.y()))
-			</applet>
-    </screen>
+newwidth=wsize[0]
+self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)//2,(1440-wsizey)//2))
+		</applet>
+</screen>
     <screen backgroundColor="#10000000" name="ChoiceBox" position="center,center" size="1120,800" title="Input">
         <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#ffffff" halign="left" name="text" position="14,14" size="1067,54" transparent="1" valign="center" zPosition="5"/>
         <widget backgroundColor="barColor" backgroundColorSelected="barColor" enableWrapAround="1" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" name="list" position="14,7" scrollbarMode="showOnDemand" size="1067,780" transparent="1"/>
