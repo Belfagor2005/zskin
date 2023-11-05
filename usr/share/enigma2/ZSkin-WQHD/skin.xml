@@ -2183,9 +2183,9 @@
         <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="80,380" size="267,80" transparent="1" valign="center" zPosition="5"/>
         <widget enableWrapAround="1" margin="50,70" mode="grid" position="450,225" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1850,1080" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
             <convert type="TemplatedMultiContent">
-                        {"template":[ MultiContentEntryText(pos = (2,114), size = (240,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),   
-                        	MultiContentEntryPixmapAlphaTest(pos=(30,27),size=(180,60),png=3),],
-                        	"fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":240
+                        {"template":[ MultiContentEntryText(pos = (2,114), size = (240,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+                            MultiContentEntryPixmapAlphaTest(pos=(30,27),size=(180,60),png=3),],
+                            "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":240
                         }
                 </convert>
         </widget>
