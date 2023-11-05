@@ -17,6 +17,10 @@ Support: http://e2skin.blogspot.com/
 
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/SIB-Cover.png?raw=true">
 
+<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/Event-Def.png?raw=true">
+
+<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/Event-Cover.png?raw=true">
+
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/VOL-VolCenter.png?raw=true">
 
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/VOL-VolText.png?raw=true">
