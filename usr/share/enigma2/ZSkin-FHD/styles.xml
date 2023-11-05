@@ -1035,11 +1035,11 @@
             </attributes>
         </style>
         <style name="SecondInfoBar" value="SIB-Cover" preview="preview/SIB-Cover.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,00" size="1920,500" title="Second-InfoBar-Cover" zPosition="10">
-                <eLabel backgroundColor="#30000000" position="0,0" size="950,500" zPosition="-1"/>
-                <eLabel backgroundColor="#10000000" position="10,10" size="930,480" zPosition="-1"/>
-                <eLabel backgroundColor="#30000000" position="960,0" size="950,500" zPosition="-1"/>
-                <eLabel backgroundColor="#10000000" position="970,10" size="930,780" zPosition="-1"/>
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="1920,700" title="Second-InfoBar-Cover" zPosition="10">
+                <eLabel backgroundColor="#30000000" position="10,0" size="940,650" zPosition="-1"/>
+                <eLabel backgroundColor="#10000000" position="20,10" size="920,630" zPosition="-1"/>
+                <eLabel backgroundColor="#30000000" position="960,0" size="950,650" zPosition="-1"/>
+                <eLabel backgroundColor="#10000000" position="970,10" size="930,630" zPosition="-1"/>
                 <eLabel backgroundColor="#05000000" position="22,22" size="276,395"/>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="25,25" size="270,389"/>
                 <widget position="30,30" render="ZChannel" size="260,379" source="session.Event_Now" zPosition="1"/>
@@ -1067,7 +1067,7 @@
                 <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="310,230" render="ZEvent" size="600,170" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/>
                 <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="310,195" size="200,20" transparent="1" zPosition="2"/>
                 <widget pixmap="ZSkin-FHD/icons/star.png" position="310,195" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
-                <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="310,230" render="zScrollLabel" size="600,240" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
+                <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="310,230" render="zScrollLabel" size="600,380" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
                     <convert type="EventName">ExtendedDescription</convert>
                 </widget>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="968,25" size="270,389"/>
@@ -1094,7 +1094,7 @@
                 <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="1250,230" render="ZEvent" size="625,170" source="session.Event_Next" transparent="1" valign="center" zPosition="9"/>
                 <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1250,195" size="200,20" transparent="1" zPosition="2"/>
                 <widget pixmap="ZSkin-FHD/icons/star.png" position="1250,195" render="ZstarsEvent" size="200,20" source="session.Event_Next" transparent="1" zPosition="13"/>
-                <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="1250,230" render="zScrollLabel" size="600,240" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
+                <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="1250,230" render="zScrollLabel" size="600,380" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
                     <convert type="EventName">ExtendedDescription</convert>
                 </widget>
             </screen>
@@ -1572,7 +1572,7 @@
                 <widget name="key_blue" font="Regular;26" position="860,1020" size="220,30" halign="left" valign="center" backgroundColor="black" zPosition="2" transparent="1"/>
             </screen>
         </style>
- 	<!-- ##############################  PANELS PLUGINBROWSER ###########################-->
+        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
         <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg"/>
         <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="1920,1080" title="Plugin browser">
@@ -1597,51 +1597,70 @@
             </screen>
         </style>
         <style name="PluginBrowser" value="Grid" preview="preview/Pb-Grid.jpg">
-	    <screen backgroundColor="#30000000" flags="wfNoBorder" name="PluginBrowser" position="center,center" size="1820,1000" title="Plugin browser">
-		<widget backgroundColor="#30000000" font="main; 84" foregroundColor="yellow" halign="center" position="0,10" render="Label" size="1920,130" source="Title" valign="center" zPosition="5" />
-		<eLabel backgroundColor="#FF000000" position="0,150"   size="1920,5" />
-		<eLabel backgroundColor="#FF000000" position="0,900"   size="1920,5" />
-		<eLabel backgroundColor="#FF000000" position="300,150" size="5,750" />
-		<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/plugin_selection.png" position="20,10" size="130,130" zPosition="6" />
-		<eLabel backgroundColor="red"   position="20,200" size="25,25" cornerRadius="10" />
-		<eLabel backgroundColor="green" position="20,290" size="25,25" cornerRadius="10" />
-		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="red"   position="60,195" size="200,60" transparent="1" valign="center" zPosition="5" />
-		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="green" position="60,285" size="200,60" transparent="1" valign="center" zPosition="5" />
-		<widget enableWrapAround="1" margin="50,70" mode="grid" position="350,170" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1530,840" source="pluginlist" transparent="1"
-			backgroundColorSelected="trbluette">
-			<convert type="TemplatedMultiContent">
+            <screen backgroundColor="#30000000" flags="wfNoBorder" name="PluginBrowser" position="center,center" size="1820,1000" title="Plugin browser">
+                <widget backgroundColor="#30000000" font="main; 84" foregroundColor="yellow" halign="center" position="0,10" render="Label" size="1920,130" source="Title" valign="center" zPosition="5"/>
+                <eLabel backgroundColor="#FF000000" position="0,150" size="1920,5"/>
+                <eLabel backgroundColor="#FF000000" position="0,900" size="1920,5"/>
+                <eLabel backgroundColor="#FF000000" position="300,150" size="5,750"/>
+                <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/plugin_selection.png" position="20,10" size="130,130" zPosition="6"/>
+                <eLabel backgroundColor="red" position="20,200" size="25,25" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="20,290" size="25,25" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="red" position="60,195" size="200,60" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="green" position="60,285" size="200,60" transparent="1" valign="center" zPosition="5"/>
+                <widget enableWrapAround="1" margin="50,70" mode="grid" position="380,170" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1530,840" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
+                    <convert type="TemplatedMultiContent">
 				{"template":[ MultiContentEntryText(pos = (5,85), size = (210,25), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
 					MultiContentEntryPixmapAlphaTest(pos=(30,20),size=(150,60),png=3),],
 					"fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":210
 				}
 			</convert>
-		</widget>
-		<widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
-		    <convert type="StringListSelection">2</convert>
-		</widget>
-	    </screen>
+                </widget>
+                <widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+            </screen>
         </style>
         <style name="PluginBrowser" value="LeftBar" preview="preview/Pb-Left.jpg">
-	    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="400,1080" title="Plugin browser">
-		<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/pbarv.png" position="0,0" size="350,1080" zPosition="-2" />
-		<widget enableWrapAround="1" margin="20,20" position="20,30" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="260,880" source="pluginlist" transparent="1"
-			backgroundColorSelected="trbluette">
-			<convert type="TemplatedMultiContent">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="400,1080" title="Plugin browser">
+                <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/pbarv.png" position="0,0" size="350,1080" zPosition="-2"/>
+                <widget enableWrapAround="1" margin="20,20" position="20,30" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="260,880" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
+                    <convert type="TemplatedMultiContent">
 				{"template":[ MultiContentEntryText(pos = (5,80), size = (210,25), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
 					MultiContentEntryPixmapAlphaTest(pos=(0,10),size=(220,60),png=3),],
 					"fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":210
 				}
 			</convert>
-		</widget>
-		<widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
-		    <convert type="StringListSelection">2</convert>
-		</widget>
-		<eLabel backgroundColor="#303030" position="35,940" size="250,3" />
-		<eLabel backgroundColor="red"   position="35,960" size="25,25" cornerRadius="10" />
-		<eLabel backgroundColor="green" position="35,1030" size="25,25" cornerRadius="10" />
-		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="red"   position="70,955" size="200,60" transparent="1" valign="center" zPosition="5" />
-		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="green" position="70,1025" size="200,60" transparent="1" valign="center" zPosition="5" />
-	    </screen>
+                </widget>
+                <widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+                <eLabel backgroundColor="#303030" position="35,940" size="250,3"/>
+                <eLabel backgroundColor="red" position="35,960" size="25,25" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="35,1030" size="25,25" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="red" position="70,955" size="200,60" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="green" position="70,1025" size="200,60" transparent="1" valign="center" zPosition="5"/>
+            </screen>
+        </style>
+        <style name="PluginBrowser" value="Orizontal" preview="preview/Pb-Orizontal.jpg">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="1920,1080" title="Plugin browser">
+                <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/bpanel.png" position="0,774" size="1920,306" zPosition="-1"/>
+                <widget enableWrapAround="1" margin="0,0" mode="grid" position="30,855" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1860,130" source="pluginlist" backgroundColorSelected="trbluette" transparent="1">
+                    <convert type="TemplatedMultiContent">
+				{"template":[ 
+					MultiContentEntryPixmapAlphaTest(pos=(10,20),size=(180,60),png=3),
+					MultiContentEntryText(pos = (5,90), size = (190,25), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
+					"fonts":[gFont("Regular",22)],"itemHeight":130,"itemWidth":205
+				}
+			</convert>
+                </widget>
+                <widget source="pluginlist" render="Label" position="0,780" size="1920,40" font="Regular;34" foregroundColor="ltbluette" backgroundColor="#000000" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+                <eLabel backgroundColor="red" position="30,1040" size="25,25" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="430,1040" size="25,25" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="red" position="70,1035" size="400,30" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="green" position="470,1035" size="400,30" transparent="1" valign="center" zPosition="5"/>
+            </screen>
         </style>
         <!-- ##############################  EVENTVIEW ############################ -->
         <style name="EventView" value="Default" preview="preview/Event-Def.jpg"/>
