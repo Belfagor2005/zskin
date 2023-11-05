@@ -11,9 +11,9 @@
         <sort id="6" name="MerlinMusicPlayer2Screen_AARCH64"/>
         <sort id="7" name="Volume"/>
         <sort id="8" name="WetterComScreen"/>
-        <sort id="9" name="DE-Panel"/>
-        <sort id="10" name="ApiKey"/>
-        <sort id="11" name="PluginBrowser"/>
+        <sort id="9" name="PluginBrowser"/>
+        <sort id="10" name="ElitePanel"/>
+        <sort id="11" name="ApiKey"/>
     </sorted>
     <presets>
         <default>
@@ -25,9 +25,9 @@
             <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default"/>
             <style name="Volume" value="Default"/>
             <style name="WetterComScreen" value="Default"/>
+            <style name="PluginBrowser" value="Default"/>
             <style name="ElitePanel" value="Default"/>
             <style name="ApyKey" value="Default"/>
-            <style name="PluginBrowser" value="Default"/>
         </default>
     </presets>
     <screens name="Screens">
@@ -1572,9 +1572,9 @@
                 <widget name="key_blue" font="Regular;26" position="860,1020" size="220,30" halign="left" valign="center" backgroundColor="black" zPosition="2" transparent="1"/>
             </screen>
         </style>
-        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
-        <style name="PluginBrowser" value="Default" preview="preview/PbDefault.jpg"/>
-        <style name="PluginBrowser" value="Default" preview="preview/PbDefault.jpg">
+ 	<!-- ##############################  PANELS PLUGINBROWSER ###########################-->
+        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg"/>
+        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="1920,1080" title="Plugin browser">
                 <layout name="menu_1030"/>
                 <layout name="rg-2c-nn-1030"/>
@@ -1596,26 +1596,52 @@
                 </widget>
             </screen>
         </style>
-        <style name="PluginBrowser" value="Grid" preview="preview/Pb.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="1920,1080" title="Plugin browser">
-                <widget backgroundColor="#000000" font="main; 84" foregroundColor="#808060" halign="left" position="294,27" render="Label" size="1334,134" source="Title" transparent="1" valign="center" zPosition="5"/>
-                <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/fulltop.png" position="0,0" size="2560,1440" zPosition="-3"/>
-                <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_red.png" position="1483,30" size="40,40" zPosition="5"/>
-                <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_green.png" position="1483,89" size="40,40" zPosition="5"/>
-                <widget backgroundColor="#000000" font="Regular;40" halign="left" name="red" position="1534,26" size="400,54" transparent="1" valign="center" zPosition="5"/>
-                <widget backgroundColor="#000000" font="Regular;40" halign="left" name="green" position="1534,80" size="400,54" transparent="1" valign="center" zPosition="5"/>
-                <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/plugin.png" position="0,0" size="1920,1080" zPosition="-2"/>
-                <widget backgroundPixmap="ZSkin-FHD/menu/grid.svg" selectionPixmap="ZSkin-FHD/menu/grid_sel.svg" selectionZoom="1.2" enableWrapAround="1" margin="15,15" mode="grid" position="20,170" render="Listbox" scrollbarMode="showNever" size="1920,850" source="pluginlist" transparent="1">
-                     <convert type="TemplatedMultiContent">
-                        {"template":[MultiContentEntryText(pos=(40,85),size=(150,25),flags=RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP,text=1,backcolor=MultiContentTemplateColor("#131a1d"),backcolor_sel=MultiContentTemplateColor("#41535c"),color=MultiContentTemplateColor("foreground"),color_sel=0xFF000004),
-                        MultiContentEntryPixmapAlphaTest(pos=(40,15),size=(150,60),png=3),],
-                        "fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":230}
-                    </convert>
-                </widget>                
-                <widget font="Regular;36" position="20,1030" render="Label" size="1900,40" source="pluginlist" transparent="1">
-                    <convert type="StringListSelection">2</convert>
-                </widget>
-            </screen>
+        <style name="PluginBrowser" value="Grid" preview="preview/Pb-Grid.jpg">
+	    <screen backgroundColor="#30000000" flags="wfNoBorder" name="PluginBrowser" position="center,center" size="1820,1000" title="Plugin browser">
+		<widget backgroundColor="#30000000" font="main; 84" foregroundColor="yellow" halign="center" position="0,10" render="Label" size="1920,130" source="Title" valign="center" zPosition="5" />
+		<eLabel backgroundColor="#FF000000" position="0,150"   size="1920,5" />
+		<eLabel backgroundColor="#FF000000" position="0,900"   size="1920,5" />
+		<eLabel backgroundColor="#FF000000" position="300,150" size="5,750" />
+		<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/plugin_selection.png" position="20,10" size="130,130" zPosition="6" />
+		<eLabel backgroundColor="red"   position="20,200" size="25,25" cornerRadius="10" />
+		<eLabel backgroundColor="green" position="20,290" size="25,25" cornerRadius="10" />
+		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="red"   position="60,195" size="200,60" transparent="1" valign="center" zPosition="5" />
+		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;26" halign="left" name="green" position="60,285" size="200,60" transparent="1" valign="center" zPosition="5" />
+		<widget enableWrapAround="1" margin="50,70" mode="grid" position="350,170" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1530,840" source="pluginlist" transparent="1"
+			backgroundColorSelected="trbluette">
+			<convert type="TemplatedMultiContent">
+				{"template":[ MultiContentEntryText(pos = (5,85), size = (210,25), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+					MultiContentEntryPixmapAlphaTest(pos=(30,20),size=(150,60),png=3),],
+					"fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":210
+				}
+			</convert>
+		</widget>
+		<widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
+		    <convert type="StringListSelection">2</convert>
+		</widget>
+	    </screen>
+        </style>
+        <style name="PluginBrowser" value="LeftBar" preview="preview/Pb-Left.jpg">
+	    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="400,1080" title="Plugin browser">
+		<ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/pbarv.png" position="0,0" size="350,1080" zPosition="-2" />
+		<widget enableWrapAround="1" margin="20,20" position="20,30" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="260,880" source="pluginlist" transparent="1"
+			backgroundColorSelected="trbluette">
+			<convert type="TemplatedMultiContent">
+				{"template":[ MultiContentEntryText(pos = (5,80), size = (210,25), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+					MultiContentEntryPixmapAlphaTest(pos=(0,10),size=(220,60),png=3),],
+					"fonts":[gFont("Regular",24)],"itemHeight":120,"itemWidth":210
+				}
+			</convert>
+		</widget>
+		<widget font="Regular;34" position="60,930" foregroundColor="yellow" render="Label" size="1800,40" source="pluginlist" halign="center" transparent="1">
+		    <convert type="StringListSelection">2</convert>
+		</widget>
+		<eLabel backgroundColor="#303030" position="35,940" size="250,3" />
+		<eLabel backgroundColor="red"   position="35,960" size="25,25" cornerRadius="10" />
+		<eLabel backgroundColor="green" position="35,1030" size="25,25" cornerRadius="10" />
+		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="red"   position="70,955" size="200,60" transparent="1" valign="center" zPosition="5" />
+		<widget foregroundColor="white" backgroundColor="#000000" font="Regular;25" halign="left" name="green" position="70,1025" size="200,60" transparent="1" valign="center" zPosition="5" />
+	    </screen>
         </style>
         <!-- ##############################  EVENTVIEW ############################ -->
         <style name="EventView" value="Default" preview="preview/Event-Def.jpg"/>
@@ -1698,7 +1724,8 @@
             </screen>
         </style>
         <!-- ##############################  PANELS MEDIAPLAYER ###########################-->
-        <style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg">
+        <style name="MediaPlayer" value="Default" preview="preview/MED-DefPlayer.jpg"/>
+        <style name="MediaPlayer" value="Def-Player" preview="preview/MED-DefPlayer.jpg">
             <screen name="MediaPlayer" position="0,0" size="1920,1080" title="Audio Player" backgroundColor="#FF000000" flags="wfNoBorder">
                 <ePixmap pixmap="ZSkin-FHD/menu/panels/radiook.jpg" position="0,0" size="1920,1080" zPosition="-1"/>
                 <widget source="Title" render="Label" position="60,20" size="800,80" font="Regular;50" halign="left" valign="center" foregroundColor="yellow" backgroundColor="#000000" transparent="1" zPosition="1"/>
@@ -1888,7 +1915,7 @@
             </screen>
         </style>
         <!-- ##############################  PANELS MERLIN2 MEDIAPLAYER ###########################-->
-        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default" preview="preview/MED-Merlin-Vu.jpg"/>
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default" preview="preview/MED-Merlin-Led.jpg"/>
         <style name="MerlinMusicPlayer2Screen_AARCH64" value="Merlin-Vu" preview="preview/MED-Merlin-Vu.jpg">
             <screen name="MerlinMusicPlayer2Screen_AARCH64" position="0,0" size="1920,1080" flags="wfNoBorder" backgroundColor="#FF000000" title="MerlinMusicPlayerScreenSaver">
                 <layout name="merlin2player"/>
@@ -2024,8 +2051,8 @@
             </screen>
         </style>
         <!-- ##############################  PANELS DEPANEL ########################### -->
-        <style name="ElitePanel" value="Default" preview="preview/DEP-Line.jpg"/>
-        <style name="ElitePanel" value="DEP-Line" preview="preview/DEP-Line.jpg">
+        <style name="ElitePanel" value="Default" preview="preview/DEP-DepGrid.jpg"/>
+        <style name="ElitePanel" value="DEP-Grid" preview="preview/DEP-DepGrid.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="ElitePanel" position="0,0" size="1920,1080" title="Dream-Elite Panel">
                 <layout name="menu_1530"/>
                 <layout name="logo"/>
@@ -2033,7 +2060,7 @@
                 <widget backgroundColor="transparent" backgroundColorSelected="trbluette" enableWrapAround="1" foregroundColorSelected="yellow" itemHeight="300" itemWidth="360" margin="40,40" mode="grid" name="panel" position="225,150" scrollbarMode="showNever" selectionZoom="1.10" size="1560,800" transparent="1" zPosition="2"/>
             </screen>
         </style>
-        <style name="ElitePanel" value="DEP-Grid" preview="preview/DEP-Grid.jpg">
+        <style name="ElitePanel" value="DEP-Line" preview="preview/DEP-DepLine.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="ElitePanel" position="0,0" size="1920,1080" title="Dream-Elite Panel">
                 <ePixmap pixmap="ZSkin-FHD/menu/panels/bpanel1.png" position="0,730" size="1920,350"/>
                 <widget backgroundColor="transparent" backgroundColorSelected="trbluette" enableWrapAround="1" foregroundColorSelected="yellow" itemHeight="190" itemWidth="360" margin="40,0" mode="grid" name="panel" position="0,825" scrollbarMode="showNever" selectionZoom="1.10" size="1920,220" transparent="1" zPosition="2"/>
