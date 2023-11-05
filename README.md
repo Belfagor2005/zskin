@@ -33,7 +33,7 @@ Support: http://e2skin.blogspot.com/
 
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/meteo.png?raw=true">
 
-<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/Pbgrid.png?raw=true">
+<img src="https://github.com/Belfagor2005/zskin/blob/main/screen/Pb-grid.png?raw=true">
 
 <img src="https://github.com/Belfagor2005/zskin/blob/main/screen/Pb-Left.png?raw=true">
 
