@@ -971,7 +971,7 @@
                 <eLabel backgroundColor="green" position="27,387" size="34,34" cornerRadius="10"/>
                 <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="80,260" size="267,80" transparent="1" valign="center" zPosition="5"/>
                 <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="80,380" size="267,80" transparent="1" valign="center" zPosition="5"/>
-                <widget enableWrapAround="1" margin="50,70" mode="grid" position="450,225" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1850,1080" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
+                <widget enableWrapAround="1" margin="50,70" mode="grid" position="450,225" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1850,960" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
                     <convert type="TemplatedMultiContent">
                                 {"template":[ MultiContentEntryText(pos = (2,114), size = (240,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
                                     MultiContentEntryPixmapAlphaTest(pos=(30,27),size=(180,60),png=3),],
@@ -989,8 +989,8 @@
                 <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/pbarv.png" position="0,0" size="467,1440" zPosition="-2"/>
                 <widget enableWrapAround="1" margin="20,20" position="27,40" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="347,1174" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
                     <convert type="TemplatedMultiContent">
-                        {"template":[ MultiContentEntryText(pos = (7,107), size = (280,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
-                            MultiContentEntryPixmapAlphaTest(pos=(0,14),size=(294,80),png=3),],
+                        {"template":[ MultiContentEntryText(pos = (0,107), size = (210,30), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+                            MultiContentEntryPixmapAlphaTest(pos=(15,14),size=(180,60),png=3),],
                             "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":210
                         }
                     </convert>
@@ -1011,9 +1011,9 @@
                 <widget enableWrapAround="1" margin="0,0" mode="grid" position="40,1140" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="2480,174" source="pluginlist" backgroundColorSelected="trbluette" transparent="1">
                     <convert type="TemplatedMultiContent">
 				{"template":[
-					MultiContentEntryPixmapAlphaTest(pos=(14,27),size=(240,80),png=3),
-					MultiContentEntryText(pos = (7,120), size = (254,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
-					"fonts":[gFont("Regular",30)],"itemHeight":174,"itemWidth":205
+					MultiContentEntryPixmapAlphaTest(pos=(14,27),size=(180,60),png=3),
+					MultiContentEntryText(pos = (0,120), size = (210,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
+					"fonts":[gFont("Regular",30)],"itemHeight":160,"itemWidth":210
 				}
 			</convert>
                 </widget>
