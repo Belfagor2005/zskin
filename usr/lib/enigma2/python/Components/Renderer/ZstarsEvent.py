@@ -288,7 +288,7 @@ class ZstarsEvent(VariableValue, Renderer):
                         except Exception as e:
                             print('zstar pass Exception: ', e)
         except Exception as e:
-            print('passImdbRating: ', e)
+            print('zstar passImdbRating: ', e)
 
     def setRating(self, data):
         try:

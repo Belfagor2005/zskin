@@ -436,12 +436,12 @@ class ZChannel(Renderer):
             print('ZChannel save poster show ')
             self.showPoster()
             return
-        # Python version compatibility
-        if PY3:
-            from urllib.error import HTTPError
-            from urllib.request import urlopen
-        else:
-            from urllib2 import HTTPError, urlopen
+        # # Python version compatibility
+        # if PY3:
+            # from urllib.error import HTTPError
+            # from urllib.request import urlopen
+        # else:
+            # from urllib2 import HTTPError, urlopen
         data = urlopen(self.url_poster)
         with open(self.pstrNm, "wb") as local_file:
             local_file.write(data.read())

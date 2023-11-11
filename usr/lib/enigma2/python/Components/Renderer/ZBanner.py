@@ -415,7 +415,6 @@ class ZBanner(Renderer):
             width = size.width()
             height = size.height()  
         sc = getScale()  # AVSwitch().getFramebufferScale()
-        # print('ZBanner preview:', self.pstrNm)
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
         if self.picload.startDecode(self.pstrNm):
             # if this has failed, then another decode is probably already in progress
@@ -444,11 +443,11 @@ class ZBanner(Renderer):
             self.showPoster()
             return
         # Python version compatibility
-        if PY3:
-            from urllib.error import HTTPError
-            from urllib.request import urlopen  # , urlretrieve
-        else:
-            from urllib2 import HTTPError, urlopen
+        # if PY3:
+            # from urllib.error import HTTPError
+            # from urllib.request import urlopen
+        # else:
+            # from urllib2 import HTTPError, urlopen
         data = urlopen(self.url_backdrop)
         with open(self.pstrNm, "wb") as local_file:
             local_file.write(data.read())

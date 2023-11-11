@@ -242,7 +242,6 @@ class ZEvent(Renderer, VariableText):
             self.infos_file = "{}/{}.txt".format(path_folder, self.evntNm)
             # if not os.path.exists(self.infos_file):
                 # self.downloadInfos()
-            self.evntNm = convtext(self.evnt)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             # self.infos_file = "{}/{}.event.txt".format(path_folder, self.evntNm)
             if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
