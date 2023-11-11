@@ -95,7 +95,13 @@ def convtext(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
             text = text.replace('PrimaTv', '').replace(' mag', '')
+            text = text.replace(' prima pagina', '')
+            # text = text.replace(' 6', '').replace(' 7', '').replace(' 8', '').replace(' 9', '').replace(' 10', '')
+            # text = text.replace(' 11', '').replace(' 12', '').replace(' 13', '').replace(' 14', '').replace(' 15', '')
+            # text = text.replace(' 16', '').replace(' 17', '').replace(' 18', '').replace(' 19', '').replace(' 20', '')
             text = unicodify(text)
             text = text.lower()
         else:
@@ -116,7 +122,8 @@ class ZPBorder(Renderer):
 
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
-            self.instance.hide()
+            if self.instance:
+                self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
             print('zborder what[0] != self.CHANGED_CLEAR: ')
             self.delay()
@@ -144,10 +151,12 @@ class ZPBorder(Renderer):
             if ptr is not None:
                 self.instance.setPixmap(ptr)
                 self.instance.show()
-            else:
-                self.instance.hide()
-        else:
-            self.instance.hide()
+            # else:
+                # if self.instance:
+                    # self.instance.hide()
+        # else:
+            # if self.instance:
+                # self.instance.hide()
 
     def info(self):
         if self.downloading:
@@ -160,17 +169,19 @@ class ZPBorder(Renderer):
         if self.event:
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
             self.evntNm = convtext(self.evnt)
-            print('clean Zborder: ', self.evntNm)
+            print('zborder clean Zborder: ', self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
-            print('self.pstrNm: ', self.pstrNm)
+            print('zborder self.pstrNm: ', self.pstrNm)
             if fileExists(self.pstrNm) and self.instance:
-                print('fileExists')
+                print('zborder fileExists')
                 self.showPoster()
                 self.timer40.stop()
             else:
-                self.instance.hide()
+                if self.instance:
+                    self.instance.hide()
                 self.timer40.stop()
         else:
-            self.instance.hide()
+            if self.instance:
+                self.instance.hide()
             self.timer40.stop()
             return

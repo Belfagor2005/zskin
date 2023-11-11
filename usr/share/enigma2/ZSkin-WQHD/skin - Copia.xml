@@ -1,23 +1,23 @@
 <skin>
     <style name="" revision="1001" time_stamp="2023-11-04 22:49:32.636824" user_mtime="">
-        <style name="ElitePanel" value="Default"/>
-        <style name="ChannelSelection" value="Default"/>
-        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default"/>
-        <style name="MediaPlayer" value="Default"/>
-        <style name="EventView" value="Default"/>
-        <style name="Volume" value="Default"/>
-        <style name="InfoBar" value="Default"/>
-        <style name="SecondInfoBar" value="Default"/>
-        <style name="WetterComScreen" value="Default"/>
-        <style name="PluginBrowser" value="Default"/>
-        <style name="TMDB ApiKey" value="ApiKey Manual Insert"/>
+        <style name="ElitePanel" value="Default" />
+        <style name="ChannelSelection" value="Default" />
+        <style name="MerlinMusicPlayer2Screen_AARCH64" value="Default" />
+        <style name="MediaPlayer" value="Default" />
+        <style name="EventView" value="Default" />
+        <style name="Volume" value="Default" />
+        <style name="InfoBar" value="Default" />
+        <style name="SecondInfoBar" value="Default" />
+        <style name="WetterComScreen" value="Default" />
+        <style name="PluginBrowser" value="Default" />
+        <style name="TMDB ApiKey" value="ApiKey Manual Insert" />
     </style>
     <copyright>
         <abouth name="Zeta-Skin FHD">
 			version="2.0.2"
 			author="mmark"
 			license="Unauthorized use or mods unless prior approval of Author the skin is only used on Dreambox"
-			Support="DMMcvs - Gemini4.x - DreamElite - SatLodge"
+			Support="DMMcvs - Gemini4.1 - Gemini4.2 - DreamElite 7.1 - - DreamElite 7.2 - SatLodge"
 			supporturl="http://e2skin.blogspot.com"
 		</abouth>
     </copyright>
@@ -256,7 +256,7 @@
         </component>
         <component Width="5" type="PictureBorder"/>
         <component separation="120" type="NimSetup"/>
-        <!-- <component Columns="7" Lines="3" type="dreamXScreen"/> -->
+        <component Columns="7" Lines="3" type="dreamXScreen"/>
         <component Columns="1" Lines="9" type="dreamXEntrys_list"/>
         <component dividerHeight="2" separation="550" type="ConfigList"/>
         <component iconHeight="67" iconWidth="80" itemHeight="54" itemWidth="2000" type="ConfigManagerList"/>
@@ -395,6 +395,7 @@
             <convert type="ServiceName">Name</convert>
         </widget>
         <eLabel backgroundColor="#40000000" position="0,887" size="387,554"/>
+        <widget alphatest="blend" position="14,903" render="ZChannel" scale="1" size="360,520" source="session.Event_Now" zPosition="15"/>
         <widget alphatest="blend" backgroundColor="#000000" position="40,900" render="Picon" size="294,176" source="session.CurrentService" transparent="1" zPosition="1">
             <convert type="ServiceName">Reference</convert>
         </widget>
@@ -579,7 +580,6 @@
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_info.png" position="1974,1380" scale="1" size="80,40" zPosition="2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_menu.png" position="1867,1380" scale="1" size="80,40" zPosition="2"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_epg.png" position="1760,1380" scale="1" size="80,40" zPosition="2"/>
-        <widget alphatest="blend" position="14,903" render="ZChannel" scale="1" size="360,520" source="session.Event_Now" zPosition="15"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SecondInfoBar" position="0,0" size="2560,934" title="Second-InfoBar-Cover" zPosition="10">
         <eLabel backgroundColor="#30000000" position="14,0" size="1254,867" zPosition="-1"/>
@@ -610,7 +610,7 @@
         <widget backgroundColor="#10303030" foregroundColor="#b0b0b0" position="414,234" render="Progress" size="800,7" source="session.Event_Now" zPosition="2">
             <convert type="EventTime">Progress</convert>
         </widget>
-        <!-- <widget backgroundColor="#000000" font="Regular;35" foregroundColor="yellow" halign="left" nowrap="1" position="414,307" render="ZEvent" size="800,227" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/> -->
+        <widget backgroundColor="#000000" font="Regular;35" foregroundColor="yellow" halign="left" nowrap="1" position="414,307" render="ZEvent" size="800,227" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/star_b.png" position="414,260" size="267,27" transparent="1" zPosition="2"/>
         <widget pixmap="ZSkin-WQHD/icons/star.png" position="414,260" render="ZstarsEvent" size="267,27" source="session.Event_Now" transparent="1" zPosition="13"/>
         <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#a0a0a0" halign="center" position="414,307" render="zScrollLabel" size="800,507" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
@@ -637,7 +637,7 @@
             <convert type="EventName">Name</convert>
         </widget>
         <eLabel backgroundColor="#202020" position="1667,234" size="840,7" transparent="0" zPosition="5"/>
-        <!-- <widget backgroundColor="#000000" font="Regular;35" foregroundColor="yellow" halign="left" nowrap="1" position="1667,307" render="ZEvent" size="834,227" source="session.Event_Next" transparent="1" valign="center" zPosition="9"/> -->
+        <widget backgroundColor="#000000" font="Regular;35" foregroundColor="yellow" halign="left" nowrap="1" position="1667,307" render="ZEvent" size="834,227" source="session.Event_Next" transparent="1" valign="center" zPosition="9"/>
         <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/star_b.png" position="1667,260" size="267,27" transparent="1" zPosition="2"/>
         <widget pixmap="ZSkin-WQHD/icons/star.png" position="1667,260" render="ZstarsEvent" size="267,27" source="session.Event_Next" transparent="1" zPosition="13"/>
         <widget backgroundColor="#000000" font="Regular;38" foregroundColor="#a0a0a0" halign="center" position="1667,307" render="zScrollLabel" size="800,507" source="session.Event_Next" transparent="1" valign="center" zPosition="5">
@@ -753,7 +753,7 @@
         <widget alphatest="on" pixmap="ZSkin-WQHD/skin_default/buttons/key_menu.png" position="294,494" render="Pixmap" size="107,54" source="key_menu" zPosition="5">
             <convert type="ConditionalShowHide"/>
         </widget>
-        <widget backgroundColor="#000000" backgroundColorSelected="barColor" scrollbarMode="showOnDemand" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="427,227" render="Listbox" size="1240,440" source="streams" transparent="1" zPosition="5">
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" crollbarMode="showOnDemand" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="427,227" render="Listbox" size="1240,440" source="streams" transparent="1" zPosition="5">
             <convert type="TemplatedMultiContent">
 				{"templates":
 					{"default": (67, [
@@ -818,151 +818,77 @@
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" name="config" position="294,207" scrollbarMode="showOnDemand" size="1374,1027" transparent="1" zPosition="5"/>
     </screen>
-    <screen name="ChannelSelection" position="0,0" size="2560,1440" title="Channel Selection" backgroundColor="#ff000000">
-        <ePixmap pixmap="ZSkin-WQHD/menu/panels/ibbot.png" position="0,1051" size="2560,463" zPosition="0" blend="blend"/>
-        <ePixmap pixmap="ZSkin-WQHD/menu/panels/ibtop.png" position="0,978" size="2560,463" zPosition="1" blend="blend"/>
-        <eLabel position="54,54" size="2454,974" backgroundColor="#40000000" zPosition="0"/>
-        <eLabel position="80,80" size="1534,920" backgroundColor="#20000000" zPosition="1"/>
-        <eLabel position="1687,80" size="794,920" backgroundColor="#20000000" zPosition="1"/>
-        <eLabel position="1640,0" size="20,1027" backgroundColor="#FF000000" zPosition="2"/>
-        <!-- List Channel -->
-        <widget name="list" position="94,107" size="1507,867" scrollbarMode="showOnDemand" transparent="1" zPosition="3" itemHeight="67" itemWidth="2067" serviceItemHeight="90" serviceNumberFont="Regular;36" serviceNameFont="Regular;40" serviceInfoFont="Regular;40" foregroundColor="#ffffff" foregroundColorSelected="ltbluette" backgroundColor="header" backgroundColorSelected="barColor" additionalInfoFont="Regular;28" colorAdditionalInfo="#808080" colorServiceDescription="ltbluette" colorServiceDescriptionSelected="white" foregroundColorServiceNotAvail="#505050" colorEventProgressbarBorder="grey" colorEventProgressbarBorderSelected="white" picServiceEventProgressbar="Z-Skin/skin_default/progcl.png"/>
-        <!-- PICON -->
-        <widget source="ServiceEvent" render="Picon" path="picon" position="1707,94" size="294,176" blend="blend" zPosition="3">
+    <screen backgroundColor="#ff000000" flags="wfNoBorder" name="ChannelSelection" position="0,0" size="2560,1440" title="Channel Selection">
+        <eLabel backgroundColor="#20000000" position="0,54" size="1414,1254" zPosition="-2"/>
+        <eLabel backgroundColor="#202020" position="0,1307" size="1414,2"/>
+        <eLabel backgroundColor="#202020" position="1414,54" size="2,1254"/>
+        <eLabel backgroundColor="#202020" position="0,54" size="1414,2"/>
+        <eLabel backgroundColor="trbluette" position="27,14" size="600,80" zPosition="1"/>
+        <eLabel backgroundColor="#20000000" position="1427,54" size="1134,1067" zPosition="-2"/>
+        <eLabel backgroundColor="#202020" position="1427,54" size="1134,2"/>
+        <eLabel backgroundColor="#202020" position="1427,54" size="2,1067"/>
+        <eLabel backgroundColor="#202020" position="1427,1120" size="1134,2"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/listch.png" position="40,20" size="50,67" zPosition="2"/>
+        <eLabel backgroundColor="#000000" font="Regular;54" foregroundColor="#ffffff" halign="left" position="120,14" size="614,80" text="C H A N N E L S" transparent="1" valign="center" zPosition="1"/>
+        <eLabel backgroundColor="trbluette" position="2267,14" size="267,80" zPosition="1"/>
+        <widget backgroundColor="bluette" font="Regular;54" foregroundColor="grey" halign="center" position="2280,14" render="Label" size="240,80" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
+            <convert type="ClockToText">Format:%-H:%M:%S</convert>
+        </widget>
+        <widget additionalInfoFont="Regular;28" backgroundColor="#000000" backgroundColorSelected="barColor" colorAdditionalInfo="#808080" colorEventProgressbarBorder="grey" colorEventProgressbarBorderSelected="white" colorServiceDescription="ltbluette" colorServiceDescriptionSelected="white" foregroundColor="#ffffff" foregroundColorSelected="ltbluette" foregroundColorServiceNotAvail="#505050" itemHeight="60" itemWidth="2067" name="list" picServiceEventProgressbar="ZSkin-WQHD/skin_default/progcl.png" position="27,127" scrollbarMode="showOnDemand" serviceInfoFont="Regular;40" serviceItemHeight="80" serviceNameFont="Regular;40" serviceNumberFont="Regular;36" size="1360,1140" transparent="1" zPosition="3"/>
+        <widget alphatest="blend" backgroundColor="#000000" position="1494,107" render="Picon" scale="1" size="320,176" source="ServiceEvent" transparent="1" zPosition="5">
             <convert type="ServiceName">Reference</convert>
         </widget>
-        <eLabel position="1707,280" size="754,3" backgroundColor="#303030" zPosition="3"/>
-        <!-- Required Renderer zScrollLabel.py (Or render="Label") -->
-        <widget source="ServiceEvent" render="zScrollLabel" position="1707,300" size="754,687" font="Regular;38" halign="center" foregroundColor="white" backgroundColor="header" transparent="1" zPosition="2">
-            <convert type="EventName">ExtendedDescription</convert>
+        <widget backgroundColor="#000000" font="Regular;43" foregroundColor="yellow" halign="center" nowrap="1" position="1847,127" render="Label" size="600,54" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
+            <convert type="ServiceName">Name</convert>
         </widget>
-        <!-- Blinking pixmap (recording in progress) -->
-        <ePixmap pixmap="ZSkin-WQHD/icons/icon_event.png" position="60,1140" size="67,60" blend="blend" zPosition="1"/>
-        <widget source="session.RecordState" render="Pixmap" position="60,1140" size="67,60" pixmap="ZSkin-WQHD/icons/icon_event_rec.png" blend="blend" zPosition="3">
-            <convert type="ConditionalShowHide">Blink</convert>
+        <eLabel backgroundColor="#303030" position="1840,180" size="600,4" zPosition="1"/>
+        <eLabel backgroundColor="#303030" position="1840,280" size="600,3" zPosition="1"/>
+        <widget backgroundColor="ltbluette" foregroundColor="ltbluette" position="1840,278" render="Progress" size="600,8" source="ServiceEvent" transparent="1" zPosition="3">
+            <convert type="EventTime">Progress</convert>
         </widget>
-        <!-- *** Selected Event *** -->
-        <widget source="ServiceEvent" render="Label" position="187,1140" size="187,60" font="Regular;54" foregroundColor="ltbluette" backgroundColor="header" transparent="1" zPosition="2">
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" position="1840,231" render="Label" size="134,43" source="ServiceEvent" transparent="1" zPosition="1">
             <convert type="EventTime">StartTime</convert>
             <convert type="ClockToText">Default</convert>
         </widget>
-        <widget source="ServiceEvent" render="Label" position="367,1140" size="1414,60" font="Regular;54" backgroundColor="#202020" transparent="1" zPosition="3">
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="red" halign="left" position="2000,231" render="Label" size="267,40" source="ServiceEvent" transparent="1" zPosition="1">
+            <convert type="EventTime">Duration</convert>
+            <convert type="ClockToText">InMinutes</convert>
+        </widget>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" halign="right" position="2234,231" render="Label" size="200,40" source="ServiceEvent" transparent="1">
+            <convert type="EventTime">Remaining</convert>
+            <convert type="RemainingToText"/>
+        </widget>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_menu.png" position="2467,147" scale="1" size="80,40" transparent="1" zPosition="10"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/80/key_info.png" position="2467,247" scale="1" size="80,40" transparent="1" zPosition="10"/>
+        <widget backgroundColor="#000000" font="Regular;46" foregroundColor="yellow" halign="left" position="1454,294" render="Label" size="1094,107" source="ServiceEvent" transparent="1" valign="center" zPosition="1">
             <convert type="EventName">Name</convert>
         </widget>
-        <!-- Clock -->
-        <widget source="global.CurrentTime" render="Label" position="1814,1140" size="267,60" halign="left" valign="center" font="Regular;54" foregroundColor="yellow" backgroundColor="#101010" transparent="1" zPosition="3">
-            <convert type="ClockToText">Format:%H:%M:%S</convert>
+        <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="1454,403" size="360,527" zPosition="4"/>
+        <widget alphatest="blend" position="1454,403" render="ZChannel" size="360,527" source="ServiceEvent" zPosition="5"/>
+        <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="1454,403" size="360,527" zPosition="6"/>
+        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="yellow" halign="left" nowrap="1" position="1454,934" render="ZEvent" size="1094,180" source="ServiceEvent" transparent="1" valign="center" zPosition="9"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/icons/star_b.png" position="1827,400" size="267,27" transparent="1" zPosition="2"/>
+        <widget pixmap="ZSkin-WQHD/icons/star.png" position="1827,400" render="ZstarsEvent" size="267,27" source="ServiceEvent" transparent="1" zPosition="13"/>
+        <widget backgroundColor="#000000" font="Regular;35" foregroundColor="#ffffff" halign="left" position="1827,434" render="Label" size="720,507" source="ServiceEvent" transparent="1" zPosition="2">
+            <convert type="EventName">Description</convert>
         </widget>
-        <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
-        <!-- lululla -->
-        <widget source="ServiceEvent" render="EventListDisplay" position="362,1235" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="0,230,#606060,Regular,34,0,0" column1="240,1250,#606060,Regular,34,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
-            <convert type="EventList">primetime=no,eventcount=1</convert>
+        <eLabel backgroundColor="trbluette" position="1427,1174" size="1147,260" zPosition="-2"/>
+        <eLabel backgroundColor="#20101010" position="2307,1134" size="227,80" zPosition="-2"/>
+        <eLabel backgroundColor="#000000" font="Regular;54" foregroundColor="#20ffffff" halign="center" position="2307,1134" size="227,80" text="N E X T" transparent="1" valign="center" zPosition="1"/>
+        <widget backgroundColor="#FF101010" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1427,240" source="ServiceEvent" transparent="1" zPosition="50">
+            <convert type="EventList">primetime=no,eventcount=4</convert>
         </widget>
-        <!-- lululla -->
-        <!-- Progressbar (current event duration) -->
-        <eLabel position="367,1214" size="1694,14" backgroundColor="#303030" zPosition="2"/>
-        <widget source="ServiceEvent" render="Progress" position="367,1214" size="1694,14" pixmap="ZSkin-WQHD/skin_default/progress_infobar80.png" backgroundColor="#10303030" zPosition="3">
-            <convert type="EventTime">Progress</convert>
-        </widget>
-        <!-- Crypt icon (encrypted service?) -->
-        <ePixmap pixmap="ZSkin-WQHD/icons/ico_crypt_off.png" position="60,1254" size="94,47" blend="blend" zPosition="4"/>
-        <widget source="session.CurrentService" render="Pixmap" pixmap="ZSkin-WQHD/icons/ico_crypt_on.png" position="60,1254" size="94,47" blend="blend" zPosition="5">
-            <convert type="ServiceInfo">IsCrypted</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- TUNER -->
-        <eLabel text="Tun:" position="2120,1127" size="134,54" font="Regular;40" backgroundColor="#000000" foregroundColor="#ffffff" transparent="1" zPosition="3"/>
-        <widget source="session.FrontendInfo" render="TunerLabel,0,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">0,0</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,1,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">1,1</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,2,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">2,2</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,3,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">3,3</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,4,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">4,4</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,3,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">3,3</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="TunerLabel,4,input" position="2220,1127" size="54,54" zPosition="3" font="Regular;40" foregroundColor="#ffff00" backgroundColor="#000000" transparent="1">
-            <convert type="FrontendInfo">INPUT</convert>
-            <convert type="ValueRange">4,4</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- TYPE -->
-        <widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-WQHD/icons/scan-sl.png" position="2354,1140" size="94,94" alphatest="on" blend="blend" zPosition="3">
-            <convert type="FrontendInfo">TYPE</convert>
-            <convert type="ValueRange">0,0</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-WQHD/icons/scan-c.png" position="2374,1140" size="94,94" alphatest="on" blend="blend" zPosition="3">
-            <convert type="FrontendInfo">TYPE</convert>
-            <convert type="ValueRange">1,1</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <widget source="session.FrontendInfo" render="Pixmap" pixmap="ZSkin-WQHD/icons/scan-t.png" position="2374,1134" size="94,94" alphatest="on" blend="blend" zPosition="3">
-            <convert type="FrontendInfo">TYPE</convert>
-            <convert type="ValueRange">2,2</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- SNR BAR -->
-        <widget source="session.FrontendStatus" render="Progress" pixmap="ZSkin-WQHD/icons/bboxv.png" orientation="orBottomToTop" position="2494,1134" size="8,94" backgroundColor="#202020" zPosition="3">
-            <convert type="FrontendInfo">SNR</convert>
-        </widget>
-        <eLabel text="Snr:" position="2120,1180" size="134,54" font="Regular;40" backgroundColor="#000000" foregroundColor="#ffffff" transparent="1" zPosition="3"/>
-        <widget source="session.FrontendStatus" render="Label" position="2220,1180" size="134,54" font="Regular;40" foregroundColor="#ffffff" backgroundColor="#000000" zPosition="3" transparent="1">
-            <convert type="FrontendInfo">SNRdB</convert>
-        </widget>
-        <eLabel position="2120,1247" size="387,3" backgroundColor="#202020" zPosition="3"/>
-        <!-- SERVICEINFO -->
-        <!-- Videoformat icon (16:9?) -->
-        <ePixmap pixmap="ZSkin-WQHD/icons/ico_format_off.png" position="2378,1340" size="147,47" zPosition="2" blend="blend"/>
-        <widget source="session.CurrentService" render="Pixmap" pixmap="ZSkin-WQHD/icons/ico_format_on.png" position="2378,1340" size="147,47" zPosition="3" blend="blend">
-            <convert type="ServiceInfo">IsWidescreen</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- HD icon -->
-        <ePixmap pixmap="ZSkin-WQHD/icons/ico_hd_off.png" position="2243,1340" size="147,47" zPosition="2" blend="blend"/>
-        <widget source="session.CurrentService" render="Pixmap" pixmap="ZSkin-WQHD/icons/ico_hd_on.png" position="2243,1340" size="147,47" zPosition="3" blend="blend">
-            <convert type="ServiceInfo">VideoWidth</convert>
-            <convert type="ValueRange">721,1980</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- Audio icon (is there multichannel audio?) -->
-        <ePixmap pixmap="ZSkin-WQHD/icons/ico_dolby_off.png" position="2096,1340" size="147,47" zPosition="2" blend="blend"/>
-        <widget source="session.CurrentService" render="Pixmap" pixmap="ZSkin-WQHD/icons/ico_dolby_on.png" position="2096,1340" size="147,47" zPosition="3" blend="blend">
-            <convert type="ServiceInfo">IsMultichannel</convert>
-            <convert type="ConditionalShowHide"/>
-        </widget>
-        <!-- *** Colors Panel *** -->
-        <ePixmap pixmap="ZSkin-WQHD/buttons/key_green.png" position="60,1340" size="40,40" blend="blend" zPosition="2"/>
-        <widget name="key_green" position="114,1334" size="200,54" zPosition="3" font="Regular;40" halign="left" valign="center" backgroundColor="#101010" transparent="1"/>
-        <ePixmap pixmap="ZSkin-WQHD/buttons/key_yellow.png" position="347,1340" size="40,40" blend="blend" zPosition="2"/>
-        <widget name="key_yellow" position="400,1334" size="200,54" zPosition="3" font="Regular;40" halign="left" valign="center" backgroundColor="#101010" transparent="1"/>
-        <ePixmap pixmap="ZSkin-WQHD/buttons/key_blue.png" position="634,1340" size="40,40" blend="blend" zPosition="2"/>
-        <widget name="key_blue" position="687,1334" size="200,54" zPosition="3" font="Regular;40" halign="left" valign="center" backgroundColor="#101010" transparent="1"/>
-        <ePixmap pixmap="ZSkin-WQHD/buttons/key_red.png" position="920,1340" size="40,40" blend="blend" zPosition="2"/>
-        <widget name="key_red" position="974,1334" size="200,54" font="Regular;40" halign="left" valign="center" backgroundColor="#101010" transparent="1" zPosition="3"/>
-        <ePixmap pixmap="ZSkin-WQHD/skin_default/buttons/key_info.png" scale="strech" position="1834,1340" size="107,47" zPosition="2" blend="blend"/>
-        <ePixmap pixmap="ZSkin-WQHD/skin_default/buttons/key_menu.png" scale="strech" position="1967,1340" size="107,47" zPosition="2" blend="blend"/>
+        <eLabel backgroundColor="#20050505" position="0,1320" size="1414,114" zPosition="-1"/>
+        <eLabel backgroundColor="#202020" position="0,1320" size="1414,2"/>
+        <eLabel backgroundColor="#202020" position="1414,1320" size="2,114"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/key_red.png" position="27,1360" size="40,40" zPosition="2"/>
+        <widget backgroundColor="black" font="Regular;35" halign="left" name="key_red" position="80,1360" size="200,40" transparent="1" valign="center" zPosition="2"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/key_green.png" position="320,1360" size="40,40" zPosition="2"/>
+        <widget backgroundColor="black" font="Regular;35" halign="left" name="key_green" nowrap="1" position="374,1360" size="334,40" transparent="1" valign="center" zPosition="2"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/key_yellow.png" position="734,1360" size="40,40" zPosition="2"/>
+        <widget backgroundColor="black" font="Regular;35" halign="left" name="key_yellow" position="787,1360" size="294,40" transparent="1" valign="center" zPosition="2"/>
+        <ePixmap alphatest="blend" pixmap="ZSkin-WQHD/buttons/key_blue.png" position="1094,1360" size="40,40" zPosition="2"/>
+        <widget backgroundColor="black" font="Regular;35" halign="left" name="key_blue" position="1147,1360" size="294,40" transparent="1" valign="center" zPosition="2"/>
     </screen>
     <screen backgroundColor="#ff000000" name="oChannelSelection" position="0,0" size="2560,1440" title="Channel Selection">
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/ibbot.png" position="0,1051" size="2560,463" zPosition="0"/>
@@ -1391,7 +1317,7 @@
         <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,174" size="1640,11" zPosition="5"/>
         <eLabel backgroundColor="#60000000" position="134,0" size="1940,1440" zPosition="-3"/>
-        <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fullevent.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1"/>
+        <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5"/>
         <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4"/>
@@ -1422,8 +1348,7 @@
         <widget backgroundColor="header" font="Regular;43" foregroundColor="yellow" noWrap="1" position="600,520" render="Label" size="1147,120" source="session.Event_Next" transparent="1" zPosition="2">
             <convert type="EventName">Name</convert>
         </widget>
-        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="50"/>
-        <widget position="280,134" render="ZBanner" size="1654,1214" source="session.Event_Now" zPosition="-2"/>
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="genuineDreambox" position="0,0" size="2560,1440" title="Genuine Dreambox">
         <layout name="menu_1030"/>
@@ -2636,7 +2561,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,640" size="1374,11" zPosition="5"/>
         <ePixmap alphatest="on" pixmap="skin_default/sleeptimer.png" position="294,667" size="120,167" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;59" foregroundColor="#ffffff" name="pretext" position="440,714" size="920,67" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#404040" backgroundColorSelection="#303030" font="Regular;67" foregroundColor="#808080" halign="center" name="input" position="1387,714" size="134,80" transparent="0" zPosition="5"/>
+        <widget backgroundColor="#404040" backgroundColorSelected="#303030" font="Regular;67" foregroundColor="#808080" halign="center" name="input" position="1387,714" size="134,80" transparent="0" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffff00" name="aftertext" position="1547,707" size="334,80" transparent="1" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,1294" size="1374,11" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/bigdream.png" position="187,1320" scale="1" size="1067,80" zPosition="100"/>
@@ -4667,19 +4592,30 @@
         <widget font="Regular;35" foregroundColor="yellow" halign="center" name="slider_label" position="1667,480" shadowColor="black" size="734,54" transparent="1" valign="center" zPosition="5"/>
         <widget borderColor="grey" borderWidth="3" name="slider" position="1680,534" size="707,16" zPosition="5"/>
     </screen>
-    <!-- DEP USB Tuner FHD -->
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EliteUSBTuner" position="0,0" size="2560,1440" title="Dream-Elite USB Tuner">
-        <layout name="menu_1230"/>
-        <layout name="rgyb-2c-s-1230"/>
+        <layout name="menu_1030"/>
+        <layout name="logo1030"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
-        <widget name="usbtuner" position="347,207" size="1640,1054" margin="55,5" foregroundColorSelected="yellow" backgroundColor="#000000" backgroundColorSelected="#000000" itemHeight="347" itemWidth="467" mode="grid" selectionZoom="1.05" enableWrapAround="1" zPosition="2" scrollbarMode="showNever" transparent="1"/>
-        <widget name="Preview" position="294,207" size="1640,1000" scale="fill" backgroundColor="header" zPosition="2"/>
+        <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-WQHD/skin_default/buttons/key_red.png" position="294,200" size="107,54" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-WQHD/skin_default/buttons/key_green.png" position="294,267" size="107,54" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-WQHD/skin_default/buttons/key_yellow.png" position="294,334" size="107,54" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;40" halign="left" position="427,200" render="Label" size="667,54" source="key_red" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;40" halign="left" position="427,267" render="Label" size="667,54" source="key_green" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;40" halign="left" position="427,334" render="Label" size="667,54" source="key_yellow" transparent="1" valign="center" zPosition="5"/>
+        <eLabel backgroundColor="#202020" position="294,414" size="1374,4" zPosition="1"/>
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="ltbluette" itemHeight="67" name="config" position="294,440" scrollbarMode="showOnDemand" size="1374,800" transparent="1" zPosition="5"/>
+        <eLabel backgroundColor="#30000000" position="1827,67" size="667,392" zPosition="1"/>
+        <eLabel backgroundColor="#20000000" position="1840,80" size="640,366" zPosition="2"/>
+        <widget alphatest="blend" name="Preview" pixmap="//usr/share/enigma2/ZSkin-WQHD/menu/panels/zlogo.png" position="1854,94" size="614,339" zPosition="3"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EliteBootlogo" position="0,0" size="2560,1440" title="DElite Bootlogo">
-        <layout name="menu_1230"/>
-        <layout name="rgy-2c-s-1230"/>
-        <widget name="bootlogoinstaller" position="294,207" size="1640,1067" margin="80,50" foregroundColorSelected="yellow" backgroundColor="#000000" backgroundColorSelected="#000000" itemHeight="294" itemWidth="467" mode="grid" selectionZoom="1.05" enableWrapAround="1" zPosition="2" scrollbarMode="showNever" transparent="1"/>
-        <widget name="Preview" position="294,207" size="1640,1040" scale="fill" backgroundColor="header" zPosition="2"/>
+        <layout name="menu_830"/>
+        <layout name="logo"/>
+        <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
+        <widget backgroundColor="#202020" font="Regular;40" foregroundColor="yellow" halign="center" position="294,200" render="Label" size="1107,67" source="description" transparent="0" valign="center" zPosition="3"/>
+        <eLabel backgroundColor="#202020" position="294,280" size="1107,4" zPosition="2"/>
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="ltbluette" itemHeight="67" name="bootpanel" position="294,294" scrollbarMode="showOnDemand" size="1107,534" transparent="1" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EliteSetup" position="0,0" size="2560,1440" title="DElite Setup">
         <layout name="menu_1030"/>
@@ -10090,6 +10026,7 @@
             <ePixmap pixmap="ZSkin-WQHD/menu/panels/background.png" position="0,0" size="2560,120" zPosition="-1"/>
             <widget name="backdrop" position="0,0" size="2560,1440" zPosition="-2"/>
             <ePixmap pixmap="ZSkin-WQHD/menu/panels/background1.png" position="0,0" size="2560,1440" zPosition="-1"/>
+            <widget backgroundColor="#500d1940" font="Regular;48" foregroundColor="white" halign="center" name="waitingtext" position="534,160" size="1307,1174" transparent="1" valign="center"/>
             <widget backgroundColor="#000000" font="Regular;43" foregroundColor="#808080" halign="right" position="2000,20" render="Label" size="534,54" source="global.CurrentTime" transparent="1">
                 <convert type="ClockToText">Date</convert>
             </widget>
@@ -10269,14 +10206,12 @@
         <widget blend="blend" name="ErrorPixmap" pixmap="ZSkin-WQHD/icons/input_error.png" position="27,34" size="107,107"/>
         <widget blend="blend" name="QuestionPixmap" pixmap="ZSkin-WQHD/icons/input_question.png" position="27,34" size="107,107"/>
         <widget blend="blend" name="InfoPixmap" pixmap="ZSkin-WQHD/icons/input_info.png" position="27,34" size="107,107"/>
-        <widget enableWrapAround="1" name="list" selectionDia="70" position="20,160" size="1060,300"/>
-        <applet type="onLayoutFinish">
-
+        <widget enableWrapAround="1" name="list" selectionDia="70" position="20,160" size="1060,300" />
+  <applet type="onLayoutFinish">
 from enigma import eSize,ePoint
 orgwidth=self.instance.size().width()
 orgpos=self.instance.position()
 textsize=self["text"].getSize()
-
 textsize=(textsize[0] + 100,textsize[1] + 100)
 offset=50
 if self.type==self.TYPE_YESNO:
@@ -10286,15 +10221,11 @@ wsizey=textsize[1] + offset
 if (800 &gt; wsizex):
 	wsizex=800
 wsize=(wsizex,wsizey)
-
 self.instance.resize(eSize(*wsize))
-
 self["text"].instance.resize(eSize(*textsize))
-
 listsize=(wsizex - 20,140)
 self["list"].instance.move(ePoint(10,textsize[1]))
 self["list"].instance.resize(eSize(*listsize))
-
 newwidth=wsize[0]
 self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)//2,(1440-wsizey)//2))
 		</applet>

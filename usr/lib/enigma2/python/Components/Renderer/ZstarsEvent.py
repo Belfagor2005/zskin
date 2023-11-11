@@ -36,15 +36,14 @@ if PY3:
     unicode = str
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote
+    # from urllib.parse import quote
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote
+    # from urllib import quote
 
 
 try:
-    from Components.config import config
     lng = config.osd.language.value
     lng = lng[:-3]
 except:
@@ -152,20 +151,6 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
-def intCheck():
-    try:
-        response = urlopen("http://google.com", None, 5)
-        response.close()
-    except HTTPError:
-        return False
-    except URLError:
-        return False
-    except socket.timeout:
-        return False
-    else:
-        return True
-
-
 def unicodify(s, encoding='utf-8', norm=None):
     if not isinstance(s, unicode):
         s = unicode(s, encoding)
@@ -181,7 +166,13 @@ def convtext(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = re.sub('\ \(\d+\)$', '', text)  # r emove episode-number " (xxx)" at the end
+            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
             text = text.replace('PrimaTv', '').replace(' mag', '')
+            text = text.replace(' prima pagina', '')
+            # text = text.replace(' 6', '').replace(' 7', '').replace(' 8', '').replace(' 9', '').replace(' 10', '')
+            # text = text.replace(' 11', '').replace(' 12', '').replace(' 13', '').replace(' 14', '').replace(' 15', '')
+            # text = text.replace(' 16', '').replace(' 17', '').replace(' 18', '').replace(' 19', '').replace(' 20', '')
             text = unicodify(text)
             text = text.lower()
         else:
@@ -192,6 +183,20 @@ def convtext(text=''):
         pass
 
 
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    else:
+        return True
+
+
 class ZstarsEvent(VariableValue, Renderer):
 
     def __init__(self):
@@ -200,124 +205,123 @@ class ZstarsEvent(VariableValue, Renderer):
             return
         Renderer.__init__(self)
         VariableValue.__init__(self)
-        self.timer30 = eTimer()
         self.__start = 0
         self.__end = 100
         self.text = ''
+        self.timer30 = eTimer()
 
     GUI_WIDGET = eSlider
 
     def changed(self, what):
-        if not self.instance:
-            print('zstar event not istance')
-            return
+        # if not self.instance:
+            # print('zstar event not istance')
+            # return
         if what[0] == self.CHANGED_CLEAR:
             print('zstar event A what[0] == self.CHANGED_CLEAR')
             (self.range, self.value) = ((0, 1), 0)
             return
         if what[0] != self.CHANGED_CLEAR:
             print('zstar event B what[0] != self.CHANGED_CLEAR')
-            self.instance.hide()
+            if self.instance:
+                self.instance.hide()
             try:
                 self.timer30.callback.append(self.infos)
             except:
                 self.timer30_conn = self.timer30.timeout.connect(self.infos)
-            self.timer30.start(100, True)
+            self.timer30.start(50, True)
 
     def infos(self):
         try:
-            rtng = 0
-            range = 0
-            value = 0
-            ImdbRating = "0"
+            # rtng = 0
+            # range = 0
+            # value = 0
+            # ImdbRating = "0"
             ids = None
             data = ''
             self.event = self.source.event
             if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
                 self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                 self.evntNm = convtext(self.evnt)
-                dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
-                if os.path.exists(dwn_infos) and os.stat(dwn_infos).st_size < 1:
-                        os.remove(dwn_infos)
+                self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
+                self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
+                if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
+                    self.setRating(self.dataNm)
+                    return
+
+                if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
+                    self.setRating(self.dwn_infos)
+                    return
                 # print('clean zstar: ', self.evntNm)
-                if not os.path.exists(dwn_infos):
-                        OnclearMem()
-                    # try:
-                        # url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
-                        # if PY3:
-                            # url = url.encode()
-                        # url = checkRedirect(url)
-                        # print('url1:', url)
-                        # ids = url['results'][0]['id']
-                        # print('url1 ids:', ids)
-                    # except:
+                # if not os.path.exists(self.dwn_infos):
+                else:
+                    OnclearMem()
+                    try:
+                        url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
+                        if PY3:
+                            url = url.encode()
+                        url = checkRedirect(url)
+                        print('zstar url2:', url)
+                        ids = url['results'][0]['id']
+                        print('zstar url2 ids:', ids)
+                    except Exception as e:
+                        print('Exception no ids in zstar ', e)
+
+                    if ids != '' or ids is not None:
                         try:
-                            url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
+                            data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
                             if PY3:
-                                url = url.encode()
-                            url = checkRedirect(url)
-                            print('url2:', url)
-                            ids = url['results'][0]['id']
-                            print('url2 ids:', ids)
-                        except Exception as e:
-                            print('Exception no ids in zstar ', e)
-
-                        if ids is not None:
-                            try:
-                                data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                if PY3:
-                                    import six
-                                    data = six.ensure_str(data)
-
+                                import six
+                                data = six.ensure_str(data)
+                            if data:
+                                data = json.load(urlopen(data))
+                                open(self.dwn_infos, "w").write(json.dumps(data))
+                            else:
+                                data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
+                                # if PY3:
+                                    # import six
+                                    # data = six.ensure_str(data)
+                                print('zstar pass ids Else: ', e)
                                 if data:
                                     data = json.load(urlopen(data))
-                                    open(dwn_infos, "w").write(json.dumps(data))
-                                else:
-                                    data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                    if PY3:
-                                        import six
-                                        data = six.ensure_str(data)
-                                    print('pass ids Else: ', e)
-                                    if data:
-                                        data = json.load(urlopen(data))
-                                        open(dwn_infos, "w").write(json.dumps(data))
-
-                            except Exception as e:
-                                print('pass Exception: ', e)
-
-                else:
-                    try:
-                        if not PY3:
-                            myFile = open(dwn_infos, 'r')
-                            myObject = myFile.read()
-                            u = myObject.decode('utf-8-sig')
-                            data = u.encode('utf-8')
-                            # data.encoding
-                            # data.close()
-                            data = json.loads(myObject, 'utf-8')
-                        else:
-                            with open(dwn_infos) as f:
-                                data = json.load(f)
-                        ImdbRating = ''
-                        if "vote_average" in data:
-                            ImdbRating = data['vote_average']
-                        elif "imdbRating" in data:
-                            ImdbRating = data['imdbRating']
-                        else:
-                            ImdbRating = '0'
-                        print('ImdbRating: ', ImdbRating)
-                        if ImdbRating and ImdbRating != '0':
-                            rtng = int(10 * (float(ImdbRating)))
-                        else:
-                            rtng = 0
-                        range = 100
-                        value = rtng
-                        (self.range, self.value) = ((0, range), value)
-                        self.instance.show()
-                    except Exception as e:
-                        print('ImdbRating Exception: ', e)
+                                    open(self.dwn_infos, "w").write(json.dumps(data))
+                                    self.setRating(self.dwn_infos)
+                        except Exception as e:
+                            print('zstar pass Exception: ', e)
         except Exception as e:
             print('passImdbRating: ', e)
+
+    def setRating(self, data):
+        try:
+            self.dwn_infos = data
+            if not PY3:
+                myFile = open(self.dwn_infos, 'r')
+                myObject = myFile.read()
+                u = myObject.decode('utf-8-sig')
+                data = u.encode('utf-8')
+                # data.encoding
+                # data.close()
+                data = json.loads(myObject, 'utf-8')
+            else:
+                with open(self.dwn_infos) as f:
+                    data = json.load(f)
+            ImdbRating = ''
+            if "vote_average" in data:
+                ImdbRating = data['vote_average']
+            elif "imdbRating" in data:
+                ImdbRating = data['imdbRating']
+            else:
+                ImdbRating = '0'
+            print('zstar ImdbRating: ', ImdbRating)
+            if ImdbRating and ImdbRating != '0':
+                rtng = int(10 * (float(ImdbRating)))
+            else:
+                rtng = 0
+            range = 100
+            value = rtng
+            (self.range, self.value) = ((0, range), value)
+            self.instance.show()
+        except Exception as e:
+            print('zstar ImdbRating Exception: ', e)
 
     def postWidgetCreate(self, instance):
         instance.setRange(self.__start, self.__end)

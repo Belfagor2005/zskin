@@ -1,51 +1,51 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# by digiteng...04.2020
-# 07.2021 start edit lululla
+# by digiteng...04.2020, 11.2020, 06.2021
+# file by sunriser 07.2021
+# <widget source="session.Event_Now" render="ZEvent"/>
+# <widget source="session.Event_Next" render="ZEvent"/>
+# <widget source="Event" render="ZEvent"/>
 # edit by lululla 07.2022
 # recode from lululla 2023
-# <widget render="ZEvent" source="session.Event_Now" position="0,500" size="800,20" font="Regular; 24" halign="left" valign="top" zPosition="2" foregroundColor="#000000" backgroundColor="#ffffff" transparent="1" />
-
+from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
 from Components.VariableText import VariableText
+from Components.config import config
 from enigma import eLabel
 from enigma import eTimer
-from Components.config import config
-import re
+from enigma import eEPGCache
+from time import gmtime
 import json
 import os
+import re
 import socket
-import shutil
 import sys
+import unicodedata
+import NavigationInstance
+PY3 = sys.version_info.major >= 3
+
+global my_cur_skin, path_folder
 
 
-global cur_skin, my_cur_skin, tmdb_api
-PY3 = (sys.version_info[0] == 3)
-if PY3:
+try:
     PY3 = True
     unicode = str
-    from urllib.error import URLError, HTTPError
-    from urllib.request import urlopen
     from urllib.parse import quote
-else:
-    from urllib2 import URLError, HTTPError
-    from urllib2 import urlopen
+    from urllib.request import urlopen
+    from _thread import start_new_thread
+    from urllib.error import HTTPError, URLError
+except:
     from urllib import quote
+    from urllib2 import urlopen
+    from thread import start_new_thread
+    from urllib2 import HTTPError, URLError
 
-
-# w92
-# w154
-# w185
-# w342
-# w500
-# w780
-# original
-formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
+omdb_api = "679b0028"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
+epgcache = eEPGCache.getInstance()
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
@@ -100,15 +100,6 @@ except:
 
 
 try:
-    folder_size = sum([sum(map(lambda fname: os.path.getsize(os.path.join(path_folder, fname)), files)) for folder_p, folders, files in os.walk(path_folder)])
-    ozposter = "%0.f" % (folder_size / (1024 * 1024.0))
-    if ozposter >= "5":
-        shutil.rmtree(path_folder)
-except:
-    pass
-
-
-try:
     from Components.config import config
     lng = config.osd.language.value
     lng = lng[:-3]
@@ -116,6 +107,41 @@ except:
     lng = 'en'
     pass
 print('language: ', lng)
+
+
+def OnclearMem():
+    try:
+        os.system('sync')
+        os.system('echo 1 > /proc/sys/vm/drop_caches')
+        os.system('echo 2 > /proc/sys/vm/drop_caches')
+        os.system('echo 3 > /proc/sys/vm/drop_caches')
+    except:
+        pass
+
+
+def checkRedirect(url):
+    # print("*** check redirect ***")
+    import requests
+    from requests.adapters import HTTPAdapter, Retry
+    hdr = {"User-Agent": "Enigma2 - Enigma2 Plugin"}
+    content = ""
+    retries = Retry(total=1, backoff_factor=1)
+    adapter = HTTPAdapter(max_retries=retries)
+    http = requests.Session()
+    http.mount("http://", adapter)
+    http.mount("https://", adapter)
+    try:
+        r = http.get(url, headers=hdr, timeout=(10, 30), verify=False)
+        r.raise_for_status()
+        if r.status_code == requests.codes.ok:
+            try:
+                content = r.json()
+            except Exception as e:
+                print(e)
+        return content
+    except Exception as e:
+        print('next ret: ', e)
+        return content
 
 
 REGEX = re.compile(
@@ -128,7 +154,7 @@ REGEX = re.compile(
         r'/.*|'
         r'\|\s[0-9]+\+|'
         r'[0-9]+\+|'
-        r'\s\d{4}\Z|'
+        r'\s\*\d{4}\Z|'
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
@@ -140,20 +166,6 @@ REGEX = re.compile(
         r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
         r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
-
-
-def intCheck():
-    try:
-        response = urlopen("http://google.com", None, 5)
-        response.close()
-    except HTTPError:
-        return False
-    except URLError:
-        return False
-    except socket.timeout:
-        return False
-    else:
-        return True
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -171,7 +183,13 @@ def convtext(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
+            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
             text = text.replace('PrimaTv', '').replace(' mag', '')
+            text = text.replace(' prima pagina', '')
+            # text = text.replace(' 6', '').replace(' 7', '').replace(' 8', '').replace(' 9', '').replace(' 10', '')
+            # text = text.replace(' 11', '').replace(' 12', '').replace(' 13', '').replace(' 14', '').replace(' 15', '')
+            # text = text.replace(' 16', '').replace(' 17', '').replace(' 18', '').replace(' 19', '').replace(' 20', '')
             text = unicodify(text)
             text = text.lower()
         else:
@@ -182,7 +200,21 @@ def convtext(text=''):
         pass
 
 
-class ZEvent(VariableText, Renderer):
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    else:
+        return True
+
+
+class ZEvent(Renderer, VariableText):
 
     def __init__(self):
         adsl = intCheck()
@@ -190,134 +222,380 @@ class ZEvent(VariableText, Renderer):
             return
         Renderer.__init__(self)
         VariableText.__init__(self)
-        self.timer30 = eTimer()
-        self.downevent = False
-        self.text = ''
+        self.text = ""
 
     GUI_WIDGET = eLabel
 
     def changed(self, what):
         if what[0] == self.CHANGED_CLEAR:
-            return
-        if what[0] != self.CHANGED_CLEAR:
-            print('zevent what[0] != self.CHANGED_CLEAR')
-            self.delay()
-
-    def delay(self):
-        try:
-            self.timer30.callback.append(self.infos)
-        except:
-            self.timer30_conn = self.timer30.timeout.connect(self.infos)
-        self.timer30.start(150, True)
-
-    def infos(self):
-        if self.downevent:
-            return
-        try:
-            Title = ''
-            ImdbRating = '0'
-            Rated = ''
-            production_countries = ''
-            Country = ''
-            Cast = []
-            Director = []
-            Genres = []
-            ids = ''
-            self.event = self.source.event
-            if self.event and self.event != 'None' or self.event is not None:
-                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-                self.evntNm = convtext(self.evnt)
-                self.dataNm = "{}/{}.event.txt".format(path_folder, self.evntNm)
-                # if os.path.exists("%s/%s" % (path_folder, self.evntNm))
-                    # return
-                import requests
-                try:
-                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
-                    if PY3:
-                        url = url.encode()
-                    # Title = requests.get(url).json()['results'][0]['original_title']
-                    ids = requests.get(url).json()['results'][0]['id']
-
-                except:
-                    url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
-                    if PY3:
-                        url = url.encode()
-                    # Title = requests.get(url).json()['results'][0]['title']
-                    ids = requests.get(url).json()['results'][0]['id']
-                if ids != '':
-                    try:
-                        url3 = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits'.format(str(ids), str(tmdb_api))
-                        data2 = requests.get(url3, timeout=5)
-                        if data2.status_code == 200:
-                            self.downevent = True
-                            with open(self.dataNm, "w") as f:
-                                json.dump(data2, f)
-                            try:
-                                Title = data2.json()['original_title']
-                            except:
-                                Title = data2.json()['title']
-
-                            if "production_countries" in data2 and data2.json()['production_countries']:
-                                production_countries = data2.json()['production_countries']
-                                for pcountry in data2.json()["production_countries"]:
-                                    Country = (str(pcountry["name"]))
-
-                            if "genres" in data2 and data2.json()["genres"]:
-                                i = 0
-                                for name in data2.json()["genres"]:
-                                    if "name" in name:
-                                        Genres.append(str(name["name"]))
-                                        i = i+1
-                                Genres = " | ".join(map(str, Genres))
-                            if "release_date" in data2 and data2.json()['release_date']:
-                                Year = data2.json()['release_date']
-                            if "vote_average" in data2 and data2.json()['vote_average']:
-                                ImdbRating = data2.json()['vote_average']
-                            elif "imdbRating" in data2 and data2.json()['imdbRating']:
-                                ImdbRating = data2.json()['imdbRating']
-                            else:
-                                ImdbRating = '0'
-                            if "vote_count" in data2 and data2.json()['vote_count']:
-                                Rated = data2.json()['vote_count']
-                            else:
-                                Rated = '0'
-                            if "credits" in data2 and data2.json()["credits"]:
-                                if "cast" in data2.json()["credits"]:
-                                    i = 0
-                                    for actor in data2.json()["credits"]["cast"]:
-                                        if "name" in actor:
-                                            Cast.append(str(actor["name"]))
-                                            i = i+1
-                                    Cast = ", ".join(map(str, Cast[:3]))
-                            if "credits" in data2 and "crew" in data2.json()["credits"]:
-                                z = 0
-                                for actor in data2.json()["credits"]["crew"]:
-                                    if "job" in actor:
-                                        Director = (str(actor["name"]) + ',')
-                                        z += 1
-
-                            if Title and Title != "N/A":
-                                with open("/tmp/rating", "w") as f:
-                                    f.write("%s\n%s" % (ImdbRating, Rated))
-                                self.text = "Title: %s" % str(Title)
-                                self.text += "\nYear: %s" % str(Year)
-                                self.text += "\nCountry: %s" % str(Country)
-                                self.text += "\nGenre: %s" % str(Genres)
-                                self.text += "\nDirector: %s" % str(Director)
-                                self.text += "\nCast: %s" % str(Cast)
-                                self.text += "\nImdb: %s" % str(ImdbRating)
-                                self.text += "\nRated: %s" % str(Rated)
-                                print("text= ", self.text)
-                                return self.text
-                    except:
-                        return self.text
-                        pass
-
-            else:
-                self.downevent = False
-                return self.text
-        except:
-            if os.path.exists("/tmp/rating"):
-                os.remove("/tmp/rating")
-            self.downevent = False
             return self.text
+        if what[0] != self.CHANGED_CLEAR:
+            if self.instance:
+                self.instance.hide()
+            self.showInfos()
+
+    def showInfos(self):
+        self.event = self.source.event
+        if self.event and self.event != 'None' or self.event is not None:
+            # self.delay2()
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            # if not PY3:
+                # self.evnt = self.evnt.encode('utf-8')
+            self.evntNm = convtext(self.evnt)
+            # self.infos_file = "{}/{}".format(path_folder, self.evntNm)
+            
+            self.infos_file = "{}/{}.txt".format(path_folder, self.evntNm)
+            
+            # if not os.path.exists(self.infos_file):
+                # self.downloadInfos()
+
+            self.evntNm = convtext(self.evnt)
+            self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
+            # self.infos_file = "{}/{}.event.txt".format(path_folder, self.evntNm)
+            if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
+                self.setRating(self.infos_file)
+                return
+            # if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
+                # self.setRating(self.dwn_infos)
+                # return
+            # if not os.path.exists(self.infos_file):
+                # self.downloadInfos()
+
+
+    def downloadInfos(self):
+        if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size < 1:
+            os.remove(self.infos_file)
+            print("Zchannel as been removed %s successfully" % self.evntNm)
+        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+        if PY3:
+            url = url.encode()
+        url2 = urlopen(url).read().decode('utf-8')
+        jurl = json.loads(url2)
+        if 'results' in jurl:
+            if 'id' in jurl['results'][0]:
+                ids = jurl['results'][0]['id']
+                url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                if PY3:
+                    url_2 = url_2.encode()
+                url_3 = urlopen(url_2).read().decode('utf-8')
+                data2 = json.loads(url_3)
+                with open(self.infos_file, "w") as f:
+                    json.dump(data2, f)
+                print('ZEvent pas data to setRating ', data2)
+                self.setRating(self.infos_file)
+
+        else:
+            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+            if PY3:
+                url = url.encode()
+            url2 = urlopen(url).read().decode('utf-8')
+            jurl = json.loads(url2)
+            if 'results' in jurl:
+                if 'id' in jurl['results'][0]:
+                    ids = jurl['results'][0]['id']
+                    url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                    if PY3:
+                        url_2 = url_2.encode()
+                    url_3 = urlopen(url_2).read().decode('utf-8')
+                    data2 = json.loads(url_3)
+                    with open(self.infos_file, "w") as f:
+                        json.dump(data2, f)
+                    print('ZEvent pas data to setRating ', data2)
+                    self.setRating(self.infos_file)
+
+    def downloadInfosxxxx(self):
+        self.year = self.filterSearch()
+        try:
+            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&include_adult=true&query={}".format(self.srch, tmdb_api, quote(self.evntNm))
+            if self.year is not None:
+                url_tmdb += "&year={}".format(self.year)
+            # if PY3:
+                # import six
+                # url_tmdb = six.ensure_str(url_tmdb)
+
+            # url_tmdb = checkRedirect(url_tmdb)
+            # data = json.load(url_tmdb)
+
+            url_3 = urlopen(url_tmdb).read().decode('utf-8')
+            data2 = json.loads(url_3)
+            with open(self.infos_file, "w") as f:
+                json.dump(data2, f)
+
+            print('ZEvent pas data to setRating ', data2)
+            self.setRating(self.infos_file)
+
+            # # data = json.load(urlopen(url_tmdb))
+            # data = json.load(self.infos_file)
+            # title = ''
+            # print('data------------------------- ', data)
+            # if "original_name" in data:
+                # title = str(data["results"][0]["original_name"]  )
+                # if title and title != 'null' or title is not None or Title != "N/A":
+                    # print('1 title is ', title)
+            # elif "title" in data:
+                # title = str(data["results"][0]["title"])
+                # if title and title != 'null' or title is not None or Title != "N/A":
+                    # print('2 title is ', title)
+            # # elif "name" in data:
+                # # title = str(data["results"][0]["name"])
+                # # if title and title != 'null' or title is not None or Title != "N/A":
+                    # # print('3 title is ', title)
+
+            # ids = str(data['results'][0]['id'])
+            # print('url2 ids:', ids)
+
+                # # title = json.load(urlopen(url_tmdb))["results"][0]["title"]
+                # # if title and title != 'null' or title is not None or title != '':
+                    # # title = json.load(urlopen(url_tmdb))["results"][0]["original_name"]
+                    # # title = json.load(urlopen(url_tmdb))["results"][0]["name"]
+
+            # # try:
+                # # url_omdb = "http://www.omdbapi.com/?tmdb_api={}&t={}".format(omdb_api, quote(title))
+                # # data_omdb = json.load(urlopen(url_omdb))
+                # # open(self.infos_file, "w").write(json.dumps(data_omdb))
+                # # OnclearMem()
+            # # except:
+                # # pass
+
+            # # if not os.path.exists(self.infos_file):
+            # # try:
+                # # url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
+                # # if PY3:
+                    # # url = url.encode()
+                # # url = checkRedirect(url)
+                # # print('url2:', url)
+                # # ids = url['results'][0]['id']
+                # # print('url2 ids:', ids)
+            # # except Exception as e:
+                # # print('Exception no ids in zstar ', e)
+
+            # # if ids != '' or ids is not None:
+            # if ids:  # and ids != 'null' or ids is not None:
+                # data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                # # https://api.themoviedb.org/3/movie/9349?api_key=3c3efcf47c3577558812bb9d64019d65&append_to_response=credits&language=it
+                # # if PY3:
+                    # # import six
+                    # # data = six.ensure_str(data)
+                # if data:
+                    # data = json.load(urlopen(data))
+                    # print('save data to infos_file ')
+                    # open(self.infos_file, "w").write(json.dumps(data))
+                # else:
+                    # data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                    # # if PY3:
+                        # # import six
+                        # # data = six.ensure_str(data)
+                    # print('pass ids Else: ', e)
+                    # if data:
+                        # data = json.load(urlopen(data))
+                        # open(self.infos_file, "w").write(json.dumps(data))
+                        # print('pas data to setRating ')
+                        # self.setRating(self.infos_file)
+
+        except Exception as e:
+            print('ZEventerror ', str(e))
+
+    def filterSearch(self):
+        try:
+            sd = "%s\n%s\n%s" % (self.event.getEventName(), self.event.getShortDescription(), self.event.getExtendedDescription())
+            w = [
+                    "t/s",
+                    "Т/s",
+                    "SM",
+                    "SM",
+                    "d/s",
+                    "D/s",
+                    "stagione",
+                    "Sig.",
+                    "episodio",
+                    "serie TV",
+                    "serie"
+                    ]
+            for i in w:
+                if i in sd:
+                    self.srch = "tv"
+                    break
+                else:
+                    self.srch = "multi"
+            yr = [_y for _y in re.findall(r'\d{4}', sd) if '1930' <= _y <= '%s' % gmtime().tm_year]
+            return '%s' % yr[-1] if yr else None
+        except:
+            pass
+
+    def epgs(self):
+        try:
+            events = None
+            ref = NavigationInstance.instance.getCurrentlyPlayingServiceReference().toString()
+            events = epgcache.lookupEvent(['IBDCT', (ref, 0, -1, -1)])
+            for i in range(9):
+                titleNxt = events[i][4]
+                self.evntNm = convtext(titleNxt)
+                self.infos_file = "{}/{}".format(path_folder, self.evntNm)
+                if not os.path.exists(self.infos_file):
+                    self.downloadInfos()
+        except:
+            pass
+
+    def delay2(self):
+        self.timer = eTimer()
+        try:
+            self.timer_conn = self.timer.timeout.connect(self.dwn)
+        except:
+            self.timer.callback.append(self.dwn)
+        self.timer.start(50, True)
+
+    def dwn(self):
+        start_new_thread(self.epgs, ())
+
+    def setRating(self, data):
+        try:
+            self.text = ''
+            self.infos_file = data
+            if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
+                if not PY3:
+                    try:
+                        myFile = open(self.infos_file, 'r')
+                        myObject = myFile.read()
+                        u = myObject.decode('utf-8-sig')
+                        data = u.encode('utf-8')
+                        # data.encoding
+                        # data.close()
+                        data = json.loads(myObject, 'utf-8')
+                    except Exception as e:
+                        print('ZEvent object error ', e)
+                # else:
+                # with open(data) as f:
+                    # data = json.load(f)
+                    
+                # {  
+                  # "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",  
+                  # "adult": false,  
+                  # "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",  
+                  # "release_date": "2016-10-19",  
+                  # "genre_ids": [  
+                    # 53,  
+                    # 28,  
+                    # 80,  
+                    # 18,  
+                    # 9648  
+                  # ],  
+                  # "id": 343611,  
+                  # "original_title": "Jack Reacher: Never Go Back",  
+                  # "original_language": "en",  
+                  # "title": "Jack Reacher: Never Go Back",  
+                  # "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",  
+                  # "popularity": 26.818468,  
+                  # "vote_count": 201,  
+                  # "video": false,  
+                  # "vote_average": 4.19  
+                # }
+                    
+                    
+                with open(self.infos_file) as f:
+                    data = json.load(f)
+                    Title = ''
+                    imdbRating = ''
+                    Country = ''
+                    Year = ''
+                    Rated = ''
+                    Genre = []
+                    Awards = ''
+                    Cast = []
+                    Director = []
+                    Genres = []
+                    Writer = ''
+                    Actors = []
+                    if "title" in data and data["title"]:
+                        Title = str(data["title"])
+                    elif "original_name" in data and data["original_name"]:
+                        Title = str(data["original_name"])
+                    elif "original_title" in data and data["original_title"]:
+                        Title = str(data["original_title"])
+                    # elif "name" in data:
+                        # Title = str(data["name"])
+
+                    if Title and Title != 'null' or Title is not None or Title != "N/A":
+                        print('ZEvent title 2 is ', Title)
+                    if 'imdbrating' in data and data["imdbRating"]:
+                        imdbRating = str(data["imdbRating"])
+                    elif 'popularity' in data and data["popularity"]:
+                        imdbRating = str(data["popularity"])
+                    if 'country' in data and data["Country"]:
+                        Country = str(data["Country"])
+                    elif 'original_language' in data and data["original_language"]:
+                        Country = str(data["original_language"])                        
+                        
+                        
+                    if 'year' in data and data["Year"]:
+                        Year = str(data["Year"])
+                    elif 'first_air_date' in data and data["first_air_date"]:
+                        Year = str(data["first_air_date"])
+                    if 'rated' in data and data["Rated"]:
+                        Rated = str(data["Rated"])
+                    elif 'vote_average' in data and data['vote_average']:
+                        Rated = str(data['vote_average'])
+                    else:
+                        Rated = 0
+                    if 'genres' in data and data["genres"]:
+                        i = 0
+                        for name in data["genres"]:
+                            if "name" in name:
+                                Genres.append(str(name["name"]))
+                                i += 1
+                        Genre = " | ".join(map(str, Genres))
+                        # Genre = str(data["Genre"])
+                    if 'awards' in data and data["Awards"]:
+                        Awards = str(data["Awards"])
+
+                    if "credits" in data and data["credits"]:
+                        if "cast" in data["credits"]:
+                            i = 0
+                            for actor in data["credits"]["cast"]:
+                                if "name" in actor:
+                                    Cast.append(str(actor["name"]))
+                                    i += 1
+                            Actors = ", ".join(map(str, Cast[:3]))
+
+                    # elif 'actors' in data and data["Actors"]:
+                        # Actors = str(data["Actors"])
+                       
+
+                    # if 'director' in data and data["Director"]:
+                        # Director = str(data["Director"])
+
+                    if "credits" in data and "crew" in data["credits"]:
+                        z = 0
+                        for actor in data["credits"]["crew"]:
+                            if "job" in actor:
+                                Director = (str(actor["name"]) + ',')
+                                z += 1
+                    else:
+                        if "created_by" in data and "name" in data["created_by"]:
+                            z = 0
+                            for actor in data["created_by"]["name"]:
+                                Director = (str(actor["name"]) + ',')
+                                z += 1
+
+                    if 'writer' in data and data["Writer"]:
+                        Writer = str(data["Writer"])
+
+                # if Title and Title != "N/A":
+                    with open("/tmp/rating", "w") as f:
+                        f.write("%s\n%s" % (imdbRating, Rated))
+                    self.text = "Title: %s" % str(Title)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nYear: %s" % str(Year)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nCountry: %s" % str(Country)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nGenre: %s" % str(Genre)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nDirector: %s" % str(Director)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nAwards: %s" % str(Awards)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nWriter: %s" % str(Writer)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nCast: %s" % str(Actors)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nRated: %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
+                    self.text += "\nImdb: %s" % str(imdbRating)  # .encode('utf-8').decode('utf-8')
+                    print("ZEvent text= ", self.text)
+                    # if not PY3:
+                        # self.text = self.text.encode('utf-8')
+                    self.text = "Anno: %s\nNazione: %s\nGenere: %s\nRegista: %s\nAttori: %s" % (Year, Country, Genre, Director, Actors)
+                    self.instance.show()
+        except Exception as e:
+            print('error Exception data  ', e)
