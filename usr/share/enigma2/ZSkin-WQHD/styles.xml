@@ -1709,19 +1709,19 @@
         </style>
         <style name="EventView" value="InfoEvent Cover" preview="preview/Event-Cover.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="2560,1440" title="Eventview">
-                <layout name="rgyb-2c-n-1230"/>
-                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,174" size="1640,11" zPosition="5"/>
-                <eLabel backgroundColor="#60000000" position="134,0" size="1940,1440" zPosition="-3"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5"/>
-                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4"/>
-                <widget position="294,200" render="ZChannel" size="284,414" source="session.Event_Now" zPosition="5"/>
-                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="294,176" size="291,467" zPosition="6"/>
-                <widget backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" position="600,207" size="1147,67" transparent="1" zPosition="5"/>
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" position="600,280" size="334,67" transparent="1" zPosition="5"/>
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" position="894,280" size="400,67" transparent="1" zPosition="5"/>
+                <layout name="rgyb-2c-n-1230" />
+                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5" />
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,174" size="1640,11" zPosition="5" />
+                <eLabel backgroundColor="#60000000" position="134,0" size="1940,1440" zPosition="-3" />
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1" />
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5" />
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5" />
+                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4" />
+                <widget position="299,195" render="ZChannel" size="284,414" source="session.Event_Now" zPosition="5" />
+                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="294,176" size="291,467" zPosition="6" />
+                <widget backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" position="600,207" size="1147,67" transparent="1" zPosition="5" />
+                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" position="600,280" size="334,67" transparent="1" zPosition="5" />
+                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" position="894,280" size="400,67" transparent="1" zPosition="5" />
                 <widget backgroundColor="#000000" font="Regular;43" foregroundColor="red" halign="right" position="1534,280" render="Label" size="400,67" source="session.Event_Now" transparent="1" zPosition="5">
                     <convert type="EventTime">Remaining</convert>
                     <convert type="RemainingToText">InMinutes</convert>
@@ -1732,7 +1732,7 @@
                 <widget backgroundColor="#303030" foregroundColor="bluette" position="600,414" render="Progress" size="1334,10" source="session.Event_Now" zPosition="5">
                     <convert type="EventTime">Progress</convert>
                 </widget>
-                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="600,440" size="334,67" text="Next Event :" transparent="1" zPosition="2"/>
+                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="600,440" size="334,67" text="Next Event :" transparent="1" zPosition="2" />
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="white" position="894,440" render="Label" size="334,67" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventTime">StartTime</convert>
                     <convert type="ClockToText">Default</convert>
@@ -1744,7 +1744,7 @@
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="yellow" noWrap="1" position="600,520" render="Label" size="1147,120" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventName">Name</convert>
                 </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
+                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5" />
             </screen>
         </style>
         <style name="EventView" value="InfoEvent CoverBanner" preview="preview/Event-CoverBanner.jpg">

@@ -2247,24 +2247,24 @@
         <widget font="Regular;80" halign="center" name="input" position="14,187" size="1174,80"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
-        <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/bpanel.png" position="0,1032" size="2560,408" zPosition="-1"/>
-        <widget enableWrapAround="1" margin="0,0" mode="grid" position="40,1140" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="2480,174" source="pluginlist" backgroundColorSelected="trbluette" transparent="1">
+        <layout name="menu_1030"/>
+        <layout name="rg-2c-nn-1030"/>
+        <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
+        <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
             <convert type="TemplatedMultiContent">
-                        {"template":[
-                        	MultiContentEntryPixmapAlphaTest(pos=(14,27),size=(240,80),png=3),
-                        	MultiContentEntryText(pos = (7,120), size = (254,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
-
-                        	"fonts":[gFont("Regular",30)],"itemHeight":174,"itemWidth":205
-                        }
-                </convert>
+        {"templates":
+            {"default": (94,[
+                    MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (174, 94), png = 3), # index 3 is the icon
+                    MultiContentEntryText(pos = (214, 0), size = (1134, 47), font = 0, text = 1), # index 1 is the plugin.name
+                    MultiContentEntryText(pos = (214, 47), size = (1134, 47), font = 1, color=0xb0b0b0, color_sel=0xffd877, text = 2), # index 2 is the plugin.description
+                ]),
+            },
+            "fonts": [gFont("Regular", 40), gFont("Regular", 38)],
+            "itemHeight": 94
+        }
+        </convert>
         </widget>
-        <widget source="pluginlist" render="Label" position="0,1040" size="2560,54" font="Regular;46" foregroundColor="ltbluette" backgroundColor="#000000" halign="center" transparent="1">
-            <convert type="StringListSelection">2</convert>
-        </widget>
-        <eLabel backgroundColor="red" position="40,1387" size="34,34" cornerRadius="10"/>
-        <eLabel backgroundColor="green" position="574,1387" size="34,34" cornerRadius="10"/>
-        <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="94,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
-        <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="627,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginManager" position="0,0" size="2560,1440" title="Plugin Manager">
         <layout name="menu_1230"/>

@@ -63,11 +63,11 @@ thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 screenwidth = getDesktop(0).size()
-width = 540
-height = 300
-if screenwidth.width() > 1280:
-    width = 715
-    height = 400
+# width = 540
+# height = 300
+# if screenwidth.width() > 1280:
+    # width = 715
+    # height = 400
 
 
 def isMountReadonly(mnt):
@@ -250,6 +250,16 @@ class ZBanner(Renderer):
                 self.nxts = int(value)
             if attrib == "path":
                 self.path = str(value)
+            # if attrib == "size":
+                # value = value.split(',')
+                # width = value[0]
+                # height = value[1]
+            # else:
+                # width = 540
+                # height = 300
+                # if screenwidth.width() > 1280:
+                    # width = 715
+                    # height = 400
             attribs.append((attrib, value))
         self.skinAttributes = attribs
         return Renderer.applySkin(self, desktop, parent)
@@ -395,15 +405,17 @@ class ZBanner(Renderer):
                             self.instance.hide()
 
     def showBackdrop(self):
-        # # if self.instance:
-        # width = 267
-        # height = 400
-        # if screenwidth.width() > 1280:
-            # width = 715
-            # height = 400
-        # self.instance.setPixmapFromFile(self.pstrNm) # nowork on dreamos :(
-        # print('loadpixmap file-------------------------------------')
-        # size = self.instance.size()
+        width = 540
+        height = 300
+        if screenwidth.width() > 1280:
+            width = 715
+            height = 400
+        if self.instance:
+            size = self.instance.size()
+            # size.width(), size.height()
+            width = size.width()
+            height = size.height()  
+        
         sc = getScale()  # AVSwitch().getFramebufferScale()
         print('ZBanner preview:', self.pstrNm)
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])

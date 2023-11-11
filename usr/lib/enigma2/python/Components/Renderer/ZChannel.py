@@ -55,11 +55,12 @@ thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 screenwidth = getDesktop(0).size()
-width = 213
-height = 310
-if screenwidth.width() > 1280:
-    width = 288
-    height = 414
+# self.size
+# width = 213
+# height = 310
+# if screenwidth.width() > 1280:
+    # width = 288
+    # height = 414
 
 
 def isMountReadonly(mnt):
@@ -203,7 +204,7 @@ except:
 def getScale():
     return AVSwitch().getFramebufferScale()
 
-
+            
 class ZChannel(Renderer):
     def __init__(self):
         adsl = intCheck()
@@ -212,6 +213,8 @@ class ZChannel(Renderer):
         Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
+        self.size = '213,310'
+
         self.picload = ePicLoad()
 
     GUI_WIDGET = ePixmap
@@ -242,6 +245,16 @@ class ZChannel(Renderer):
                 self.nxts = int(value)
             if attrib == "path":
                 self.path = str(value)
+            # if attrib == "size":
+                # value = value.split(',')
+                # width = value[0]
+                # height = value[1]
+            # else:
+                # width = 213
+                # height = 310
+                # if screenwidth.width() > 1280:
+                    # width = 288
+                    # height = 414
             attribs.append((attrib, value))
         self.skinAttributes = attribs
         return Renderer.applySkin(self, desktop, parent)
@@ -388,20 +401,26 @@ class ZChannel(Renderer):
                             self.instance.hide()
 
     def showPoster(self):
-        # print('data: ', data)
-        # # if self.instance:
-        # width = 213
-        # height = 310
-        # if screenwidth.width() > 1280:
-            # width = 288
-            # height = 414
-        # self.instance.setPixmapFromFile(self.pstrNm) # nowork on dreamos :(
-        # print('loadpixmap file-------------------------------------')
-        # size = self.instance.size()
+        width = 213
+        height = 310
+        if screenwidth.width() > 1280:
+            width = 360
+            height = 520
+        if self.instance:
+            size = self.instance.size()
+            # size.width(), size.height()
+            width = size.width()
+            height = size.height()  
+
         sc = getScale()  # AVSwitch().getFramebufferScale()
-        # print('preview:', self.pstrNm)
+        # self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
+
+        # value = value.split(',')
+        # if len(value) == 2:
+            # self.size = value[0] + "x" + value[1]
+        # self.size = str(value)  # (value[0] + ' , ' + value[1])
+
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-        # # self.picload.setPara([size.width(),size.height(), 1, 1, 0, 1, "FF000000"])
         if self.picload.startDecode(self.pstrNm):
             # if this has failed, then another decode is probably already in progress
             # throw away the old picload and try again immediately
@@ -410,7 +429,8 @@ class ZChannel(Renderer):
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
                 self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-            self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+            self.picload.setPara([str(width), str(height), sc[0], sc[1], 0, 1, "FF000000"])
+            # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
             print('ZChannel picload.startDecode poster')
             self.picload.startDecode(self.pstrNm)
 
