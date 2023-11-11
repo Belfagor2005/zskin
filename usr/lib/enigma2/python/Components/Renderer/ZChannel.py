@@ -204,7 +204,7 @@ except:
 def getScale():
     return AVSwitch().getFramebufferScale()
 
-            
+
 class ZChannel(Renderer):
     def __init__(self):
         adsl = intCheck()
@@ -213,8 +213,6 @@ class ZChannel(Renderer):
         Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
-        self.size = '213,310'
-
         self.picload = ePicLoad()
 
     GUI_WIDGET = ePixmap
@@ -408,18 +406,9 @@ class ZChannel(Renderer):
             height = 520
         if self.instance:
             size = self.instance.size()
-            # size.width(), size.height()
             width = size.width()
             height = size.height()  
-
         sc = getScale()  # AVSwitch().getFramebufferScale()
-        # self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-
-        # value = value.split(',')
-        # if len(value) == 2:
-            # self.size = value[0] + "x" + value[1]
-        # self.size = str(value)  # (value[0] + ' , ' + value[1])
-
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
         if self.picload.startDecode(self.pstrNm):
             # if this has failed, then another decode is probably already in progress
@@ -429,7 +418,7 @@ class ZChannel(Renderer):
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
                 self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-            self.picload.setPara([str(width), str(height), sc[0], sc[1], 0, 1, "FF000000"])
+            self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
             # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
             print('ZChannel picload.startDecode poster')
             self.picload.startDecode(self.pstrNm)

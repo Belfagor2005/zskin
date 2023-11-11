@@ -412,14 +412,11 @@ class ZBanner(Renderer):
             height = 400
         if self.instance:
             size = self.instance.size()
-            # size.width(), size.height()
             width = size.width()
             height = size.height()  
-        
         sc = getScale()  # AVSwitch().getFramebufferScale()
-        print('ZBanner preview:', self.pstrNm)
+        # print('ZBanner preview:', self.pstrNm)
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-        # self.picload.setPara([size.width(),size.height(), 1, 1, 0, 1, "FF000000"])
         if self.picload.startDecode(self.pstrNm):
             # if this has failed, then another decode is probably already in progress
             # throw away the old picload and try again immediately
@@ -428,7 +425,8 @@ class ZBanner(Renderer):
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
                 self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-            self.picload.setPara([width, height, 1, 1, 0, 1, "FF000000"])
+            self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+            # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
             print('ZBanner picload.startDecode banner')
             self.picload.startDecode(self.pstrNm)
 

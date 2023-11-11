@@ -55,8 +55,8 @@ print('language: ', lng)
 formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
-thetvdbkey = 'D19315B88B2DE21F'
-# thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
+# thetvdbkey = 'D19315B88B2DE21F'
+thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
@@ -166,7 +166,7 @@ def convtext(text=''):
             text = REGEX.sub('', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            text = re.sub('\ \(\d+\)$', '', text)  # r emove episode-number " (xxx)" at the end
+            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
             text = text.replace('PrimaTv', '').replace(' mag', '')
             text = text.replace(' prima pagina', '')
