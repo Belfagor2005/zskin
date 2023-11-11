@@ -237,18 +237,11 @@ class ZEvent(Renderer, VariableText):
     def showInfos(self):
         self.event = self.source.event
         if self.event and self.event != 'None' or self.event is not None:
-            # self.delay2()
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
-            # if not PY3:
-                # self.evnt = self.evnt.encode('utf-8')
             self.evntNm = convtext(self.evnt)
-            # self.infos_file = "{}/{}".format(path_folder, self.evntNm)
-            
             self.infos_file = "{}/{}.txt".format(path_folder, self.evntNm)
-            
             # if not os.path.exists(self.infos_file):
                 # self.downloadInfos()
-
             self.evntNm = convtext(self.evnt)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             # self.infos_file = "{}/{}.event.txt".format(path_folder, self.evntNm)
@@ -260,7 +253,6 @@ class ZEvent(Renderer, VariableText):
                 # return
             # if not os.path.exists(self.infos_file):
                 # self.downloadInfos()
-
 
     def downloadInfos(self):
         if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size < 1:
@@ -302,98 +294,6 @@ class ZEvent(Renderer, VariableText):
                         json.dump(data2, f)
                     print('ZEvent pas data to setRating ', data2)
                     self.setRating(self.infos_file)
-
-    def downloadInfosxxxx(self):
-        self.year = self.filterSearch()
-        try:
-            url_tmdb = "https://api.themoviedb.org/3/search/{}?api_key={}&include_adult=true&query={}".format(self.srch, tmdb_api, quote(self.evntNm))
-            if self.year is not None:
-                url_tmdb += "&year={}".format(self.year)
-            # if PY3:
-                # import six
-                # url_tmdb = six.ensure_str(url_tmdb)
-
-            # url_tmdb = checkRedirect(url_tmdb)
-            # data = json.load(url_tmdb)
-
-            url_3 = urlopen(url_tmdb).read().decode('utf-8')
-            data2 = json.loads(url_3)
-            with open(self.infos_file, "w") as f:
-                json.dump(data2, f)
-
-            print('ZEvent pas data to setRating ', data2)
-            self.setRating(self.infos_file)
-
-            # # data = json.load(urlopen(url_tmdb))
-            # data = json.load(self.infos_file)
-            # title = ''
-            # print('data------------------------- ', data)
-            # if "original_name" in data:
-                # title = str(data["results"][0]["original_name"]  )
-                # if title and title != 'null' or title is not None or Title != "N/A":
-                    # print('1 title is ', title)
-            # elif "title" in data:
-                # title = str(data["results"][0]["title"])
-                # if title and title != 'null' or title is not None or Title != "N/A":
-                    # print('2 title is ', title)
-            # # elif "name" in data:
-                # # title = str(data["results"][0]["name"])
-                # # if title and title != 'null' or title is not None or Title != "N/A":
-                    # # print('3 title is ', title)
-
-            # ids = str(data['results'][0]['id'])
-            # print('url2 ids:', ids)
-
-                # # title = json.load(urlopen(url_tmdb))["results"][0]["title"]
-                # # if title and title != 'null' or title is not None or title != '':
-                    # # title = json.load(urlopen(url_tmdb))["results"][0]["original_name"]
-                    # # title = json.load(urlopen(url_tmdb))["results"][0]["name"]
-
-            # # try:
-                # # url_omdb = "http://www.omdbapi.com/?tmdb_api={}&t={}".format(omdb_api, quote(title))
-                # # data_omdb = json.load(urlopen(url_omdb))
-                # # open(self.infos_file, "w").write(json.dumps(data_omdb))
-                # # OnclearMem()
-            # # except:
-                # # pass
-
-            # # if not os.path.exists(self.infos_file):
-            # # try:
-                # # url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
-                # # if PY3:
-                    # # url = url.encode()
-                # # url = checkRedirect(url)
-                # # print('url2:', url)
-                # # ids = url['results'][0]['id']
-                # # print('url2 ids:', ids)
-            # # except Exception as e:
-                # # print('Exception no ids in zstar ', e)
-
-            # # if ids != '' or ids is not None:
-            # if ids:  # and ids != 'null' or ids is not None:
-                # data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                # # https://api.themoviedb.org/3/movie/9349?api_key=3c3efcf47c3577558812bb9d64019d65&append_to_response=credits&language=it
-                # # if PY3:
-                    # # import six
-                    # # data = six.ensure_str(data)
-                # if data:
-                    # data = json.load(urlopen(data))
-                    # print('save data to infos_file ')
-                    # open(self.infos_file, "w").write(json.dumps(data))
-                # else:
-                    # data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                    # # if PY3:
-                        # # import six
-                        # # data = six.ensure_str(data)
-                    # print('pass ids Else: ', e)
-                    # if data:
-                        # data = json.load(urlopen(data))
-                        # open(self.infos_file, "w").write(json.dumps(data))
-                        # print('pas data to setRating ')
-                        # self.setRating(self.infos_file)
-
-        except Exception as e:
-            print('ZEventerror ', str(e))
 
     def filterSearch(self):
         try:
@@ -579,7 +479,6 @@ class ZEvent(Renderer, VariableText):
                     if 'writer' in data and data["Writer"]:
                         Writer = str(data["Writer"])
 
-                # if Title and Title != "N/A":
                     with open("/tmp/rating", "w") as f:
                         f.write("%s\n%s" % (imdbRating, Rated))
                     self.text = "Title: %s" % str(Title)  # .encode('utf-8').decode('utf-8')
