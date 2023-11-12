@@ -916,9 +916,10 @@
         <widget backgroundColor="#101010" font="Regular;40" foregroundColor="yellow" halign="left" position="1360,855" render="Label" size="200,45" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
             <convert type="ClockToText">Format:%H:%M:%S</convert>
         </widget>
-        <widget backgroundColor="#ff101010" column0="140,120,#505050,Regular,40,0,0" column1="275,1270,#505050,Regular,40,0,1" position="0,925" primetimeoffset="275" render="EventListDisplay" rowHeight="50" size="1270,50" source="ServiceEvent" transparent="1" zPosition="5">
+          <widget backgroundColor="#ff101010" column0="140,120,#505050,Regular,40,0,0" column1="275,1270,#505050,Regular,40,0,1" position="0,925" primetimeoffset="275" render="EventListDisplay" rowHeight="50" size="1270,50" source="ServiceEvent" transparent="1" zPosition="5">
             <convert type="zEventList">beginOnly=yes,eventcount=1</convert>
         </widget>
+
         <eLabel backgroundColor="#303030" position="275,910" size="1270,10" zPosition="2"/>
         <widget backgroundColor="#10303030" pixmap="ZSkin-FHD/skin_default/progress_infobar80.png" position="275,910" render="Progress" size="1270,10" source="ServiceEvent" zPosition="3">
             <convert type="EventTime">Progress</convert>

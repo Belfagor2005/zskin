@@ -26,12 +26,12 @@
 
 from Components.Converter.Converter import Converter
 from Components.Element import cached
-
 from enigma import eEPGCache, eServiceReference
 from time import localtime, strftime, mktime, time
 from datetime import datetime, timedelta
 
-class EventList(Converter, object):
+
+class zEventList(Converter, object):
     def __init__(self, type):
         Converter.__init__(self, type)
         self.epgcache = eEPGCache.getInstance()
@@ -52,6 +52,7 @@ class EventList(Converter, object):
                     if value == "yes":
                         self.beginOnly = True
                 i += 1
+
     @cached
     def getContent(self):
         contentList = []
@@ -82,13 +83,16 @@ class EventList(Converter, object):
         return contentList
 
     def getEventTuple(self, event):
-        if self.beginOnly:
-            time = "%s" % (strftime("%H:%M", localtime(event.getBeginTime())), )
-        else:
-            time = "%s - %s" % (strftime("%H:%M", localtime(event.getBeginTime())), strftime("%H:%M", localtime(event.getBeginTime() + event.getDuration())))
-        title = event.getEventName()
-        duration = "%d min" % (event.getDuration() / 60)
-        return (time, title, duration)
+        try:
+            if self.beginOnly:
+                time = "%s" % (strftime("%H:%M", localtime(event.getBeginTime())), )
+            else:
+                time = "%s - %s" % (strftime("%H:%M", localtime(event.getBeginTime())), strftime("%H:%M", localtime(event.getBeginTime() + event.getDuration())))
+            title = event.getEventName()
+            duration = "%d min" % (event.getDuration() / 60)
+            return (time, title, duration)
+        except Exception as e:
+            print('Error GetEventTuple converter zevent: ', e)
 
     def changed(self, what):
         if what[0] != self.CHANGED_SPECIFIC:
