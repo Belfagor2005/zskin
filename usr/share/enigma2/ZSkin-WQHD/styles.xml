@@ -1228,10 +1228,10 @@
                 <widget source="global.CurrentTime" render="Label" position="1814,1140" size="267,60" halign="left" valign="center" font="Regular;54" foregroundColor="yellow" backgroundColor="#101010" transparent="1" zPosition="3">
                     <convert type="ClockToText">Format:%H:%M:%S</convert>
                 </widget>
-                <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
+                <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
                 <!-- lululla -->
-                <widget source="ServiceEvent" render="EventListDisplay" position="362,1235" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="0,230,#606060,Regular,34,0,0" column1="240,1250,#606060,Regular,34,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
-                    <convert type="EventList">primetime=no,eventcount=1</convert>
+                <widget source="ServiceEvent" render="EventListDisplay" position="362,1235" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="0,230,#606060,Regular,34,0,0" column1="240,1250,#505050,Regular,34,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
+                    <convert type="zEventList">beginOnly=yes,eventcount=4</convert>
                 </widget>
                 <!-- lululla -->
                 <!-- Progressbar (current event duration) -->
@@ -1400,7 +1400,7 @@
                 <eLabel backgroundColor="#000000" font="Regular;54" foregroundColor="#20ffffff" halign="center" position="2307,1134" size="227,80" text="N E X T" transparent="1" valign="center" zPosition="1"/>
                 <!-- lululla -->
                 <widget backgroundColor="#FF101010" column0="0,230,yellow,Regular,28,0,0" column1="234,860,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1116,240" source="ServiceEvent" transparent="1" zPosition="50">
-                    <convert type="EventList">primetime=no,eventcount=4</convert>
+                    <convert type="zEventList">beginOnly=yes,eventcount=4</convert>
                 </widget>
                 <!-- lululla -->
                 <eLabel backgroundColor="#20050505" position="0,1320" size="1414,114" zPosition="-1"/>
@@ -1476,12 +1476,12 @@
                 <eLabel position="1160,740" size="1294,3" backgroundColor="#303030" zPosition="30"/>
                 <eLabel text="N  E  X  T" position="1160,734" size="1334,240" font="Regular;227" halign="center" valign="center" foregroundColor="#20202020" backgroundColor="header" transparent="1" zPosition="30"/>
                 <widget source="ServiceEvent" render="EventListDisplay" position="1160,752" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,230,yellow,Regular,28,0,0" column1="231,820,ltbluette,Regular,28,0,1" primetimeoffset="0" rowHeight="47" size="1297,240">
-                    <convert type="EventList">primetime=no,eventcount=5</convert>
+                    <convert type="zEventList">beginOnly=yes,eventcount=5</convert>
                 </widget>
                 <!-- NEXT EVENTS -->
-                <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
+                <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
                 <widget source="ServiceEvent" render="EventListDisplay" position="362,1235" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="0,230,#606060,Regular,34,0,0" column1="240,1250,#606060,Regular,34,0,1" primetimeoffset="367" rowHeight="67" size="1694,67">
-                    <convert type="EventList">primetime=no,eventcount=1</convert>
+                    <convert type="zEventList">beginOnly=yes,eventcount=1</convert>
                 </widget>
                 <!-- lululla -->
                 <!-- CHANNELS -->
@@ -1647,10 +1647,10 @@
                 <eLabel position="1427,1174" size="1147,260" backgroundColor="trbluette" zPosition="-2"/>
                 <eLabel position="2307,1134" size="227,80" backgroundColor="#20101010" zPosition="-2"/>
                 <eLabel text="N E X T" position="2307,1134" size="227,80" font="Regular;54" halign="center" valign="center" foregroundColor="#20ffffff" backgroundColor="#000000" transparent="1" zPosition="1"/>
-                <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
+                <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
                 <!-- lululla -->
                 <widget backgroundColor="#FF101010" column0="0,230,yellow,Regular,28,0,0" column1="234,860,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1116,240" source="ServiceEvent" transparent="1" zPosition="50">
-                    <convert type="EventList">primetime=no,eventcount=4</convert>
+                    <convert type="zEventList">beginOnly=yes,eventcount=4</convert>
                 </widget>
                 <!-- lululla -->
                 <eLabel position="0,1320" size="1414,114" backgroundColor="#20050505" zPosition="-1"/>
@@ -1709,19 +1709,19 @@
         </style>
         <style name="EventView" value="InfoEvent Cover" preview="preview/Event-Cover.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="2560,1440" title="Eventview">
-                <layout name="rgyb-2c-n-1230" />
-                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5" />
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,174" size="1640,11" zPosition="5" />
-                <eLabel backgroundColor="#60000000" position="134,0" size="1940,1440" zPosition="-3" />
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1" />
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5" />
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5" />
-                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4" />
-                <widget position="299,195" render="ZChannel" size="284,414" source="session.Event_Now" zPosition="5" />
-                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="294,176" size="291,467" zPosition="6" />
-                <widget backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" position="600,207" size="1147,67" transparent="1" zPosition="5" />
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" position="600,280" size="334,67" transparent="1" zPosition="5" />
-                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" position="894,280" size="400,67" transparent="1" zPosition="5" />
+                <layout name="rgyb-2c-n-1230"/>
+                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="294,27" size="1600,134" text="Program Guide" transparent="1" zPosition="5"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,174" size="1640,11" zPosition="5"/>
+                <eLabel backgroundColor="#60000000" position="134,0" size="1940,1440" zPosition="-3"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/fulltop.png" position="254,0" scale="stretch" size="1707,1440" zPosition="-1"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/b-left.png" position="254,0" size="4,1440" zPosition="5"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sh-right.png" position="1956,0" size="110,1440" zPosition="5"/>
+                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" position="294,183" size="291,427" zPosition="4"/>
+                <widget position="294,200" render="ZChannel" size="284,414" source="session.Event_Now" zPosition="5"/>
+                <ePixmap pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" position="294,176" size="291,467" zPosition="6"/>
+                <widget backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" position="600,207" size="1147,67" transparent="1" zPosition="5"/>
+                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" position="600,280" size="334,67" transparent="1" zPosition="5"/>
+                <widget backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" position="894,280" size="400,67" transparent="1" zPosition="5"/>
                 <widget backgroundColor="#000000" font="Regular;43" foregroundColor="red" halign="right" position="1534,280" render="Label" size="400,67" source="session.Event_Now" transparent="1" zPosition="5">
                     <convert type="EventTime">Remaining</convert>
                     <convert type="RemainingToText">InMinutes</convert>
@@ -1732,7 +1732,7 @@
                 <widget backgroundColor="#303030" foregroundColor="bluette" position="600,414" render="Progress" size="1334,10" source="session.Event_Now" zPosition="5">
                     <convert type="EventTime">Progress</convert>
                 </widget>
-                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="600,440" size="334,67" text="Next Event :" transparent="1" zPosition="2" />
+                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="600,440" size="334,67" text="Next Event :" transparent="1" zPosition="2"/>
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="white" position="894,440" render="Label" size="334,67" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventTime">StartTime</convert>
                     <convert type="ClockToText">Default</convert>
@@ -1744,7 +1744,8 @@
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="yellow" noWrap="1" position="600,520" render="Label" size="1147,120" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventName">Name</convert>
                 </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5" />
+                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
+                <widget position="314,656" render="ZBanner" size="720,400" source="session.Event_Now" zPosition="5"/>
             </screen>
         </style>
         <style name="EventView" value="InfoEvent CoverBanner" preview="preview/Event-CoverBanner.jpg">

@@ -1,11 +1,13 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+#
 # EventList - Converter
+#
 # Coded by Dr.Best (c) 2013
 # Support: www.dreambox-tools.info
 # E-Mail: dr.best@dreambox-tools.info
+#
 # This plugin is open source but it is NOT free software.
+#
 # This plugin may only be distributed to and executed on hardware which
 # is licensed by Dream Property GmbH.
 # In other words:
@@ -13,6 +15,7 @@
 # to hardware which is NOT licensed by Dream Property GmbH.
 # It's NOT allowed to execute this plugin and its source code or even parts of it in ANY way
 # on hardware which is NOT licensed by Dream Property GmbH.
+#
 # If you want to use or modify the code or parts of it,
 # you have to keep MY license and inform me about the modifications by mail.
 # <widget source="ServiceEvent" render="EventListDisplay" position="1080,610" size="1070,180" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" primetimeoffset="0"
@@ -20,13 +23,13 @@
 # <convert type="EventList">primetime=yes,eventcount=4</convert>
 # </widget>
 
-from __future__ import absolute_import
+
 from Components.Converter.Converter import Converter
 from Components.Element import cached
+
 from enigma import eEPGCache, eServiceReference
 from time import localtime, strftime, mktime, time
 from datetime import datetime, timedelta
-
 
 class EventList(Converter, object):
     def __init__(self, type):
@@ -34,6 +37,7 @@ class EventList(Converter, object):
         self.epgcache = eEPGCache.getInstance()
         self.primetime = 0
         self.eventcount = 0
+        self.beginOnly = False
         if (len(type)):
             args = type.split(',')
             i = 0
@@ -44,8 +48,10 @@ class EventList(Converter, object):
                 elif type_c == "primetime":
                     if value == "yes":
                         self.primetime = 1
+                elif type_c == "beginOnly":
+                    if value == "yes":
+                        self.beginOnly = True
                 i += 1
-
     @cached
     def getContent(self):
         contentList = []
@@ -76,7 +82,10 @@ class EventList(Converter, object):
         return contentList
 
     def getEventTuple(self, event):
-        time = "%s - %s" % (strftime("%H:%M", localtime(event.getBeginTime())), strftime("%H:%M", localtime(event.getBeginTime() + event.getDuration())))
+        if self.beginOnly:
+            time = "%s" % (strftime("%H:%M", localtime(event.getBeginTime())), )
+        else:
+            time = "%s - %s" % (strftime("%H:%M", localtime(event.getBeginTime())), strftime("%H:%M", localtime(event.getBeginTime() + event.getDuration())))
         title = event.getEventName()
         duration = "%d min" % (event.getDuration() / 60)
         return (time, title, duration)
