@@ -55,12 +55,6 @@ thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 screenwidth = getDesktop(0).size()
-# self.size
-# width = 213
-# height = 310
-# if screenwidth.width() > 1280:
-    # width = 288
-    # height = 414
 
 
 def isMountReadonly(mnt):
@@ -436,12 +430,7 @@ class ZChannel(Renderer):
             print('ZChannel save poster show ')
             self.showPoster()
             return
-        # # Python version compatibility
-        # if PY3:
-            # from urllib.error import HTTPError
-            # from urllib.request import urlopen
-        # else:
-            # from urllib2 import HTTPError, urlopen
+
         data = urlopen(self.url_poster)
         with open(self.pstrNm, "wb") as local_file:
             local_file.write(data.read())

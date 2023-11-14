@@ -22,7 +22,7 @@
 
 from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon
 from Components.config import config, ConfigSubsection, ConfigSelection
-from Components.config import NoSave, ConfigText, ConfigSubDict, ConfigYesNo
+from Components.config import NoSave, ConfigText, ConfigSubDict, ConfigYesNo, ConfigOnOff
 from Plugins.Plugin import PluginDescriptor
 from .PicLoader import isDreamOS
 from .ConfigHelper import loadConfig
@@ -66,7 +66,8 @@ config.zStyles.skintest = ConfigText()
 config.zStyles.skin = ConfigText()
 config.zStyles.preserve_preview = ConfigYesNo()
 config.zStyles.skin_auto_update = ConfigYesNo(False)
-
+config.zStyles.update = ConfigOnOff(default=False)
+config.zStyles.upfind = NoSave(ConfigSelection(['PRESS OK']))
 config.zStyles.data = NoSave(ConfigYesNo(default=False))
 config.zStyles.api = NoSave(ConfigSelection(["PRESS OK"]))
 config.zStyles.txtapi = ConfigText(default=tmdb_api, visible_width=50, fixed_size=False)

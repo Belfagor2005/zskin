@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: zStyles\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-14 20:48+0100\n"
-"PO-Revision-Date: 2023-11-14 20:48+0100\n"
+"PO-Revision-Date: 2023-11-14 20:49+0100\n"
 "Last-Translator: cmikula\n"
 "Language-Team: cmikula\n"
-"Language: de_AT\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,47 +14,46 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
 #: ../../../Styles.py:79 ../../../StylesSetup.py:71
 msgid "Close"
-msgstr "Sluiten"
+msgstr ""
 
 #: ../../../Styles.py:80 ../../../StylesSetup.py:72
 msgid "Save"
-msgstr "Bewaren"
+msgstr ""
 
 #: ../../../Styles.py:81
 msgid "Default"
-msgstr "Standaard"
+msgstr ""
 
 #: ../../../Styles.py:111
 msgid "Style presets contains errors!"
-msgstr "Stijlvoorinstellingen bevatten fouten!"
+msgstr ""
 
 #: ../../../Styles.py:143 ../../../StylesSetup.py:275
 msgid ""
 "GUI needs a restart to apply a new skin\n"
 "Do you want to Restart the GUI now?"
 msgstr ""
-"GUI moet herstart worden om de instellingen toe te passen\n"
-"De GUI herstarten?"
 
 #: ../../../Styles.py:144 ../../../StylesSetup.py:276
 msgid "Restart GUI now?"
-msgstr "GUI nu herstarten?"
+msgstr ""
 
 #: ../../../Styles.py:230
 msgid "Current skin can not styled!"
-msgstr "De huidige huid kan niet worden gestileerd!"
+msgstr ""
 
 #: ../../../Styles.py:236
 msgid "PRESET"
-msgstr "VERZIUM"
+msgstr ""
 
 #: ../../../StylesSetup.py:74
 msgid "Reset skin"
-msgstr "Reset skin"
+msgstr ""
 
 #: ../../../StylesSetup.py:84
 msgid ""
@@ -68,7 +67,7 @@ msgstr ""
 
 #: ../../../StylesSetup.py:114
 msgid "Read style configuration from skin:"
-msgstr "Stijlconfiguratie van skin lezen:"
+msgstr ""
 
 #: ../../../StylesSetup.py:115
 msgid "TMDB API:"
@@ -96,11 +95,11 @@ msgstr ""
 
 #: ../../../StylesSetup.py:133
 msgid "Preserve preview if not defined:"
-msgstr "Voorbeeld behouden als deze niet is gedefinieerd:"
+msgstr ""
 
 #: ../../../StylesSetup.py:139
 msgid "Setup"
-msgstr "Instellingen"
+msgstr ""
 
 #: ../../../StylesSetup.py:168
 msgid "Skin exist!! Do you really want to Upgrade?"
@@ -119,23 +118,23 @@ msgstr ""
 
 #: ../../../StylesSetup.py:245
 msgid "No previous styled skin - restore canceled!"
-msgstr "Geen vorige gestileerde skin - herstel geannuleerd!"
+msgstr ""
 
 #: ../../../StylesSetup.py:250
 msgid "Would you really reset this skin?"
-msgstr "Zou je deze skin echt resetten?"
+msgstr ""
 
 #: ../../../StylesSetup.py:252
 msgid "Reset skin?"
-msgstr "Reset skin?"
+msgstr ""
 
 #: ../../../StylesSetup.py:260
 msgid "The skin not exists - restore canceled!"
-msgstr "De skin bestaat niet - herstellen geannuleerd!"
+msgstr ""
 
 #: ../../../StylesSetup.py:263
 msgid "The skin is not styled - restore canceled!"
-msgstr "De skin is niet gestileerd - herstellen geannuleerd!"
+msgstr ""
 
 #: ../../../StylesSetup.py:322
 msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"

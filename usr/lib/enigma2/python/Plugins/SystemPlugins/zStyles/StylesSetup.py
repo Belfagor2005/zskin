@@ -7,14 +7,16 @@ from Components.ConfigList import ConfigListScreen
 from Tools.Directories import fileExists, resolveFilename
 from Tools.Directories import SCOPE_SKIN
 from .style import Skin
+from .addons.Utils import RequestAgent
 from shutil import copy2
 from Screens.MessageBox import MessageBox
+from Screens.Console import Console
 from Screens.Standby import TryQuitMainloop
 from Components.config import getConfigListEntry
 from .style_ops import getSkinName, isSkinChanged
-import os
+import os, sys
 from enigma import eTimer
-
+PY3 = sys.version_info.major >= 3
 
 try:
     from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
@@ -40,29 +42,9 @@ thetvdb_skin = "%senigma2/%s/thetvdbkey" % (mvi, cur_skin)
 # omdb_api = "cb1d9f55"
 # visual_api = "5KAUFAYCDLUYVQPNXPN3K24V5"
 # thetvdbkey = 'D19315B88B2DE21F'
-# global my_cur_skin
-# my_cur_skin = False
-
-# try:
-    # if my_cur_skin is False:
-        # if fileExists(tmdb_skin):
-            # with open(tmdb_skin, "r") as f:
-                # tmdb_api = f.read()
-        # if fileExists(omdb_skin):
-            # with open(omdb_skin, "r") as f:
-                # omdb_api = f.read()
-        # if fileExists(visual_skin):
-            # with open(visual_skin, "r") as f:
-                # visual_api = f.read()
-        # if fileExists(thetvdb_skin):
-            # with open(thetvdb_skin, "r") as f:
-                # thetvdbkey = f.read()
-        # my_cur_skin = True
-# except:
-    # my_cur_skin = False
-    # pass
 
 
+tarfile = '/tmp/zskin.tar'
 zaddon = False
 zaddons = '/usr/lib/enigma2/python/Plugins/SystemPlugins/zStyles/addons'
 if os.path.exists(zaddons):
@@ -123,7 +105,12 @@ class StylesSetup(Screen, ConfigListScreen):
     def createSetup(self):
         self.editListEntry = None
         self.list = []
-        self.list.append(getConfigListEntry(_("Skin auto update:"), config.zStyles.skin_auto_update))
+        # self.list.append(getConfigListEntry(_("Skin auto update:"), config.zStyles.skin_auto_update))
+
+        self.list.append(getConfigListEntry(_("Skin update:"), config.zStyles.update))
+        if config.zStyles.update.value is True:
+            self.list.append(getConfigListEntry("Update/Restore Skin", config.zStyles.upfind))
+
         self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
         self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
         if config.zStyles.data.getValue():
@@ -162,6 +149,74 @@ class StylesSetup(Screen, ConfigListScreen):
             self.keyApi2()
         if sel and sel == config.zStyles.txtapi2:
             self.KeyText()
+        if sel and sel == config.zStyles.upfind:
+            self.upfind()
+
+    def upfind(self):
+        self.Timer = eTimer()
+        try:
+            self.Timer.callback.append(self.zUpdate)
+        except:
+            self.Timer_conn = self.Timer.timeout.connect(self.zUpdate)
+        self.Timer.start(500, 1)
+        self.createSetup()
+
+# update zskin
+    def zUpdate(self):
+        CHECKSKIN = "%senigma2/%s" % (mvi, cur_skin)
+        if os.path.exists(CHECKSKIN):
+            self.session.openWithCallback(self.zUpdate2, MessageBox, _("Skin exist!! Do you really want to Upgrade?"), MessageBox.TYPE_YESNO)
+        else:
+            self.session.openWithCallback(self.zUpdate2, MessageBox, _('Do you really want to install the Skin??\nDo it at your own risk.\nDo you want to continue?'), MessageBox.TYPE_YESNO)
+        return
+
+    def zUpdate2(self, answer=None):
+        if answer:
+            if config.zStyles.update:
+                self.zSkin()
+        return
+
+    def zSkin(self):
+        if fileExists(tarfile):
+            os.remove(tarfile)
+        try:
+            self.com = 'https://patbuweb.com/zskin/zskin.tar'  # % tarfile  # cur_skin
+            self.dest = self.dowfil()
+            Req = RequestAgent()
+            self.command = ["tar -xvf /tmp/zskin.tar -C /"]
+            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
+            if "https" in str(self.com):
+                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
+            print('cmd: ', cmd)
+            self.session.open(Console, title=_('Installation zSkin'), cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.upd_zeta)
+
+        except Exception as e:
+            print('error download: ', e)
+            return
+        print('update tarfile')
+
+    def dowfil(self):
+        if PY3:
+            import urllib.request as urllib2
+            import http.cookiejar as cookielib
+        else:
+            import urllib2
+            import cookielib
+        Req = RequestAgent()
+        headers = {'User-Agent': Req}
+        cookie_jar = cookielib.CookieJar()
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie_jar))
+        urllib2.install_opener(opener)
+        try:
+            req = urllib2.Request(self.com, data=None, headers=headers)
+            handler = urllib2.urlopen(req, timeout=15)
+            data = handler.read()
+            with open(tarfile, 'wb') as f:
+                f.write(data)
+            print('MYDEBUG - download ok - URL: %s , filename: %s' % (self.com, tarfile))
+        except:
+            print('MYDEBUG - download failed - URL: %s , filename: %s' % (self.com, tarfile))
+        return tarfile
 
     def keyLeft(self):
         ConfigListScreen.keyLeft(self)

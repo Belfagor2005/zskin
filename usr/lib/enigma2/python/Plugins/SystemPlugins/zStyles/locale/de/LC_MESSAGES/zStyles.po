@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zStyles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-25 15:31+0100\n"
-"PO-Revision-Date: 2023-02-25 15:31+0100\n"
+"POT-Creation-Date: 2023-11-14 20:48+0100\n"
+"PO-Revision-Date: 2023-11-14 20:48+0100\n"
 "Last-Translator: cmikula\n"
 "Language-Team: cmikula\n"
 "Language: de_AT\n"
@@ -16,6 +16,149 @@ msgstr ""
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,120,-1,-1\n"
 "X-Generator: Poedit 1.8.7\n"
 "X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../Styles.py:79 ../../../StylesSetup.py:71
+msgid "Close"
+msgstr "Schließen"
+
+#: ../../../Styles.py:80 ../../../StylesSetup.py:72
+msgid "Save"
+msgstr "Speichern"
+
+#: ../../../Styles.py:81
+msgid "Default"
+msgstr "Standard"
+
+#: ../../../Styles.py:111
+msgid "Style presets contains errors!"
+msgstr "In den Style Voreinstellungen befinden sich Fehler!"
+
+#: ../../../Styles.py:143 ../../../StylesSetup.py:275
+msgid ""
+"GUI needs a restart to apply a new skin\n"
+"Do you want to Restart the GUI now?"
+msgstr ""
+"Das System muss neu gestartet werden,\n"
+"um die Änderungen übernehmen zu können."
+
+#: ../../../Styles.py:144 ../../../StylesSetup.py:276
+msgid "Restart GUI now?"
+msgstr "Neustart der GUI?"
+
+#: ../../../Styles.py:230
+msgid "Current skin can not styled!"
+msgstr "Aktueller Skin kann nicht gestyled werden!"
+
+#: ../../../Styles.py:236
+msgid "PRESET"
+msgstr "VOREINSTELLUNG"
+
+#: ../../../StylesSetup.py:74
+msgid "Reset skin"
+msgstr "Reset Skin"
+
+#: ../../../StylesSetup.py:84
+msgid ""
+"This operation checks if the skin has its components (is not sure)..\n"
+"Do you really want to continue?"
+msgstr ""
+
+#: ../../../StylesSetup.py:110
+msgid "Skin update:"
+msgstr ""
+
+#: ../../../StylesSetup.py:114
+msgid "Read style configuration from skin:"
+msgstr "Lese Style Konfiguration vom Skin:"
+
+#: ../../../StylesSetup.py:115
+msgid "TMDB API:"
+msgstr ""
+
+#: ../../../StylesSetup.py:117
+msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
+msgstr ""
+
+#: ../../../StylesSetup.py:118
+msgid "Set Your Apikey TMDB"
+msgstr ""
+
+#: ../../../StylesSetup.py:119
+msgid "OMDB API:"
+msgstr ""
+
+#: ../../../StylesSetup.py:121
+msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
+msgstr ""
+
+#: ../../../StylesSetup.py:122
+msgid "Set Your Apikey OMDB"
+msgstr ""
+
+#: ../../../StylesSetup.py:133
+msgid "Preserve preview if not defined:"
+msgstr "Vorschau beibehalten, falls nicht definiert:"
+
+#: ../../../StylesSetup.py:139
+msgid "Setup"
+msgstr "Einstellungen"
+
+#: ../../../StylesSetup.py:168
+msgid "Skin exist!! Do you really want to Upgrade?"
+msgstr ""
+
+#: ../../../StylesSetup.py:170
+msgid ""
+"Do you really want to install the Skin??\n"
+"Do it at your own risk.\n"
+"Do you want to continue?"
+msgstr ""
+
+#: ../../../StylesSetup.py:191
+msgid "Installation zSkin"
+msgstr ""
+
+#: ../../../StylesSetup.py:245
+msgid "No previous styled skin - restore canceled!"
+msgstr "Kein zuvor gestylter Skin - Wiederherstellung abgebrochen!"
+
+#: ../../../StylesSetup.py:250
+msgid "Would you really reset this skin?"
+msgstr "Soll dieser Skin zurückgesetzt werden?"
+
+#: ../../../StylesSetup.py:252
+msgid "Reset skin?"
+msgstr "Reset Skin?"
+
+#: ../../../StylesSetup.py:260
+msgid "The skin not exists - restore canceled!"
+msgstr "Der Skin ist nicht vorhanden - Wiederherstellung abgebrochen!"
+
+#: ../../../StylesSetup.py:263
+msgid "The skin is not styled - restore canceled!"
+msgstr "Der Skin ist nicht gestylt - Wiederherstellung abgebrochen!"
+
+#: ../../../StylesSetup.py:322
+msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
+msgstr ""
+
+#: ../../../StylesSetup.py:324 ../../../StylesSetup.py:337
+#: ../../../StylesSetup.py:346 ../../../StylesSetup.py:359
+#, python-format
+msgid "Missing %s !"
+msgstr ""
+
+#: ../../../StylesSetup.py:335
+msgid "TMDB ApiKey Imported & Stored!"
+msgstr ""
+
+#: ../../../StylesSetup.py:344
+msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
+msgstr ""
+
+#: ../../../StylesSetup.py:357
+msgid "OMDB ApiKey Imported & Stored!"
+msgstr ""
 
 #: ../../../addons/type_utils.py:25
 msgid "File Commander - Addon Mediaplayer"
@@ -34,142 +177,12 @@ msgstr ""
 msgid "Z File Commander - Addon File-Viewer"
 msgstr ""
 
-#: ../../../plugin.py:79
-msgid "Style your skin"
-msgstr "Style deinen Skin"
-
-#: ../../../zStyles.py:79 ../../../zStylesSetup.py:72
-msgid "Close"
-msgstr "Schließen"
-
-#: ../../../zStyles.py:80 ../../../zStylesSetup.py:73
-msgid "Save"
-msgstr "Speichern"
-
-#: ../../../zStyles.py:81
-msgid "Default"
-msgstr "Standard"
-
-#: ../../../zStyles.py:111
-msgid "Style presets contains errors!"
-msgstr "In den Style Voreinstellungen befinden sich Fehler!"
-
-#: ../../../zStyles.py:143 ../../../zStylesSetup.py:193
-msgid ""
-"GUI needs a restart to apply a new skin\n"
-"Do you want to Restart the GUI now?"
-msgstr ""
-"Das System muss neu gestartet werden,\n"
-"um die Änderungen übernehmen zu können."
-
-#: ../../../zStyles.py:144 ../../../zStylesSetup.py:194
-msgid "Restart GUI now?"
-msgstr "Neustart der GUI?"
-
-#: ../../../zStyles.py:229
-msgid "Current skin can not styled!"
-msgstr "Aktueller Skin kann nicht gestyled werden!"
-
-#: ../../../zStyles.py:235
-msgid "PRESET"
-msgstr "VOREINSTELLUNG"
-
-#: ../../../zStylesSetup.py:75
-msgid "Reset skin"
-msgstr "Reset Skin"
-
-#: ../../../zStylesSetup.py:85
-msgid ""
-"This operation checks if the skin has its components (is not sure)..\n"
-"Do you really want to continue?"
+#: ../../../plugin.py:123
+msgid "Style your zSkin"
 msgstr ""
 
-#: ../../../zStylesSetup.py:109
-msgid "Skin auto update:"
-msgstr "Skin auto update:"
+#~ msgid "Style your skin"
+#~ msgstr "Style deinen Skin"
 
-#: ../../../zStylesSetup.py:110
-msgid "Read style configuration from skin:"
-msgstr "Lese Style Konfiguration vom Skin:"
-
-#: ../../../zStylesSetup.py:111
-msgid "TMDB API:"
-msgstr ""
-
-#: ../../../zStylesSetup.py:113
-msgid "Read Api key TMDB from file /tmp/tmdbapikey.txt"
-msgstr ""
-
-#: ../../../zStylesSetup.py:114
-msgid "Set Your Api key TMDB"
-msgstr ""
-
-#: ../../../zStylesSetup.py:115
-msgid "OMDB API:"
-msgstr ""
-
-#: ../../../zStylesSetup.py:117
-msgid "Read Api key OMDB from file /tmp/omdbapikey.txt"
-msgstr ""
-
-#: ../../../zStylesSetup.py:118
-msgid "Set Your Api key OMDB"
-msgstr ""
-
-#: ../../../zStylesSetup.py:119
-msgid "Preserve preview if not defined:"
-msgstr "Vorschau beibehalten, falls nicht definiert:"
-
-#: ../../../zStylesSetup.py:125
-msgid "Setup"
-msgstr "Einstellungen"
-
-#: ../../../zStylesSetup.py:163
-msgid "No previous styled skin - restore canceled!"
-msgstr "Kein zuvor gestylter Skin - Wiederherstellung abgebrochen!"
-
-#: ../../../zStylesSetup.py:168
-msgid "Would you really reset this skin?"
-msgstr "Soll dieser Skin zurückgesetzt werden?"
-
-#: ../../../zStylesSetup.py:170
-msgid "Reset skin?"
-msgstr "Reset Skin?"
-
-#: ../../../zStylesSetup.py:178
-msgid "The skin not exists - restore canceled!"
-msgstr "Der Skin ist nicht vorhanden - Wiederherstellung abgebrochen!"
-
-#: ../../../zStylesSetup.py:181
-msgid "The skin is not styled - restore canceled!"
-msgstr "Der Skin ist nicht gestylt - Wiederherstellung abgebrochen!"
-
-#: ../../../zStylesSetup.py:239
-msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
-msgstr ""
-
-#: ../../../zStylesSetup.py:241 ../../../zStylesSetup.py:248
-#: ../../../zStylesSetup.py:268 ../../../zStylesSetup.py:290
-#, python-format
-msgid "Missing %s !"
-msgstr ""
-
-#: ../../../zStylesSetup.py:246
-msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
-msgstr ""
-
-#: ../../../zStylesSetup.py:262
-msgid "TMDB ApiKey Imported!"
-msgstr ""
-
-#: ../../../zStylesSetup.py:266
-msgid "TMDB ApiKey Stored!"
-msgstr ""
-
-#: ../../../zStylesSetup.py:284
-msgid "OMDB ApiKey Imported!"
-msgstr ""
-
-#: ../../../zStylesSetup.py:288
-msgid "OMDB ApiKey Stored!"
-msgstr ""
+#~ msgid "Skin auto update:"
+#~ msgstr "Skin auto update:"
