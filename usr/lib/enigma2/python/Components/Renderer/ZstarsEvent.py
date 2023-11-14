@@ -224,11 +224,12 @@ class ZstarsEvent(VariableValue, Renderer):
             print('zstar event B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            try:
-                self.timer30.callback.append(self.infos)
-            except:
-                self.timer30_conn = self.timer30.timeout.connect(self.infos)
-            self.timer30.start(50, True)
+            # try:
+                # self.timer30.callback.append(self.infos)
+            # except:
+                # self.timer30_conn = self.timer30.timeout.connect(self.infos)
+            # self.timer30.start(50, True)
+            self.infos()
 
     def infos(self):
         try:

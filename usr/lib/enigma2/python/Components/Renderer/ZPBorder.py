@@ -115,7 +115,7 @@ def convtext(text=''):
 class ZPBorder(Renderer):
     def __init__(self):
         Renderer.__init__(self)
-        self.timer40 = eTimer()
+        # self.timer40 = eTimer()
         self.downloading = False
 
     GUI_WIDGET = ePixmap
@@ -126,7 +126,8 @@ class ZPBorder(Renderer):
                 self.instance.hide()
         if what[0] != self.CHANGED_CLEAR:
             print('zborder what[0] != self.CHANGED_CLEAR: ')
-            self.delay()
+            # self.delay()
+            self.info()
 
     def delay(self):
         try:
@@ -175,13 +176,13 @@ class ZPBorder(Renderer):
             if fileExists(self.pstrNm) and self.instance:
                 print('zborder fileExists')
                 self.showPoster()
-                self.timer40.stop()
+                # self.timer40.stop()
             else:
                 if self.instance:
                     self.instance.hide()
-                self.timer40.stop()
+                # self.timer40.stop()
         else:
             if self.instance:
                 self.instance.hide()
-            self.timer40.stop()
+            # self.timer40.stop()
             return

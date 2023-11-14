@@ -22,8 +22,8 @@ from Components.Converter.Converter import Converter
 from Components.Element import cached
 from Components.Converter.Poll import Poll
 from enigma import eConsoleAppContainer
-import os
-import re
+import os, re
+# import socket
 
 class zExtra(Poll, Converter):
     TEMPERATURE = 0
@@ -137,6 +137,10 @@ class zExtra(Poll, Converter):
         if self.type == self.IPLOCAL:
             try:
                 c = '127.0.0.1'
+                # gw = os.popen("ip -4 route show default").read().split()
+                # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                # s.connect((gw[2], 0))
+                # c = s.getsockname()[0]
                 file = os.popen('ifconfig')
                 cmd = file.readlines()
                 for line in cmd:
@@ -144,6 +148,7 @@ class zExtra(Poll, Converter):
                         c = line.split('inet addr:')[1].split(' ')[0]
                         if c != '127.0.0.1':
                             return "Lan Ip %s" % c
+                # return "Lan Ip " + "%s" % c
             except:
                 return ''
         if self.type == self.IPWAN:

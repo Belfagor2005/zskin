@@ -335,13 +335,13 @@ class ZEvent(Renderer, VariableText):
         except:
             pass
 
-    def delay2(self):
-        self.timer = eTimer()
-        try:
-            self.timer_conn = self.timer.timeout.connect(self.dwn)
-        except:
-            self.timer.callback.append(self.dwn)
-        self.timer.start(50, True)
+    # def delay2(self):
+        # self.timer = eTimer()
+        # try:
+            # self.timer_conn = self.timer.timeout.connect(self.dwn)
+        # except:
+            # self.timer.callback.append(self.dwn)
+        # self.timer.start(50, True)
 
     def dwn(self):
         start_new_thread(self.epgs, ())

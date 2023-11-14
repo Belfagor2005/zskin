@@ -1064,7 +1064,7 @@
                 <widget backgroundColor="#10303030" foregroundColor="#b0b0b0" position="310,175" render="Progress" size="600,5" source="session.Event_Now" zPosition="2">
                     <convert type="EventTime">Progress</convert>
                 </widget>
-                <!-- <widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="310,230" render="ZEvent" size="600,170" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/> -->
+                <!-- widget backgroundColor="#000000" font="Regular;26" foregroundColor="yellow" halign="left" nowrap="1" position="310,230" render="ZEvent" size="600,170" source="session.Event_Now" transparent="1" valign="center" zPosition="9"/-->
                 <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="310,195" size="200,20" transparent="1" zPosition="2"/>
                 <widget pixmap="ZSkin-FHD/icons/star.png" position="310,195" render="ZstarsEvent" size="200,20" source="session.Event_Now" transparent="1" zPosition="13"/>
                 <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#a0a0a0" halign="center" position="310,230" render="zScrollLabel" size="600,380" source="session.Event_Now" transparent="1" valign="center" zPosition="5">
@@ -1139,7 +1139,7 @@
                 </widget>
                 <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
                 <widget source="ServiceEvent" render="EventListDisplay" position="0,925" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="140,120,#505050,Regular,40,0,0" column1="275,1270,#505050,Regular,40,0,1" primetimeoffset="275" rowHeight="50" size="1270,50">
-                    <convert type="zEventList">beginOnly=yes,eventcount=1</convert>
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=1</convert>
                 </widget>
                 <!-- Progressbar (current event duration) -->
                 <eLabel position="275,910" size="1270,10" backgroundColor="#303030" zPosition="2"/>
@@ -1310,7 +1310,7 @@
                 <eLabel backgroundColor="#20101010" position="1730,850" size="170,60" zPosition="-2"/>
                 <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="#20ffffff" halign="center" position="1730,850" size="170,60" text="N E X T" transparent="1" valign="center" zPosition="1"/>
                 <widget backgroundColor="#FF101010" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" position="1080,910" primetimeoffset="0" render="EventListDisplay" rowHeight="35" size="1070,180" source="ServiceEvent" transparent="1" zPosition="50">
-                    <convert type="zEventList">beginOnly=yes,eventcount=4</convert>
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=4</convert>
                 </widget>
                 <eLabel backgroundColor="#20050505" position="0,990" size="1060,85" zPosition="-1"/>
                 <eLabel backgroundColor="#202020" position="0,990" size="1060,1"/>
@@ -1383,13 +1383,13 @@
                 <!-- NEXT EVENT -->
                 <eLabel position="870,555" size="970,2" backgroundColor="#303030" zPosition="30"/>
                 <eLabel text="N  E  X  T" position="870,550" size="1000,180" font="Regular;170" halign="center" valign="center" foregroundColor="#20202020" backgroundColor="header" transparent="1" zPosition="30"/>
-                 <widget source="ServiceEvent" render="EventListDisplay" position="870,565" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,28,0,0" column1="100,950,ltbluette,Regular,28,0,1" primetimeoffset="0" rowHeight="35" size="1070,180">
-                    <convert type="zEventList">beginOnly=yes,eventcount=5</convert>
+                <widget source="ServiceEvent" render="EventListDisplay" position="870,565" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,28,0,0" column1="100,950,ltbluette,Regular,28,0,1" primetimeoffset="0" rowHeight="35" size="1070,180">
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=5</convert>
                 </widget>
                 <!-- NEXT EVENTS -->
-                <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
+                <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
                 <widget source="ServiceEvent" render="EventListDisplay" position="0,925" backgroundColor="#ff101010" transparent="1" zPosition="5" column0="360,120,#606060,Regular,34,0,0" column1="470,1310,#606060,Regular,34,0,1" primetimeoffset="275" rowHeight="50" size="1270,50">
-                    <convert type="zEventList">beginOnly=yes,eventcount=1</convert>
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=1</convert>
                 </widget>
                 <!-- CHANNELS -->
                 <eLabel text="Ch:" position="40,994" size="70,50" font="Regular;30" backgroundColor="#000000" foregroundColor="#ffffff" transparent="1" zPosition="3"/>
@@ -1556,7 +1556,7 @@
                 <eLabel text="N E X T" position="1730,850" size="170,60" font="Regular;40" halign="center" valign="center" foregroundColor="#20ffffff" backgroundColor="#000000" transparent="1" zPosition="1"/>
                 <!-- zEventList Required Renderer EventListDisplay.py Required Converter zEventList.py -->
                 <widget source="ServiceEvent" render="EventListDisplay" position="1080,910" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" primetimeoffset="0" rowHeight="35" size="1070,180">
-                    <convert type="zEventList">beginOnly=yes,eventcount=4</convert>
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=4</convert>
                 </widget>
                 <eLabel position="0,990" size="1060,85" backgroundColor="#20050505" zPosition="-1"/>
                 <eLabel position="0,990" size="1060,1" backgroundColor="#202020"/>

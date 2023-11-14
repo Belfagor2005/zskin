@@ -85,6 +85,9 @@
         <button name="RADIO" pos="105,610"/>
         <button name="TEXT" pos="148,605"/>
         <button name="HELP" pos="186,605"/>
+
+        <button name="KEY_BACK" pos="62,218"/>
+        <button name="KEY_NEXT" pos="197,218"/> 
     </rc>
     <rc id="2">
         <button name="POWER" pos="197,42"/>
@@ -130,6 +133,9 @@
         <button name="RADIO" pos="110,625"/>
         <button name="TEXT" pos="150,625"/>
         <button name="RECORD" pos="190,625"/>
+
+        <button name="KEY_BACK" pos="62,218"/>
+        <button name="KEY_NEXT" pos="197,218"/>  
     </rc>
     <rc id="3">
         <button name="MUTE" pos="76,97"/>
@@ -140,7 +146,7 @@
         <button name="FORWARD" pos="182,145"/>
         <button name="RECORD" pos="76,190"/>
         <button name="STOP" pos="127,190"/>
-        <button name="TV" pos="127,190"/>                                         
+        <button name="TV" pos="127,190"/>
         <button name="TEXT" pos="182,190"/>
         <button name="RED" pos="64,243"/>
         <button name="GREEN" pos="108,243"/>
@@ -173,5 +179,9 @@
         <button name="ARROWLEFT" pos="74,670"/>
         <button name="0" pos="127,670"/>
         <button name="ARROWRIGHT" pos="182,670"/>
+
+        <button name="KEY_BACK" pos="74,670"/>
+        <button name="KEY_NEXT" pos="182,670"/>        
+       
     </rc>
 </rcs>
