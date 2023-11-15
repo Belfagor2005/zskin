@@ -1,22 +1,24 @@
 from . import _, PLUGIN_PATH, PLUGIN_NAME
-from Screens.Screen import Screen
-from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
-from Components.config import config
 from Components.ConfigList import ConfigListScreen
-from Tools.Directories import fileExists, resolveFilename
+from Components.Sources.StaticText import StaticText
+from Components.config import config
+from Components.config import getConfigListEntry
+from Screens.Console import Console
+from Screens.MessageBox import MessageBox
+from Screens.Screen import Screen
+from Screens.Standby import TryQuitMainloop
 from Tools.Directories import SCOPE_SKIN
+from Tools.Directories import fileExists, resolveFilename
+from enigma import eTimer
+from shutil import copy2
+import os
+import sys
+from .style_ops import getSkinName, isSkinChanged
 from .style import Skin
 from .addons.Utils import RequestAgent
-from shutil import copy2
-from Screens.MessageBox import MessageBox
-from Screens.Console import Console
-from Screens.Standby import TryQuitMainloop
-from Components.config import getConfigListEntry
-from .style_ops import getSkinName, isSkinChanged
-import os, sys
-from enigma import eTimer
 PY3 = sys.version_info.major >= 3
+
 
 try:
     from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
@@ -24,14 +26,10 @@ try:
 except:
     isDreamOS = False
 
-global apis, apis2, zaddon
 
+global apis, apis2, zaddon
 apis = False
 apis2 = False
-
-
-# tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-# omdb_api = "cb1d9f55"
 mvi = '/usr/share/'
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 tmdb_skin = "%senigma2/%s/apikey" % (mvi, cur_skin)
@@ -43,8 +41,8 @@ thetvdb_skin = "%senigma2/%s/thetvdbkey" % (mvi, cur_skin)
 # visual_api = "5KAUFAYCDLUYVQPNXPN3K24V5"
 # thetvdbkey = 'D19315B88B2DE21F'
 
-
-tarfile = '/tmp/zskin.tar'
+global tarfile
+tarfile = ''
 zaddon = False
 zaddons = '/usr/lib/enigma2/python/Plugins/SystemPlugins/zStyles/addons'
 if os.path.exists(zaddons):
@@ -56,7 +54,7 @@ class StylesSetup(Screen, ConfigListScreen):
         Screen.__init__(self, session)
         self.onChangedEntry = []
         self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions", "NumberActions", "VirtualKeyboardActions", "DirectionActions"],
-            {
+                {
                 "ok": self.keyOk,
                 "cancel": self.keyCancel,
                 "left": self.keyLeft,
@@ -67,7 +65,7 @@ class StylesSetup(Screen, ConfigListScreen):
                 "showVirtualKeyboard": self.KeyText,
                 "blue": self.checkSkin,
                 '5': self.answercheck,
-            }, -2)
+                }, -2)
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
         self["key_yellow"] = StaticText(self.getSkinSelector() is not None and "Skin" or "")
@@ -106,11 +104,10 @@ class StylesSetup(Screen, ConfigListScreen):
         self.editListEntry = None
         self.list = []
         # self.list.append(getConfigListEntry(_("Skin auto update:"), config.zStyles.skin_auto_update))
-
         self.list.append(getConfigListEntry(_("Skin update:"), config.zStyles.update))
         if config.zStyles.update.value is True:
-            self.list.append(getConfigListEntry("Update/Restore Skin", config.zStyles.upfind))
-
+            self.list.append(getConfigListEntry("Update/Restore FHD zSkin", config.zStyles.fhdupfind))
+            self.list.append(getConfigListEntry("Update/Restore WQHD zSkin", config.zStyles.wqhdupfind))
         self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
         self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
         if config.zStyles.data.getValue():
@@ -120,7 +117,6 @@ class StylesSetup(Screen, ConfigListScreen):
         if config.zStyles.data2.getValue():
             self.list.append(getConfigListEntry(_("Read Apikey OMDB from file /tmp/omdbapikey.txt"), config.zStyles.api2))
             self.list.append(getConfigListEntry(_("Set Your Apikey OMDB"), config.zStyles.txtapi2))
-
         # self.list.append(getConfigListEntry(_("VISUALWEATHER API:"), config.zStyles.data3))
         # if config.zStyles.data3.getValue():
             # self.list.append(getConfigListEntry(_("Read Apikey VisualWeather from /etc/enigma2/VisualWeather/apikey.txt"), config.zStyles.api3))
@@ -129,7 +125,6 @@ class StylesSetup(Screen, ConfigListScreen):
         # if config.zStyles.data4.getValue():
             # self.list.append(getConfigListEntry(_("Read Apikey TheTVDBkey from /tmp/thetvdbkey.txt"), config.zStyles.api4))
             # self.list.append(getConfigListEntry(_("Set Your Apikey TheTVDBkey"), config.zStyles.txtapi4))
-
         self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.zStyles.preserve_preview))
         self["config"].list = self.list
         self["config"].l.setList(self.list)
@@ -139,6 +134,7 @@ class StylesSetup(Screen, ConfigListScreen):
         self.setTitle(_("Setup") + str.format(" - {0} {1}.{2}", PLUGIN_NAME, __version__, __revision__))
 
     def keyOk(self):
+        global tarfile
         ConfigListScreen.keyOK(self)
         sel = self["config"].getCurrent()[1]
         if sel and sel == config.zStyles.api:
@@ -149,10 +145,14 @@ class StylesSetup(Screen, ConfigListScreen):
             self.keyApi2()
         if sel and sel == config.zStyles.txtapi2:
             self.KeyText()
-        if sel and sel == config.zStyles.upfind:
-            self.upfind()
+        if sel and sel == config.zStyles.fhdupfind:
+            tarfile = 'ZSkin-FHD.tar'
+            self.fhdupfind()
+        if sel and sel == config.zStyles.wqhdupfind:
+            tarfile = 'ZSkin-WQHD.tar'
+            self.fhdupfind()
 
-    def upfind(self):
+    def fhdupfind(self):
         self.Timer = eTimer()
         try:
             self.Timer.callback.append(self.zUpdate)
@@ -161,7 +161,6 @@ class StylesSetup(Screen, ConfigListScreen):
         self.Timer.start(500, 1)
         self.createSetup()
 
-# update zskin
     def zUpdate(self):
         CHECKSKIN = "%senigma2/%s" % (mvi, cur_skin)
         if os.path.exists(CHECKSKIN):
@@ -173,21 +172,23 @@ class StylesSetup(Screen, ConfigListScreen):
     def zUpdate2(self, answer=None):
         if answer:
             if config.zStyles.update:
+                print('tarfile is: ', tarfile)
                 self.zSkin()
         return
 
     def zSkin(self):
-        if fileExists(tarfile):
-            os.remove(tarfile)
+        tmpdirfile = '/tmp/%s' % tarfile
+        if fileExists(tmpdirfile):
+            os.remove(tmpdirfile)
         try:
-            self.com = 'https://patbuweb.com/zskin/zskin.tar'  # % tarfile  # cur_skin
+            self.com = 'https://patbuweb.com/zskin/%s' % tarfile  # cur_skin
             self.dest = self.dowfil()
             Req = RequestAgent()
-            self.command = ["tar -xvf /tmp/zskin.tar -C /"]
+            self.command = ["tar -xvf /tmp/%s -C /" % tarfile]
             cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
             if "https" in str(self.com):
                 cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
-            print('cmd: ', cmd)
+            print('self cmd: ', cmd)
             self.session.open(Console, title=_('Installation zSkin'), cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.upd_zeta)
 
         except Exception as e:
@@ -211,7 +212,7 @@ class StylesSetup(Screen, ConfigListScreen):
             req = urllib2.Request(self.com, data=None, headers=headers)
             handler = urllib2.urlopen(req, timeout=15)
             data = handler.read()
-            with open(tarfile, 'wb') as f:
+            with open(('/tmp/%s' % tarfile), 'wb') as f:
                 f.write(data)
             print('MYDEBUG - download ok - URL: %s , filename: %s' % (self.com, tarfile))
         except:

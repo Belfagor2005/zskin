@@ -1618,7 +1618,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/info_screen.svg" position="294,34" size="134,134" zPosition="10"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/info.png" position="160,0" size="1507,1440" zPosition="-2"/>
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="white" itemHeight="54" name="list" position="294,220" scrollbarMode="showOnDemand" size="1107,1014" transparent="1" zPosition="5"/>
-        <widget alphatest="blend" name="rc" pixmaps="skin_default/rc0.png,skin_default/rc1.png,skin_default/rc2.png,skin_default/rc3.png" position="1974,174" scale="stretch" size="342,1067" zPosition="1"/>
+        <widget alphatest="blend" name="rc" pixmaps="skin_default/rc0.png,skin_default/rc1.png,skin_default/rc2.png,skin_default/rc3.png" position="1974,125" scale="stretch" size="342,1067" zPosition="1"/>
         <widget alphatest="on" name="arrowdown" pixmap="skin_default/arrowdown.png" position="-134,-179" size="50,94" zPosition="2"/>
         <widget alphatest="on" name="arrowdown2" pixmap="skin_default/arrowdown.png" position="-134,-179" size="50,94" zPosition="2"/>
         <widget alphatest="on" name="arrowup" pixmap="skin_default/arrowup.png" position="-134,-179" size="50,94" zPosition="2"/>
