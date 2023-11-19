@@ -19,18 +19,15 @@
 #  modify it (if you keep the license), but it may not be commercially
 #  distributed other than under the conditions noted above.
 #
-
-from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon
 from Components.config import config, ConfigSubsection, ConfigSelection
 from Components.config import NoSave, ConfigText, ConfigSubDict, ConfigYesNo, ConfigOnOff
 from Plugins.Plugin import PluginDescriptor
+from Tools.Directories import fileExists
+from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon
 from .PicLoader import isDreamOS
 from .ConfigHelper import loadConfig
-from Tools.Directories import fileExists
-
 global my_cur_skin
 my_cur_skin = False
-
 mvi = '/usr/share/'
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 tmdb_skin = "%senigma2/%s/apikey" % (mvi, cur_skin)

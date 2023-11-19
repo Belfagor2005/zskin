@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import os
 from xml.etree import ElementTree
 from datetime import datetime

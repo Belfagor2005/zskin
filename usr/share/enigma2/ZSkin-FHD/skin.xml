@@ -109,6 +109,7 @@
         <offset name="right" value="5"/>
         <font font="Regular;30" name="string"/>
         <value name="string_item_height" value="45"/>
+        <value name="string_item_selection_dia" value="24"/>
         <font font="Regular;28" name="config_description"/>
         <font font="Regular;28" name="config_value"/>
         <value name="config_item_height" value="45"/>
@@ -182,6 +183,7 @@
         <color color="#000000" name="WindowTitleBackground"/>
     </windowstyle>
     <globals>
+        <value name="geminiwidgets" value="{'Sensors':10,'ShowInfobarPosition':0}"/>
         <value name="blue_key_big_tile" value="{'ani':'slide_left_left'}"/>
         <value name="yellow_key_big_tile" value="{'ani':'slide_left_left'}"/>
         <value name="green_key_big_tile" value="{'ani':'slide_left_left'}"/>
@@ -211,12 +213,10 @@
         <value name="gcommanderlist_tile_1_7" value="{'lines':1, 'columns':7}"/>
         <value name="gcommanderlist_tile_2_6" value="{'lines':2, 'columns':6}"/>
         <value name="gcommanderlist_tile_3_7" value="{'lines':3, 'columns':7}"/>
-        <value name="gcommanderlist_list_8_1" value="{'lines':9, 'columns':1}"/>
         <value name="gcommanderlist_list_4Line" value="{'lines':5, 'columns':1}"/>
         <value name="gcommanderlist_list_small" value="{'lines':7,'columns':1}"/>
-        <value name="gcommanderlist_biglist_small" value="{'lines':12,'columns':1}"/>
+        <value name="gcommanderlist_list_8_1" value="{'lines':9, 'columns':1}"/>
         <value name="gcomm_splayer_slideshow" value="{'ani':'simple_fade_long'}"/>
-        <value name="gcomm_player_icon0" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_file_browser" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_text_box" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_text_box_big" value="{'ani':'simple_fade_slide_top'}"/>
@@ -224,11 +224,12 @@
         <value name="gcomm_setup_screen_left" value="{'ani':'simple_fade_slide_left'}"/>
         <value name="gcomm_menu_screen" value="{'ani':'simple_fade_slide_left'}"/>
         <value name="gcomm_move_screen" value="{'ani':'simple_fade_slide_left'}"/>
-        <value name="gcomm_player_stop" value="{'ani':'slide_right_right', 'x':1220, 'y':0}"/>
         <value name="gcomm_player_icon_menu" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_player_icon_res" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_player_icon_audio" value="{'ani':'slide_left_left'}"/>
         <value name="gcomm_player_icon_sub" value="{'ani':'slide_left_left'}"/>
+        <value name="gcomm_player_stop" value="{'ani':'slide_right_right', 'x':1220, 'y':0}"/>
+        <value name="gcomm_player_icon0" value="{'ani':'slide_left_left'}"/>
         <value name="blue_key_menu" value="{'ani':'slide_left_left'}"/>
         <value name="yellow_key_menu" value="{'ani':'slide_left_left'}"/>
         <value name="playlist_select" value="{'ani':'simple_fade_slide_top'}"/>
@@ -257,7 +258,7 @@
         <component Width="5" type="PictureBorder"/>
         <component separation="120" type="NimSetup"/>
         <component Columns="7" Lines="3" type="dreamXScreen"/>
-        <component Columns="1" Lines="9" type="dreamXEntrys_list"/>
+        <component Columns="1" Lines="9" type="dreamXEntrys_list"/>                                                              
         <component dividerHeight="1" separation="550" type="ConfigList"/>
         <component iconHeight="50" iconWidth="60" itemHeight="40" itemWidth="1500" type="ConfigManagerList"/>
         <component fillerCount="500" itemHeight="45" pixmapHeight="40" pixmapWidth="70" pixmapX="5" pixmapY="3" textHeight="45" textWidth="1000" textX="85" textY="0" type="ChoiceList"/>
@@ -395,7 +396,7 @@
             <convert type="ServiceName">Name</convert>
         </widget>
         <eLabel backgroundColor="#40000000" position="0,665" size="290,415"/>
-        <widget alphatest="blend" position="10,677" render="ZChannel" scale="1" size="270,390" source="session.Event_Now" zPosition="15"/>
+        <widget alphatest="blend" position="5,677" render="ZChannel" scale="fill" size="275,390" source="session.Event_Now" zPosition="15"/>
         <widget alphatest="blend" backgroundColor="#000000" position="30,675" render="Picon" size="220,132" source="session.CurrentService" transparent="1" zPosition="1">
             <convert type="ServiceName">Reference</convert>
         </widget>
@@ -1426,7 +1427,7 @@
         </widget>
         <widget backgroundColor="#202020" font="Regular;30" foregroundColor="yellow" halign="center" position="220,155" render="Label" size="1030,50" source="introduction" transparent="0" valign="center" zPosition="5"/>
         <eLabel backgroundColor="#202020" position="220,215" size="1030,3" zPosition="1"/>
-        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="220,155" render="Listbox" scrollbarMode="showOnDemand" size="1030,540" source="hddlist" transparent="1" zPosition="5">
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="220,225" render="Listbox" scrollbarMode="showOnDemand" size="1030,540" source="hddlist" transparent="1" zPosition="5">
             <convert type="TemplatedMultiContent">
 				{"template": [
 						MultiContentEntryText(pos = (120, 4), size = (900, 40), font=0, flags = RT_HALIGN_LEFT|RT_VALIGN_TOP, text = 0), # index 0 is the hdd_description
@@ -3430,107 +3431,107 @@
         <widget name="List0Sym0" position="410,180" size="30,30" zPosition="3"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text0" position="250,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back0" position="245,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel0" position="245,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel0" position="245,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic1" position="490,180" size="130,130"/>
         <widget name="List0Sym1" position="620,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text1" position="460,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back1" position="455,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel1" position="455,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel1" position="455,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic2" position="700,180" size="130,130"/>
         <widget name="List0Sym2" position="830,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text2" position="670,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back2" position="665,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel2" position="665,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel2" position="665,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic3" position="910,180" size="130,130"/>
         <widget name="List0Sym3" position="1040,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text3" position="880,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back3" position="875,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel3" position="875,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel3" position="875,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic4" position="1120,180" size="130,130"/>
         <widget name="List0Sym4" position="1250,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text4" position="1090,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back4" position="1085,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel4" position="1085,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel4" position="1085,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic5" position="1330,180" size="130,130"/>
         <widget name="List0Sym5" position="1460,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text5" position="1300,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back5" position="1295,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel5" position="1295,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel5" position="1295,175" size="210,230" zPosition="-1"/>
         <widget name="List0Pic6" position="1540,180" size="130,130"/>
         <widget name="List0Sym6" position="1670,180" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List0Text6" position="1510,315" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List0Back6" position="1505,175" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel6" position="1505,175" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List0Sel6" position="1505,175" size="210,230" zPosition="-1"/>
         <widget name="List1Pic0" position="280,430" size="130,130"/>
         <widget name="List1Sym0" position="410,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text0" position="250,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back0" position="245,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel0" position="245,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel0" position="245,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic1" position="490,430" size="130,130"/>
         <widget name="List1Sym1" position="620,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text1" position="460,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back1" position="455,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel1" position="455,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel1" position="455,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic2" position="700,430" size="130,130"/>
         <widget name="List1Sym2" position="830,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text2" position="670,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back2" position="665,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel2" position="665,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#2890fe" cornerRadius="10" name="List1Sel2" position="665,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic3" position="910,430" size="130,130"/>
         <widget name="List1Sym3" position="1040,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text3" position="880,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back3" position="875,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel3" position="875,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel3" position="875,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic4" position="1120,430" size="130,130"/>
         <widget name="List1Sym4" position="1250,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text4" position="1090,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back4" position="1085,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel4" position="1085,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel4" position="1085,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic5" position="1330,430" size="130,130"/>
         <widget name="List1Sym5" position="1460,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text5" position="1300,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back5" position="1295,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel5" position="1295,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel5" position="1295,425" size="210,230" zPosition="-1"/>
         <widget name="List1Pic6" position="1540,430" size="130,130"/>
         <widget name="List1Sym6" position="1670,430" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List1Text6" position="1510,565" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List1Back6" position="1505,425" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel6" position="1505,425" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List1Sel6" position="1505,425" size="210,230" zPosition="-1"/>
         <widget name="List2Pic0" position="280,680" size="130,130"/>
         <widget name="List2Sym0" position="410,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text0" position="250,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back0" position="245,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel0" position="245,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel0" position="245,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic1" position="490,680" size="130,130"/>
         <widget name="List2Sym1" position="620,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text1" position="460,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back1" position="455,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel1" position="455,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel1" position="455,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic2" position="700,680" size="130,130"/>
         <widget name="List2Sym2" position="830,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text2" position="670,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back2" position="665,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel2" position="665,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel2" position="665,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic3" position="910,680" size="130,130"/>
         <widget name="List2Sym3" position="1040,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text3" position="880,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back3" position="875,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel3" position="875,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel3" position="875,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic4" position="1120,680" size="130,130"/>
         <widget name="List2Sym4" position="1250,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text4" position="1090,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back4" position="1085,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel4" position="1085,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel4" position="1085,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic5" position="1330,680" size="130,130"/>
         <widget name="List2Sym5" position="1460,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text5" position="1300,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back5" position="1295,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel5" position="1295,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel5" position="1295,675" size="210,230" zPosition="-1"/>
         <widget name="List2Pic6" position="1540,680" size="130,130"/>
         <widget name="List2Sym6" position="1670,680" size="30,30" zPosition="1"/>
         <widget backgroundColors="#20000000,#20000000" font="Regular;24" foregroundColors="#dddddd,#ffff00" halign="center" name="List2Text6" position="1510,815" size="200,80" transparent="1"/>
         <widget backgroundColor="#ff000000" cornerRadius="10" name="List2Back6" position="1505,675" size="210,210" zPosition="-2"/>
-        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel6" position="1505,675" size="210,210" zPosition="-1"/>
+        <widget backgroundColor="#202890fe" cornerRadius="10" name="List2Sel6" position="1505,675" size="210,230" zPosition="-1"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,965" size="1530,8" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;28" foregroundColor="yellow" name="HighlightInfo" position="220,985" size="1280,80" transparent="1" valign="center"/>
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="right" name="PageLabel" position="1350,920" size="400,50" transparent="1"/>
@@ -3723,12 +3724,12 @@
         <widget backgroundColor="barColor" font="Regular;30" foregroundColor="foreground" name="List10Sel0" position="310,845" size="740,50" transparent="0" valign="center" zPosition="1"/>
         <eLabel backgroundColor="#202020" position="220,910" size="830,1"/>
         <eLabel backgroundColor="#303030" position="220,990" size="830,5"/>
-        <widget backgroundColor="background" font="Regular;32" foregroundColor="yellow" halign="left" name="HighlightInfo" position="220,1010" size="500,50" transparent="1" valign="center"/>
-        <widget name="Icon0" position="740,1010" size="50,50"/>
-        <widget name="Icon1" position="800,1010" size="50,50"/>
-        <widget name="Icon2" position="860,1010" size="50,50"/>
-        <widget name="Icon3" position="920,1010" size="50,50"/>
-        <widget name="IconInfo" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/info_neutral.svg" position="990,1010" size="50,50"/>
+        <widget backgroundColor="background" font="Regular;32" foregroundColor="yellow" halign="left" name="HighlightInfo" position="220,1000" size="830,80" transparent="1" valign="center"/>
+        <widget name="Icon0" position="750,1015" size="50,50"/>
+        <widget name="Icon1" position="810,1015" size="50,50"/>
+        <widget name="Icon2" position="870,1015" size="50,50"/>
+        <widget name="Icon3" position="930,1015" size="50,50"/>
+        <widget name="IconInfo" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/info_neutral.svg" position="990,1015" size="50,50"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="Camswitch" position="0,0" size="1920,1080" title="Camd Manager">
         <layout name="menu_830"/>
@@ -3864,36 +3865,6 @@
     <screen backgroundColor="#80000000" flags="wfNoBorder" name="GeminiMoviePlayer" position="0,733" size="1920,400">
         <layout name="MoviePlayer"/>
     </screen>
-<!--         
-    <screen backgroundColor="#80000000" flags="wfNoBorder" name="GeminiSoundPlayer" position="0,0" size="1920,1080">
-        <widget name="MainPic" position="0,0" size="1920,1080" zPosition="-5"/>
-        <widget gradient="background,background,vertical" name="Infobar_BG" position="0,840" size="1920,240" zPosition="-3"/>
-        <widget name="Cover_Pic" position="30,700" size="240,240"/>
-        <widget backgroundColor="background" font="Regular;45" name="LabelTitle" position="300,850" size="1450,55" transparent="1" zPosition="-2"/>
-        <widget backgroundColor="background" font="Regular;30" name="LabelArtist" position="300,915" size="1250,35" transparent="1"/>
-        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#dddddd" halign="center" name="SlideShowCount" position="1870,0" size="50,50" transparent="1" valign="center"/>
-        <widget backgroundColor="background" font="Regular;28" halign="right" name="LabelTime" position="1600,920" size="300,35" transparent="1"/>
-        <widget backgroundColor="grey" name="Progress" pixmap="Default-FHD/skin_default/progress.svg" position="20,965" size="1880,10" transparent="1"/>
-        <widget name="Icon0" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/menu_neutral.svg" position="45,985" size="60,60"/>
-        <widget name="IconInfo" pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/info_neutral.svg" position="145,985" size="60,60"/>
-        <widget name="Icon1" pixmaps="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/circle_play.svg,/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/circle_pause.svg,    /usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/circle_stop.svg,/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/circle_forward.svg,    /usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/circle_rewind.svg" position="245,985" size="60,60"/>
-        <widget name="Icon2" position="345,985" size="60,60"/>
-        <widget backgroundColor="background" cornerRadius="20" name="List_BG" position="1250,40" size="650,790" zPosition="-1"/>
-        <widget backgroundColor="background" backgroundColorSelected="background" backgroundPixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/default.png" enableWrapAround="on" position="1270,60" render="Listbox" scrollbarMode="showOnDemand" selectionPixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/cursor_neutral.svg" size="610,750" source="List" transparent="1">
-            <convert type="TemplatedMultiContent">
-			{"template":[MultiContentEntryText(pos=(30,10),size=(80,35),text=1),
-			MultiContentEntryText(pos=(110,9),size=(500,35),text=2)],
-			"fonts":[gFont("Regular",28)],"itemHeight":50}
-			</convert>
-        </widget>
-        <widget backgroundColor="background" font="Regular;35" halign="right" name="LabelInfo" position="530,1015" size="1200,42" transparent="1"/>
-        <widget backgroundColor="background" font="Regular;35" halign="right" name="LabelCount" position="1700,1015" size="140,42" transparent="1"/>
-        <widget name="VolumeMute" pixmaps="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/mute_off.svg,/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/mute_on.svg" position="1260,785" size="40,40" zPosition="-2"/>
-        <widget backgroundColor="background" cornerRadius="20" font="Regular;32" halign="center" position="1250,750" render="Label" size="650,80" source="VolumeLabel" zPosition="-4"/>
-        <widget name="VolumeBG" pixmap="skin_default/volbg.png" position="1345,790" size="500,30" zPosition="-3"/>
-        <widget pixmap="skin_default/progress.png" position="1387,802" render="Progress" size="418,7" source="VolumeProgress" transparent="1" zPosition="-2"/>
-    </screen>
-        -->
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="GeminiSearchScreen" position="0,0" size="1920,1080" title="Search">
         <layout name="menu_1530"/>
         <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/GP4/geminicomm/images/gemini_logo.svg" position="240,50" size="1300,1000" zPosition="-2"/>

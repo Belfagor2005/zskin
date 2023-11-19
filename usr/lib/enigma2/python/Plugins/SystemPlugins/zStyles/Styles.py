@@ -24,7 +24,6 @@
 # must pass on to the recipients the same freedoms that you received. You must make sure
 # that they, too, receive or can get the source code. And you must show them these terms so they know their rights.
 #
-from . import _, PLUGIN_NAME
 from Screens.Screen import Screen
 from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
@@ -33,15 +32,16 @@ from Components.ConfigList import ConfigListScreen
 from Tools.Directories import fileExists
 from Screens.MessageBox import MessageBox
 from Screens.Standby import TryQuitMainloop
-from .StylesSetup import StylesSetup
-from .ConfigHelper import storeConfig
-from .style_ops import writeStyle, loadStyle, getStyleFile, getSkinFile, isPrimarySkin
 from Tools.Directories import resolveFilename, SCOPE_PLUGINS
 from Components.AVSwitch import AVSwitch
 from Components.Pixmap import Pixmap
-from .PicLoader import PicLoader
 from enigma import gPixmapPtr
 import os
+from . import _, PLUGIN_NAME
+from .StylesSetup import StylesSetup
+from .ConfigHelper import storeConfig
+from .style_ops import writeStyle, loadStyle, getStyleFile, getSkinFile, isPrimarySkin
+from .PicLoader import PicLoader
 
 try:
     from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport

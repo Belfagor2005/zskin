@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zStyles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-14 20:48+0100\n"
-"PO-Revision-Date: 2023-11-14 20:49+0100\n"
+"POT-Creation-Date: 2023-11-15 21:26+0100\n"
+"PO-Revision-Date: 2023-11-15 21:26+0100\n"
 "Last-Translator: cmikula\n"
 "Language-Team: cmikula\n"
 "Language: it_IT\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../Styles.py:79 ../../../StylesSetup.py:71
+#: ../../../Styles.py:79 ../../../StylesSetup.py:76
 msgid "Close"
 msgstr ""
 
-#: ../../../Styles.py:80 ../../../StylesSetup.py:72
+#: ../../../Styles.py:80 ../../../StylesSetup.py:77
 msgid "Save"
 msgstr ""
 
@@ -33,13 +33,13 @@ msgstr ""
 msgid "Style presets contains errors!"
 msgstr ""
 
-#: ../../../Styles.py:143 ../../../StylesSetup.py:275
+#: ../../../Styles.py:143 ../../../StylesSetup.py:283
 msgid ""
 "GUI needs a restart to apply a new skin\n"
 "Do you want to Restart the GUI now?"
 msgstr ""
 
-#: ../../../Styles.py:144 ../../../StylesSetup.py:276
+#: ../../../Styles.py:144 ../../../StylesSetup.py:284
 msgid "Restart GUI now?"
 msgstr ""
 
@@ -51,110 +51,110 @@ msgstr ""
 msgid "PRESET"
 msgstr ""
 
-#: ../../../StylesSetup.py:74
+#: ../../../StylesSetup.py:79
 msgid "Reset skin"
 msgstr ""
 
-#: ../../../StylesSetup.py:84
+#: ../../../StylesSetup.py:89
 msgid ""
 "This operation checks if the skin has its components (is not sure)..\n"
 "Do you really want to continue?"
 msgstr ""
 
-#: ../../../StylesSetup.py:110
+#: ../../../StylesSetup.py:114
 msgid "Skin update:"
 msgstr ""
 
-#: ../../../StylesSetup.py:114
+#: ../../../StylesSetup.py:118
 msgid "Read style configuration from skin:"
 msgstr ""
 
-#: ../../../StylesSetup.py:115
+#: ../../../StylesSetup.py:119
 msgid "TMDB API:"
 msgstr ""
 
-#: ../../../StylesSetup.py:117
+#: ../../../StylesSetup.py:121
 msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
 msgstr ""
 
-#: ../../../StylesSetup.py:118
+#: ../../../StylesSetup.py:122
 msgid "Set Your Apikey TMDB"
 msgstr ""
 
-#: ../../../StylesSetup.py:119
+#: ../../../StylesSetup.py:123
 msgid "OMDB API:"
 msgstr ""
 
-#: ../../../StylesSetup.py:121
+#: ../../../StylesSetup.py:125
 msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
 msgstr ""
 
-#: ../../../StylesSetup.py:122
+#: ../../../StylesSetup.py:126
 msgid "Set Your Apikey OMDB"
 msgstr ""
 
-#: ../../../StylesSetup.py:133
+#: ../../../StylesSetup.py:135
 msgid "Preserve preview if not defined:"
 msgstr ""
 
-#: ../../../StylesSetup.py:139
+#: ../../../StylesSetup.py:141
 msgid "Setup"
 msgstr ""
 
-#: ../../../StylesSetup.py:168
+#: ../../../StylesSetup.py:174
 msgid "Skin exist!! Do you really want to Upgrade?"
 msgstr ""
 
-#: ../../../StylesSetup.py:170
+#: ../../../StylesSetup.py:176
 msgid ""
 "Do you really want to install the Skin??\n"
 "Do it at your own risk.\n"
 "Do you want to continue?"
 msgstr ""
 
-#: ../../../StylesSetup.py:191
+#: ../../../StylesSetup.py:199
 msgid "Installation zSkin"
 msgstr ""
 
-#: ../../../StylesSetup.py:245
+#: ../../../StylesSetup.py:253
 msgid "No previous styled skin - restore canceled!"
 msgstr ""
 
-#: ../../../StylesSetup.py:250
+#: ../../../StylesSetup.py:258
 msgid "Would you really reset this skin?"
 msgstr ""
 
-#: ../../../StylesSetup.py:252
+#: ../../../StylesSetup.py:260
 msgid "Reset skin?"
 msgstr ""
 
-#: ../../../StylesSetup.py:260
+#: ../../../StylesSetup.py:268
 msgid "The skin not exists - restore canceled!"
 msgstr ""
 
-#: ../../../StylesSetup.py:263
+#: ../../../StylesSetup.py:271
 msgid "The skin is not styled - restore canceled!"
 msgstr ""
 
-#: ../../../StylesSetup.py:322
+#: ../../../StylesSetup.py:330
 msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
 msgstr ""
 
-#: ../../../StylesSetup.py:324 ../../../StylesSetup.py:337
-#: ../../../StylesSetup.py:346 ../../../StylesSetup.py:359
+#: ../../../StylesSetup.py:332 ../../../StylesSetup.py:345
+#: ../../../StylesSetup.py:354 ../../../StylesSetup.py:367
 #, python-format
 msgid "Missing %s !"
 msgstr ""
 
-#: ../../../StylesSetup.py:335
+#: ../../../StylesSetup.py:343
 msgid "TMDB ApiKey Imported & Stored!"
 msgstr ""
 
-#: ../../../StylesSetup.py:344
+#: ../../../StylesSetup.py:352
 msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
 msgstr ""
 
-#: ../../../StylesSetup.py:357
+#: ../../../StylesSetup.py:365
 msgid "OMDB ApiKey Imported & Stored!"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Z File Commander - Addon File-Viewer"
 msgstr ""
 
-#: ../../../plugin.py:123
+#: ../../../plugin.py:121
 msgid "Style your zSkin"
 msgstr ""
 

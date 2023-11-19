@@ -1,12 +1,12 @@
-from Components.config import config, ConfigText, ConfigSubDict
-# from __init__ import PLUGIN_PATH
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
-from . import _, PLUGIN_PATH
+from Components.config import config, ConfigText, ConfigSubDict
 from Tools.Directories import fileExists, resolveFilename, SCOPE_SKIN, SCOPE_CONFIG
-from .style import Skin, Style, StyleUser
 from shutil import copy2
 import os
-
+from . import _, PLUGIN_PATH
+from .style import Skin, Style, StyleUser
 STYLES_FILENAME = "styles.xml"
 STYLES_USER_FILENAME = "styles_user.xml"
 

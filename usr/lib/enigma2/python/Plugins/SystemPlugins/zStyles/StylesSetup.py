@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from . import _, PLUGIN_PATH, PLUGIN_NAME
 from Components.ActionMap import ActionMap
 from Components.ConfigList import ConfigListScreen
@@ -17,8 +20,12 @@ import sys
 from .style_ops import getSkinName, isSkinChanged
 from .style import Skin
 from .addons.Utils import RequestAgent
-PY3 = sys.version_info.major >= 3
-
+PY3 = False
+if sys.version_info[0] >= 3:
+    PY3 = True
+    unicode = str
+    unichr = chr
+    long = int
 
 try:
     from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
