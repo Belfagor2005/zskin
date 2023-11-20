@@ -935,97 +935,6 @@
                 </widget>
             </screen>
         </style>
-        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
-        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg"/>
-        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
-                <layout name="menu_1030"/>
-                <layout name="rg-2c-nn-1030"/>
-                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
-                <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
-                    <convert type="TemplatedMultiContent">
-                {"templates":
-                    {"default": (94,[
-                            MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (174, 94), png = 3), # index 3 is the icon
-                            MultiContentEntryText(pos = (214, 0), size = (1134, 47), font = 0, text = 1), # index 1 is the plugin.name
-                            MultiContentEntryText(pos = (214, 47), size = (1134, 47), font = 1, color=0xb0b0b0, color_sel=0xffd877, text = 2), # index 2 is the plugin.description
-                        ]),
-                    },
-                    "fonts": [gFont("Regular", 40), gFont("Regular", 38)],
-                    "itemHeight": 94
-                }
-                </convert>
-                </widget>
-            </screen>
-        </style>
-        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
-        <style name="PluginBrowser" value="Grid" preview="preview/Pb-Grid.jpg">
-            <screen backgroundColor="#30000000" flags="wfNoBorder" name="PluginBrowser" position="center,center" size="2427,1334" title="Plugin browser">
-                <widget backgroundColor="#30000000" font="main; 112" foregroundColor="yellow" halign="center" position="0,14" render="Label" size="2560,174" source="Title" valign="center" zPosition="5"/>
-                <eLabel backgroundColor="#FF000000" position="0,200" size="2560,7"/>
-                <eLabel backgroundColor="#FF000000" position="0,1200" size="2560,7"/>
-                <eLabel backgroundColor="#FF000000" position="400,200" size="7,1000"/>
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/plugin_selection.png" position="27,14" size="174,174" zPosition="6"/>
-                <eLabel backgroundColor="red" position="27,267" size="34,34" cornerRadius="10"/>
-                <eLabel backgroundColor="green" position="27,387" size="34,34" cornerRadius="10"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="80,260" size="267,80" transparent="1" valign="center" zPosition="5"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="80,380" size="267,80" transparent="1" valign="center" zPosition="5"/>
-                <widget enableWrapAround="1" margin="50,70" mode="grid" position="450,225" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1850,960" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
-                    <convert type="TemplatedMultiContent">
-                                {"template":[ MultiContentEntryText(pos = (2,114), size = (240,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
-                                    MultiContentEntryPixmapAlphaTest(pos=(30,27),size=(180,60),png=3),],
-                                    "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":240
-                                }
-                    </convert>
-                </widget>
-                <widget font="Regular;46" position="80,1240" foregroundColor="yellow" render="Label" size="2400,54" source="pluginlist" halign="center" transparent="1">
-                    <convert type="StringListSelection">2</convert>
-                </widget>
-            </screen>
-        </style>
-        <style name="PluginBrowser" value="LeftBar" preview="preview/Pb-Left.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="534,1440" title="Plugin browser">
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/pbarv.png" position="0,0" size="467,1440" zPosition="-2"/>
-                <widget enableWrapAround="1" margin="20,20" position="27,40" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="347,1174" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
-                    <convert type="TemplatedMultiContent">
-                        {"template":[ MultiContentEntryText(pos = (0,107), size = (210,30), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
-                            MultiContentEntryPixmapAlphaTest(pos=(15,14),size=(180,60),png=3),],
-                            "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":210
-                        }
-                    </convert>
-                </widget>
-                <widget font="Regular;46" position="80,1240" foregroundColor="yellow" render="Label" size="2400,54" source="pluginlist" halign="center" transparent="1">
-                    <convert type="StringListSelection">2</convert>
-                </widget>
-                <eLabel backgroundColor="#303030" position="47,1254" size="334,4"/>
-                <eLabel backgroundColor="red" position="47,1280" size="34,34" cornerRadius="10"/>
-                <eLabel backgroundColor="green" position="47,1374" size="34,34" cornerRadius="10"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;34" halign="left" name="red" position="94,1274" size="267,80" transparent="1" valign="center" zPosition="5"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;34" halign="left" name="green" position="94,1367" size="267,80" transparent="1" valign="center" zPosition="5"/>
-            </screen>
-        </style>
-        <style name="PluginBrowser" value="Orizontal" preview="preview/Pb-Orizontal.jpg">
-            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
-                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/bpanel.png" position="0,1032" size="2560,408" zPosition="-1"/>
-                <widget enableWrapAround="1" margin="0,0" mode="grid" position="40,1140" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="2480,174" source="pluginlist" backgroundColorSelected="trbluette" transparent="1">
-                    <convert type="TemplatedMultiContent">
-				{"template":[
-					MultiContentEntryPixmapAlphaTest(pos=(14,27),size=(180,60),png=3),
-					MultiContentEntryText(pos = (0,120), size = (210,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
-					"fonts":[gFont("Regular",30)],"itemHeight":160,"itemWidth":210
-				}
-			</convert>
-                </widget>
-                <widget source="pluginlist" render="Label" position="0,1040" size="2560,54" font="Regular;46" foregroundColor="ltbluette" backgroundColor="#000000" halign="center" transparent="1">
-                    <convert type="StringListSelection">2</convert>
-                </widget>
-                <eLabel backgroundColor="red" position="40,1387" size="34,34" cornerRadius="10"/>
-                <eLabel backgroundColor="green" position="574,1387" size="34,34" cornerRadius="10"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="94,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
-                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="627,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
-            </screen>
-        </style>
         <!-- ##############################  PANELS SECONDINFOBAR ###########################-->
         <style name="SecondInfoBar" value="Default" preview="preview/SIB-Slim.jpg"/>
         <style name="SecondInfoBar" value="Default" preview="preview/SIB-Slim.jpg">
@@ -1549,7 +1458,7 @@
                     <convert type="FrontendInfo">SNR</convert>
                 </widget>
                 <eLabel text="Snr:" position="2120,1180" size="134,54" font="Regular;40" backgroundColor="#000000" foregroundColor="#ffffff" transparent="1" zPosition="3"/>
-                <widget source="session.FrontendStatus" render="Label" position="2220,1180" size="148,54" font="Regular; 38" foregroundColor="#ffffff" backgroundColor="#000000" zPosition="3" transparent="1">
+                <widget source="session.FrontendStatus" render="Label" position="2220,1180" size="134,54" font="Regular;40" foregroundColor="#ffffff" backgroundColor="#000000" zPosition="3" transparent="1">
                     <convert type="FrontendInfo">SNRdB</convert>
                 </widget>
                 <eLabel position="2120,1247" size="387,3" backgroundColor="#202020" zPosition="3"/>
@@ -1648,10 +1557,15 @@
                 <eLabel position="2307,1134" size="227,80" backgroundColor="#20101010" zPosition="-2"/>
                 <eLabel text="N E X T" position="2307,1134" size="227,80" font="Regular;54" halign="center" valign="center" foregroundColor="#20ffffff" backgroundColor="#000000" transparent="1" zPosition="1"/>
                 <!-- EventList Required Renderer EventListDisplay.py Required Converter EventList.py -->
-                <!-- lululla -->
-                <widget backgroundColor="#FF101010" column0="0,150,yellow,Regular,28,0,0" column1="151,860,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1116,240" source="ServiceEvent" transparent="1" zPosition="50">
+                <widget source="ServiceEvent" render="EventListDisplay" position="1440,1214" backgroundColor="#FF101010" transparent="1" zPosition="50" column0="0,100,yellow,Regular,30,0,0" column1="100,950,white,Regular,28,0,1" primetimeoffset="0" rowHeight="47" size="1427,240">
                     <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=4</convert>
                 </widget>
+                <!-- lululla -->
+                <!--
+                 <widget backgroundColor="#FF101010" column0="0,150,yellow,Regular,28,0,0" column1="151,860,white,Regular,28,0,1" position="1440,1214" primetimeoffset="0" render="EventListDisplay" rowHeight="47" size="1116,240" source="ServiceEvent" transparent="1" zPosition="50">
+                    <convert type="zEventList">beginOnly=yes,primetime=no,eventcount=4</convert>
+                </widget>
+                -->
                 <!-- lululla -->
                 <eLabel position="0,1320" size="1414,114" backgroundColor="#20050505" zPosition="-1"/>
                 <eLabel position="0,1320" size="1414,2" backgroundColor="#202020"/>
@@ -1665,6 +1579,97 @@
                 <widget name="key_yellow" font="Regular;35" position="787,1360" size="294,40" halign="left" valign="center" backgroundColor="black" zPosition="2" transparent="1"/>
                 <ePixmap position="1094,1360" pixmap="ZSkin-WQHD/buttons/key_blue.png" size="40,40" alphatest="blend" zPosition="2"/>
                 <widget name="key_blue" font="Regular;35" position="1147,1360" size="294,40" halign="left" valign="center" backgroundColor="black" zPosition="2" transparent="1"/>
+            </screen>
+        </style>
+        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
+        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg"/>
+        <style name="PluginBrowser" value="Default" preview="preview/Pb-Default.jpg">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
+                <layout name="menu_1030"/>
+                <layout name="rg-2c-nn-1030"/>
+                <eLabel backgroundColor="#000000" font="main;102" foregroundColor="#808060" position="320,27" size="0,0" text="Plugin Manager" transparent="1" zPosition="5"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/plugin.png" position="80,0" size="1947,1307" zPosition="-2"/>
+                <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" position="294,220" render="Listbox" scrollbarMode="showOnDemand" size="1374,934" source="pluginlist" transparent="1" zPosition="5">
+                    <convert type="TemplatedMultiContent">
+                {"templates":
+                    {"default": (94,[
+                            MultiContentEntryPixmapAlphaTest(pos = (14, 3), size = (174, 94), png = 3), # index 3 is the icon
+                            MultiContentEntryText(pos = (214, 0), size = (1134, 47), font = 0, text = 1), # index 1 is the plugin.name
+                            MultiContentEntryText(pos = (214, 47), size = (1134, 47), font = 1, color=0xb0b0b0, color_sel=0xffd877, text = 2), # index 2 is the plugin.description
+                        ]),
+                    },
+                    "fonts": [gFont("Regular", 40), gFont("Regular", 38)],
+                    "itemHeight": 94
+                }
+                </convert>
+                </widget>
+            </screen>
+        </style>
+        <!-- ##############################  PANELS PLUGINBROWSER ###########################-->
+        <style name="PluginBrowser" value="Grid" preview="preview/Pb-Grid.jpg">
+            <screen backgroundColor="#30000000" flags="wfNoBorder" name="PluginBrowser" position="center,center" size="2427,1334" title="Plugin browser">
+                <widget backgroundColor="#30000000" font="main; 112" foregroundColor="yellow" halign="center" position="0,14" render="Label" size="2560,174" source="Title" valign="center" zPosition="5"/>
+                <eLabel backgroundColor="#FF000000" position="0,200" size="2560,7"/>
+                <eLabel backgroundColor="#FF000000" position="0,1200" size="2560,7"/>
+                <eLabel backgroundColor="#FF000000" position="400,200" size="7,1000"/>
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/plugin_selection.png" position="27,14" size="174,174" zPosition="6"/>
+                <eLabel backgroundColor="red" position="27,267" size="34,34" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="27,387" size="34,34" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="80,260" size="267,80" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="80,380" size="267,80" transparent="1" valign="center" zPosition="5"/>
+                <widget enableWrapAround="1" margin="50,70" mode="grid" position="450,225" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="1850,960" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
+                    <convert type="TemplatedMultiContent">
+                        {"template":[ MultiContentEntryText(pos = (2,114), size = (240,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+                            MultiContentEntryPixmapAlphaTest(pos=(30,27),size=(180,60),png=3),],
+                            "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":240
+                        }
+                    </convert>
+                </widget>
+                <widget font="Regular;46" position="80,1240" foregroundColor="yellow" render="Label" size="2400,54" source="pluginlist" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+            </screen>
+        </style>
+        <style name="PluginBrowser" value="LeftBar" preview="preview/Pb-Left.jpg">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="534,1440" title="Plugin browser">
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/pbarv.png" position="0,0" size="467,1440" zPosition="-2"/>
+                <widget enableWrapAround="1" margin="20,20" position="27,40" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.1" size="347,1174" source="pluginlist" transparent="1" backgroundColorSelected="trbluette">
+                    <convert type="TemplatedMultiContent">
+                        {"template":[ MultiContentEntryText(pos = (0,107), size = (210,30), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1),
+                            MultiContentEntryPixmapAlphaTest(pos=(15,14),size=(180,60),png=3),],
+                            "fonts":[gFont("Regular",32)],"itemHeight":160,"itemWidth":210
+                        }
+                    </convert>
+                </widget>
+                <widget font="Regular;46" position="80,1240" foregroundColor="yellow" render="Label" size="2400,54" source="pluginlist" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+                <eLabel backgroundColor="#303030" position="47,1254" size="334,4"/>
+                <eLabel backgroundColor="red" position="47,1280" size="34,34" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="47,1374" size="34,34" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;34" halign="left" name="red" position="94,1274" size="267,80" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;34" halign="left" name="green" position="94,1367" size="267,80" transparent="1" valign="center" zPosition="5"/>
+            </screen>
+        </style>
+        <style name="PluginBrowser" value="Orizontal" preview="preview/Pb-Orizontal.jpg">
+            <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PluginBrowser" position="0,0" size="2560,1440" title="Plugin browser">
+                <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/bpanel.png" position="0,1032" size="2560,408" zPosition="-1"/>
+                <widget enableWrapAround="1" margin="0,0" mode="grid" position="40,1140" render="Listbox" scrollbarMode="showOnDemand" selectionZoom="1.2" size="2480,174" source="pluginlist" backgroundColorSelected="trbluette" transparent="1">
+                    <convert type="TemplatedMultiContent">
+				{"template":[
+					MultiContentEntryPixmapAlphaTest(pos=(14,27),size=(180,60),png=3),
+					MultiContentEntryText(pos = (0,120), size = (210,34), color=0xffffff, color_sel=0xffff00, flags = RT_HALIGN_CENTER|RT_VALIGN_CENTER|RT_WRAP, text = 1), ],
+					"fonts":[gFont("Regular",30)],"itemHeight":160,"itemWidth":210
+				}
+			</convert>
+                </widget>
+                <widget source="pluginlist" render="Label" position="0,1040" size="2560,54" font="Regular;46" foregroundColor="ltbluette" backgroundColor="#000000" halign="center" transparent="1">
+                    <convert type="StringListSelection">2</convert>
+                </widget>
+                <eLabel backgroundColor="red" position="40,1387" size="34,34" cornerRadius="10"/>
+                <eLabel backgroundColor="green" position="574,1387" size="34,34" cornerRadius="10"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="red" position="94,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
+                <widget foregroundColor="white" backgroundColor="#000000" font="Regular;35" halign="left" name="green" position="627,1380" size="534,40" transparent="1" valign="center" zPosition="5"/>
             </screen>
         </style>
         <!-- ##############################  EVENTVIEW ############################ -->

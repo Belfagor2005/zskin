@@ -31,7 +31,6 @@
         </default>
     </presets>
     <screens name="Screens">
-        <!-- ##############################  PANELS INFOBAR ###########################-->
         <style name="InfoBar" value="Default" preview="preview/INF-SmallPicon.jpg"/>
         <style name="InfoBar" value="Default" preview="preview/INF-SmallPicon.jpg">
             <screen backgroundColor="transparent" flags="wfNoBorder" name="InfoBar" position="0,0" size="1920,1080" title="InfoBar">
