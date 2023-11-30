@@ -2620,7 +2620,7 @@
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="Volume" position="1600,50" size="250,120" title="Volume" zPosition="1">
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/volpic.png" position="0,0" size="250,120" transparent="1" zPosition="2"/>
         <widget name="Volume" orientation="orBottomToTop" pixmap="ZSkin-FHD/menu/panels/volumeon.png" position="110,20" size="0,0" transparent="1" zPosition="3"/>
-        <widget backgroundColor="bluette" font="LCD;90" foregroundColor="#ffffff" halign="center" position="120,0" render="extvolumeText" size="120,110" source="global.CurrentTime" transparent="1" valign="center" zPosition="4"/>
+        <widget backgroundColor="bluette" font="LCD;90" foregroundColor="#ffffff" halign="center" position="120,0" render="zextvolumeText" size="120,110" source="global.CurrentTime" transparent="1" valign="center" zPosition="4"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="WebIfConfigScreen" position="0,0" size="1920,1080" title="Webinterface: Main Setup">
         <layout name="menu_1030"/>

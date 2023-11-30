@@ -2024,7 +2024,7 @@
             <screen name="Volume" position="1600,50" zPosition="1" size="250,120" title="Volume" backgroundColor="#FF000000" flags="wfNoBorder">
                 <ePixmap pixmap="ZSkin-FHD/menu/panels/volpic.png" position="0,0" size="250,120" blend="blend" zPosition="2" transparent="1"/>
                 <widget name="Volume" pixmap="ZSkin-FHD/menu/panels/volumeon.png" position="110,20" orientation="orBottomToTop" size="0,0" transparent="1" zPosition="3"/>
-                <widget source="global.CurrentTime" render="extvolumeText" position="120,0" size="120,110" font="LCD;90" halign="center" valign="center" foregroundColor="#ffffff" backgroundColor="bluette" transparent="1" zPosition="4"/>
+                <widget source="global.CurrentTime" render="zextvolumeText" position="120,0" size="120,110" font="LCD;90" halign="center" valign="center" foregroundColor="#ffffff" backgroundColor="bluette" transparent="1" zPosition="4"/>
             </screen>
         </style>
         <!-- ##############################  PANELS WETTERBAR ########################### -->
