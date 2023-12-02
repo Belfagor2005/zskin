@@ -272,7 +272,7 @@ class ZstarsEvent(VariableValue, Renderer):
         self.__start = 0
         self.__end = 100
         self.text = ''
-        self.timer30 = eTimer()
+        # self.timer30 = eTimer()
 
     GUI_WIDGET = eSlider
 

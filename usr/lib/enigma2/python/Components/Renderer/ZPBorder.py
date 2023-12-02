@@ -197,12 +197,12 @@ class ZPBorder(Renderer):
             # self.delay()
             self.info()
 
-    def delay(self):
-        try:
-            self.timer40.callback.append(self.info)
-        except:
-            self.timer40_conn = self.timer40.timeout.connect(self.info)
-        self.timer40.start(250, False)
+    # def delay(self):
+        # try:
+            # self.timer40.callback.append(self.info)
+        # except:
+            # self.timer40_conn = self.timer40.timeout.connect(self.info)
+        # self.timer40.start(250, False)
 
     def showPoster(self):
         border = '/usr/share/enigma2/%s/menu/panels/border.png' % cur_skin
