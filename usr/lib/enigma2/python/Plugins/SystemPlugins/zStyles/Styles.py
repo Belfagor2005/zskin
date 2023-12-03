@@ -99,6 +99,12 @@ class Styles(Screen, ConfigListScreen):
         self.style = loadStyle(self.style_file)
         self.style.checkDependency = self.checkDependency
         self.preset = self.style.getPreset()
+
+        # add lululla 
+        from .StylesSetup import StylesSetup
+        self.session.open(StylesSetup)
+        # end
+
         self.createConfigListEntries()
         if not self.style.hasStyle():
             return
@@ -230,6 +236,7 @@ class Styles(Screen, ConfigListScreen):
             self.list.append(getConfigListEntry(_("Current skin can not styled!"), ConfigNothing()))
             self["config"].setList(self.list)
             return
+            
         depends = self.style.getDepends()
         default = self.style.getDefault()
         if len(self.preset) > 0:

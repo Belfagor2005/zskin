@@ -20,6 +20,7 @@ import sys
 from .style_ops import getSkinName, isSkinChanged
 from .style import Skin
 from .addons.Utils import RequestAgent
+AgentRequest = RequestAgent()
 PY3 = False
 if sys.version_info[0] >= 3:
     PY3 = True
@@ -57,8 +58,23 @@ if os.path.exists(zaddons):
 
 
 class StylesSetup(Screen, ConfigListScreen):
+    skin = '''
+           <screen name="StyleSetup" position="center,center" size="1200,820" title=" ">
+                <ePixmap pixmap="Default-FHD/skin_default/buttons/red.svg" position="10,5" size="295,70" />
+                <ePixmap pixmap="Default-FHD/skin_default/buttons/green.svg" position="305,5" size="295,70" />
+                <ePixmap pixmap="Default-FHD/skin_default/buttons/yellow.svg" position="600,5" size="295,70" />
+                <ePixmap pixmap="Default-FHD/skin_default/buttons/blue.svg" position="895,5" size="295,70" />
+                <widget backgroundColor="#9f1313" font="Regular;30" halign="center" position="10,5" render="Label" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" size="295,70" source="key_red" transparent="1" valign="center" zPosition="1" />
+                <widget backgroundColor="#1f771f" font="Regular;30" halign="center" position="305,5" render="Label" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" size="295,70" source="key_green" transparent="1" valign="center" zPosition="1" />
+                <widget backgroundColor="#a08500" font="Regular;30" halign="center" position="600,5" render="Label" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" size="295,70" source="key_yellow" transparent="1" valign="center" zPosition="1" />
+                <widget backgroundColor="#18188b" font="Regular;30" halign="center" position="895,5" render="Label" foregroundColor="white" shadowColor="black" shadowOffset="-2,-2" size="295,70" source="key_blue" transparent="1" valign="center" zPosition="1" />
+                <eLabel backgroundColor="#777777" position="10,80" size="1180,1" />
+                <widget name="config" enableWrapAround="1" position="10,90" scrollbarMode="showOnDemand" size="1180,720" />
+           </screen>'''
+
     def __init__(self, session):
         Screen.__init__(self, session)
+        self.skin = StylesSetup.skin
         self.onChangedEntry = []
         self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions", "NumberActions", "VirtualKeyboardActions", "DirectionActions"],
                 {
@@ -170,7 +186,7 @@ class StylesSetup(Screen, ConfigListScreen):
 
     def zUpdate(self):
         CHECKSKIN = "%senigma2/%s" % (mvi, cur_skin)
-        if os.path.exists(CHECKSKIN):
+        if CHECKSKIN == 'ZSkin-FHD' or CHECKSKIN == 'ZSkin-WQHD':
             self.session.openWithCallback(self.zUpdate2, MessageBox, _("Skin exist!! Do you really want to Upgrade?"), MessageBox.TYPE_YESNO)
         else:
             self.session.openWithCallback(self.zUpdate2, MessageBox, _('Do you really want to install the Skin??\nDo it at your own risk.\nDo you want to continue?'), MessageBox.TYPE_YESNO)
@@ -184,34 +200,36 @@ class StylesSetup(Screen, ConfigListScreen):
         return
 
     def zSkin(self):
-        tmpdirfile = '/tmp/%s' % tarfile
-        if fileExists(tmpdirfile):
-            os.remove(tmpdirfile)
         try:
             self.com = 'https://patbuweb.com/zskin/%s' % tarfile  # cur_skin
-            self.dest = self.dowfil()
-            Req = RequestAgent()
-            self.command = ["tar -xvf /tmp/%s -C /" % tarfile]
-            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
+            dest = self.dowfil()
+            from os import popen
+            cmd22 = 'find /usr/bin -name "wget"'
+            res = popen(cmd22).read()
+            if 'wget' not in res.lower():
+                cmd23 = 'apt-get update && apt-get install wget'
+                popen(cmd23)
+            self.command = ["tar -xvf %s -C /" % dest]
+            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
             if "https" in str(self.com):
-                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (Req, str(self.com), self.dest, self.command[0])
-            print('self cmd: ', cmd)
-            self.session.open(Console, title=_('Installation zSkin'), cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.upd_zeta)
-
+                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
+            self.session.open(Console, title='Installation', cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.msgipkinst)
         except Exception as e:
             print('error download: ', e)
             return
         print('update tarfile')
 
     def dowfil(self):
+        tmpdirfile = '/tmp/%s' % tarfile
+        if fileExists(tmpdirfile):
+            os.remove(tmpdirfile)
         if PY3:
             import urllib.request as urllib2
             import http.cookiejar as cookielib
         else:
             import urllib2
             import cookielib
-        Req = RequestAgent()
-        headers = {'User-Agent': Req}
+        headers = {'User-Agent': AgentRequest}
         cookie_jar = cookielib.CookieJar()
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie_jar))
         urllib2.install_opener(opener)
@@ -219,12 +237,12 @@ class StylesSetup(Screen, ConfigListScreen):
             req = urllib2.Request(self.com, data=None, headers=headers)
             handler = urllib2.urlopen(req, timeout=15)
             data = handler.read()
-            with open(('/tmp/%s' % tarfile), 'wb') as f:
+            with open(tmpdirfile, 'wb') as f:
                 f.write(data)
-            print('MYDEBUG - download ok - URL: %s , filename: %s' % (self.com, tarfile))
+            print('MYDEBUG - download ok - URL: %s , filename: %s' % (self.com, tmpdirfile))
         except:
-            print('MYDEBUG - download failed - URL: %s , filename: %s' % (self.com, tarfile))
-        return tarfile
+            print('MYDEBUG - download failed - URL: %s , filename: %s' % (self.com, tmpdirfile))
+        return tmpdirfile
 
     def keyLeft(self):
         ConfigListScreen.keyLeft(self)
