@@ -1750,7 +1750,6 @@
                     <convert type="EventName">Name</convert>
                 </widget>
                 <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="294,647" size="1640,560" transparent="1" zPosition="5"/>
-                <widget position="314,656" render="ZBanner" size="720,400" source="session.Event_Now" zPosition="5"/>
             </screen>
         </style>
         <style name="EventView" value="InfoEvent CoverBanner" preview="preview/Event-CoverBanner.jpg">
@@ -1786,7 +1785,8 @@
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="yellow" noWrap="1" position="640,520" render="Label" size="1720,120" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventName">Name</convert>
                 </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="320,667" size="1867,507" transparent="1" zPosition="5"/>
+                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="1045,667" size="1142,507" transparent="1" zPosition="5"/>
+                <widget position="314,667" render="ZBanner" size="720,400" source="session.Event_Now" zPosition="5"/>
             </screen>
         </style>
         <!-- ##############################  PANELS MEDIAPLAYER ###########################-->

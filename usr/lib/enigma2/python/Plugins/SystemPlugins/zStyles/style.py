@@ -27,7 +27,7 @@ class TreeBase():
         return True
 
     def indent(self, elem, level=0, more_sibs=False):
-        t = "    "
+        t = "        "
         i = "\n"
         if level:
             i += (level - 1) * t
