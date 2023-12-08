@@ -1754,15 +1754,15 @@
         </style>
         <style name="EventView" value="InfoEvent CoverBanner" preview="preview/Event-CoverBanner.jpg">
             <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EventView" position="0,0" size="2560,1440" title="Eventview">
-                <layout name="menu_1430"/>
-                <layout name="rgyb-2c-n-1430"/>
-                <widget position="294,200" render="ZBanner" size="1907,1000" scale="fill" source="session.Event_Now" zPosition="-1"/>
-                <ePixmap position="307,214" size="294,427" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" zPosition="4"/>
-                <widget position="320,227" size="267,400" source="session.Event_Now" render="ZChannel" zPosition="5"/>
-                <ePixmap position="307,214" size="294,427" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" zPosition="6"/>
-                <widget position="640,207" size="1147,67" backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" transparent="1" zPosition="5"/>
-                <widget position="640,280" size="334,67" backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" transparent="1" zPosition="5"/>
-                <widget position="934,280" size="267,67" backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" transparent="1" zPosition="5"/>
+                <layout name="menu_1430" />
+                <layout name="rgyb-2c-n-1430" />
+                <widget position="294,200" render="ZBanner" size="1907,1000" scale="fill" source="session.Event_Now" zPosition="-1" />
+                <ePixmap position="307,214" size="294,427" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocover.png" zPosition="4" />
+                <widget position="320,227" size="267,400" source="session.Event_Now" render="ZChannel" zPosition="5" />
+                <ePixmap position="307,214" size="294,427" pixmap="/usr/share/enigma2/ZSkin-WQHD/menu/panels/nocoverTop.png" zPosition="6" />
+                <widget position="640,207" size="1147,67" backgroundColor="#000000" font="Regular;59" foregroundColor="yellow" name="channel" transparent="1" zPosition="5" />
+                <widget position="640,280" size="334,67" backgroundColor="#000000" font="Regular;43" foregroundColor="ltbluette" halign="left" name="datetime" transparent="1" zPosition="5" />
+                <widget position="934,280" size="267,67" backgroundColor="#000000" font="Regular;43" foregroundColor="white" halign="left" name="duration" transparent="1" zPosition="5" />
                 <widget backgroundColor="#000000" font="Regular;43" foregroundColor="red" halign="right" position="1200,280" render="Label" size="400,67" source="session.Event_Now" transparent="1" zPosition="5">
                     <convert type="EventTime">Remaining</convert>
                     <convert type="RemainingToText">InMinutes</convert>
@@ -1773,7 +1773,7 @@
                 <widget backgroundColor="#a0a0a0" foregroundColor="bluette" position="640,414" render="Progress" size="1534,11" source="session.Event_Now" zPosition="5">
                     <convert type="EventTime">Progress</convert>
                 </widget>
-                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="640,440" size="334,67" text="Next Event :" transparent="1" zPosition="2"/>
+                <eLabel backgroundColor="header" font="Regular;43" foregroundColor="ltbluette" position="640,440" size="334,67" text="Next Event :" transparent="1" zPosition="2" />
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="white" position="934,440" render="Label" size="334,67" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventTime">StartTime</convert>
                     <convert type="ClockToText">Default</convert>
@@ -1785,8 +1785,7 @@
                 <widget backgroundColor="header" font="Regular;43" foregroundColor="yellow" noWrap="1" position="640,520" render="Label" size="1720,120" source="session.Event_Next" transparent="1" zPosition="2">
                     <convert type="EventName">Name</convert>
                 </widget>
-                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="1045,667" size="1142,507" transparent="1" zPosition="5"/>
-                <widget position="314,667" render="ZBanner" size="720,400" source="session.Event_Now" zPosition="5"/>
+                <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="epg_description" position="307,667" size="1880,507" transparent="1" zPosition="5" />
             </screen>
         </style>
         <!-- ##############################  PANELS MEDIAPLAYER ###########################-->
