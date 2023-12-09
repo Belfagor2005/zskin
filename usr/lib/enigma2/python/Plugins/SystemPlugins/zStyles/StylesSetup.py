@@ -131,6 +131,7 @@ class StylesSetup(Screen, ConfigListScreen):
         if config.zStyles.update.value is True:
             self.list.append(getConfigListEntry("Update/Restore FHD zSkin", config.zStyles.fhdupfind))
             self.list.append(getConfigListEntry("Update/Restore WQHD zSkin", config.zStyles.wqhdupfind))
+            self.list.append(getConfigListEntry("Update/Restore Component zSkin", config.zStyles.conponent))
         self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
         self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
         if config.zStyles.data.getValue():
@@ -174,6 +175,9 @@ class StylesSetup(Screen, ConfigListScreen):
         if sel and sel == config.zStyles.wqhdupfind:
             tarfile = 'ZSkin-WQHD.tar'
             self.fhdupfind()
+        if sel and sel == config.zStyles.conponent:
+            tarfile = 'component.tar'
+            self.upconponent()
 
     def fhdupfind(self):
         self.Timer = eTimer()
@@ -218,6 +222,27 @@ class StylesSetup(Screen, ConfigListScreen):
             print('error download: ', e)
             return
         print('update tarfile')
+
+    def upconponent(self):
+        try:
+            self.com = 'https://patbuweb.com/zskin/%s' % tarfile  # cur_skin
+            dest = self.dowfil()
+            from os import popen
+            cmd22 = 'find /usr/bin -name "wget"'
+            res = popen(cmd22).read()
+            if 'wget' not in res.lower():
+                cmd23 = 'apt-get update && apt-get install wget'
+                popen(cmd23)
+            self.command = ["tar -xvf %s -C /" % dest]
+            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
+            if "https" in str(self.com):
+                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
+            self.session.open(Console, title='Installation', cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.msgipkinst)
+        except Exception as e:
+            print('error download: ', e)
+            return
+        print('update tarfile')
+
 
     def dowfil(self):
         tmpdirfile = '/tmp/%s' % tarfile
