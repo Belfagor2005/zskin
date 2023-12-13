@@ -176,7 +176,7 @@ class StylesSetup(Screen, ConfigListScreen):
             tarfile = 'ZSkin-WQHD.tar'
             self.fhdupfind()
         if sel and sel == config.zStyles.conponent:
-            tarfile = 'component.tar'
+            tarfile = 'conponent.tar'
             self.upconponent()
 
     def fhdupfind(self):
