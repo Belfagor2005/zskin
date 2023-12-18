@@ -938,6 +938,23 @@ def RequestAgent():
     return RandomAgent
 
 
+def make_request(url):
+    try:
+        import requests
+        response = requests.get(url, verify=False)
+        if response.status_code == 200:
+            link = requests.get(url, headers={'User-Agent': RequestAgent()}, timeout=15, verify=False, stream=True ).text
+        return link
+    except ImportError:
+        req = Request(url)
+        req.add_header('User-Agent', 'E2 Plugin Lululla')
+        response = urlopen(req, None, 10)
+        link = response.read().decode('utf-8')
+        response.close()
+        return link
+    return
+
+
 def ReadUrl2(url, referer):
     if sys.version_info.major == 3:
         import urllib.request as urllib2
