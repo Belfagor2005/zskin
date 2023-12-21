@@ -100,10 +100,10 @@ class Styles(Screen, ConfigListScreen):
         self.style.checkDependency = self.checkDependency
         self.preset = self.style.getPreset()
 
-        # add lululla 
-        from .StylesSetup import StylesSetup
-        self.session.open(StylesSetup)
-        # end
+        # # add lululla 
+        # from .StylesSetup import StylesSetup
+        # self.session.open(StylesSetup)
+        # # end
 
         self.createConfigListEntries()
         if not self.style.hasStyle():
@@ -235,6 +235,12 @@ class Styles(Screen, ConfigListScreen):
         if isPrimarySkin() or not self.style.hasStyle():
             self.list.append(getConfigListEntry(_("Current skin can not styled!"), ConfigNothing()))
             self["config"].setList(self.list)
+            
+            # add lululla 
+            from .StylesSetup import StylesSetup
+            self.session.open(StylesSetup)
+            # end
+
             return
             
         depends = self.style.getDepends()
