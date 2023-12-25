@@ -176,9 +176,14 @@ def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
-            print('\xe2\x80\x93 text: ', text)
+            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
+            # if "dc's legends of tomorrow" in text:
+                # text = "dc's legends of tomorrow"
+            # if "casa a prima vista" in text:
+                # text = "casa a prima vista"                
+            # if "la ragazza e l'ufficiale" in text:
+                # text = "la ragazza e l'ufficiale" 
             text = text.replace('studio aperto mag', 'Studio Aperto').replace('primatv', '').replace('1^tv', '')
             text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
             if text.endswith("the"):
@@ -188,11 +193,16 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
+            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
             text = re.sub('[Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub('FIN', '', text)
+            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text) 
+
+            # print(' - +.*?FIN:INIT ', text)
+            text = re.sub(' - +.*?FIN', '', text) 
+            # print(' - +.*?FIN:END ', text)
             # text = transEpis(text)
             # text = text.replace('+', ' ')
-            print('transEpis text: ', text)
+            # print('transEpis text: ', text)
 
             text = text.replace(' .', '.').replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
 
@@ -205,7 +215,7 @@ def convtext(text=''):
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             # print('^\|[\w\-\|]*\| text: ', text)
-            # remove () content
+            # # remove () content
             # n = 1  # run at least once
             # while n:
                 # text, n = re.subn(r'\([^\(\)]*\)', '', text)
@@ -215,7 +225,7 @@ def convtext(text=''):
             # while n:
                 # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
             # print('\[[^\[\]]*\] text: ', text)
-            # # # add end
+            # # add end
 
             # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
             # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
@@ -334,7 +344,7 @@ class ZBanner(Renderer):
             
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
-            
+            print('zbanner new self event name :', self.evntNm)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
@@ -425,15 +435,22 @@ class ZBanner(Renderer):
                             url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
                             if PY3:
                                 url = url.encode()
-                            url2 = urlopen(url).read().decode('utf-8')
+                            if not PY3:
+                                url2 = urlopen(url).read().decode('utf-8')
+                            else:
+                                url2 = urlopen(url).read() 
                             jurl = json.loads(url2)
                             if 'results' in jurl:
                                 if 'id' in jurl['results'][0]:
                                     ids = jurl['results'][0]['id']
-                                    url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), tmdb_api, str(lng))
+                                    url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                     if PY3:
                                         url_2 = url_2.encode()
-                                    url_3 = urlopen(url_2).read().decode('utf-8')
+
+                                    if not PY3:
+                                        url_3 = urlopen(url_2).read().decode('utf-8')
+                                    else:
+                                        url_3 = urlopen(url_2).read().read()
                                     data2 = json.loads(url_3)
                                     with open(self.dataNm, "w") as f:
                                         json.dump(data2, f)
@@ -442,15 +459,20 @@ class ZBanner(Renderer):
                                         self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
                                         self.savePoster()
                             else:
-                                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
+                                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                                 if PY3:
                                     url = url.encode()
-                                url2 = urlopen(url).read().decode('utf-8')
+
+                                if not PY3:
+                                    url2 = urlopen(url).read().decode('utf-8')
+                                else:
+                                    url2 = urlopen(url).read()
+                                # url2 = urlopen(url).read().decode('utf-8')
                                 jurl = json.loads(url2)
                                 if 'results' in jurl:
                                     if 'id' in jurl['results'][0]:
                                         ids = jurl['results'][0]['id']
-                                        url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), tmdb_api, str(lng))
+                                        url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                         if PY3:
                                             url_2 = url_2.encode()
                                         url_3 = urlopen(url_2).read().decode('utf-8')
