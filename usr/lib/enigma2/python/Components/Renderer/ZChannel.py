@@ -169,7 +169,7 @@ def convtext(text=''):
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
-            print('xe2 x80 x93 text: ', text)
+            print('\xe2\x80\x93 text: ', text)
             text = text.lower()
             text = text.replace('studio aperto mag', 'Studio Aperto').replace('primatv', '').replace('1^tv', '')
             text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
@@ -185,40 +185,49 @@ def convtext(text=''):
             # text = transEpis(text)
             # text = text.replace('+', ' ')
             print('transEpis text: ', text)
+
             text = text.replace(' .', '.').replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
+
             # text = REGEX.sub('', text)  # paused
             # # add
             # text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
             # # add end
+
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            print('^\|[\w\-\|]*\| text: ', text)
+            # print('^\|[\w\-\|]*\| text: ', text)
             # remove () content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\([^\(\)]*\)', '', text)
-            print('\([^\(\)]*\) text: ', text)
-            # remove [] content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\[[^\[\]]*\]', '', text)
-            print('\[[^\[\]]*\] text: ', text)
-            # # add end
-            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\([^\(\)]*\)', '', text)
+            # print('\([^\(\)]*\) text: ', text)
+            # # remove [] content
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
+            # print('\[[^\[\]]*\] text: ', text)
+            # # # add end
+
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            print('[-,?!/\.\":] text: ', text)
+            # print('[-,?!/\.\":] text: ', text)
+
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
-            text = unicodify(text)
+
+            cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
+            cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+            text = re.sub('\!+$', '', cleanEvent)
+
+            # text = unicodify(text)
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -227,6 +236,25 @@ def convtext(text=''):
     except Exception as e:
         print('convtext error: ', e)
         pass
+
+
+def getCleanContentTitle(event_title=""):
+        cleanEvent = event_title.replace("\xe2\x80\x93","-") # replace special '-'
+        cleanEvent = cleanEvent.replace("’","'")
+        cleanEvent = cleanEvent.replace('"',"")
+        cleanEvent = re.sub('\' ', ' ', cleanEvent)
+        cleanEvent = re.sub('\: ', ' - ', cleanEvent)
+        cleanEvent = re.sub('\ \(Director\'s\ Cut\)$', '', cleanEvent)
+        cleanEvent = re.sub('\ \Director\'s\ Cut\$', '', cleanEvent)
+        cleanEvent = re.sub('\ \(Uncut\)$', '', cleanEvent)
+        cleanEvent = re.sub('\ \[Uncut\]$', '', cleanEvent)
+        cleanEvent = re.sub('\ \Extended Director\'s Cut\$', '', cleanEvent)
+        cleanEvent = re.sub('\ \(Extended Version\)$', '', cleanEvent)
+        cleanEvent = re.sub('\ \(XXL-Version\)$', '', cleanEvent)
+        cleanEvent = re.sub('\ \(\d+\)$', '', cleanEvent) #remove episode-number " (xxx)" at the end
+        cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+        cleanEvent = re.sub('\!+$', '', cleanEvent)
+        return str(cleanEvent.strip())
 
 
 def intCheck():
@@ -313,8 +341,13 @@ class ZChannel(Renderer):
         self.event = self.source.event
         if self.event:  # and self.instance:
             print('ZChannel self event true')
-            self.evnt = self.event.getEventName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+            # self.evnt = self.event.getEventName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+            # self.evntNm = convtext(self.evnt.encode('utf-8'))
+
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
+            print('new self event name :', self.evntNm)
+
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
@@ -384,10 +417,11 @@ class ZChannel(Renderer):
                         elif isinstance(self.source, Event):  # source="Event"
                             service = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
                             servicetype = "Event"
-                        if service:
+                        if service is not None:
                             # events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
-                            self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')  # .encode('utf-8')
-                            if not PY3:
+                            if PY3:
+                                self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')  # .encode('utf-8')
+                            else:
                                 self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                     except Exception as e:
                         print('ZChannel error 3 ', e)
@@ -405,7 +439,10 @@ class ZChannel(Renderer):
                             url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                             if PY3:
                                 url = url.encode()
-                            url2 = urlopen(url).read().decode('utf-8')
+                            if not PY3:
+                                url2 = urlopen(url).read().decode('utf-8')
+                            else:
+                                url2 = urlopen(url).read()
                             jurl = json.loads(url2)
                             if 'results' in jurl:
                                 if 'id' in jurl['results'][0]:
@@ -413,7 +450,12 @@ class ZChannel(Renderer):
                                     url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                     if PY3:
                                         url_2 = url_2.encode()
-                                    url_3 = urlopen(url_2).read().decode('utf-8')
+
+                                    if not PY3:
+                                        url_3 = urlopen(url_2).read().decode('utf-8')
+                                    else:
+                                        url_3 = urlopen(url_2).read().read()
+                                    # url_3 = urlopen(url_2).read().decode('utf-8')
                                     data2 = json.loads(url_3)
                                     with open(self.dataNm, "w") as f:
                                         json.dump(data2, f)
@@ -425,7 +467,13 @@ class ZChannel(Renderer):
                                 url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                                 if PY3:
                                     url = url.encode()
-                                url2 = urlopen(url).read().decode('utf-8')
+
+                                if not PY3:
+                                    url2 = urlopen(url).read().decode('utf-8')
+                                else:
+                                    url2 = urlopen(url).read()
+
+                                # url2 = urlopen(url).read().decode('utf-8')
                                 jurl = json.loads(url2)
                                 if 'results' in jurl:
                                     if 'id' in jurl['results'][0]:

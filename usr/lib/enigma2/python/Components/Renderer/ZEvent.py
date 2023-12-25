@@ -225,35 +225,38 @@ def convtext(text=''):
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            print('^\|[\w\-\|]*\| text: ', text)
+            # print('^\|[\w\-\|]*\| text: ', text)
             # remove () content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\([^\(\)]*\)', '', text)
-            print('\([^\(\)]*\) text: ', text)
-            # remove [] content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\[[^\[\]]*\]', '', text)
-            print('\[[^\[\]]*\] text: ', text)
-            # # add end
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\([^\(\)]*\)', '', text)
+            # print('\([^\(\)]*\) text: ', text)
+            # # remove [] content
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
+            # print('\[[^\[\]]*\] text: ', text)
+            # # # add end
 
-            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            print('[-,?!/\.\":] text: ', text)
+            # print('[-,?!/\.\":] text: ', text)
 
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
 
-            text = unicodify(text)
+            cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
+            cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+            text = re.sub('\!+$', '', cleanEvent)
+
+            # text = unicodify(text)
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -303,7 +306,7 @@ class ZEvent(Renderer, VariableText):
         if self.event and self.event != 'None' or self.event is not None:
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
-            self.infos_file = "{}/{}.txt".format(path_folder, self.evntNm)
+            self.infos_file = r"{}\{}.txt".format(path_folder, self.evntNm)
             # if not os.path.exists(self.infos_file):
                 # self.downloadInfos()
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)

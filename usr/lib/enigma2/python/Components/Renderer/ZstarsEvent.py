@@ -139,7 +139,7 @@ REGEX = re.compile(
         r'/.*|'
         r'\|\s[0-9]+\+|'
         r'[0-9]+\+|'
-        r'\s\d{4}\Z|'
+        r'\s\*\d{4}\Z|'
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
@@ -208,35 +208,38 @@ def convtext(text=''):
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            print('^\|[\w\-\|]*\| text: ', text)
+            # print('^\|[\w\-\|]*\| text: ', text)
             # remove () content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\([^\(\)]*\)', '', text)
-            print('\([^\(\)]*\) text: ', text)
-            # remove [] content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\[[^\[\]]*\]', '', text)
-            print('\[[^\[\]]*\] text: ', text)
-            # # add end
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\([^\(\)]*\)', '', text)
+            # print('\([^\(\)]*\) text: ', text)
+            # # remove [] content
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
+            # print('\[[^\[\]]*\] text: ', text)
+            # # # add end
 
-            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            print('[-,?!/\.\":] text: ', text)
+            # print('[-,?!/\.\":] text: ', text)
 
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
 
-            text = unicodify(text)
+            cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
+            cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+            text = re.sub('\!+$', '', cleanEvent)
+
+            # text = unicodify(text)
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -305,8 +308,12 @@ class ZstarsEvent(VariableValue, Renderer):
             data = ''
             self.event = self.source.event
             if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
-                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+                # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+                # self.evntNm = convtext(self.evnt)
+                
+                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
                 self.evntNm = convtext(self.evnt)
+                
                 self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
                 self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
                 if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
@@ -324,6 +331,7 @@ class ZstarsEvent(VariableValue, Renderer):
                         url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
                         if PY3:
                             url = url.encode()
+                        print('zstar url1:', url)
                         url = checkRedirect(url)
                         print('zstar url2:', url)
                         ids = url['results'][0]['id']
@@ -331,7 +339,7 @@ class ZstarsEvent(VariableValue, Renderer):
                     except Exception as e:
                         print('Exception no ids in zstar ', e)
 
-                    if ids != '' or ids is not None:
+                    if ids is not None or ids != '':
                         try:
                             data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
                             if PY3:

@@ -135,7 +135,7 @@ REGEX = re.compile(
         r'/.*|'
         r'\|\s[0-9]+\+|'
         r'[0-9]+\+|'
-        r'\s\d{4}\Z|'
+        r'\s\*\d{4}\Z|'
         r'([\(\[\|].*?[\)\]\|])|'
         r'(\"|\"\.|\"\,|\.)\s.+|'
         r'\"|:|'
@@ -177,7 +177,7 @@ def convtext(text=''):
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
-            print('xe2 x80 x93 text: ', text)
+            print('\xe2\x80\x93 text: ', text)
             text = text.lower()
             text = text.replace('studio aperto mag', 'Studio Aperto').replace('primatv', '').replace('1^tv', '')
             text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
@@ -193,41 +193,49 @@ def convtext(text=''):
             # text = transEpis(text)
             # text = text.replace('+', ' ')
             print('transEpis text: ', text)
+
             text = text.replace(' .', '.').replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
+
             # text = REGEX.sub('', text)  # paused
             # # add
             # text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
             # # add end
+
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            print('^\|[\w\-\|]*\| text: ', text)
+            # print('^\|[\w\-\|]*\| text: ', text)
             # remove () content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\([^\(\)]*\)', '', text)
-            print('\([^\(\)]*\) text: ', text)
-            # remove [] content
-            n = 1  # run at least once
-            while n:
-                text, n = re.subn(r'\[[^\[\]]*\]', '', text)
-            print('\[[^\[\]]*\] text: ', text)
-            # # add end
-            text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\([^\(\)]*\)', '', text)
+            # print('\([^\(\)]*\) text: ', text)
+            # # remove [] content
+            # n = 1  # run at least once
+            # while n:
+                # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
+            # print('\[[^\[\]]*\] text: ', text)
+            # # # add end
+
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            print('[-,?!/\.\":] text: ', text)
+            # print('[-,?!/\.\":] text: ', text)
+
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
 
-            text = unicodify(text)
+            cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
+            cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+            text = re.sub('\!+$', '', cleanEvent)
+
+            # text = unicodify(text)
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -321,8 +329,12 @@ class ZBanner(Renderer):
         self.event = self.source.event
         if self.event:  # and self.instance:
             print('ZBanner self event true')
-            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+            # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+            # self.evntNm = convtext(self.evnt)
+            
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
+            
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
@@ -393,8 +405,9 @@ class ZBanner(Renderer):
                             servicetype = "Event"
                         if service:
                             # events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
-                            self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')  # .encode('utf-8')
-                            if not PY3:
+                            if PY3:
+                                self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')  # .encode('utf-8')
+                            else:
                                 self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                     except Exception as e:
                         print('ZBanner error 3 ', e)
