@@ -41,6 +41,9 @@ else:
     from urllib2 import urlopen
     from urllib import quote
 
+
+    
+
 # w92
 # w154
 # w185
@@ -108,7 +111,6 @@ except:
 
 
 try:
-    from Components.config import config
     lng = config.osd.language.value
     lng = lng[:-3]
 except:
@@ -170,40 +172,46 @@ def convtext(text=''):
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            # if "dc's legends of tomorrow" in text:
-                # text = "dc's legends of tomorrow"
-            # if "casa a prima vista" in text:
-                # text = "casa a prima vista"                
-            # if "la ragazza e l'ufficiale" in text:
-                # text = "la ragazza e l'ufficiale" 
-            text = text.replace('studio aperto mag', 'Studio Aperto').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
             text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
+            if 'studio aperto' in text:
+                text = 'studio aperto'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
                 text = "the " + str(text)
                 print('the from last to start text: ', text)
             text = text + 'FIN'
+            # text = re.sub("[^\w\s]", "", text)  # remove .
+            
+            print('[(01)] ', text)
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end            
+            
+            # text = re.sub('(?-s)(?<=-)', '', text)
+            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' -[ ][\d\w][0-9]+.*?FIN', '', text)
+            # (?-s)(?<=-).*
+            print('[(02)] ', text)
             text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
             text = re.sub('[Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text) 
-
+            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
+            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+            # text = text.replace('(', '').replace(')', '')
+            print('[(0)] ', text)
             # print(' - +.*?FIN:INIT ', text)
-            text = re.sub(' - +.*?FIN', '', text) 
+            text = re.sub(' - +.+?FIN', '', text) # all episodes and series ????
             # print(' - +.*?FIN:END ', text)
             text = re.sub('FIN', '', text)
-            # text = transEpis(text)
-            # text = text.replace('+', ' ')
-            # print('transEpis text: ', text)
-
-            text = text.replace(' .', '.').replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
-
+            print('[(1)] ', text)
+            text = REGEX.sub('', text)  # paused
+            print('[(2)] ', text)
+            
+            text = text.replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
             # text = REGEX.sub('', text)  # paused
             # # add
             # text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
             # # add end
-
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
@@ -220,25 +228,22 @@ def convtext(text=''):
             # print('\[[^\[\]]*\] text: ', text)
             # # add end
 
-            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             # print('[-,?!/\.\":] text: ', text)
-
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
+            # print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
-
             cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
             cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
             text = re.sub('\!+$', '', cleanEvent)
-
             # text = unicodify(text)
+            text = text.strip()
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -318,13 +323,30 @@ class ZChannel(Renderer):
             print('zchannel B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
+                                                                              
+                                          
+                        
 
             self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
                 self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                              
+                      
+                     
+                                          
+                                                                                                   
+                                                                                                                       
+                                                   
+                
+                                                                                                     
+                                                 
+                
+                                                                                   
+                                                                          
             self.delay()
+                                               
         # return
 
     def applySkin(self, desktop, parent):
@@ -366,6 +388,12 @@ class ZChannel(Renderer):
                 self.showPoster()
             else:
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
+                                                  
+                          
+                                                     
+                                                        
+                     
+                                
                     try:
                         if not PY3:
                             myFile = open(self.dwn_infos, 'r')

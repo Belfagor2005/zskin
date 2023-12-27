@@ -17,7 +17,11 @@
 
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
+from Components.Sources.CurrentService import CurrentService
+from Components.Sources.Event import Event
+from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
+from ServiceReference import ServiceReference
 from Components.VariableValue import VariableValue
 from enigma import eSlider
 from Components.config import config
@@ -182,39 +186,46 @@ def convtext(text=''):
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            # if "dc's legends of tomorrow" in text:
-                # text = "dc's legends of tomorrow"
-            # if "casa a prima vista" in text:
-                # text = "casa a prima vista"                
-            # if "la ragazza e l'ufficiale" in text:
-                # text = "la ragazza e l'ufficiale" 
-            text = text.replace('studio aperto mag', 'Studio Aperto').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
             text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
+            if 'studio aperto' in text:
+                text = 'studio aperto'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
                 text = "the " + str(text)
                 print('the from last to start text: ', text)
             text = text + 'FIN'
+            # text = re.sub("[^\w\s]", "", text)  # remove .
+            
+            print('[(01)] ', text)
+            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end            
+            
+            # text = re.sub('(?-s)(?<=-)', '', text)
+            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' -[ ][\d\w][0-9]+.*?FIN', '', text)
+            # (?-s)(?<=-).*
+            print('[(02)] ', text)
             text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
             text = re.sub('[Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text) 
-
+            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
+            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+            # text = text.replace('(', '').replace(')', '')
+            print('[(0)] ', text)
             # print(' - +.*?FIN:INIT ', text)
-            text = re.sub(' - +.*?FIN', '', text) 
+            text = re.sub(' - +.+?FIN', '', text) # all episodes and series ????
             # print(' - +.*?FIN:END ', text)
-            # text = transEpis(text)
-            # text = text.replace('+', ' ')
-            # print('transEpis text: ', text)
-
-            text = text.replace(' .', '.').replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
-
+            text = re.sub('FIN', '', text)
+            print('[(1)] ', text)
+            text = REGEX.sub('', text)  # paused
+            print('[(2)] ', text)
+            
+            text = text.replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
             # text = REGEX.sub('', text)  # paused
             # # add
             # text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
             # # add end
-
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
@@ -231,25 +242,22 @@ def convtext(text=''):
             # print('\[[^\[\]]*\] text: ', text)
             # # add end
 
-            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
             # print('[-,?!/\.\":] text: ', text)
-
             # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
             # # add
             # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
             # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
+            # print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
             # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
             # text = re.sub('\Teil\d+$', '', text)
             # text = re.sub('\Folge\d+$', '', text)
             # # add end
-
             cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
             cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
             text = re.sub('\!+$', '', cleanEvent)
-
             # text = unicodify(text)
+            text = text.strip()
             text = text.capitalize()
             print('Final text: ', text)
         else:
@@ -320,16 +328,15 @@ class ZstarsEvent(VariableValue, Renderer):
             if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
                 # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                 # self.evntNm = convtext(self.evnt)
-                
+
                 self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
                 self.evntNm = convtext(self.evnt)
-                
+
                 self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
                 self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
                 if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
                     self.setRating(self.dataNm)
                     return
-
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
                     self.setRating(self.dwn_infos)
                     return
@@ -348,7 +355,6 @@ class ZstarsEvent(VariableValue, Renderer):
                         print('zstar url2 ids:', ids)
                     except Exception as e:
                         print('Exception no ids in zstar ', e)
-
                     if ids is not None or ids != '':
                         try:
                             data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
