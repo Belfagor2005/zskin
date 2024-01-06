@@ -24,6 +24,7 @@ from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
 from ServiceReference import ServiceReference
 from enigma import getDesktop
+import unicodedata
 import NavigationInstance
 global cur_skin, my_cur_skin
 
@@ -42,7 +43,7 @@ else:
     from urllib import quote
 
 
-    
+
 
 # w92
 # w154
@@ -116,7 +117,7 @@ try:
 except:
     lng = 'en'
     pass
-print('language: ', lng)
+# print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -143,6 +144,17 @@ REGEX = re.compile(
         r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
+def remove_accents(string):
+    if type(string) is not unicode:
+        string = unicode(string, encoding='utf-8')
+    string = re.sub(u"[àáâãäå]", 'a', string)
+    string = re.sub(u"[èéêë]", 'e', string)
+    string = re.sub(u"[ìíîï]", 'i', string)
+    string = re.sub(u"[òóôõö]", 'o', string)
+    string = re.sub(u"[ùúûü]", 'u', string)
+    string = re.sub(u"[ýÿ]", 'y', string)
+    return string
+
 def unicodify(s, encoding='utf-8', norm=None):
     if not isinstance(s, unicode):
         s = unicode(s, encoding)
@@ -152,18 +164,37 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-def transEpis(text):
-    text = text.lower() + '+FIN'
-    text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
-    text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
-    text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
-    text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
-    text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
-    text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
-    text = re.sub('\\+tt[0-9]+\\+', '++', text)
-    text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
-    text = re.sub('\\+FIN', '', text)
-    return text
+# def getCleanContentTitle(event_title=""):
+        # cleanEvent = event_title.replace("\xe2\x80\x93","-") # replace special '-'
+        # cleanEvent = cleanEvent.replace("’","'")
+        # cleanEvent = cleanEvent.replace('"',"")
+        # cleanEvent = re.sub('\' ', ' ', cleanEvent)
+        # cleanEvent = re.sub('\: ', ' - ', cleanEvent)
+        # cleanEvent = re.sub('\ \(Director\'s\ Cut\)$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \Director\'s\ Cut\$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \(Uncut\)$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \[Uncut\]$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \Extended Director\'s Cut\$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \(Extended Version\)$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \(XXL-Version\)$', '', cleanEvent)
+        # cleanEvent = re.sub('\ \(\d+\)$', '', cleanEvent) #remove episode-number " (xxx)" at the end
+        # cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+        # cleanEvent = re.sub('\!+$', '', cleanEvent)
+        # return str(cleanEvent.strip())
+
+
+# def transEpis(text):
+    # text = text.lower() + '+FIN'
+    # text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
+    # text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
+    # text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
+    # text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
+    # text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
+    # text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
+    # text = re.sub('\\+tt[0-9]+\\+', '++', text)
+    # text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
+    # text = re.sub('\\+FIN', '', text)
+    # return text
 
 
 def convtext(text=''):
@@ -173,9 +204,12 @@ def convtext(text=''):
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
-            text = text.replace(' prima pagina', '').replace(' -20.30', '').replace(': parte 2', '').replace(': parte 1', '')
             if 'studio aperto' in text:
                 text = 'studio aperto'
+            if 'josephine ange gardien' in text:
+                text = 'josephine ange gardien'
+            if 'elementary' in text:
+                text = 'elementary'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -183,35 +217,45 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             # text = re.sub("[^\w\s]", "", text)  # remove .
-            
-            print('[(01)] ', text)
-            # text = re.sub('\ \(\d+\/\d+\)$', '', text)  # remove episode-number " (xx/xx)" at the end
-            # text = re.sub('\ \(\d+\)$', '', text)  # remove episode-number " (xxx)" at the end            
-            
-            # text = re.sub('(?-s)(?<=-)', '', text)
+            text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
+            text = re.sub(' [\:][ ][a-z0-9]+.*?FIN', '', text)
+            text = re.sub(' [\(][ ][a-z0-9]+.*?FIN', '', text)
             text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
-            # text = re.sub(' -[ ][\d\w][0-9]+.*?FIN', '', text)
-            # (?-s)(?<=-).*
             print('[(02)] ', text)
-            text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub('[Ss][0-9]+[Ee][0-9]+.*?FIN', '', text)
-            text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text)            
-            text = re.sub('[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
-            # text = text.replace('(', '').replace(')', '')
+
+            if re.search('[Ss][0-9]+[Ee][0-9]+.*?FIN', text):
+                text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
+            if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
+            if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
+            if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
+                text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
+
+            text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            text = re.sub('odc. [0-9]+.*?FIN', '', text)
+            # text = re.sub('[Ss]([0-9]+)[][._-]*[Ee]([0-9]+).*?FIN', '', text, flags=re.S|re.I)
+            # text = re.sub('[\._ \-]([0-9]+)x([0-9]+).*?FIN', '', text, flags=re.S|re.I)  # foo.1x09
+            # text = re.sub('[\._ \-]([0-9]+)([0-9][0-9])+.*?FIN', '', text, flags=re.S|re.I)  # foo.109
+            # # text = re.sub('([0-9]+)([0-9][0-9])+.*?FIN', '', text, flags=re.S|re.I)
+            # # text = re.sub('[\\\\/\\._ -]([0-9]+)([0-9]+.*?FIN', '', text, flags=re.S|re.I)
+            # # text = re.sub('odc. [0-9]+.*?FIN', '', text, flags=re.S|re.I)  # Season 01 - Episode 02
+            # # text = re.sub('Season ([0-9]+) Episode ([0-9]+).*?FIN', '', text, flags=re.S|re.I)  # Season 01 Episode 02
+
+            # text = re.sub('[\\\\/\\._ -][0]*([0-9]+)x[0]*([0-9]+).*?FIN', '', text, flags=re.S|re.I)
+            # text = re.sub('[[Ss]([0-9]+)\]_\[[Ee]([0-9]+).*?FIN', '', text, flags=re.S|re.I)  # foo_[s01]_[e01]
+            # text = re.sub('[Ss]([0-9]+)[\.\-]?[Ee]([0-9]+).*?FIN', '', text, flags=re.S|re.I)  # foo, s01e01, foo.s01.e01, foo.s01-e01
+            # text = re.sub('st.([0-9]+)ep([0-9]+).*?FIN', '', text, flags=re.S|re.I)  # foo - s01ep03, foo - s1ep03
+            # text = re.sub('[Ss]([0-9]+)[][ ._-]*[Ee]([0-9]+).*?FIN', '', text, flags=re.S|re.I)
+            # # text = re.sub('[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+).*?FIN' '', text, flags=re.S|re.I)
+            # text = re.sub(r'\(.*[^odc.0-9]\)+.+?FIN', '', text).rstrip()  # remove episode number from series, like "series name (234) and not (Un)defeated"
+            text = re.sub(r'\(.*[^A-Za-z0-9]\)+.+?FIN', '', text).rstrip()  # remove episode number from series, like "series name (234) and not (Un)defeated"
             print('[(0)] ', text)
-            # print(' - +.*?FIN:INIT ', text)
-            text = re.sub(' - +.+?FIN', '', text) # all episodes and series ????
-            # print(' - +.*?FIN:END ', text)
+            text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(1)] ', text)
             text = REGEX.sub('', text)  # paused
             print('[(2)] ', text)
-            
-            text = text.replace('  ', ' ').replace(' - ', ' ').replace(' - "', '')
-            # text = REGEX.sub('', text)  # paused
-            # # add
-            # text = text.replace("\xe2\x80\x93","").replace('\xc2\x86', '').replace('\xc2\x87', '') # replace special
-            # # add end
             # # add
             # remove || content at start
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
@@ -227,22 +271,12 @@ def convtext(text=''):
                 # text, n = re.subn(r'\[[^\[\]]*\]', '', text)
             # print('\[[^\[\]]*\] text: ', text)
             # # add end
-
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # print('[-,?!/\.\":] text: ', text)
-            # text = re.sub(r'\s{1,}', ' ', text)  # replace multiple space by one space
-            # # add
-            # text = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            # text = re.sub('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', text)  # modifcare questo (remove space from regex)
-            # print('\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', text)
-            # # text = text.replace(' ^`^s', '').replace(' ^`^y','')
-            # text = re.sub('\Teil\d+$', '', text)
-            # text = re.sub('\Folge\d+$', '', text)
-            # # add end
-            cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
-            cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
-            text = re.sub('\!+$', '', cleanEvent)
+            # cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
+            # cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
+            # text = re.sub('\!+$', '', cleanEvent)
             # text = unicodify(text)
+            text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
             print('Final text: ', text)
@@ -252,25 +286,6 @@ def convtext(text=''):
     except Exception as e:
         print('convtext error: ', e)
         pass
-
-
-def getCleanContentTitle(event_title=""):
-        cleanEvent = event_title.replace("\xe2\x80\x93","-") # replace special '-'
-        cleanEvent = cleanEvent.replace("’","'")
-        cleanEvent = cleanEvent.replace('"',"")
-        cleanEvent = re.sub('\' ', ' ', cleanEvent)
-        cleanEvent = re.sub('\: ', ' - ', cleanEvent)
-        cleanEvent = re.sub('\ \(Director\'s\ Cut\)$', '', cleanEvent)
-        cleanEvent = re.sub('\ \Director\'s\ Cut\$', '', cleanEvent)
-        cleanEvent = re.sub('\ \(Uncut\)$', '', cleanEvent)
-        cleanEvent = re.sub('\ \[Uncut\]$', '', cleanEvent)
-        cleanEvent = re.sub('\ \Extended Director\'s Cut\$', '', cleanEvent)
-        cleanEvent = re.sub('\ \(Extended Version\)$', '', cleanEvent)
-        cleanEvent = re.sub('\ \(XXL-Version\)$', '', cleanEvent)
-        cleanEvent = re.sub('\ \(\d+\)$', '', cleanEvent) #remove episode-number " (xxx)" at the end
-        cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
-        cleanEvent = re.sub('\!+$', '', cleanEvent)
-        return str(cleanEvent.strip())
 
 
 def intCheck():
@@ -323,30 +338,12 @@ class ZChannel(Renderer):
             print('zchannel B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-                                                                              
-                                          
-                        
-
             self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
                 self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                              
-                      
-                     
-                                          
-                                                                                                   
-                                                                                                                       
-                                                   
-                
-                                                                                                     
-                                                 
-                
-                                                                                   
-                                                                          
             self.delay()
-                                               
         # return
 
     def applySkin(self, desktop, parent):
@@ -388,12 +385,6 @@ class ZChannel(Renderer):
                 self.showPoster()
             else:
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
-                                                  
-                          
-                                                     
-                                                        
-                     
-                                
                     try:
                         if not PY3:
                             myFile = open(self.dwn_infos, 'r')
@@ -413,7 +404,6 @@ class ZChannel(Renderer):
                                 self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                 print('ZChannel dwn_infos poster download')
                                 self.savePoster()
-
                     except Exception as e:
                         print('ZChannel error 1 ', e)
                 # forced
@@ -549,18 +539,21 @@ class ZChannel(Renderer):
             height = size.height()
         sc = getScale()  # AVSwitch().getFramebufferScale()
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-        if self.picload.startDecode(self.pstrNm):
-            # if this has failed, then another decode is probably already in progress
-            # throw away the old picload and try again immediately
-            self.picload = ePicLoad()
-            try:
-                self.picload.PictureData.get().append(self.DecodePicture)
-            except:
-                self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-            self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-            # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
-            print('ZChannel picload.startDecode poster')
-            self.picload.startDecode(self.pstrNm)
+        try:
+            if self.picload.startDecode(self.pstrNm):
+                # if this has failed, then another decode is probably already in progress
+                # throw away the old picload and try again immediately
+                self.picload = ePicLoad()
+                try:
+                    self.picload.PictureData.get().append(self.DecodePicture)
+                except:
+                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
+                print('ZChannel picload.startDecode poster')
+                self.picload.startDecode(self.pstrNm)
+        except Exception as e:
+            print(e)
 
     def DecodePicture(self, PicInfo=None):
         # print("* DecodePicture *")
