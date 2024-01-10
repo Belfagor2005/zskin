@@ -149,6 +149,8 @@ def convtext(text=''):
                 text = 'criminal minds'
             if 'i delitti del barlume' in text:
                 text = 'i delitti del barlume'
+            if 'senza traccia' in text:
+                text = 'senza traccia'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -166,14 +168,15 @@ def convtext(text=''):
                 text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
             if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
                 text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            # if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                # text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
+            # if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
+                # text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
+            # # text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            text = text.partition("(")[0]  # .strip()
+            text = text.partition(":")[0]  # .strip()
+            text = text.partition("-")[0]  # .strip()
             print('[(01)] ', text)
-            # text = re.sub(r'\(.*[^odc.0-9]\)+.+?FIN', '', text).rstrip()  # remove episode number from series, like "series name (234) and not (Un)defeated"
-            # text = re.sub(r'\(.*[^A-Za-z0-9]\)+.+?FIN', '', text).rstrip()  # remove episode number from series, like "series name (234) and not (Un)defeated"
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
@@ -181,9 +184,6 @@ def convtext(text=''):
             print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # cleanEvent = re.sub('\ \(\d+\)$', '', text) #remove episode-number " (xxx)" at the end
-            # cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
-            # text = re.sub('\!+$', '', cleanEvent)
             # text = unicodify(text)
             text = remove_accents(text)
             text = text.strip()
