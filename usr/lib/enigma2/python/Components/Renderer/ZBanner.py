@@ -17,7 +17,7 @@ import os
 import socket
 import shutil
 import sys
-from enigma import gPixmapPtr
+# from enigma import gPixmapPtr
 from Components.Sources.CurrentService import CurrentService
 from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
@@ -122,7 +122,6 @@ try:
 except:
     lng = 'en'
     pass
-# print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -160,6 +159,7 @@ def remove_accents(string):
     string = re.sub(u"[ýÿ]", 'y', string)
     return string
 
+
 def unicodify(s, encoding='utf-8', norm=None):
     if not isinstance(s, unicode):
         s = unicode(s, encoding)
@@ -169,28 +169,14 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-# def transEpis(text):
-    # text = text.lower() + '+FIN'
-    # text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
-    # text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
-    # text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
-    # text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
-    # text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
-    # text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
-    # text = re.sub('\\+tt[0-9]+\\+', '++', text)
-    # text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
-    # text = re.sub('\\+FIN', '', text)
-    # return text
-
-
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
-            text = text.replace('prima visione', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -205,6 +191,10 @@ def convtext(text=''):
                 text = 'i delitti del barlume'
             if 'senza traccia' in text:
                 text = 'senza traccia'
+            if 'hudson e rex' in text:
+                text = 'hudson e rex'
+            if 'ben-hur' in text:
+                text = 'ben-hur'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -212,29 +202,23 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             # text = re.sub("[^\w\s]", "", text)  # remove .
-            text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\:][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\(][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
             print('[(00)] ', text)
-
-            if re.search('[Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # # text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
-            text = text.partition("-")[0]  # .strip()
+            text = text.partition(" -")[0]  # .strip()
             print('[(01)] ', text)
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
-            text = REGEX.sub('', text)  # paused
+            # text = REGEX.sub('', text)  # paused
             print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -333,10 +317,6 @@ class ZBanner(Renderer):
     def delay(self):
         self.event = self.source.event
         if self.event:  # and self.instance:
-            print('ZBanner self event true')
-            # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-            # self.evntNm = convtext(self.evnt)
-            
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
             print('zbanner new self event name :', self.evntNm)
@@ -365,7 +345,7 @@ class ZBanner(Renderer):
                             if backdrop and backdrop != 'null' or backdrop is not None:
                                 self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
                                 print('ZBanner dwn_infos backdrop download')
-                                self.savePoster()
+                                self.saveBanner()
                     except Exception as e:
                         print('ZBanner error 1 ', e)
                 # forced
@@ -388,7 +368,7 @@ class ZBanner(Renderer):
                             if backdrop and backdrop != 'null' or backdrop is not None:
                                 self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
                                 print('ZBanner dataNm backdrop download')
-                                self.savePoster()
+                                self.saveBanner()
                     except Exception as e:
                         print('ZBanner error 2 ', e)
 
@@ -433,7 +413,7 @@ class ZBanner(Renderer):
                             if not PY3:
                                 url2 = urlopen(url).read().decode('utf-8')
                             else:
-                                url2 = urlopen(url).read() 
+                                url2 = urlopen(url).read()
                             jurl = json.loads(url2)
                             if 'results' in jurl:
                                 if 'id' in jurl['results'][0]:
@@ -452,7 +432,7 @@ class ZBanner(Renderer):
                                     backdrop = data2['backdrop_path']
                                     if backdrop and backdrop != 'null' or backdrop is not None:
                                         self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
-                                        self.savePoster()
+                                        self.saveBanner()
                             else:
                                 url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                                 if PY3:
@@ -477,7 +457,7 @@ class ZBanner(Renderer):
                                         backdrop = data2['backdrop_path']
                                         if backdrop and backdrop != 'null' or backdrop is not None:
                                             self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                            self.savePoster()
+                                            self.saveBanner()
                         except Exception as e:
                             print('ZBanner error 4 ', e)
                             if self.instance:
@@ -523,10 +503,10 @@ class ZBanner(Renderer):
             self.instance.setPixmap(ptr)
             self.instance.show()
 
-    def savePoster(self):
+    def saveBanner(self):
         if os.path.exists(self.pstrNm):
-            print('ZBanner save poster show ')
-            self.showPoster()
+            print('ZBanner saveBanner show ')
+            self.showBackdrop()
             return
 
         data = urlopen(self.url_backdrop)

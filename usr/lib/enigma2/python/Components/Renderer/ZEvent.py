@@ -13,7 +13,7 @@ from Components.Renderer.Renderer import Renderer
 from Components.VariableText import VariableText
 from Components.config import config
 from enigma import eLabel
-from enigma import eTimer
+# from enigma import eTimer
 from enigma import eEPGCache
 from time import gmtime
 import json
@@ -28,7 +28,6 @@ from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
 from ServiceReference import ServiceReference
-import unicodedata
 global my_cur_skin, path_folder
 
 
@@ -125,29 +124,29 @@ def OnclearMem():
         pass
 
 
-def checkRedirect(url):
-    # print("*** check redirect ***")
-    import requests
-    from requests.adapters import HTTPAdapter, Retry
-    hdr = {"User-Agent": "Enigma2 - Enigma2 Plugin"}
-    content = ""
-    retries = Retry(total=1, backoff_factor=1)
-    adapter = HTTPAdapter(max_retries=retries)
-    http = requests.Session()
-    http.mount("http://", adapter)
-    http.mount("https://", adapter)
-    try:
-        r = http.get(url, headers=hdr, timeout=(10, 30), verify=False)
-        r.raise_for_status()
-        if r.status_code == requests.codes.ok:
-            try:
-                content = r.json()
-            except Exception as e:
-                print(e)
-        return content
-    except Exception as e:
-        print('next ret: ', e)
-        return content
+# def checkRedirect(url):
+    # # print("*** check redirect ***")
+    # import requests
+    # from requests.adapters import HTTPAdapter, Retry
+    # hdr = {"User-Agent": "Enigma2 - Enigma2 Plugin"}
+    # content = None
+    # retries = Retry(total=1, backoff_factor=1)
+    # adapter = HTTPAdapter(max_retries=retries)
+    # http = requests.Session()
+    # http.mount("http://", adapter)
+    # http.mount("https://", adapter)
+    # try:
+        # r = http.get(url, headers=hdr, timeout=(10, 30), verify=False)
+        # r.raise_for_status()
+        # if r.status_code == requests.codes.ok:
+            # try:
+                # content = r.json()
+            # except Exception as e:
+                # print('checkRedirect error:', e)
+        # # return content
+    # except Exception as e:
+        # print('next ret: ', e)
+    # return content
 
 
 REGEX = re.compile(
@@ -195,28 +194,14 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-# def transEpis(text):
-    # text = text.lower() + '+FIN'
-    # text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
-    # text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
-    # text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
-    # text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
-    # text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
-    # text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
-    # text = re.sub('\\+tt[0-9]+\\+', '++', text)
-    # text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
-    # text = re.sub('\\+FIN', '', text)
-    # return text
-
-
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
-            text = text.replace('prima visione', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -231,6 +216,10 @@ def convtext(text=''):
                 text = 'i delitti del barlume'
             if 'senza traccia' in text:
                 text = 'senza traccia'
+            if 'hudson e rex' in text:
+                text = 'hudson e rex'
+            if 'ben-hur' in text:
+                text = 'ben-hur'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -238,29 +227,23 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             # text = re.sub("[^\w\s]", "", text)  # remove .
-            text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\:][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\(][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
             print('[(00)] ', text)
-
-            if re.search('[Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # # text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
-            text = text.partition("-")[0]  # .strip()
+            text = text.partition(" -")[0]  # .strip()
             print('[(01)] ', text)
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
-            text = REGEX.sub('', text)  # paused
+            # text = REGEX.sub('', text)  # paused
             print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -412,14 +395,6 @@ class ZEvent(Renderer, VariableText):
         except:
             pass
 
-    # def delay2(self):
-        # self.timer = eTimer()
-        # try:
-            # self.timer_conn = self.timer.timeout.connect(self.dwn)
-        # except:
-            # self.timer.callback.append(self.dwn)
-        # self.timer.start(50, True)
-
     def dwn(self):
         start_new_thread(self.epgs, ())
 
@@ -440,31 +415,31 @@ class ZEvent(Renderer, VariableText):
                     except Exception as e:
                         print('ZEvent object error ', e)
                 # else:
-                # with open(data) as f:
-                    # data = json.load(f)
+                    # with open(data) as f:
+                        # data = json.load(f)
 
-                # {
-                  # "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",
-                  # "adult": false,
-                  # "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",
-                  # "release_date": "2016-10-19",
-                  # "genre_ids": [
-                    # 53,
-                    # 28,
-                    # 80,
-                    # 18,
-                    # 9648
-                  # ],
-                  # "id": 343611,
-                  # "original_title": "Jack Reacher: Never Go Back",
-                  # "original_language": "en",
-                  # "title": "Jack Reacher: Never Go Back",
-                  # "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",
-                  # "popularity": 26.818468,
-                  # "vote_count": 201,
-                  # "video": false,
-                  # "vote_average": 4.19
-                # }
+                    # {
+                      # "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",
+                      # "adult": false,
+                      # "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",
+                      # "release_date": "2016-10-19",
+                      # "genre_ids": [
+                        # 53,
+                        # 28,
+                        # 80,
+                        # 18,
+                        # 9648
+                      # ],
+                      # "id": 343611,
+                      # "original_title": "Jack Reacher: Never Go Back",
+                      # "original_language": "en",
+                      # "title": "Jack Reacher: Never Go Back",
+                      # "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",
+                      # "popularity": 26.818468,
+                      # "vote_count": 201,
+                      # "video": false,
+                      # "vote_average": 4.19
+                    # }
 
                 with open(self.infos_file) as f:
                     data = json.load(f)

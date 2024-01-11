@@ -17,7 +17,7 @@ import os
 import socket
 import shutil
 import sys
-from enigma import gPixmapPtr
+# from enigma import gPixmapPtr
 from Components.Sources.CurrentService import CurrentService
 from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
@@ -41,8 +41,6 @@ else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
     from urllib import quote
-
-
 
 
 # w92
@@ -117,7 +115,6 @@ try:
 except:
     lng = 'en'
     pass
-# print('language: ', lng)
 
 
 REGEX = re.compile(
@@ -165,47 +162,14 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-# def getCleanContentTitle(event_title=""):
-        # cleanEvent = event_title.replace("\xe2\x80\x93","-") # replace special '-'
-        # cleanEvent = cleanEvent.replace("’","'")
-        # cleanEvent = cleanEvent.replace('"',"")
-        # cleanEvent = re.sub('\' ', ' ', cleanEvent)
-        # cleanEvent = re.sub('\: ', ' - ', cleanEvent)
-        # cleanEvent = re.sub('\ \(Director\'s\ Cut\)$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \Director\'s\ Cut\$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \(Uncut\)$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \[Uncut\]$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \Extended Director\'s Cut\$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \(Extended Version\)$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \(XXL-Version\)$', '', cleanEvent)
-        # cleanEvent = re.sub('\ \(\d+\)$', '', cleanEvent) #remove episode-number " (xxx)" at the end
-        # cleanEvent = re.sub('\ \(\d+\/\d+\)$', '', cleanEvent) #remove episode-number " (xx/xx)" at the end
-        # cleanEvent = re.sub('\!+$', '', cleanEvent)
-        # return str(cleanEvent.strip())
-
-
-# def transEpis(text):
-    # text = text.lower() + '+FIN'
-    # text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
-    # text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
-    # text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
-    # text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
-    # text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
-    # text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
-    # text = re.sub('\\+tt[0-9]+\\+', '++', text)
-    # text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
-    # text = re.sub('\\+FIN', '', text)
-    # return text
-
-
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
-            text = text.replace('prima visione', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -220,6 +184,10 @@ def convtext(text=''):
                 text = 'i delitti del barlume'
             if 'senza traccia' in text:
                 text = 'senza traccia'
+            if 'hudson e rex' in text:
+                text = 'hudson e rex'
+            if 'ben-hur' in text:
+                text = 'ben-hur'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -227,29 +195,23 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             # text = re.sub("[^\w\s]", "", text)  # remove .
-            text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\:][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\(][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
             print('[(00)] ', text)
-
-            if re.search('[Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # # text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
-            text = text.partition("-")[0]  # .strip()
+            text = text.partition(" -")[0]  # .strip()
             print('[(01)] ', text)
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
-            text = REGEX.sub('', text)  # paused
+            # text = REGEX.sub('', text)  # paused
             print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -348,14 +310,9 @@ class ZChannel(Renderer):
     def delay(self):
         self.event = self.source.event
         if self.event:  # and self.instance:
-            print('ZChannel self event true')
-            # self.evnt = self.event.getEventName()  # .replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-            # self.evntNm = convtext(self.evnt.encode('utf-8'))
-
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
             print('zchannel new self event name :', self.evntNm)
-
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
@@ -439,69 +396,64 @@ class ZChannel(Renderer):
                             self.instance.hide()
                         return
                     try:
-                        try:
-                            if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
-                                os.remove(self.dataNm)
-                                print("Zchannel as been removed %s successfully" % self.evntNm)
-                            url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                        # try:
+                        if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
+                            os.remove(self.dataNm)
+                            print("Zchannel as been removed %s successfully" % self.evntNm)
+                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                        if PY3:
+                            url = url.encode()
+                        if not PY3:
+                            url2 = urlopen(url).read().decode('utf-8')
+                        else:
+                            url2 = urlopen(url).read()
+                        jurl = json.loads(url2)
+                        if 'results' in jurl:
+                            print('zchannel part one')
+                            if 'id' in jurl['results'][0]:
+                                ids = jurl['results'][0]['id']
+                                url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                                if PY3:
+                                    url_2 = url_2.encode()
+
+                                if not PY3:
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
+                                else:
+                                    url_3 = urlopen(url_2).read().read()
+                                data2 = json.loads(url_3)
+                                with open(self.dataNm, "w") as f:
+                                    json.dump(data2, f)
+                                poster = data2['poster_path']
+                                if poster and poster != 'null' or poster is not None:
+                                    self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
+                                    self.savePoster()
+                        else:
+                            print('zchannel part two')
+                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                             if PY3:
                                 url = url.encode()
                             if not PY3:
                                 url2 = urlopen(url).read().decode('utf-8')
                             else:
                                 url2 = urlopen(url).read()
+                            # url2 = urlopen(url).read().decode('utf-8')
                             jurl = json.loads(url2)
                             if 'results' in jurl:
                                 if 'id' in jurl['results'][0]:
                                     ids = jurl['results'][0]['id']
-                                    url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                                    url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                     if PY3:
                                         url_2 = url_2.encode()
-
-                                    if not PY3:
-                                        url_3 = urlopen(url_2).read().decode('utf-8')
-                                    else:
-                                        url_3 = urlopen(url_2).read().read()
-                                    # url_3 = urlopen(url_2).read().decode('utf-8')
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
                                     data2 = json.loads(url_3)
                                     with open(self.dataNm, "w") as f:
                                         json.dump(data2, f)
                                     poster = data2['poster_path']
                                     if poster and poster != 'null' or poster is not None:
-                                        self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
+                                        self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
                                         self.savePoster()
-                            else:
-                                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
-                                if PY3:
-                                    url = url.encode()
-
-                                if not PY3:
-                                    url2 = urlopen(url).read().decode('utf-8')
-                                else:
-                                    url2 = urlopen(url).read()
-
-                                # url2 = urlopen(url).read().decode('utf-8')
-                                jurl = json.loads(url2)
-                                if 'results' in jurl:
-                                    if 'id' in jurl['results'][0]:
-                                        ids = jurl['results'][0]['id']
-                                        url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                                        if PY3:
-                                            url_2 = url_2.encode()
-                                        url_3 = urlopen(url_2).read().decode('utf-8')
-                                        data2 = json.loads(url_3)
-                                        with open(self.dataNm, "w") as f:
-                                            json.dump(data2, f)
-                                        poster = data2['poster_path']
-                                        if poster and poster != 'null' or poster is not None:
-                                            self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
-                                            self.savePoster()
-                        except Exception as e:
-                            print('ZChannel error 4 ', e)
-                            if self.instance:
-                                self.instance.hide()
                     except Exception as e:
-                        print('ZChannel error except zchannel ', e)
+                        print('ZChannel error 4 ', e)
                         if self.instance:
                             self.instance.hide()
 
@@ -540,6 +492,7 @@ class ZChannel(Renderer):
             print('ZChannel ptr is true')
             self.instance.setPixmap(ptr)
             self.instance.show()
+        return
 
     def savePoster(self):
         if os.path.exists(self.pstrNm):

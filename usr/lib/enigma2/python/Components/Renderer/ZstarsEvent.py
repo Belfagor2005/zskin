@@ -25,7 +25,7 @@ from ServiceReference import ServiceReference
 from Components.VariableValue import VariableValue
 from enigma import eSlider
 from Components.config import config
-from enigma import eTimer
+# from enigma import eTimer
 import re
 import json
 import os
@@ -104,7 +104,7 @@ def checkRedirect(url):
     import requests
     from requests.adapters import HTTPAdapter, Retry
     hdr = {"User-Agent": "Enigma2 - Enigma2 Plugin"}
-    content = ""
+    content = None
     retries = Retry(total=1, backoff_factor=1)
     adapter = HTTPAdapter(max_retries=retries)
     http = requests.Session()
@@ -117,11 +117,11 @@ def checkRedirect(url):
             try:
                 content = r.json()
             except Exception as e:
-                print(e)
-        return content
+                print('checkRedirect error:', e)
+        # return content
     except Exception as e:
         print('next ret: ', e)
-        return content
+    return content
 
 
 def OnclearMem():
@@ -179,28 +179,14 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
-# def transEpis(text):
-    # text = text.lower() + '+FIN'
-    # text = text.replace('  ', '+').replace(' ', '+').replace('&', '+').replace(':', '+').replace('_', '+').replace('u.s.', 'us').replace('l.a.', 'la').replace('.', '+').replace('"', '+').replace('(', '+').replace(')', '+').replace('[', '+').replace(']', '+').replace('!', '+').replace('++++', '+').replace('+++', '+').replace('++', '+')
-    # text = text.replace('+720p+', '++').replace('+1080i+', '+').replace('+1080p+', '++').replace('+dtshd+', '++').replace('+dtsrd+', '++').replace('+dtsd+', '++').replace('+dts+', '++').replace('+dd5+', '++').replace('+5+1+', '++').replace('+3d+', '++').replace('+ac3d+', '++').replace('+ac3+', '++').replace('+avchd+', '++').replace('+avc+', '++').replace('+dubbed+', '++').replace('+subbed+', '++').replace('+stereo+', '++')
-    # text = text.replace('+x264+', '++').replace('+mpeg2+', '++').replace('+avi+', '++').replace('+xvid+', '++').replace('+blu+', '++').replace('+ray+', '++').replace('+bluray+', '++').replace('+3dbd+', '++').replace('+bd+', '++').replace('+bdrip+', '++').replace('+dvdrip+', '++').replace('+rip+', '++').replace('+hdtv+', '++').replace('+hddvd+', '++')
-    # text = text.replace('+german+', '++').replace('+ger+', '++').replace('+english+', '++').replace('+eng+', '++').replace('+spanish+', '++').replace('+spa+', '++').replace('+italian+', '++').replace('+ita+', '++').replace('+russian+', '++').replace('+rus+', '++').replace('+dl+', '++').replace('+dc+', '++').replace('+sbs+', '++').replace('+se+', '++').replace('+ws+', '++').replace('+cee+', '++')
-    # text = text.replace('+remux+', '++').replace('+directors+', '++').replace('+cut+', '++').replace('+uncut+', '++').replace('+extended+', '++').replace('+repack+', '++').replace('+unrated+', '++').replace('+rated+', '++').replace('+retail+', '++').replace('+remastered+', '++').replace('+edition+', '++').replace('+version+', '++')
-    # text = text.replace('\xc3\x9f', '%C3%9F').replace('\xc3\xa4', '%C3%A4').replace('\xc3\xb6', '%C3%B6').replace('\xc3\xbc', '%C3%BC')
-    # text = re.sub('\\+tt[0-9]+\\+', '++', text)
-    # text = re.sub('\\+\\+\\+\\+.*?FIN', '', text)
-    # text = re.sub('\\+FIN', '', text)
-    # return text
-
-
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
-            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '').replace('1^ tv', '')
-            text = text.replace('prima visione', '')
+            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
+            text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -215,6 +201,10 @@ def convtext(text=''):
                 text = 'i delitti del barlume'
             if 'senza traccia' in text:
                 text = 'senza traccia'
+            if 'hudson e rex' in text:
+                text = 'hudson e rex'
+            if 'ben-hur' in text:
+                text = 'ben-hur'
             if text.endswith("the"):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
@@ -222,29 +212,23 @@ def convtext(text=''):
                 print('the from last to start text: ', text)
             text = text + 'FIN'
             # text = re.sub("[^\w\s]", "", text)  # remove .
-            text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\:][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\(][ ][a-z0-9]+.*?FIN', '', text)
-            text = re.sub(' [\-][ ][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
+            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
             print('[(00)] ', text)
-
-            if re.search('[Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            if re.search('[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub('[Ss][0-9] [Ee][0-9]+.*[a-zA-Z0-9_]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9] [Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # if re.search(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', text):
-                # text = re.sub(' - [Ss][0-9]+[Ee][0-9]+.*?FIN', '', text, flags=re.S|re.I)
-            # # text = re.sub("([\(\[]).*?([\)\]])|(: odc.\d+)|(\d+: odc.\d+)|(\d+ odc.\d+)|(:)|( -(.*?).*)|(,)|!|\+.*?FIN", "", text)
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
-            text = text.partition("-")[0]  # .strip()
+            text = text.partition(" -")[0]  # .strip()
             print('[(01)] ', text)
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
-            text = REGEX.sub('', text)  # paused
+            # text = REGEX.sub('', text)  # paused
             print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
@@ -344,31 +328,39 @@ class ZstarsEvent(VariableValue, Renderer):
                         print('zstar url1:', url)
                         url = checkRedirect(url)
                         print('zstar url2:', url)
-                        ids = url['results'][0]['id']
-                        print('zstar url2 ids:', ids)
+                        if url is not None:
+                            ids = url['results'][0]['id']
+                            print('zstar url2 ids:', ids)
+                        # except Exception as e:
+                            # print('Exception no ids in zstar ', e)
+                            if ids and ids is not None or ids != '':
+                                try:
+                                    data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
+                                    if PY3:
+                                        import six
+                                        data = six.ensure_str(data)
+                                    if data:
+                                        data = json.load(urlopen(data))
+                                        open(self.dwn_infos, "w").write(json.dumps(data))
+                                    else:
+                                        data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
+                                        # if PY3:
+                                            # import six
+                                            # data = six.ensure_str(data)
+                                        print('zstar pass ids Else')
+                                        if data:
+                                            data = json.load(urlopen(data))
+                                            open(self.dwn_infos, "w").write(json.dumps(data))
+                                            self.setRating(self.dwn_infos)
+                                except Exception as e:
+                                    print('zstar pass Exception: ', e)
+                            else:
+                                return
+                        else:
+                            return
                     except Exception as e:
                         print('Exception no ids in zstar ', e)
-                    if ids is not None or ids != '':
-                        try:
-                            data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                            if PY3:
-                                import six
-                                data = six.ensure_str(data)
-                            if data:
-                                data = json.load(urlopen(data))
-                                open(self.dwn_infos, "w").write(json.dumps(data))
-                            else:
-                                data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                # if PY3:
-                                    # import six
-                                    # data = six.ensure_str(data)
-                                print('zstar pass ids Else: ', e)
-                                if data:
-                                    data = json.load(urlopen(data))
-                                    open(self.dwn_infos, "w").write(json.dumps(data))
-                                    self.setRating(self.dwn_infos)
-                        except Exception as e:
-                            print('zstar pass Exception: ', e)
+                    return
         except Exception as e:
             print('zstar pass ImdbRating: ', e)
 
