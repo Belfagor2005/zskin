@@ -221,10 +221,21 @@ def convtext(text=''):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
             if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+            print('[(01)] ', text)
+
+            text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
+            text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
+            text = re.sub(r'(\d+)+.*?FIN', '', text)
+            text = text.partition("(")[0] + 'FIN'  # .strip()
+            text = re.sub("\s\d+", "", text)
+            print('1 odc my test:', text)
+
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
-            print('[(01)] ', text)
+            # text = re.sub(r'(?:\d+\s\odc\.\d+\s)?(.+)+.*?FIN', '', text)
+            print('2 my test:', text)
+
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             print('[(02)] ', text)
@@ -303,6 +314,7 @@ class ZstarsEvent(VariableValue, Renderer):
             data = ''
             self.event = self.source.event
             if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
+                OnclearMem()
                 # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
                 # self.evntNm = convtext(self.evnt)
 
@@ -320,7 +332,6 @@ class ZstarsEvent(VariableValue, Renderer):
                 # print('clean zstar: ', self.evntNm)
                 # if not os.path.exists(self.dwn_infos):
                 else:
-                    OnclearMem()
                     try:
                         url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
                         if PY3:
