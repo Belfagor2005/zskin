@@ -1,4 +1,4 @@
-#!/usr/bin/python
+# #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # by digiteng
@@ -21,20 +21,19 @@ from Components.Sources.CurrentService import CurrentService
 from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
-from ServiceReference import ServiceReference
 from Components.VariableValue import VariableValue
-from enigma import eSlider
 from Components.config import config
-# from enigma import eTimer
-import re
+from ServiceReference import ServiceReference
+from enigma import eSlider
 import json
 import os
+import re
 import socket
-import unicodedata
 import sys
-
-
+# import unicodedata
 global cur_skin, my_cur_skin, tmdb_api
+
+
 PY3 = False
 if sys.version_info[0] >= 3:
     PY3 = True
@@ -84,15 +83,24 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
+def isMountedInRW(path):
+    testfile = path + '/tmp-rw-test'
+    os.system('touch ' + testfile)
+    if os.path.exists(testfile):
+        os.system('rm -f ' + testfile)
+        return True
+    return False
+
+
 path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
-    if not isMountReadonly("/media/hdd"):
+    if isMountedInRW("/media/hdd"):
         path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
-    if not isMountReadonly("/media/usb"):
+    if isMountedInRW("/media/usb"):
         path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
-    if not isMountReadonly("/media/mmc"):
+    if isMountedInRW("/media/mmc"):
         path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
@@ -209,41 +217,23 @@ def convtext(text=''):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
                 text = "the " + str(text)
-                print('the from last to start text: ', text)
             text = text + 'FIN'
-            # text = re.sub("[^\w\s]", "", text)  # remove .
-            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            print('[(00)] ', text)
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
             if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
-            print('[(01)] ', text)
-
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            text = re.sub("\s\d+", "", text)
-            print('1 odc my test:', text)
-
+            # text = re.sub("\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
-            # text = re.sub(r'(?:\d+\s\odc\.\d+\s)?(.+)+.*?FIN', '', text)
-            print('2 my test:', text)
-
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
-            print('[(02)] ', text)
-            # text = REGEX.sub('', text)  # paused
-            print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # text = unicodify(text)
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()

@@ -10,24 +10,23 @@
 # recode from lululla 2023
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
+from Components.Sources.CurrentService import CurrentService
+from Components.Sources.Event import Event
+from Components.Sources.EventInfo import EventInfo
+from Components.Sources.ServiceEvent import ServiceEvent
 from Components.VariableText import VariableText
 from Components.config import config
-from enigma import eLabel
-# from enigma import eTimer
+from ServiceReference import ServiceReference
 from enigma import eEPGCache
+from enigma import eLabel
 from time import gmtime
+import NavigationInstance
 import json
 import os
 import re
 import socket
 import sys
 import unicodedata
-import NavigationInstance
-from Components.Sources.CurrentService import CurrentService
-from Components.Sources.Event import Event
-from Components.Sources.EventInfo import EventInfo
-from Components.Sources.ServiceEvent import ServiceEvent
-from ServiceReference import ServiceReference
 global my_cur_skin, path_folder
 
 
@@ -72,15 +71,24 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
+def isMountedInRW(path):
+    testfile = path + '/tmp-rw-test'
+    os.system('touch ' + testfile)
+    if os.path.exists(testfile):
+        os.system('rm -f ' + testfile)
+        return True
+    return False
+
+
 path_folder = "/tmp/poster"
 if os.path.exists("/media/hdd"):
-    if not isMountReadonly("/media/hdd"):
+    if isMountedInRW("/media/hdd"):
         path_folder = "/media/hdd/poster"
 elif os.path.exists("/media/usb"):
-    if not isMountReadonly("/media/usb"):
+    if isMountedInRW("/media/usb"):
         path_folder = "/media/usb/poster"
 elif os.path.exists("/media/mmc"):
-    if not isMountReadonly("/media/mmc"):
+    if isMountedInRW("/media/mmc"):
         path_folder = "/media/mmc/poster"
 
 if not os.path.exists(path_folder):
@@ -224,41 +232,23 @@ def convtext(text=''):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
                 text = "the " + str(text)
-                print('the from last to start text: ', text)
             text = text + 'FIN'
-            # text = re.sub("[^\w\s]", "", text)  # remove .
-            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            print('[(00)] ', text)
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
             if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
-            print('[(01)] ', text)
-
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            text = re.sub("\s\d+", "", text)
-            print('1 odc my test:', text)
-
+            # text = re.sub("\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
-            # text = re.sub(r'(?:\d+\s\odc\.\d+\s)?(.+)+.*?FIN', '', text)
-            print('2 my test:', text)
-
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
-            print('[(02)] ', text)
-            # text = REGEX.sub('', text)  # paused
-            print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # text = unicodify(text)
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
@@ -311,18 +301,10 @@ class ZEvent(Renderer, VariableText):
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
             self.evntNm = convtext(self.evnt)
             self.infos_file = r"{}\{}.txt".format(path_folder, self.evntNm)
-            # if not os.path.exists(self.infos_file):
-                # self.downloadInfos()
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
-            # self.infos_file = "{}/{}.event.txt".format(path_folder, self.evntNm)
             if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
                 self.setRating(self.infos_file)
                 return
-            # if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
-                # self.setRating(self.dwn_infos)
-                # return
-            # if not os.path.exists(self.infos_file):
-                # self.downloadInfos()
 
     def downloadInfos(self):
         if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size < 1:

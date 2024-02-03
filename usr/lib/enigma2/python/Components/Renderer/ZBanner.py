@@ -83,15 +83,24 @@ def isMountReadonly(mnt):
     return "mount: '%s' doesn't exist" % mnt
 
 
+def isMountedInRW(path):
+    testfile = path + '/tmp-rw-test'
+    os.system('touch ' + testfile)
+    if os.path.exists(testfile):
+        os.system('rm -f ' + testfile)
+        return True
+    return False
+
+
 path_folder = "/tmp/backdrop"
 if os.path.exists("/media/hdd"):
-    if not isMountReadonly("/media/hdd"):
+    if isMountedInRW("/media/hdd"):
         path_folder = "/media/hdd/backdrop"
-elif os.path.exists("/media/usb"):
-    if not isMountReadonly("/media/usb"):
+if os.path.exists("/media/usb"):
+    if isMountedInRW("/media/usb"):
         path_folder = "/media/usb/backdrop"
-elif os.path.exists("/media/mmc"):
-    if not isMountReadonly("/media/mmc"):
+if os.path.exists("/media/mmc"):
+    if isMountedInRW("/media/mmc"):
         path_folder = "/media/mmc/backdrop"
 
 if not os.path.exists(path_folder):
@@ -199,41 +208,23 @@ def convtext(text=''):
                 text.rsplit(" ", 1)[0]
                 text = text.rsplit(" ", 1)[0]
                 text = "the " + str(text)
-                print('the from last to start text: ', text)
             text = text + 'FIN'
-            # text = re.sub("[^\w\s]", "", text)  # remove .
-            # text = re.sub(' [\:][a-z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\:][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\(][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            # text = re.sub(' [\-][ ][a-zA-Z0-9]+.*?FIN', '', text)
-            print('[(00)] ', text)
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
             if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
-            print('[(01)] ', text)
-
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            text = re.sub("\s\d+", "", text)
-            print('1 odc my test:', text)
-
+            # text = re.sub("\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
-            # text = re.sub(r'(?:\d+\s\odc\.\d+\s)?(.+)+.*?FIN', '', text)
-            print('2 my test:', text)
-
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
-            print('[(02)] ', text)
-            # text = REGEX.sub('', text)  # paused
-            print('[(03)] ', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # text = unicodify(text)
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
@@ -296,7 +287,6 @@ class ZBanner(Renderer):
             print('ZBanner B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-
             self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
@@ -414,65 +404,59 @@ class ZBanner(Renderer):
                             self.instance.hide()
                         return
                     try:
-                        try:
-                            if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
-                                os.remove(self.dataNm)
-                                print("ZBanner as been removed %s successfully" % self.evntNm)
-                            url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
+                        if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
+                            os.remove(self.dataNm)
+                            print("ZBanner as been removed %s successfully" % self.evntNm)
+                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
+                        if PY3:
+                            url = url.encode()
+                        if not PY3:
+                            url2 = urlopen(url).read().decode('utf-8')
+                        else:
+                            url2 = urlopen(url).read()
+                        jurl = json.loads(url2)
+                        if 'results' in jurl:
+                            if 'id' in jurl['results'][0]:
+                                ids = jurl['results'][0]['id']
+                                url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                                if PY3:
+                                    url_2 = url_2.encode()
+
+                                if not PY3:
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
+                                else:
+                                    url_3 = urlopen(url_2).read().read()
+                                data2 = json.loads(url_3)
+                                with open(self.dataNm, "w") as f:
+                                    json.dump(data2, f)
+                                backdrop = data2['backdrop_path']
+                                if backdrop and backdrop != 'null' or backdrop is not None:
+                                    self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
+                                    self.saveBanner()
+                        else:
+                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                             if PY3:
                                 url = url.encode()
                             if not PY3:
                                 url2 = urlopen(url).read().decode('utf-8')
                             else:
                                 url2 = urlopen(url).read()
+                            # url2 = urlopen(url).read().decode('utf-8')
                             jurl = json.loads(url2)
                             if 'results' in jurl:
                                 if 'id' in jurl['results'][0]:
                                     ids = jurl['results'][0]['id']
-                                    url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                                    url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                     if PY3:
                                         url_2 = url_2.encode()
-
-                                    if not PY3:
-                                        url_3 = urlopen(url_2).read().decode('utf-8')
-                                    else:
-                                        url_3 = urlopen(url_2).read().read()
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
                                     data2 = json.loads(url_3)
                                     with open(self.dataNm, "w") as f:
                                         json.dump(data2, f)
                                     backdrop = data2['backdrop_path']
                                     if backdrop and backdrop != 'null' or backdrop is not None:
-                                        self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
+                                        self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
                                         self.saveBanner()
-                            else:
-                                url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
-                                if PY3:
-                                    url = url.encode()
-
-                                if not PY3:
-                                    url2 = urlopen(url).read().decode('utf-8')
-                                else:
-                                    url2 = urlopen(url).read()
-                                # url2 = urlopen(url).read().decode('utf-8')
-                                jurl = json.loads(url2)
-                                if 'results' in jurl:
-                                    if 'id' in jurl['results'][0]:
-                                        ids = jurl['results'][0]['id']
-                                        url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                                        if PY3:
-                                            url_2 = url_2.encode()
-                                        url_3 = urlopen(url_2).read().decode('utf-8')
-                                        data2 = json.loads(url_3)
-                                        with open(self.dataNm, "w") as f:
-                                            json.dump(data2, f)
-                                        backdrop = data2['backdrop_path']
-                                        if backdrop and backdrop != 'null' or backdrop is not None:
-                                            self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                            self.saveBanner()
-                        except Exception as e:
-                            print('ZBanner error 4 ', e)
-                            if self.instance:
-                                self.instance.hide()
                     except Exception as e:
                         print('ZBanner error except ZBanner ', e)
                         if self.instance:
