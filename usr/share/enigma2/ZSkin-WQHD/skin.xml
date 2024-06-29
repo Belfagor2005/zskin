@@ -5273,7 +5273,7 @@
         <widget backgroundColor="#000000" font="Regular;46" foregroundColor="#808080" halign="left" position="827,374" render="Label" size="267,47" source="weekday1_temp" transparent="1" valign="center"/>
         <widget alphatest="on" name="currenticon" position="40,214" size="440,360"/>
         <widget backgroundColor="#000000" font="Regular;67" foregroundColor="yellow" halign="left" position="507,187" render="Label" size="1334,160" source="caption" transparent="1" valign="center" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;54" foregroundColor="yellow" position="120,534" render="Label" size="667,67" source="condition" transparent="1"/>
+        <widget backgroundColor="#000000" font="Regular;54" foregroundColor="yellow" position="502,562" render="Label" size="667,67" source="condition" transparent="1"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/icons/temp.png" position="507,354" scale="strech" size="134,134" zPosition="5"/>
         <widget backgroundColor="#000000" font="Regular;80" foregroundColor="yellow" position="600,347" render="Label" size="200,94" source="currentTemp" transparent="1"/>
         <widget font="Regular;40" position="600,440" render="Label" size="800,54" source="feelsliketemp" transparent="1"/>

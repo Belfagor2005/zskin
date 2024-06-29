@@ -5257,39 +5257,39 @@
         <widget backgroundColor="#000000" font="Regular;30" halign="right" position="710,1000" render="Label" size="300,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
     </screen>
     <screen name="MSNWeatherPlugin" position="0,0" size="1920,1080" title="Weather Plugin">
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/meteo.jpg" position="0,0" size="1920,1080" zPosition="-1"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="0,120" size="1920,8" zPosition="5"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/msnlogo.png" position="40,30" size="194,75" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" halign="left" position="40,120" render="Label" size="1280,120" source="statustext" transparent="1" valign="center"/>
-        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#606060" halign="right" position="1070,35" render="Label" size="800,40" source="observationtime" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;28" foregroundColor="#606060" halign="right" position="1070,80" render="Label" size="800,40" source="observationpoint" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;34" foregroundColor="#808080" halign="left" position="620,280" render="Label" size="200,35" source="weekday1_temp" transparent="1" valign="center"/>
-        <widget alphatest="on" name="currenticon" position="30,160" size="330,270"/>
-        <widget backgroundColor="#000000" font="Regular;50" foregroundColor="yellow" halign="left" position="380,140" render="Label" size="1000,120" source="caption" transparent="1" valign="center" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" position="90,400" render="Label" size="500,50" source="condition" transparent="1"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/temp.png" position="380,265" scale="strech" size="100,100" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;60" foregroundColor="yellow" position="450,260" render="Label" size="150,70" source="currentTemp" transparent="1"/>
-        <widget font="Regular;30" position="450,330" render="Label" size="600,40" source="feelsliketemp" transparent="1"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/wind.png" position="80,500" scale="strech" size="79,110" zPosition="5"/>
-        <widget font="Regular;30" position="130,578" render="Label" size="500,40" source="wind_condition" transparent="1"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/umbrella.png" position="80,650" scale="strech" size="60,64" zPosition="5"/>
-        <widget font="Regular;30" position="170,680" render="Label" size="700,40" source="humidity" transparent="1" valign="bottom"/>
-        <eLabel backgroundColor="#ffffff" position="40,950" size="900,1" zPosition="5"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/bigdream.png" position="40,975" scale="strech" size="750,70" zPosition="5"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/skin_default/buttons/key_menu.png" position="1770,995" size="80,40" zPosition="5"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/skin_default/buttons/key_info.png" position="1670,995" size="80,40" zPosition="5"/>
-        <widget alphatest="on" name="weekday2_icon" position="1350,150" size="220,180"/>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,160" render="Label" size="300,40" source="weekday2" transparent="1" valign="center"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="1580,200" render="Label" size="300,120" source="weekday2_temp" transparent="1" valign="center"/>
-        <widget alphatest="on" name="weekday3_icon" position="1350,350" size="220,180"/>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,360" render="Label" size="300,40" source="weekday3" transparent="1" valign="center"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="1580,400" render="Label" size="300,120" source="weekday3_temp" transparent="1" valign="center"/>
-        <widget alphatest="on" name="weekday4_icon" position="1350,550" size="220,180"/>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,560" render="Label" size="300,40" source="weekday4" transparent="1" valign="center"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="1580,600" render="Label" size="300,120" source="weekday4_temp" transparent="1" valign="center"/>
-        <widget alphatest="on" name="weekday5_icon" position="1350,750" size="220,180"/>
-        <widget backgroundColor="#000000" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,760" render="Label" size="300,40" source="weekday5" transparent="1" valign="center"/>
-        <widget backgroundColor="#000000" font="Regular;32" foregroundColor="#ffffff" halign="left" position="1580,800" render="Label" size="300,120" source="weekday5_temp" transparent="1" valign="center"/>
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/meteo.jpg" position="0,0" size="1920,1080" zPosition="-1" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="0,120" size="1920,8" zPosition="5" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/msnlogo.png" position="40,30" size="194,75" zPosition="5" />
+          <widget backgroundColor="black" font="Regular;40" foregroundColor="yellow" halign="left" position="40,120" render="Label" size="1280,120" source="statustext" transparent="1" valign="center" />
+          <widget backgroundColor="black" font="Regular;28" foregroundColor="#606060" halign="right" position="1070,35" render="Label" size="800,40" source="observationtime" transparent="1" zPosition="5" />
+          <widget backgroundColor="black" font="Regular;28" foregroundColor="#606060" halign="right" position="1070,80" render="Label" size="800,40" source="observationpoint" transparent="1" zPosition="5" />
+          <widget backgroundColor="black" font="Regular;34" foregroundColor="#808080" halign="left" position="620,280" render="Label" size="200,35" source="weekday1_temp" transparent="1" valign="center" />
+          <widget alphatest="on" name="currenticon" position="30,160" size="330,270" />
+          <widget backgroundColor="black" font="Regular;50" foregroundColor="yellow" halign="left" position="380,140" render="Label" size="1000,120" source="caption" transparent="1" valign="center" zPosition="5" />
+          <widget backgroundColor="black" font="Regular;40" foregroundColor="yellow" position="384,408" render="Label" size="500,50" source="condition" transparent="1" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/temp.png" position="380,265" scale="strech" size="100,100" zPosition="5" />
+          <widget backgroundColor="black" font="Regular;60" foregroundColor="yellow" position="450,260" render="Label" size="150,70" source="currentTemp" transparent="1" />
+          <widget font="Regular;30" position="450,330" render="Label" size="600,40" source="feelsliketemp" transparent="1" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/wind.png" position="80,500" scale="strech" size="79,110" zPosition="5" />
+          <widget font="Regular;30" position="130,578" render="Label" size="500,40" source="wind_condition" transparent="1" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/umbrella.png" position="80,650" scale="strech" size="60,64" zPosition="5" />
+          <widget font="Regular;30" position="170,680" render="Label" size="700,40" source="humidity" transparent="1" valign="bottom" />
+          <eLabel backgroundColor="white" position="40,950" size="900,1" zPosition="5" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/bigdream.png" position="40,975" scale="strech" size="750,70" zPosition="5" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/skin_default/buttons/key_menu.png" position="1770,995" size="80,40" zPosition="5" />
+          <ePixmap blend="blend" pixmap="ZSkin-FHD/skin_default/buttons/key_info.png" position="1670,995" size="80,40" zPosition="5" />
+          <widget alphatest="on" name="weekday2_icon" position="1350,150" size="220,180" />
+          <widget backgroundColor="black" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,160" render="Label" size="300,40" source="weekday2" transparent="1" valign="center" />
+          <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="1580,200" render="Label" size="300,120" source="weekday2_temp" transparent="1" valign="center" />
+          <widget alphatest="on" name="weekday3_icon" position="1350,350" size="220,180" />
+          <widget backgroundColor="black" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,360" render="Label" size="300,40" source="weekday3" transparent="1" valign="center" />
+          <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="1580,400" render="Label" size="300,120" source="weekday3_temp" transparent="1" valign="center" />
+          <widget alphatest="on" name="weekday4_icon" position="1350,550" size="220,180" />
+          <widget backgroundColor="black" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,560" render="Label" size="300,40" source="weekday4" transparent="1" valign="center" />
+          <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="1580,600" render="Label" size="300,120" source="weekday4_temp" transparent="1" valign="center" />
+          <widget alphatest="on" name="weekday5_icon" position="1350,750" size="220,180" />
+          <widget backgroundColor="black" font="Regular;36" foregroundColor="yellow" halign="left" position="1580,760" render="Label" size="300,40" source="weekday5" transparent="1" valign="center" />
+          <widget backgroundColor="black" font="Regular;32" foregroundColor="white" halign="left" position="1580,800" render="Label" size="300,120" source="weekday5_temp" transparent="1" valign="center" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="MSNWeatherPluginEntryConfigScreen" position="0,0" size="1920,1080" title="Weather Config"> &gt;
    		<widget backgroundColor="#000000" font="main;76" foregroundColor="#808060" halign="left" position="240,20" render="Label" size="1000,100" source="Title" transparent="1" valign="center" zPosition="5"/>
