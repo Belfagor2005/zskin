@@ -33,14 +33,13 @@ if sys.version_info[0] >= 3:
     unicode = str
     unichr = chr
     long = int
-
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.parse import quote_plus
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote
+    from urllib import quote_plus
 
 
 # w92
@@ -52,7 +51,7 @@ else:
 # original
 formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
+omdb_api = "679b0028"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
@@ -127,27 +126,27 @@ except:
 
 
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\*\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'([\(\[]).*?([\)\]])|'
+    r'(: odc.\d+)|'
+    r'(\d+: odc.\d+)|'
+    r'(\d+ odc.\d+)|(:)|'
+    r'( -(.*?).*)|(,)|'
+    r'!|'
+    r'/.*|'
+    r'\|\s[0-9]+\+|'
+    r'[0-9]+\+|'
+    r'\s\*\d{4}\Z|'
+    r'([\(\[\|].*?[\)\]\|])|'
+    r'(\"|\"\.|\"\,|\.)\s.+|'
+    r'\"|:|'
+    r'Премьера\.\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
 def remove_accents(string):
@@ -171,11 +170,40 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
+def cutName(eventName=""):
+    if eventName:
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
+        eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
+        eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        return eventName
+    return ""
+
+
+def getCleanTitle(eventitle=""):
+    # save_name = re.sub('\\(\d+\)$', '', eventitle)
+    # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
+    # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
+
+    save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
+    return save_name
+
+
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
+            text = cutName(text)
+            text = getCleanTitle(text)
+            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
@@ -210,7 +238,7 @@ def convtext(text=''):
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\s\d+", "", text)
+            # text = re.sub("\\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
@@ -221,7 +249,7 @@ def convtext(text=''):
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
-            print('Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return text
@@ -270,9 +298,6 @@ class ZChannel(Renderer):
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
-        # if not self.instance:
-            # print('not istance')
-            # return
         if what[0] == self.CHANGED_CLEAR:
             print('zchannel A what[0] == self.CHANGED_CLEAR')
             # return
@@ -280,7 +305,7 @@ class ZChannel(Renderer):
             print('zchannel B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            self.picload = ePicLoad()
+            # self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
@@ -310,15 +335,18 @@ class ZChannel(Renderer):
 
     def delay(self):
         self.event = self.source.event
-        if self.event:  # and self.instance:
+        if self.event:
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            if self.evnt.endswith(' '):
+                self.evnt = self.evnt[:-1]
             self.evntNm = convtext(self.evnt)
-            print('zchannel new self event name :', self.evntNm)
+            print('zchannel new self event name:', self.evntNm)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
             if os.path.exists(self.pstrNm):
                 self.showPoster()
+                # self.DecodePicture()
             else:
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
                     try:
@@ -338,7 +366,7 @@ class ZChannel(Renderer):
                             poster = data['poster_path']
                             if poster and poster != 'null' or poster is not None:
                                 self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
-                                print('ZChannel dwn_infos poster download')
+                                # print('ZChannel dwn_infos poster download')
                                 self.savePoster()
                     except Exception as e:
                         print('ZChannel error 1 ', e)
@@ -361,7 +389,7 @@ class ZChannel(Renderer):
                             poster = data['poster_path']
                             if poster and poster != 'null' or poster is not None:
                                 self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))
-                                print('ZChannel dataNm poster download')
+                                # print('ZChannel dataNm poster download')
                                 self.savePoster()
                     except Exception as e:
                         print('ZChannel error 2 ', e)
@@ -392,15 +420,15 @@ class ZChannel(Renderer):
                         print('ZChannel error 3 ', e)
                         if self.instance:
                             self.instance.hide()
-                    if not servicetype:
+                    if not servicetype or servicetype is None:
                         if self.instance:
                             self.instance.hide()
                         return
                     try:
                         if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
                             os.remove(self.dataNm)
-                            print("Zchannel as been removed %s successfully" % self.evntNm)
-                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                            # print("Zchannel as been removed %s successfully" % self.evntNm)
+                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                         if PY3:
                             url = url.encode()
                         if not PY3:
@@ -409,7 +437,7 @@ class ZChannel(Renderer):
                             url2 = urlopen(url).read()
                         jurl = json.loads(url2)
                         if 'results' in jurl:
-                            print('zchannel part one')
+                            # print('zchannel part one')
                             if 'id' in jurl['results'][0]:
                                 ids = jurl['results'][0]['id']
                                 url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
@@ -428,8 +456,8 @@ class ZChannel(Renderer):
                                     self.url_poster = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(poster))  # w185 risoluzione poster
                                     self.savePoster()
                         else:
-                            print('zchannel part two')
-                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                            # print('zchannel part two')
+                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                             if PY3:
                                 url = url.encode()
                             if not PY3:
@@ -480,7 +508,7 @@ class ZChannel(Renderer):
                     self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
                 self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
                 # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
-                print('ZChannel picload.startDecode poster')
+                # print('ZChannel picload.startDecode poster')
                 self.picload.startDecode(self.pstrNm)
         except Exception as e:
             print(e)
@@ -489,14 +517,16 @@ class ZChannel(Renderer):
         # print("* DecodePicture *")
         ptr = self.picload.getData()
         if ptr is not None:
-            print('ZChannel ptr is true')
+            # print('ZChannel ptr is true')
             self.instance.setPixmap(ptr)
             self.instance.show()
         # return
+        # else:
+            # self.delay()
 
     def savePoster(self):
         if os.path.exists(self.pstrNm):
-            print('ZChannel save poster show ')
+            # print('ZChannel save poster show ')
             self.showPoster()
             return
 
@@ -504,5 +534,5 @@ class ZChannel(Renderer):
         with open(self.pstrNm, "wb") as local_file:
             local_file.write(data.read())
             if os.path.exists(self.pstrNm):
-                print('ZChannel save poster show ')
+                # print('ZChannel save poster show ')
                 self.showPoster()

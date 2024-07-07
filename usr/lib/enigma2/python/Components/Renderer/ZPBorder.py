@@ -9,12 +9,12 @@
 # <widget source="session.Event_Now" render="ZPBorder" position="1620,505" size="300,438" alphatest="blend" trasparent="1" zPosition="8" />
 from Components.AVSwitch import AVSwitch
 from Components.Renderer.Renderer import Renderer
-from Components.Sources.CurrentService import CurrentService
-from Components.Sources.Event import Event
-from Components.Sources.EventInfo import EventInfo
-from Components.Sources.ServiceEvent import ServiceEvent
+# from Components.Sources.CurrentService import CurrentService
+# from Components.Sources.Event import Event
+# from Components.Sources.EventInfo import EventInfo
+# from Components.Sources.ServiceEvent import ServiceEvent
 from Components.config import config
-from ServiceReference import ServiceReference
+# from ServiceReference import ServiceReference
 from Tools.Directories import fileExists
 from enigma import ePixmap, ePicLoad
 import os
@@ -29,6 +29,9 @@ if sys.version_info[0] >= 3:
     unicode = str
     unichr = chr
     long = int
+    from urllib.parse import quote_plus
+else:
+    from urllib import quote_plus
 
 
 def isMountReadonly(mnt):
@@ -80,27 +83,27 @@ if not os.path.exists(path_folder):
 
 
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\*\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'([\(\[]).*?([\)\]])|'
+    r'(: odc.\d+)|'
+    r'(\d+: odc.\d+)|'
+    r'(\d+ odc.\d+)|(:)|'
+    r'( -(.*?).*)|(,)|'
+    r'!|'
+    r'/.*|'
+    r'\|\s[0-9]+\+|'
+    r'[0-9]+\+|'
+    r'\s\*\d{4}\Z|'
+    r'([\(\[\|].*?[\)\]\|])|'
+    r'(\"|\"\.|\"\,|\.)\s.+|'
+    r'\"|:|'
+    r'Премьера\.\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
 def remove_accents(string):
@@ -124,11 +127,40 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
+def cutName(eventName=""):
+    if eventName:
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
+        eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
+        eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        return eventName
+    return ""
+
+
+def getCleanTitle(eventitle=""):
+    # save_name = re.sub('\\(\d+\)$', '', eventitle)
+    # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
+    # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
+
+    save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
+    return save_name
+
+
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
+            text = cutName(text)
+            text = getCleanTitle(text)
+            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
@@ -163,7 +195,7 @@ def convtext(text=''):
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\s\d+", "", text)
+            # text = re.sub("\\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
@@ -174,7 +206,7 @@ def convtext(text=''):
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
-            print('Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return text
@@ -226,12 +258,10 @@ class ZPBorder(Renderer):
         self.downloading = False
         self.event = self.source.event
         if self.event:
-            # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-            # self.evntNm = convtext(self.evnt)
-
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            if self.evnt.endswith(' '):
+                self.evnt = self.evnt[:-1]
             self.evntNm = convtext(self.evnt)
-
             print('zborder clean Zborder: ', self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
             print('zborder self.pstrNm: ', self.pstrNm)

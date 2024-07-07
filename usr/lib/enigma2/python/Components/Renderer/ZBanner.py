@@ -7,25 +7,24 @@
 # edit by lululla 07.2022
 # recode from lululla 2023
 
-from Components.Renderer.Renderer import Renderer
-from enigma import ePixmap, ePicLoad
 from Components.AVSwitch import AVSwitch
-from Components.config import config
-import re
-import json
-import os
-import socket
-import shutil
-import sys
-# from enigma import gPixmapPtr
+from Components.Renderer.Renderer import Renderer
 from Components.Sources.CurrentService import CurrentService
 from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
+from Components.config import config
 from ServiceReference import ServiceReference
+from enigma import ePixmap, ePicLoad
 from enigma import getDesktop
-import unicodedata
 import NavigationInstance
+import json
+import os
+import re
+import shutil
+import socket
+import sys
+# import unicodedata
 global cur_skin, my_cur_skin
 
 PY3 = False
@@ -36,11 +35,11 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote
+    from urllib.parse import quote_plus
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote
+    from urllib import quote_plus
 
 '''
 # isz = "w780"
@@ -134,27 +133,27 @@ except:
 
 
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\*\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'([\(\[]).*?([\)\]])|'
+    r'(: odc.\d+)|'
+    r'(\d+: odc.\d+)|'
+    r'(\d+ odc.\d+)|(:)|'
+    r'( -(.*?).*)|(,)|'
+    r'!|'
+    r'/.*|'
+    r'\|\s[0-9]+\+|'
+    r'[0-9]+\+|'
+    r'\s\*\d{4}\Z|'
+    r'([\(\[\|].*?[\)\]\|])|'
+    r'(\"|\"\.|\"\,|\.)\s.+|'
+    r'\"|:|'
+    r'Премьера\.\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
 def remove_accents(string):
@@ -178,11 +177,40 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
+def cutName(eventName=""):
+    if eventName:
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
+        eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
+        eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        return eventName
+    return ""
+
+
+def getCleanTitle(eventitle=""):
+    # save_name = re.sub('\\(\d+\)$', '', eventitle)
+    # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
+    # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
+
+    save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
+    return save_name
+
+
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
+            text = cutName(text)
+            text = getCleanTitle(text)
+            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
@@ -217,7 +245,7 @@ def convtext(text=''):
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\s\d+", "", text)
+            # text = re.sub("\\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
@@ -228,7 +256,7 @@ def convtext(text=''):
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
-            print('Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return text
@@ -277,9 +305,6 @@ class ZBanner(Renderer):
     GUI_WIDGET = ePixmap
 
     def changed(self, what):
-        # if not self.instance:
-            # print('not istance')
-            # return
         if what[0] == self.CHANGED_CLEAR:
             print('ZBanner A what[0] == self.CHANGED_CLEAR')
             # return
@@ -287,7 +312,7 @@ class ZBanner(Renderer):
             print('ZBanner B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            self.picload = ePicLoad()
+            # self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
             except:
@@ -301,6 +326,7 @@ class ZBanner(Renderer):
                 self.nxts = int(value)
             if attrib == "path":
                 self.path = str(value)
+            '''
             # if attrib == "size":
                 # value = value.split(',')
                 # width = value[0]
@@ -311,16 +337,19 @@ class ZBanner(Renderer):
                 # if screenwidth.width() > 1280:
                     # width = 715
                     # height = 400
+            '''
             attribs.append((attrib, value))
         self.skinAttributes = attribs
         return Renderer.applySkin(self, desktop, parent)
 
     def delay(self):
         self.event = self.source.event
-        if self.event:  # and self.instance:
+        if self.event:
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            if self.evnt.endswith(' '):
+                self.evnt = self.evnt[:-1]
             self.evntNm = convtext(self.evnt)
-            print('zbanner new self event name :', self.evntNm)
+            print('zchannel new self event name:', self.evntNm)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
@@ -345,7 +374,7 @@ class ZBanner(Renderer):
                             backdrop = data['backdrop_path']
                             if backdrop and backdrop != 'null' or backdrop is not None:
                                 self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                print('ZBanner dwn_infos backdrop download')
+                                # print('ZBanner dwn_infos backdrop download')
                                 self.saveBanner()
                     except Exception as e:
                         print('ZBanner error 1 ', e)
@@ -368,7 +397,7 @@ class ZBanner(Renderer):
                             backdrop = data['backdrop_path']
                             if backdrop and backdrop != 'null' or backdrop is not None:
                                 self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                print('ZBanner dataNm backdrop download')
+                                # print('ZBanner dataNm backdrop download')
                                 self.saveBanner()
                     except Exception as e:
                         print('ZBanner error 2 ', e)
@@ -406,8 +435,8 @@ class ZBanner(Renderer):
                     try:
                         if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
                             os.remove(self.dataNm)
-                            print("ZBanner as been removed %s successfully" % self.evntNm)
-                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(tmdb_api, quote(self.evntNm))
+                            # print("ZBanner as been removed %s successfully" % self.evntNm)
+                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                         if PY3:
                             url = url.encode()
                         if not PY3:
@@ -434,7 +463,7 @@ class ZBanner(Renderer):
                                     self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
                                     self.saveBanner()
                         else:
-                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                             if PY3:
                                 url = url.encode()
                             if not PY3:
@@ -485,7 +514,7 @@ class ZBanner(Renderer):
                     self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
                 self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
                 # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
-                print('ZBanner picload.startDecode banner')
+                # print('ZBanner picload.startDecode banner')
                 self.picload.startDecode(self.pstrNm)
         except Exception as e:
             print(e)
@@ -494,13 +523,13 @@ class ZBanner(Renderer):
         # print("* DecodePicture *")
         ptr = self.picload.getData()
         if ptr is not None:
-            print('ZBanner ptr is true')
+            # print('ZBanner ptr is true')
             self.instance.setPixmap(ptr)
             self.instance.show()
 
     def saveBanner(self):
         if os.path.exists(self.pstrNm):
-            print('ZBanner saveBanner show ')
+            # print('ZBanner saveBanner show ')
             self.showBackdrop()
             return
 
@@ -508,5 +537,5 @@ class ZBanner(Renderer):
         with open(self.pstrNm, "wb") as local_file:
             local_file.write(data.read())
             if os.path.exists(self.pstrNm):
-                print('ZBanner save backdrop show ')
+                # print('ZBanner save backdrop show ')
                 self.showBackdrop()

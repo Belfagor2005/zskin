@@ -17,13 +17,13 @@
 
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
-from Components.Sources.CurrentService import CurrentService
-from Components.Sources.Event import Event
-from Components.Sources.EventInfo import EventInfo
-from Components.Sources.ServiceEvent import ServiceEvent
+# from Components.Sources.CurrentService import CurrentService
+# from Components.Sources.Event import Event
+# from Components.Sources.EventInfo import EventInfo
+# from Components.Sources.ServiceEvent import ServiceEvent
 from Components.VariableValue import VariableValue
 from Components.config import config
-from ServiceReference import ServiceReference
+# from ServiceReference import ServiceReference
 from enigma import eSlider
 import json
 import os
@@ -31,8 +31,7 @@ import re
 import socket
 import sys
 # import unicodedata
-global cur_skin, my_cur_skin, tmdb_api
-
+global cur_skin, my_cur_skin
 
 PY3 = False
 if sys.version_info[0] >= 3:
@@ -42,11 +41,11 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    # from urllib.parse import quote
+    from urllib.parse import quote_plus
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    # from urllib import quote
+    from urllib import quote_plus
 
 
 try:
@@ -60,7 +59,7 @@ print('language: ', lng)
 
 formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
+omdb_api = "679b0028"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 my_cur_skin = False
@@ -143,27 +142,27 @@ def OnclearMem():
 
 
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\*\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'([\(\[]).*?([\)\]])|'
+    r'(: odc.\d+)|'
+    r'(\d+: odc.\d+)|'
+    r'(\d+ odc.\d+)|(:)|'
+    r'( -(.*?).*)|(,)|'
+    r'!|'
+    r'/.*|'
+    r'\|\s[0-9]+\+|'
+    r'[0-9]+\+|'
+    r'\s\*\d{4}\Z|'
+    r'([\(\[\|].*?[\)\]\|])|'
+    r'(\"|\"\.|\"\,|\.)\s.+|'
+    r'\"|:|'
+    r'Премьера\.\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
 def remove_accents(string):
@@ -187,11 +186,40 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
+def cutName(eventName=""):
+    if eventName:
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
+        eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
+        eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        return eventName
+    return ""
+
+
+def getCleanTitle(eventitle=""):
+    # save_name = re.sub('\\(\d+\)$', '', eventitle)
+    # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
+    # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
+
+    save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
+    return save_name
+
+
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
+            text = cutName(text)
+            text = getCleanTitle(text)
+            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
@@ -226,7 +254,7 @@ def convtext(text=''):
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\s\d+", "", text)
+            # text = re.sub("\\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
@@ -237,7 +265,7 @@ def convtext(text=''):
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
-            print('Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return text
@@ -276,9 +304,6 @@ class ZstarsEvent(VariableValue, Renderer):
     GUI_WIDGET = eSlider
 
     def changed(self, what):
-        # if not self.instance:
-            # print('zstar event not istance')
-            # return
         if what[0] == self.CHANGED_CLEAR:
             print('zstar event A what[0] == self.CHANGED_CLEAR')
             (self.range, self.value) = ((0, 1), 0)
@@ -303,13 +328,20 @@ class ZstarsEvent(VariableValue, Renderer):
             ids = None
             data = ''
             self.event = self.source.event
-            if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
-                OnclearMem()
-                # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-                # self.evntNm = convtext(self.evnt)
-
+            if self.event:
                 self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                if self.evnt.endswith(' '):
+                    self.evnt = self.evnt[:-1]
                 self.evntNm = convtext(self.evnt)
+
+            # self.event = self.source.event
+            # if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
+                # OnclearMem()
+                # # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
+                # # self.evntNm = convtext(self.evnt)
+
+                # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+                # self.evntNm = convtext(self.evnt)
 
                 self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
                 self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
@@ -323,15 +355,15 @@ class ZstarsEvent(VariableValue, Renderer):
                 # if not os.path.exists(self.dwn_infos):
                 else:
                     try:
-                        url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), self.evntNm)
+                        url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                         if PY3:
                             url = url.encode()
-                        print('zstar url1:', url)
+                        # print('zstar url1:', url)
                         url = checkRedirect(url)
-                        print('zstar url2:', url)
+                        # print('zstar url2:', url)
                         if url is not None:
                             ids = url['results'][0]['id']
-                            print('zstar url2 ids:', ids)
+                            # print('zstar url2 ids:', ids)
                         # except Exception as e:
                             # print('Exception no ids in zstar ', e)
                             if ids and ids is not None or ids != '':
@@ -345,10 +377,6 @@ class ZstarsEvent(VariableValue, Renderer):
                                         open(self.dwn_infos, "w").write(json.dumps(data))
                                     else:
                                         data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                        # if PY3:
-                                            # import six
-                                            # data = six.ensure_str(data)
-                                        print('zstar pass ids Else')
                                         if data:
                                             data = json.load(urlopen(data))
                                             open(self.dwn_infos, "w").write(json.dumps(data))

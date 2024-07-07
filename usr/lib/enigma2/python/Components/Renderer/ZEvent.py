@@ -10,13 +10,13 @@
 # recode from lululla 2023
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
-from Components.Sources.CurrentService import CurrentService
-from Components.Sources.Event import Event
-from Components.Sources.EventInfo import EventInfo
-from Components.Sources.ServiceEvent import ServiceEvent
+# from Components.Sources.CurrentService import CurrentService
+# from Components.Sources.Event import Event
+# from Components.Sources.EventInfo import EventInfo
+# from Components.Sources.ServiceEvent import ServiceEvent
 from Components.VariableText import VariableText
 from Components.config import config
-from ServiceReference import ServiceReference
+# from ServiceReference import ServiceReference
 from enigma import eEPGCache
 from enigma import eLabel
 from time import gmtime
@@ -26,7 +26,6 @@ import os
 import re
 import socket
 import sys
-import unicodedata
 global my_cur_skin, path_folder
 
 
@@ -36,15 +35,16 @@ if sys.version_info[0] >= 3:
     unicode = str
     unichr = chr
     long = int
-    from urllib.parse import quote
+    from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
+    from urllib.parse import quote, quote_plus
     from _thread import start_new_thread
-    from urllib.error import HTTPError, URLError
 else:
-    from urllib import quote
+    from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
+    from urllib import quote, quote_plus
     from thread import start_new_thread
-    from urllib2 import HTTPError, URLError
+
 
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "679b0028"
@@ -132,53 +132,28 @@ def OnclearMem():
         pass
 
 
-# def checkRedirect(url):
-    # # print("*** check redirect ***")
-    # import requests
-    # from requests.adapters import HTTPAdapter, Retry
-    # hdr = {"User-Agent": "Enigma2 - Enigma2 Plugin"}
-    # content = None
-    # retries = Retry(total=1, backoff_factor=1)
-    # adapter = HTTPAdapter(max_retries=retries)
-    # http = requests.Session()
-    # http.mount("http://", adapter)
-    # http.mount("https://", adapter)
-    # try:
-        # r = http.get(url, headers=hdr, timeout=(10, 30), verify=False)
-        # r.raise_for_status()
-        # if r.status_code == requests.codes.ok:
-            # try:
-                # content = r.json()
-            # except Exception as e:
-                # print('checkRedirect error:', e)
-        # # return content
-    # except Exception as e:
-        # print('next ret: ', e)
-    # return content
-
-
 REGEX = re.compile(
-        r'([\(\[]).*?([\)\]])|'
-        r'(: odc.\d+)|'
-        r'(\d+: odc.\d+)|'
-        r'(\d+ odc.\d+)|(:)|'
-        r'( -(.*?).*)|(,)|'
-        r'!|'
-        r'/.*|'
-        r'\|\s[0-9]+\+|'
-        r'[0-9]+\+|'
-        r'\s\*\d{4}\Z|'
-        r'([\(\[\|].*?[\)\]\|])|'
-        r'(\"|\"\.|\"\,|\.)\s.+|'
-        r'\"|:|'
-        r'Премьера\.\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-        r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-        r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-        r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-        r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-        r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'([\(\[]).*?([\)\]])|'
+    r'(: odc.\d+)|'
+    r'(\d+: odc.\d+)|'
+    r'(\d+ odc.\d+)|(:)|'
+    r'( -(.*?).*)|(,)|'
+    r'!|'
+    r'/.*|'
+    r'\|\s[0-9]+\+|'
+    r'[0-9]+\+|'
+    r'\s\*\d{4}\Z|'
+    r'([\(\[\|].*?[\)\]\|])|'
+    r'(\"|\"\.|\"\,|\.)\s.+|'
+    r'\"|:|'
+    r'Премьера\.\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
+    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
+    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
+    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
+    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
+    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
 
 
 def remove_accents(string):
@@ -202,11 +177,40 @@ def unicodify(s, encoding='utf-8', norm=None):
     return s
 
 
+def cutName(eventName=""):
+    if eventName:
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
+        eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
+        eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        return eventName
+    return ""
+
+
+def getCleanTitle(eventitle=""):
+    # save_name = re.sub('\\(\d+\)$', '', eventitle)
+    # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
+    # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
+
+    save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
+    return save_name
+
+
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
+            text = cutName(text)
+            text = getCleanTitle(text)
+            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
@@ -241,7 +245,7 @@ def convtext(text=''):
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
             text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\s\d+", "", text)
+            # text = re.sub("\\s\d+", "", text)
             text = text.partition("(")[0]  # .strip()
             text = text.partition(":")[0]  # .strip()
             text = text.partition(" -")[0]  # .strip()
@@ -252,7 +256,7 @@ def convtext(text=''):
             text = remove_accents(text)
             text = text.strip()
             text = text.capitalize()
-            print('Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return text
@@ -297,8 +301,10 @@ class ZEvent(Renderer, VariableText):
 
     def showInfos(self):
         self.event = self.source.event
-        if self.event and self.event != 'None' or self.event is not None:
+        if self.event:
             self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            if self.evnt.endswith(' '):
+                self.evnt = self.evnt[:-1]
             self.evntNm = convtext(self.evnt)
             self.infos_file = r"{}\{}.txt".format(path_folder, self.evntNm)
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
@@ -325,14 +331,16 @@ class ZEvent(Renderer, VariableText):
                 data2 = json.loads(url_3)
                 with open(self.infos_file, "w") as f:
                     json.dump(data2, f)
-                print('ZEvent pas data to setRating ', data2)
+                # print('ZEvent pas data to setRating ', data2)
                 self.setRating(self.infos_file)
 
         else:
-            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
             if PY3:
                 url = url.encode()
+
             url2 = urlopen(url).read().decode('utf-8')
+
             jurl = json.loads(url2)
             if 'results' in jurl:
                 if 'id' in jurl['results'][0]:
@@ -344,25 +352,13 @@ class ZEvent(Renderer, VariableText):
                     data2 = json.loads(url_3)
                     with open(self.infos_file, "w") as f:
                         json.dump(data2, f)
-                    print('ZEvent pas data to setRating ', data2)
+                    # print('ZEvent pas data to setRating ', data2)
                     self.setRating(self.infos_file)
 
     def filterSearch(self):
         try:
             sd = "%s\n%s\n%s" % (self.event.getEventName(), self.event.getShortDescription(), self.event.getExtendedDescription())
-            w = [
-                    "t/s",
-                    "Т/s",
-                    "SM",
-                    "SM",
-                    "d/s",
-                    "D/s",
-                    "stagione",
-                    "Sig.",
-                    "episodio",
-                    "serie TV",
-                    "serie"
-                    ]
+            w = ["t/s", "Т/s", "SM", "SM", "d/s", "D/s", "stagione", "Sig.", "episodio", "serie TV", "serie"]
             for i in w:
                 if i in sd:
                     self.srch = "tv"
@@ -407,32 +403,6 @@ class ZEvent(Renderer, VariableText):
                         data = json.loads(myObject, 'utf-8')
                     except Exception as e:
                         print('ZEvent object error ', e)
-                # else:
-                    # with open(data) as f:
-                        # data = json.load(f)
-
-                    # {
-                      # "poster_path": "/IfB9hy4JH1eH6HEfIgIGORXi5h.jpg",
-                      # "adult": false,
-                      # "overview": "Jack Reacher must uncover the truth behind a major government conspiracy in order to clear his name. On the run as a fugitive from the law, Reacher uncovers a potential secret from his past that could change his life forever.",
-                      # "release_date": "2016-10-19",
-                      # "genre_ids": [
-                        # 53,
-                        # 28,
-                        # 80,
-                        # 18,
-                        # 9648
-                      # ],
-                      # "id": 343611,
-                      # "original_title": "Jack Reacher: Never Go Back",
-                      # "original_language": "en",
-                      # "title": "Jack Reacher: Never Go Back",
-                      # "backdrop_path": "/4ynQYtSEuU5hyipcGkfD6ncwtwz.jpg",
-                      # "popularity": 26.818468,
-                      # "vote_count": 201,
-                      # "video": false,
-                      # "vote_average": 4.19
-                    # }
 
                 with open(self.infos_file) as f:
                     data = json.load(f)
@@ -531,9 +501,7 @@ class ZEvent(Renderer, VariableText):
                     self.text += "\nCast: %s" % str(Actors)  # .encode('utf-8').decode('utf-8')
                     self.text += "\nRated: %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
                     self.text += "\nImdb: %s" % str(imdbRating)  # .encode('utf-8').decode('utf-8')
-                    print("ZEvent text= ", self.text)
-                    # if not PY3:
-                        # self.text = self.text.encode('utf-8')
+                    # print("ZEvent text= ", self.text)
                     self.text = "Anno: %s\nNazione: %s\nGenere: %s\nRegista: %s\nAttori: %s" % (Year, Country, Genre, Director, Actors)
                     self.instance.show()
         except Exception as e:
