@@ -25,7 +25,7 @@ import shutil
 import socket
 import sys
 # import unicodedata
-global cur_skin, my_cur_skin
+global my_cur_skin, cur_skin
 
 PY3 = False
 if sys.version_info[0] >= 3:
@@ -35,11 +35,23 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote_plus
+    from urllib.parse import quote_plus, quote
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote_plus
+    from urllib import quote_plus, quote
+
+try:
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
+
+try:
+    lng = config.osd.language.value
+    lng = lng[:-3]
+except:
+    lng = 'en'
+    pass
 
 
 # w92
@@ -107,22 +119,17 @@ try:
         if os.path.exists(myz_skin):
             with open(myz_skin, "r") as f:
                 tmdb_api = f.read()
+            my_cur_skin = True
         if os.path.exists(omdb_skin):
             with open(omdb_skin, "r") as f:
                 omdb_api = f.read()
+            my_cur_skin = True
         if os.path.exists(thetvdb_skin):
             with open(thetvdb_skin, "r") as f:
                 thetvdbkey = f.read()
+            my_cur_skin = True
 except:
     my_cur_skin = False
-
-
-try:
-    lng = config.osd.language.value
-    lng = lng[:-3]
-except:
-    lng = 'en'
-    pass
 
 
 REGEX = re.compile(
@@ -201,12 +208,18 @@ def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
+            text = text.lower()
+            text = remove_accents(text)
             text = cutName(text)
             text = getCleanTitle(text)
-            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
-            text = text.lower()
+            if text.endswith("the"):
+                text = "the " + text[:-4]
+            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
+            text = text.replace('live:', '').replace(' - prima tv', '')
+            if 'tg regione' in text:
+                text = 'tg3'
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -225,10 +238,10 @@ def convtext(text=''):
                 text = 'hudson e rex'
             if 'ben-hur' in text:
                 text = 'ben-hur'
-            if text.endswith("the"):
-                text.rsplit(" ", 1)[0]
-                text = text.rsplit(" ", 1)[0]
-                text = "the " + str(text)
+            if 'la7' in text:
+                text = 'la7'
+            if 'skytg24' in text:
+                text = 'skytg24'
             text = text + 'FIN'
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
@@ -237,22 +250,21 @@ def convtext(text=''):
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
-            text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\\s\d+", "", text)
-            text = text.partition("(")[0]  # .strip()
-            text = text.partition(":")[0]  # .strip()
-            text = text.partition(" -")[0]  # .strip()
+            text = text.partition("(")[0] + 'FIN'
+            text = re.sub("\\s\d+", "", text)
+            text = text.partition("(")[0]
+            text = text.partition(":")[0]
+            text = text.partition(" -")[0]
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = remove_accents(text)
-            text = text.strip()
-            text = text.capitalize()
-            # print('Final text: ', text)
+            text = text.strip(' -')
+            text = quote(text, safe="")
+            print('ZstarsEvent Final text: ', text)
         else:
             text = text
-        return text
+        return unquote(text).capitalize()
     except Exception as e:
         print('convtext error: ', e)
         pass
@@ -268,8 +280,7 @@ def intCheck():
         return False
     except socket.timeout:
         return False
-    else:
-        return True
+    return True
 
 
 try:
@@ -286,6 +297,7 @@ def getScale():
 
 
 class ZChannel(Renderer):
+
     def __init__(self):
         adsl = intCheck()
         if not adsl:
@@ -344,13 +356,16 @@ class ZChannel(Renderer):
             self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
             self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
             self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
+            poster = ''
             if os.path.exists(self.pstrNm):
                 self.showPoster()
-                # self.DecodePicture()
             else:
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
                     try:
-                        if not PY3:
+                        if PY3:
+                            with open(self.dwn_infos) as f:
+                                data = json.load(f)
+                        else:
                             myFile = open(self.dwn_infos, 'r')
                             myObject = myFile.read()
                             u = myObject.decode('utf-8-sig')
@@ -358,10 +373,6 @@ class ZChannel(Renderer):
                             # data.encoding
                             # data.close()
                             data = json.loads(myObject, 'utf-8')
-                        else:
-                            with open(self.dwn_infos) as f:
-                                data = json.load(f)
-                        poster = ''
                         if "poster_path" in data:
                             poster = data['poster_path']
                             if poster and poster != 'null' or poster is not None:
@@ -373,7 +384,10 @@ class ZChannel(Renderer):
                 # forced
                 elif os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
                     try:
-                        if not PY3:
+                        if PY3:
+                            with open(self.dataNm) as f:
+                                data = json.load(f)
+                        else:
                             myFile = open(self.dataNm, 'r')
                             myObject = myFile.read()
                             u = myObject.decode('utf-8-sig')
@@ -381,10 +395,6 @@ class ZChannel(Renderer):
                             # data.encoding
                             # data.close()
                             data = json.loads(myObject, 'utf-8')
-                        else:
-                            with open(self.dataNm) as f:
-                                data = json.load(f)
-                        poster = ''
                         if "poster_path" in data:
                             poster = data['poster_path']
                             if poster and poster != 'null' or poster is not None:
@@ -431,10 +441,10 @@ class ZChannel(Renderer):
                         url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                         if PY3:
                             url = url.encode()
-                        if not PY3:
-                            url2 = urlopen(url).read().decode('utf-8')
-                        else:
                             url2 = urlopen(url).read()
+                        else:
+                            url2 = urlopen(url).read().decode('utf-8')
+
                         jurl = json.loads(url2)
                         if 'results' in jurl:
                             # print('zchannel part one')
@@ -443,11 +453,10 @@ class ZChannel(Renderer):
                                 url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                                 if PY3:
                                     url_2 = url_2.encode()
-
-                                if not PY3:
-                                    url_3 = urlopen(url_2).read().decode('utf-8')
-                                else:
                                     url_3 = urlopen(url_2).read().read()
+                                else:
+                                    url_3 = urlopen(url_2).read().decode('utf-8')
+
                                 data2 = json.loads(url_3)
                                 with open(self.dataNm, "w") as f:
                                     json.dump(data2, f)
@@ -460,10 +469,10 @@ class ZChannel(Renderer):
                             url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                             if PY3:
                                 url = url.encode()
-                            if not PY3:
-                                url2 = urlopen(url).read().decode('utf-8')
-                            else:
                                 url2 = urlopen(url).read()
+                            else:
+                                url2 = urlopen(url).read().decode('utf-8')
+
                             # url2 = urlopen(url).read().decode('utf-8')
                             jurl = json.loads(url2)
                             if 'results' in jurl:
@@ -507,8 +516,6 @@ class ZChannel(Renderer):
                 except:
                     self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
                 self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-                # self.picload.setPara([size.width(), size.height(), sc[0], sc[1], 0, 1, "FF000000"])
-                # print('ZChannel picload.startDecode poster')
                 self.picload.startDecode(self.pstrNm)
         except Exception as e:
             print(e)
@@ -517,22 +524,21 @@ class ZChannel(Renderer):
         # print("* DecodePicture *")
         ptr = self.picload.getData()
         if ptr is not None:
-            # print('ZChannel ptr is true')
             self.instance.setPixmap(ptr)
             self.instance.show()
-        # return
-        # else:
-            # self.delay()
 
     def savePoster(self):
-        if os.path.exists(self.pstrNm):
+        with open(self.pstrNm, 'wb') as f:
+            f.write(urlopen(self.url_poster).read())
+            f.flush()
+            f.close()
+            file_size = os.path.getsize(self.pstrNm)
+            if file_size == 0:
+                os.remove(self.pstrNm)
+            else:
+                print('poster downlaoded:', self.pstrNm)
+
+        # if os.path.exists(self.pstrNm):
             # print('ZChannel save poster show ')
             self.showPoster()
-            return
-
-        data = urlopen(self.url_poster)
-        with open(self.pstrNm, "wb") as local_file:
-            local_file.write(data.read())
-            if os.path.exists(self.pstrNm):
-                # print('ZChannel save poster show ')
-                self.showPoster()
+        return

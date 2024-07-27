@@ -9,18 +9,12 @@
 # <widget source="session.Event_Now" render="ZPBorder" position="1620,505" size="300,438" alphatest="blend" trasparent="1" zPosition="8" />
 from Components.AVSwitch import AVSwitch
 from Components.Renderer.Renderer import Renderer
-# from Components.Sources.CurrentService import CurrentService
-# from Components.Sources.Event import Event
-# from Components.Sources.EventInfo import EventInfo
-# from Components.Sources.ServiceEvent import ServiceEvent
 from Components.config import config
-# from ServiceReference import ServiceReference
 from Tools.Directories import fileExists
 from enigma import ePixmap, ePicLoad
 import os
 import re
 import sys
-# import unicodedata
 global cur_skin
 
 PY3 = False
@@ -29,9 +23,15 @@ if sys.version_info[0] >= 3:
     unicode = str
     unichr = chr
     long = int
-    from urllib.parse import quote_plus
+    from urllib.parse import quote_plus, quote
 else:
-    from urllib import quote_plus
+    from urllib import quote_plus, quote
+
+
+try:
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
 
 
 def isMountReadonly(mnt):
@@ -141,7 +141,6 @@ def getCleanTitle(eventitle=""):
     # save_name = re.sub('\\(\d+\)$', '', eventitle)
     # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
     # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
-
     save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
     return save_name
 
@@ -158,12 +157,18 @@ def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
+            text = text.lower()
+            text = remove_accents(text)
             text = cutName(text)
             text = getCleanTitle(text)
-            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
-            text = text.lower()
+            if text.endswith("the"):
+                text = "the " + text[:-4]
+            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
+            text = text.replace('live:', '').replace(' - prima tv', '')
+            if 'tg regione' in text:
+                text = 'tg3'
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -182,10 +187,10 @@ def convtext(text=''):
                 text = 'hudson e rex'
             if 'ben-hur' in text:
                 text = 'ben-hur'
-            if text.endswith("the"):
-                text.rsplit(" ", 1)[0]
-                text = text.rsplit(" ", 1)[0]
-                text = "the " + str(text)
+            if 'la7' in text:
+                text = 'la7'
+            if 'skytg24' in text:
+                text = 'skytg24'
             text = text + 'FIN'
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
@@ -194,22 +199,72 @@ def convtext(text=''):
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
-            text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\\s\d+", "", text)
-            text = text.partition("(")[0]  # .strip()
-            text = text.partition(":")[0]  # .strip()
-            text = text.partition(" -")[0]  # .strip()
+            text = text.partition("(")[0] + 'FIN'
+            text = re.sub("\\s\d+", "", text)
+            text = text.partition("(")[0]
+            text = text.partition(":")[0]
+            text = text.partition(" -")[0]
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = remove_accents(text)
-            text = text.strip()
-            text = text.capitalize()
-            # print('Final text: ', text)
+            '''
+            # remove xx: at start
+            text = re.sub(r'^\w{2}:', '', text)
+            # remove xx|xx at start
+            text = re.sub(r'^\w{2}\|\w{2}\s', '', text)
+            # remove xx - at start
+            text = re.sub(r'^.{2}\+? ?- ?', '', text)
+            # remove all leading content between and including ||
+            text = re.sub(r'^\|\|.*?\|\|', '', text)
+            text = re.sub(r'^\|.*?\|', '', text)
+            # remove everything left between pipes.
+            text = re.sub(r'\|.*?\|', '', text)
+            # remove all content between and including () multiple times
+            text = re.sub(r'\(\(.*?\)\)|\(.*?\)', '', text)
+            # remove all content between and including [] multiple times
+            text = re.sub(r'\[\[.*?\]\]|\[.*?\]', '', text)
+            # List of bad strings to remove
+            bad_strings = [
+
+                "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
+                "ee|", "en|", "es|", "eu|", "ex-yu|", "fi|", "fr|", "gr|", "hr|", "hu|", "in|", "ir|", "it|", "lt|",
+                "mk|", "mx|", "nl|", "no|", "pl|", "pt|", "ro|", "rs|", "ru|", "se|", "si|", "sk|", "sp|", "tr|",
+                "uk|", "us|", "yu|",
+                "1080p", "1080p-dual-lat-cine-calidad.com", "1080p-dual-lat-cine-calidad.com-1",
+                "1080p-dual-lat-cinecalidad.mx", "1080p-lat-cine-calidad.com", "1080p-lat-cine-calidad.com-1",
+                "1080p-lat-cinecalidad.mx", "1080p.dual.lat.cine-calidad.com", "3d", "'", "#", "(", ")", "-", "[]", "/",
+                "4k", "720p", "aac", "blueray", "ex-yu:", "fhd", "hd", "hdrip", "hindi", "imdb", "multi:", "multi-audio",
+                "multi-sub", "multi-subs", "multisub", "ozlem", "sd", "top250", "u-", "uhd", "vod", "x264"
+            ]
+
+            # Remove numbers from 1900 to 2030
+            bad_strings.extend(map(str, range(1900, 2030)))
+            # Construct a regex pattern to match any of the bad strings
+            bad_strings_pattern = re.compile('|'.join(map(re.escape, bad_strings)))
+            # Remove bad strings using regex pattern
+            text = bad_strings_pattern.sub('', text)
+            # List of bad suffixes to remove
+            bad_suffix = [
+                " al", " ar", " ba", " da", " de", " en", " es", " eu", " ex-yu", " fi", " fr", " gr", " hr", " mk",
+                " nl", " no", " pl", " pt", " ro", " rs", " ru", " si", " swe", " sw", " tr", " uk", " yu"
+            ]
+            # Construct a regex pattern to match any of the bad suffixes at the end of the string
+            bad_suffix_pattern = re.compile(r'(' + '|'.join(map(re.escape, bad_suffix)) + r')$')
+            # Remove bad suffixes using regex pattern
+            text = bad_suffix_pattern.sub('', text)
+            # Replace ".", "_", "'" with " "
+            text = re.sub(r'[._\']', ' ', text)
+            # Replace "-" with space and strip trailing spaces
+            text = text.strip(' -')
+            '''
+            text = text.strip(' -')
+            text = quote(text, safe="")
+            print('text safe: ', text)
+            # print('ZBorder Final text: ', text)
         else:
             text = text
-        return text
+        return unquote(text).capitalize()
     except Exception as e:
         print('convtext error: ', e)
         pass

@@ -17,21 +17,16 @@
 
 from __future__ import absolute_import
 from Components.Renderer.Renderer import Renderer
-# from Components.Sources.CurrentService import CurrentService
-# from Components.Sources.Event import Event
-# from Components.Sources.EventInfo import EventInfo
-# from Components.Sources.ServiceEvent import ServiceEvent
 from Components.VariableValue import VariableValue
 from Components.config import config
-# from ServiceReference import ServiceReference
 from enigma import eSlider
 import json
 import os
 import re
 import socket
 import sys
-# import unicodedata
-global cur_skin, my_cur_skin
+
+global my_cur_skin, cur_skin
 
 PY3 = False
 if sys.version_info[0] >= 3:
@@ -41,11 +36,17 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote_plus
+    from urllib.parse import quote_plus, quote
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote_plus
+    from urllib import quote_plus, quote
+
+
+try:
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
 
 
 try:
@@ -54,14 +55,14 @@ try:
 except:
     lng = 'en'
     pass
-print('language: ', lng)
 
 
 formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "679b0028"
+omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
+fanart_api = "6d231536dea4318a88cb2520ce89473b"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 
@@ -200,7 +201,6 @@ def getCleanTitle(eventitle=""):
     # save_name = re.sub('\\(\d+\)$', '', eventitle)
     # save_name = re.sub('\\(\d+\/\d+\)$', '', save_name)  # remove episode-number " (xx/xx)" at the end
     # # save_name = re.sub('\ |\?|\.|\,|\!|\/|\;|\:|\@|\&|\'|\-|\"|\%|\(|\)|\[|\]\#|\+', '', save_name)
-
     save_name = eventitle.replace(' ^`^s', '').replace(' ^`^y', '')
     return save_name
 
@@ -217,12 +217,19 @@ def convtext(text=''):
     try:
         if text != '' or text is not None or text != 'None':
             print('original text: ', text)
-            text = cutName(text)
-            text = getCleanTitle(text)
-            # text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.lower()
+            text = remove_accents(text)
+            print('remove_accents text: ', text)
+            # text = cutName(text)
+            # text = getCleanTitle(text)
+            if text.endswith("the"):
+                text = "the " + text[:-4]
+            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
+            text = text.replace('live:', '').replace(' - prima tv', '')
+            if 'tg regione' in text:
+                text = 'tg3'
             if 'studio aperto' in text:
                 text = 'studio aperto'
             if 'josephine ange gardien' in text:
@@ -241,10 +248,10 @@ def convtext(text=''):
                 text = 'hudson e rex'
             if 'ben-hur' in text:
                 text = 'ben-hur'
-            if text.endswith("the"):
-                text.rsplit(" ", 1)[0]
-                text = text.rsplit(" ", 1)[0]
-                text = "the " + str(text)
+            if 'la7' in text:
+                text = 'la7'
+            if 'skytg24' in text:
+                text = 'skytg24'
             text = text + 'FIN'
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
@@ -253,22 +260,70 @@ def convtext(text=''):
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
-            text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\\s\d+", "", text)
-            text = text.partition("(")[0]  # .strip()
-            text = text.partition(":")[0]  # .strip()
-            text = text.partition(" -")[0]  # .strip()
+            text = text.partition("(")[0] + 'FIN'
+            text = re.sub("\\s\d+", "", text)
+            text = text.partition("(")[0]
+            text = text.partition(":")[0]
+            text = text.partition(" -")[0]
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = remove_accents(text)
-            text = text.strip()
-            text = text.capitalize()
-            # print('Final text: ', text)
+            '''
+            # remove xx: at start
+            text = re.sub(r'^\w{2}:', '', text)
+            # remove xx|xx at start
+            text = re.sub(r'^\w{2}\|\w{2}\s', '', text)
+            # remove xx - at start
+            text = re.sub(r'^.{2}\+? ?- ?', '', text)
+            # remove all leading content between and including ||
+            text = re.sub(r'^\|\|.*?\|\|', '', text)
+            text = re.sub(r'^\|.*?\|', '', text)
+            # remove everything left between pipes.
+            text = re.sub(r'\|.*?\|', '', text)
+            # remove all content between and including () multiple times
+            text = re.sub(r'\(\(.*?\)\)|\(.*?\)', '', text)
+            # remove all content between and including [] multiple times
+            text = re.sub(r'\[\[.*?\]\]|\[.*?\]', '', text)
+            # List of bad strings to remove
+            bad_strings = [
+
+                "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
+                "ee|", "en|", "es|", "eu|", "ex-yu|", "fi|", "fr|", "gr|", "hr|", "hu|", "in|", "ir|", "it|", "lt|",
+                "mk|", "mx|", "nl|", "no|", "pl|", "pt|", "ro|", "rs|", "ru|", "se|", "si|", "sk|", "sp|", "tr|",
+                "uk|", "us|", "yu|",
+                "1080p", "1080p-dual-lat-cine-calidad.com", "1080p-dual-lat-cine-calidad.com-1",
+                "1080p-dual-lat-cinecalidad.mx", "1080p-lat-cine-calidad.com", "1080p-lat-cine-calidad.com-1",
+                "1080p-lat-cinecalidad.mx", "1080p.dual.lat.cine-calidad.com", "3d", "'", "#", "(", ")", "-", "[]", "/",
+                "4k", "720p", "aac", "blueray", "ex-yu:", "fhd", "hd", "hdrip", "hindi", "imdb", "multi:", "multi-audio",
+                "multi-sub", "multi-subs", "multisub", "ozlem", "sd", "top250", "u-", "uhd", "vod", "x264"
+            ]
+            # Remove numbers from 1900 to 2030
+            bad_strings.extend(map(str, range(1900, 2030)))
+            # Construct a regex pattern to match any of the bad strings
+            bad_strings_pattern = re.compile('|'.join(map(re.escape, bad_strings)))
+            # Remove bad strings using regex pattern
+            text = bad_strings_pattern.sub('', text)
+            # List of bad suffixes to remove
+            bad_suffix = [
+                " al", " ar", " ba", " da", " de", " en", " es", " eu", " ex-yu", " fi", " fr", " gr", " hr", " mk",
+                " nl", " no", " pl", " pt", " ro", " rs", " ru", " si", " swe", " sw", " tr", " uk", " yu"
+            ]
+            # Construct a regex pattern to match any of the bad suffixes at the end of the string
+            bad_suffix_pattern = re.compile(r'(' + '|'.join(map(re.escape, bad_suffix)) + r')$')
+            # Remove bad suffixes using regex pattern
+            text = bad_suffix_pattern.sub('', text)
+            # Replace ".", "_", "'" with " "
+            text = re.sub(r'[._\']', ' ', text)
+            # Replace "-" with space and strip trailing spaces
+            text = text.strip(' -')
+            '''
+            text = text.strip(' -')
+            text = quote(text, safe="")
+            print('ZstarsEvent Final text: ', text)
         else:
             text = text
-        return text
+        return unquote(text).capitalize()
     except Exception as e:
         print('convtext error: ', e)
         pass
@@ -284,8 +339,7 @@ def intCheck():
         return False
     except socket.timeout:
         return False
-    else:
-        return True
+    return True
 
 
 class ZstarsEvent(VariableValue, Renderer):
@@ -312,19 +366,10 @@ class ZstarsEvent(VariableValue, Renderer):
             print('zstar event B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            # try:
-                # self.timer30.callback.append(self.infos)
-            # except:
-                # self.timer30_conn = self.timer30.timeout.connect(self.infos)
-            # self.timer30.start(50, True)
             self.infos()
 
     def infos(self):
         try:
-            # rtng = 0
-            # range = 0
-            # value = 0
-            # ImdbRating = "0"
             ids = None
             data = ''
             self.event = self.source.event
@@ -333,16 +378,6 @@ class ZstarsEvent(VariableValue, Renderer):
                 if self.evnt.endswith(' '):
                     self.evnt = self.evnt[:-1]
                 self.evntNm = convtext(self.evnt)
-
-            # self.event = self.source.event
-            # if self.event and self.event != 'None' or self.event is not None:  # and self.instance:
-                # OnclearMem()
-                # # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-                # # self.evntNm = convtext(self.evnt)
-
-                # self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
-                # self.evntNm = convtext(self.evnt)
-
                 self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
                 self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
                 if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
@@ -358,21 +393,18 @@ class ZstarsEvent(VariableValue, Renderer):
                         url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
                         if PY3:
                             url = url.encode()
-                        # print('zstar url1:', url)
                         url = checkRedirect(url)
-                        # print('zstar url2:', url)
                         if url is not None:
                             ids = url['results'][0]['id']
                             # print('zstar url2 ids:', ids)
-                        # except Exception as e:
-                            # print('Exception no ids in zstar ', e)
                             if ids and ids is not None or ids != '':
                                 try:
                                     data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
+
                                     if PY3:
-                                        import six
-                                        data = six.ensure_str(data)
-                                    if data:
+                                        data = data.encode()
+
+                                    if data is not None:
                                         data = json.load(urlopen(data))
                                         open(self.dwn_infos, "w").write(json.dumps(data))
                                     else:
@@ -395,8 +427,16 @@ class ZstarsEvent(VariableValue, Renderer):
 
     def setRating(self, data):
         try:
+            rtng = 0
+            range = 0
+            value = 0
+            ImdbRating = "0"
             self.dwn_infos = data
-            if not PY3:
+            if PY3:
+                with open(self.dwn_infos) as f:
+                    data = json.load(f)
+            else:
+                # if not PY3:
                 myFile = open(self.dwn_infos, 'r')
                 myObject = myFile.read()
                 u = myObject.decode('utf-8-sig')
@@ -404,9 +444,7 @@ class ZstarsEvent(VariableValue, Renderer):
                 # data.encoding
                 # data.close()
                 data = json.loads(myObject, 'utf-8')
-            else:
-                with open(self.dwn_infos) as f:
-                    data = json.load(f)
+
             ImdbRating = ''
             if "vote_average" in data:
                 ImdbRating = data['vote_average']
