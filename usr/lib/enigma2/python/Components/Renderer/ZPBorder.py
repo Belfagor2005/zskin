@@ -270,8 +270,24 @@ def convtext(text=''):
         pass
 
 
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    return True
+
+
 class ZPBorder(Renderer):
     def __init__(self):
+        adsl = intCheck()
+        if not adsl:
+            return
         Renderer.__init__(self)
         # self.timer40 = eTimer()
         self.downloading = False
