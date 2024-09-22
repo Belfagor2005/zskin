@@ -15,6 +15,8 @@ from enigma import ePixmap, ePicLoad
 import os
 import re
 import sys
+import socket
+
 global cur_skin
 
 PY3 = False
@@ -26,6 +28,15 @@ if sys.version_info[0] >= 3:
     from urllib.parse import quote_plus, quote
 else:
     from urllib import quote_plus, quote
+
+
+if sys.version_info[0] >= 3:
+    from urllib.error import HTTPError, URLError
+    from urllib.request import urlopen
+
+else:
+    from urllib2 import HTTPError, URLError
+    from urllib2 import urlopen
 
 
 try:
@@ -159,14 +170,23 @@ def convtext(text=''):
             print('original text: ', text)
             text = text.lower()
             text = remove_accents(text)
+            print('remove_accents text: ', text)
+            # #
             text = cutName(text)
             text = getCleanTitle(text)
+            # #
             if text.endswith("the"):
                 text = "the " + text[:-4]
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             text = text.replace('live:', '').replace(' - prima tv', '')
+            if 'giochi olimpici parigi' in text:
+                text = 'olimpiadi di parigi'
+            if 'bruno barbieri' in text:
+                text = text.replace('bruno barbieri', 'brunobarbierix')
+            if "anni '60" in text:
+                text = "anni 60"
             if 'tg regione' in text:
                 text = 'tg3'
             if 'studio aperto' in text:
@@ -191,24 +211,7 @@ def convtext(text=''):
                 text = 'la7'
             if 'skytg24' in text:
                 text = 'skytg24'
-            text = text + 'FIN'
-            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
-                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
-            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
-            text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
-            text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
-            text = re.sub(r'(\d+)+.*?FIN', '', text)
-            text = text.partition("(")[0] + 'FIN'
-            text = re.sub("\\s\d+", "", text)
-            text = text.partition("(")[0]
-            text = text.partition(":")[0]
-            text = text.partition(" -")[0]
-            text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
-            text = re.sub('FIN', '', text)
-            text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            '''
+
             # remove xx: at start
             text = re.sub(r'^\w{2}:', '', text)
             # remove xx|xx at start
@@ -224,9 +227,14 @@ def convtext(text=''):
             text = re.sub(r'\(\(.*?\)\)|\(.*?\)', '', text)
             # remove all content between and including [] multiple times
             text = re.sub(r'\[\[.*?\]\]|\[.*?\]', '', text)
+            # remove episode number in arabic series
+            text = re.sub(r' +ح', '', text)
+            # remove season number in arabic series
+            text = re.sub(r' +ج', '', text)
+            # remove season number in arabic series
+            text = re.sub(r' +م', '', text)
             # List of bad strings to remove
             bad_strings = [
-
                 "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
                 "ee|", "en|", "es|", "eu|", "ex-yu|", "fi|", "fr|", "gr|", "hr|", "hu|", "in|", "ir|", "it|", "lt|",
                 "mk|", "mx|", "nl|", "no|", "pl|", "pt|", "ro|", "rs|", "ru|", "se|", "si|", "sk|", "sp|", "tr|",
@@ -255,13 +263,35 @@ def convtext(text=''):
             text = bad_suffix_pattern.sub('', text)
             # Replace ".", "_", "'" with " "
             text = re.sub(r'[._\']', ' ', text)
-            # Replace "-" with space and strip trailing spaces
-            text = text.strip(' -')
+
+            # recoded lulu
+            text = text + 'FIN'
             '''
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+            '''
+            text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
+            text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
+            text = re.sub(r'(\d+)+.*?FIN', '', text)
+            text = text.partition("(")[0] + 'FIN'
+            text = re.sub(r"\\s\d+", "", text)
+            text = text.partition("(")[0]
+            # text = text.partition(":")[0]  # not work on csi: new york (only-->  csi)
+            text = text.partition(" -")[0]
+            text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
+            text = re.sub('FIN', '', text)
+            text = re.sub(r'^\|[\w\-\|]*\|', '', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            # recoded  end
             text = text.strip(' -')
+            # forced
+            text = text.replace('XXXXXX', '60')
+            text = text.replace('brunobarbierix', 'bruno barbieri - 4 hotel')
             text = quote(text, safe="")
             print('text safe: ', text)
-            # print('ZBorder Final text: ', text)
+            # print('Final text: ', text)
         else:
             text = text
         return unquote(text).capitalize()
