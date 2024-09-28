@@ -215,11 +215,18 @@ def quoteEventName(eventName):
 
 def convtext(text=''):
     try:
-        if text != '' or text is not None or text != 'None':
+        if text is None:
+            print('return None original text: ', type(text))
+            return  # Esci dalla funzione se text è None
+        if text == '':
+            print('text is an empty string')
+        else:
             print('original text: ', text)
             text = text.lower()
+            print('lowercased text: ', text)
             text = remove_accents(text)
             print('remove_accents text: ', text)
+
             # #
             text = cutName(text)
             text = getCleanTitle(text)
@@ -260,7 +267,6 @@ def convtext(text=''):
                 text = 'la7'
             if 'skytg24' in text:
                 text = 'skytg24'
-
             # remove xx: at start
             text = re.sub(r'^\w{2}:', '', text)
             # remove xx|xx at start
@@ -312,7 +318,6 @@ def convtext(text=''):
             text = bad_suffix_pattern.sub('', text)
             # Replace ".", "_", "'" with " "
             text = re.sub(r'[._\']', ' ', text)
-
             # recoded lulu
             text = text + 'FIN'
             '''
@@ -340,9 +345,6 @@ def convtext(text=''):
             text = text.replace('brunobarbierix', 'bruno barbieri - 4 hotel')
             text = quote(text, safe="")
             print('text safe: ', text)
-            # print('Final text: ', text)
-        else:
-            text = text
         return unquote(text).capitalize()
     except Exception as e:
         print('convtext error: ', e)
