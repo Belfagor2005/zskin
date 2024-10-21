@@ -216,10 +216,10 @@ def convtext(text=''):
         if text == '':
             print('text is an empty string')
         else:
-            # print('original text:', text)
-            # Converti tutto in minuscolo
+            print('original text:', text)
+                                         
             text = text.lower()
-            # print('lowercased text:', text)
+            print('lowercased text:', text)
             # Rimuovi accenti
             text = remove_accents(text)
             # print('remove_accents text:', text)
@@ -232,7 +232,7 @@ def convtext(text=''):
                 text = "the " + text[:-4]
 
             # Sostituisci caratteri speciali con stringhe vuote
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')
+            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             text = text.replace('live:', '').replace(' - prima tv', '')
@@ -258,16 +258,25 @@ def convtext(text=''):
             for key, value in replacements.items():
                 if key in text:
                     text = text.replace(key, value)
-            # Rimozione pattern specifici
-            text = re.sub(r'^\w{2}:', '', text)  # Rimuove "xx:" all'inizio
-            text = re.sub(r'^\w{2}\|\w{2}\s', '', text)  # Rimuove "xx|xx" all'inizio
-            text = re.sub(r'^.{2}\+? ?- ?', '', text)  # Rimuove "xx -" all'inizio
-            text = re.sub(r'^\|\|.*?\|\|', '', text)  # Rimuove contenuti tra "||"
-            text = re.sub(r'^\|.*?\|', '', text)  # Rimuove contenuti tra "|"
-            text = re.sub(r'\|.*?\|', '', text)  # Rimuove qualsiasi altro contenuto tra "|"
-            text = re.sub(r'\(\(.*?\)\)|\(.*?\)', '', text)  # Rimuove contenuti tra "()"
-            text = re.sub(r'\[\[.*?\]\]|\[.*?\]', '', text)  # Rimuove contenuti tra "[]"
-            text = re.sub(r' +ح| +ج| +م', '', text)  # Rimuove numeri di episodi/serie in arabo
+
+            text = text + 'FIN'
+            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
+            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
+                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+            text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
+            text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
+            text = re.sub(r'(\d+)+.*?FIN', '', text)
+            text = text.partition("(")[0] + 'FIN'  # .strip()
+            # text = re.sub("\\s\d+", "", text)
+            text = text.partition("(")[0]  # .strip()
+            text = text.partition(":")[0]  # .strip()
+            text = text.partition(" -")[0]  # .strip()
+            text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
+            text = re.sub('FIN', '', text)
+            text = re.sub(r'^\|[\w\-\|]*\|', '', text)
+            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+
             # Rimozione di stringhe non valide
             bad_strings = [
                 "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
@@ -288,8 +297,8 @@ def convtext(text=''):
             text = bad_suffix_pattern.sub('', text)
             # Rimuovi "." "_" "'" e sostituiscili con spazi
             text = re.sub(r'[._\']', ' ', text)
-            # Rimuove tutto dopo i ":" (incluso ":")
-            text = re.sub(r':.*$', '', text)
+                                                    
+                                            
             # Pulizia finale
             text = text.partition("(")[0]  # Rimuove contenuti dopo "("
             text = text.partition(" -")[0]  # Rimuove contenuti dopo "-"
