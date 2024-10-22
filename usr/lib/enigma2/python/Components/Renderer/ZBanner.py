@@ -24,6 +24,7 @@ import re
 import shutil
 import socket
 import sys
+
 global my_cur_skin, cur_skin
 
 PY3 = False
@@ -34,11 +35,11 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote_plus, quote
+    from urllib.parse import quote_plus
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote_plus, quote
+    from urllib import quote_plus
 
 
 try:
@@ -158,7 +159,6 @@ REGEX = re.compile(
     r'\.\s.+)|'                            # Punto seguito da testo
     r'Премьера\.\s|'                       # Specifico per il russo
     r'[хмтдХМТД]/[фс]\s|'                  # Pattern per il russo con /ф o /с
-
     r'\s[сС](?:езон|ерия|-н|-я)\s.*|'      # Stagione o episodio in russo
     r'\s\d{1,3}\s[чсЧС]\.?\s.*|'           # numero di parte/episodio in russo
     r'\.\s\d{1,3}\s[чсЧС]\.?\s.*|'         # numero di parte/episodio in russo con punto
@@ -172,11 +172,7 @@ def remove_accents(string):
     if PY3 is False:
         if type(string) is not unicode:
             string = unicode(string, encoding='utf-8')
-    # Normalizza la stringa usando Unicode NFD (Normalization Form D)
-
     string = unicodedata.normalize('NFD', string)
-    # Rimuove i segni diacritici (accents) lasciando solo i caratteri base
-
     string = re.sub(r'[\u0300-\u036f]', '', string)
     return string
 
@@ -192,7 +188,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cutName(eventName=""):
     if eventName:
-        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace(' | ', '')
         eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
         eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
         eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
@@ -227,28 +223,23 @@ def convtext(text=''):
             return  # Esci dalla funzione se text è None
         if text == '':
             print('text is an empty string')
+        if isinstance(text, unicode):  # Python 2 check
+            text = text.encode('utf-8')
         else:
             print('original text:', text)
-                                         
             text = text.lower()
             print('lowercased text:', text)
-            # Rimuovi accenti
-            text = remove_accents(text)
-            # print('remove_accents text:', text)
             # Applica le funzioni di taglio e pulizia del titolo
             text = cutName(text)
             text = getCleanTitle(text)
-
             # Regola il titolo se finisce con "the"
             if text.endswith("the"):
                 text = "the " + text[:-4]
-
             # Sostituisci caratteri speciali con stringhe vuote
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             text = text.replace('live:', '').replace(' - prima tv', '')
-
             # Gestione casi specifici
             replacements = {
                 'giochi olimpici': 'olimpiadi',
@@ -270,7 +261,6 @@ def convtext(text=''):
             for key, value in replacements.items():
                 if key in text:
                     text = text.replace(key, value)
-
             text = text + 'FIN'
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
@@ -288,37 +278,11 @@ def convtext(text=''):
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-
-            # Rimozione di stringhe non valide
-            bad_strings = [
-                "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
-                "ee|", "en|", "es|", "eu|", "ex-yu|", "fi|", "fr|", "gr|", "hr|", "hu|", "in|", "ir|", "it|", "lt|",
-                "mk|", "mx|", "nl|", "no|", "pl|", "pt|", "ro|", "rs|", "ru|", "se|", "si|", "sk|", "sp|", "tr|",
-                "uk|", "us|", "yu|",
-                "1080p", "4k", "720p", "hdrip", "hindi", "imdb", "vod", "x264"
-            ]
-            bad_strings.extend(map(str, range(1900, 2030)))  # Anni da 1900 a 2030
-            bad_strings_pattern = re.compile('|'.join(map(re.escape, bad_strings)))
-            text = bad_strings_pattern.sub('', text)
-            # Rimozione suffissi non validi
-            bad_suffix = [
-                " al", " ar", " ba", " da", " de", " en", " es", " eu", " ex-yu", " fi", " fr", " gr", " hr", " mk",
-                " nl", " no", " pl", " pt", " ro", " rs", " ru", " si", " swe", " sw", " tr", " uk", " yu"
-            ]
-            bad_suffix_pattern = re.compile(r'(' + '|'.join(map(re.escape, bad_suffix)) + r')$')
-            text = bad_suffix_pattern.sub('', text)
-            # Rimuovi "." "_" "'" e sostituiscili con spazi
-            text = re.sub(r'[._\']', ' ', text)
-                                                    
-                                            
-            # Pulizia finale
-            text = text.partition("(")[0]  # Rimuove contenuti dopo "("
-            text = text.partition(" -")[0]  # Rimuove contenuti dopo "-"
-            text = text.strip(' -')
+            text = remove_accents(text)
+            text = text.strip()
             # Modifiche forzate
             text = text.replace('XXXXXX', '60')
             text = text.replace('brunobarbierix', 'bruno barbieri - 4 hotel')
-            text = quote(text, safe="")
             print('text safe:', text)
         return unquote(text).capitalize()
     except Exception as e:
@@ -353,6 +317,7 @@ def getScale():
 
 
 class ZBanner(Renderer):
+
     def __init__(self):
         adsl = intCheck()
         if not adsl:
@@ -591,7 +556,6 @@ class ZBanner(Renderer):
                 os.remove(self.pstrNm)
             else:
                 print('saveBanner downlaoded:', self.pstrNm)
-
         # if os.path.exists(self.pstrNm):
             # print('saveBanner zbanner show ')
             self.showPoster()

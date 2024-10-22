@@ -36,11 +36,11 @@ if sys.version_info[0] >= 3:
     long = int
     from urllib.error import URLError, HTTPError
     from urllib.request import urlopen
-    from urllib.parse import quote_plus, quote
+    from urllib.parse import quote_plus
 else:
     from urllib2 import URLError, HTTPError
     from urllib2 import urlopen
-    from urllib import quote_plus, quote
+    from urllib import quote_plus
 
 
 try:
@@ -59,7 +59,7 @@ except:
 
 formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
-omdb_api = "cb1d9f55"
+omdb_api = "679b0028"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
 fanart_api = "6d231536dea4318a88cb2520ce89473b"
@@ -165,39 +165,48 @@ def OnclearMem():
 
 
 REGEX = re.compile(
-    r'([\(\[]).*?([\)\]])|'
-    r'(: odc.\d+)|'
-    r'(\d+: odc.\d+)|'
-    r'(\d+ odc.\d+)|(:)|'
-    r'( -(.*?).*)|(,)|'
-    r'!|'
-    r'/.*|'
-    r'\|\s[0-9]+\+|'
-    r'[0-9]+\+|'
-    r'\s\*\d{4}\Z|'
-    r'([\(\[\|].*?[\)\]\|])|'
-    r'(\"|\"\.|\"\,|\.)\s.+|'
-    r'\"|:|'
-    r'Премьера\.\s|'
-    r'(х|Х|м|М|т|Т|д|Д)/ф\s|'
-    r'(х|Х|м|М|т|Т|д|Д)/с\s|'
-    r'\s(с|С)(езон|ерия|-н|-я)\s.+|'
-    r'\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-    r'\.\s\d{1,3}\s(ч|ч\.|с\.|с)\s.+|'
-    r'\s(ч|ч\.|с\.|с)\s\d{1,3}.+|'
-    r'\d{1,3}(-я|-й|\sс-н).+|', re.DOTALL)
+    r'[\(\[].*?[\)\]]|'                    # Parentesi tonde o quadre
+    r':?\s?odc\.\d+|'                      # odc. con o senza numero prima
+    r'\d+\s?:?\s?odc\.\d+|'                # numero con odc.
+    r'[:!]|'                               # due punti o punto esclamativo
+    r'\s-\s.*|'                            # trattino con testo successivo
+    r',|'                                  # virgola
+    r'/.*|'                                # tutto dopo uno slash
+    r'\|\s?\d+\+|'                         # | seguito da numero e +
+    r'\d+\+|'                              # numero seguito da +
+    r'\s\*\d{4}\Z|'                        # * seguito da un anno a 4 cifre
+    r'[\(\[\|].*?[\)\]\|]|'                # Parentesi tonde, quadre o pipe
+    r'(?:\"[\.|\,]?\s.*|\"|'               # Testo tra virgolette
+    r'\.\s.+)|'                            # Punto seguito da testo
+    r'Премьера\.\s|'                       # Specifico per il russo
+    r'[хмтдХМТД]/[фс]\s|'                  # Pattern per il russo con /ф o /с
+    r'\s[сС](?:езон|ерия|-н|-я)\s.*|'      # Stagione o episodio in russo
+    r'\s\d{1,3}\s[чсЧС]\.?\s.*|'           # numero di parte/episodio in russo
+    r'\.\s\d{1,3}\s[чсЧС]\.?\s.*|'         # numero di parte/episodio in russo con punto
+    r'\s[чсЧС]\.?\s\d{1,3}.*|'             # Parte/Episodio in russo
+    r'\d{1,3}-(?:я|й)\s?с-н.*',            # Finale con numero e suffisso russo
+    re.DOTALL)
 
 
 def remove_accents(string):
-    if type(string) is not unicode:
-        string = unicode(string, encoding='utf-8')
-    string = re.sub(u"[àáâãäå]", 'a', string)
-    string = re.sub(u"[èéêë]", 'e', string)
-    string = re.sub(u"[ìíîï]", 'i', string)
-    string = re.sub(u"[òóôõö]", 'o', string)
-    string = re.sub(u"[ùúûü]", 'u', string)
-    string = re.sub(u"[ýÿ]", 'y', string)
-    return string
+    import unicodedata
+    if PY3 is False:
+        if type(string) is not unicode:
+            string = unicode(string, encoding='utf-8')
+    string = unicodedata.normalize('NFD', string)
+    string = re.sub(r'[\u0300-\u036f]', '', string)
+
+
+# def remove_accents(string):
+    # if type(string) is not unicode:
+        # string = unicode(string, encoding='utf-8')
+    # string = re.sub(u"[àáâãäå]", 'a', string)
+    # string = re.sub(u"[èéêë]", 'e', string)
+    # string = re.sub(u"[ìíîï]", 'i', string)
+    # string = re.sub(u"[òóôõö]", 'o', string)
+    # string = re.sub(u"[ùúûü]", 'u', string)
+    # string = re.sub(u"[ýÿ]", 'y', string)
+    # return string
 
 
 def unicodify(s, encoding='utf-8', norm=None):
@@ -211,10 +220,14 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cutName(eventName=""):
     if eventName:
-        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace(' | ', '')
         eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
         eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
         eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
+        eventName = eventName.replace('episode', '')
+        eventName = eventName.replace('مسلسل', '')
+        eventName = eventName.replace('فيلم وثائقى', '')
+        eventName = eventName.replace('حفل', '')
         return eventName
     return ""
 
@@ -242,28 +255,23 @@ def convtext(text=''):
             return  # Esci dalla funzione se text è None
         if text == '':
             print('text is an empty string')
+        if isinstance(text, unicode):  # Python 2 check
+            text = text.encode('utf-8')
         else:
             print('original text:', text)
-                                         
             text = text.lower()
             print('lowercased text:', text)
-            # Rimuovi accenti
-            text = remove_accents(text)
-            # print('remove_accents text:', text)
             # Applica le funzioni di taglio e pulizia del titolo
             text = cutName(text)
             text = getCleanTitle(text)
-
             # Regola il titolo se finisce con "the"
             if text.endswith("the"):
                 text = "the " + text[:-4]
-
             # Sostituisci caratteri speciali con stringhe vuote
             text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
             text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
             text = text.replace('live:', '').replace(' - prima tv', '')
-
             # Gestione casi specifici
             replacements = {
                 'giochi olimpici': 'olimpiadi',
@@ -285,7 +293,6 @@ def convtext(text=''):
             for key, value in replacements.items():
                 if key in text:
                     text = text.replace(key, value)
-
             text = text + 'FIN'
             if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
                 text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
@@ -303,37 +310,11 @@ def convtext(text=''):
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
             text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-
-            # Rimozione di stringhe non valide
-            bad_strings = [
-                "ae|", "al|", "ar|", "at|", "ba|", "be|", "bg|", "br|", "cg|", "ch|", "cz|", "da|", "de|", "dk|",
-                "ee|", "en|", "es|", "eu|", "ex-yu|", "fi|", "fr|", "gr|", "hr|", "hu|", "in|", "ir|", "it|", "lt|",
-                "mk|", "mx|", "nl|", "no|", "pl|", "pt|", "ro|", "rs|", "ru|", "se|", "si|", "sk|", "sp|", "tr|",
-                "uk|", "us|", "yu|",
-                "1080p", "4k", "720p", "hdrip", "hindi", "imdb", "vod", "x264"
-            ]
-            bad_strings.extend(map(str, range(1900, 2030)))  # Anni da 1900 a 2030
-            bad_strings_pattern = re.compile('|'.join(map(re.escape, bad_strings)))
-            text = bad_strings_pattern.sub('', text)
-            # Rimozione suffissi non validi
-            bad_suffix = [
-                " al", " ar", " ba", " da", " de", " en", " es", " eu", " ex-yu", " fi", " fr", " gr", " hr", " mk",
-                " nl", " no", " pl", " pt", " ro", " rs", " ru", " si", " swe", " sw", " tr", " uk", " yu"
-            ]
-            bad_suffix_pattern = re.compile(r'(' + '|'.join(map(re.escape, bad_suffix)) + r')$')
-            text = bad_suffix_pattern.sub('', text)
-            # Rimuovi "." "_" "'" e sostituiscili con spazi
-            text = re.sub(r'[._\']', ' ', text)
-                                                    
-                                            
-            # Pulizia finale
-            text = text.partition("(")[0]  # Rimuove contenuti dopo "("
-            text = text.partition(" -")[0]  # Rimuove contenuti dopo "-"
-            text = text.strip(' -')
+            text = remove_accents(text)
+            text = text.strip()
             # Modifiche forzate
             text = text.replace('XXXXXX', '60')
             text = text.replace('brunobarbierix', 'bruno barbieri - 4 hotel')
-            text = quote(text, safe="")
             print('text safe:', text)
         return unquote(text).capitalize()
     except Exception as e:
@@ -412,10 +393,8 @@ class ZstarsEvent(VariableValue, Renderer):
                             if ids and ids is not None or ids != '':
                                 try:
                                     data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-
                                     if PY3:
                                         data = data.encode()
-
                                     if data is not None:
                                         data = json.load(urlopen(data))
                                         open(self.dwn_infos, "w").write(json.dumps(data))
@@ -456,7 +435,6 @@ class ZstarsEvent(VariableValue, Renderer):
                 # data.encoding
                 # data.close()
                 data = json.loads(myObject, 'utf-8')
-
             ImdbRating = ''
             if "vote_average" in data:
                 ImdbRating = data['vote_average']
