@@ -109,10 +109,10 @@ path_folder = "/tmp/backdrop"
 if os.path.exists("/media/hdd"):
     if isMountedInRW("/media/hdd"):
         path_folder = "/media/hdd/backdrop"
-elif os.path.exists("/media/usb"):
+if os.path.exists("/media/usb"):
     if isMountedInRW("/media/usb"):
         path_folder = "/media/usb/backdrop"
-elif os.path.exists("/media/mmc"):
+if os.path.exists("/media/mmc"):
     if isMountedInRW("/media/mmc"):
         path_folder = "/media/mmc/backdrop"
 
@@ -168,12 +168,14 @@ REGEX = re.compile(
 
 
 def remove_accents(string):
-    import unicodedata
-    if PY3 is False:
-        if type(string) is not unicode:
-            string = unicode(string, encoding='utf-8')
-    string = unicodedata.normalize('NFD', string)
-    string = re.sub(r'[\u0300-\u036f]', '', string)
+    if type(string) is not unicode:
+        string = unicode(string, encoding='utf-8')
+    string = re.sub(u"[àáâãäå]", 'a', string)
+    string = re.sub(u"[èéêë]", 'e', string)
+    string = re.sub(u"[ìíîï]", 'i', string)
+    string = re.sub(u"[òóôõö]", 'o', string)
+    string = re.sub(u"[ùúûü]", 'u', string)
+    string = re.sub(u"[ýÿ]", 'y', string)
     return string
 
 
@@ -454,7 +456,7 @@ class ZBanner(Renderer):
                         print('ZBanner error 3 ', e)
                         if self.instance:
                             self.instance.hide()
-                    if not servicetype or servicetype is None:
+                    if not servicetype:
                         if self.instance:
                             self.instance.hide()
                         return
@@ -547,16 +549,26 @@ class ZBanner(Renderer):
             self.instance.show()
 
     def saveBanner(self):
-        with open(self.pstrNm, 'wb') as f:
-            f.write(urlopen(self.url_backdrop).read())
-            f.flush()
-            f.close()
-            file_size = os.path.getsize(self.pstrNm)
-            if file_size == 0:
-                os.remove(self.pstrNm)
-            else:
-                print('saveBanner downlaoded:', self.pstrNm)
-        # if os.path.exists(self.pstrNm):
-            # print('saveBanner zbanner show ')
-            self.showPoster()
-        return
+        if os.path.exists(self.pstrNm):
+            # print('ZBanner saveBanner show ')
+            self.showBackdrop()
+            return
+        data = urlopen(self.url_backdrop)
+        with open(self.pstrNm, "wb") as local_file:
+            local_file.write(data.read())
+            if os.path.exists(self.pstrNm):
+                # print('ZBanner save backdrop show ')
+                self.showBackdrop()
+
+    # def saveBanner(self):
+        # with open(self.pstrNm, 'wb') as f:
+            # f.write(urlopen(self.url_backdrop).read())
+            # f.flush()
+            # f.close()
+            # file_size = os.path.getsize(self.pstrNm)
+            # if file_size == 0:
+                # os.remove(self.pstrNm)
+            # else:
+                # print('saveBanner downlaoded:', self.pstrNm)
+                # self.showPoster()
+        # # return

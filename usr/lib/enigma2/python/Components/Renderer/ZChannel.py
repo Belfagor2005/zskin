@@ -158,16 +158,6 @@ REGEX = re.compile(
     re.DOTALL)
 
 
-# def remove_accents(string):
-    # import unicodedata
-    # if PY3 is False:
-        # if type(string) is not unicode:
-            # string = unicode(string, encoding='utf-8')
-    # string = unicodedata.normalize('NFD', string)
-    # string = re.sub(r'[\u0300-\u036f]', '', string)
-    # return string
-
-
 def remove_accents(string):
     if type(string) is not unicode:
         string = unicode(string, encoding='utf-8')
