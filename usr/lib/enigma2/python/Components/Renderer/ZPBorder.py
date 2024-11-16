@@ -11,6 +11,7 @@ from Components.AVSwitch import AVSwitch
 from Components.Renderer.Renderer import Renderer
 from Components.config import config
 from Tools.Directories import fileExists
+from six import text_type
 from enigma import ePixmap, ePicLoad
 import os
 import re
@@ -22,9 +23,6 @@ global cur_skin
 PY3 = False
 if sys.version_info[0] >= 3:
     PY3 = True
-    unicode = str
-    unichr = chr
-    long = int
     from urllib.parse import quote_plus
 else:
     from urllib import quote_plus
@@ -112,6 +110,14 @@ except Exception as e:
     my_cur_skin = False
 
 
+def quoteEventName(eventName):
+    try:
+        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
+    except:
+        text = eventName
+    return quote_plus(text, safe="+")
+
+
 REGEX = re.compile(
     r'[\(\[].*?[\)\]]|'                    # Parentesi tonde o quadre
     r':?\s?odc\.\d+|'                      # odc. con o senza numero prima
@@ -137,8 +143,8 @@ REGEX = re.compile(
 
 
 def remove_accents(string):
-    if type(string) is not unicode:
-        string = unicode(string, encoding='utf-8')
+    if not isinstance(string, text_type):
+        string = text_type(string, 'utf-8')
     string = re.sub(u"[àáâãäå]", 'a', string)
     string = re.sub(u"[èéêë]", 'e', string)
     string = re.sub(u"[ìíîï]", 'i', string)
@@ -149,8 +155,8 @@ def remove_accents(string):
 
 
 def unicodify(s, encoding='utf-8', norm=None):
-    if not isinstance(s, unicode):
-        s = unicode(s, encoding)
+    if not isinstance(s, text_type):
+        s = text_type(s, encoding)
     if norm:
         from unicodedata import normalize
         s = normalize(norm, s)
@@ -159,7 +165,7 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cutName(eventName=""):
     if eventName:
-        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace(' | ', '')
+        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
         eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
         eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
         eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
@@ -179,14 +185,6 @@ def getCleanTitle(eventitle=""):
     return save_name
 
 
-def quoteEventName(eventName):
-    try:
-        text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
-    except:
-        text = eventName
-    return quote_plus(text, safe="+")
-
-
 def convtext(text=''):
     try:
         if text is None:
@@ -194,12 +192,15 @@ def convtext(text=''):
             return  # Esci dalla funzione se text è None
         if text == '':
             print('text is an empty string')
-        if isinstance(text, unicode):  # Python 2 check
+        if isinstance(text, text_type):  # Python 2 check
             text = text.encode('utf-8')
         else:
-            print('original text:', text)
+            print('original text: ', text)
             text = text.lower()
-            print('lowercased text:', text)
+            print('lowercased text: ', text)
+            text = text.partition("-")[0]
+            text = remove_accents(text)
+            print('remove_accents text: ', text)
             # Applica le funzioni di taglio e pulizia del titolo
             text = cutName(text)
             text = getCleanTitle(text)
@@ -248,8 +249,8 @@ def convtext(text=''):
             text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
             text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            text = re.sub(r"[-,?!/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            text = remove_accents(text)
+            text = re.sub(r"[-,?!+/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
+            # text = remove_accents(text)
             text = text.strip()
             # Modifiche forzate
             text = text.replace('XXXXXX', '60')

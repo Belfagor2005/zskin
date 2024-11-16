@@ -1293,7 +1293,7 @@
                     <convert type="EventName">Name</convert>
                 </widget>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocover.png" position="1090,302" size="270,395" zPosition="4"/>
-                <widget render="ZChannel" source="ServiceEvent" position="1090,302" size="270,395" alphatest="blend" zPosition="5"/>
+                <widget source="ServiceEvent" render="ZChannel" position="1090,302" size="270,395" alphatest="blend" zPosition="5"/>
                 <ePixmap pixmap="/usr/share/enigma2/ZSkin-FHD/menu/panels/nocoverTop.png" position="1090,302" size="270,395" zPosition="6"/>
                 <!-- widget source="ServiceEvent" render="ZEvent" position="1090,700" size="820,135" font="Regular;24" halign="left" nowrap="1" valign="center" zPosition="9" foregroundColor="yellow" backgroundColor="#000000" transparent="1"/-->
                 <ePixmap alphatest="blend" pixmap="ZSkin-FHD/icons/star_b.png" position="1370,300" size="200,20" transparent="1" zPosition="2"/>
@@ -2023,7 +2023,7 @@
             <screen name="Volume" position="1600,50" zPosition="1" size="250,120" title="Volume" backgroundColor="#FF000000" flags="wfNoBorder">
                 <ePixmap pixmap="ZSkin-FHD/menu/panels/volpic.png" position="0,0" size="250,120" blend="blend" zPosition="2" transparent="1"/>
                 <widget name="Volume" pixmap="ZSkin-FHD/menu/panels/volumeon.png" position="110,20" orientation="orBottomToTop" size="0,0" transparent="1" zPosition="3"/>
-                <widget source="global.CurrentTime" render="zextvolumeText" position="120,0" size="120,110" font="LCD;90" halign="center" valign="center" foregroundColor="#ffffff" backgroundColor="bluette" transparent="1" zPosition="4"/>
+                <widget source="global.CurrentTime" render="zVolumeText" position="120,0" size="120,110" font="LCD;90" halign="center" valign="center" foregroundColor="#ffffff" backgroundColor="bluette" transparent="1" zPosition="4"/>
             </screen>
         </style>
         <!-- ##############################  PANELS WETTERBAR ########################### -->
