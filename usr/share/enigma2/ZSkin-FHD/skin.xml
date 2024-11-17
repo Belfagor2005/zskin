@@ -8553,12 +8553,14 @@
         <widget backgroundColor="#000000" font="Regular;30" halign="right" position="700,1000" render="Label" size="300,40" source="Bluekey" transparent="1" valign="center" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="LogScreen" position="0,0" size="1920,1080" title="CrashLog Viewer">
-        <layout name="menu_1630"/>
-        <widget backgroundColor="#000000" font="Regular; 24" foregroundColor="#ffffff" name="text" position="70,160" size="1780,700" text="text" transparent="1"/>
-        <widget backgroundColor="#000000" font="Regular; 24" foregroundColor="#ff0000" name="text2" position="70,880" size="1780,200" text="text2" transparent="1"/>
-        <eLabel backgroundColor="#404040" position="70,870" size="1780,3" zPosition="1"/>
-        <ePixmap alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/CrashlogViewer/images/red.png" position="1680,1050" size="170,2" zPosition="1"/>
-        <widget backgroundColor="background" font="Regular; 28" foregroundColor="foreground" halign="center" position="1680,1000" render="Label" size="170,38" source="Redkey" transparent="1" valign="center" zPosition="2"/>
+        <layout name="menu_1630" />
+        <widget backgroundColor="#000000" font="Regular; 24" foregroundColor="#ffffff" name="text" position="70,160" size="1780,700" text="text" transparent="1" />
+        <widget backgroundColor="#000000" font="Regular; 24" foregroundColor="#ff0000" name="text2" position="70,880" size="1780,200" text="text2" transparent="1" />
+        <eLabel backgroundColor="#404040" position="70,870" size="1780,3" zPosition="1" />
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_red.png" position="219,945" size="30,30" zPosition="5" />
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_green.png" position="220,1005" size="30,30" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;30" halign="left" position="270,940" render="Label" size="300,40" source="Redkey" transparent="1" valign="center" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;30" halign="left" position="270,1000" render="Label" size="300,40" source="Greenkey" transparent="1" valign="center" zPosition="5" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="DreamSaver" position="0,0" size="1920,1080" title="Image Backup">
         <layout name="menu_830"/>
