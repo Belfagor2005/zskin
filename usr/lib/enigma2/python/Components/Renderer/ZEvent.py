@@ -22,6 +22,8 @@ import os
 import re
 import socket
 import sys
+from re import search, sub, I, S
+
 global my_cur_skin, path_folder
 
 
@@ -37,12 +39,6 @@ else:
     from urllib2 import urlopen
     from urllib import quote_plus, quote
     from thread import start_new_thread
-
-
-try:
-    from urllib import unquote
-except ImportError:
-    from urllib.parse import unquote
 
 
 try:
@@ -125,16 +121,6 @@ except Exception as e:
     my_cur_skin = False
 
 
-def OnclearMem():
-    try:
-        os.system('sync')
-        os.system('echo 1 > /proc/sys/vm/drop_caches')
-        os.system('echo 2 > /proc/sys/vm/drop_caches')
-        os.system('echo 3 > /proc/sys/vm/drop_caches')
-    except:
-        pass
-
-
 def quoteEventName(eventName):
     try:
         text = eventName.decode('utf8').replace(u'\x86', u'').replace(u'\x87', u'').encode('utf8')
@@ -167,6 +153,29 @@ REGEX = re.compile(
     re.DOTALL)
 
 
+def OnclearMem():
+    try:
+        os.system('sync')
+        os.system('echo 1 > /proc/sys/vm/drop_caches')
+        os.system('echo 2 > /proc/sys/vm/drop_caches')
+        os.system('echo 3 > /proc/sys/vm/drop_caches')
+    except:
+        pass
+
+
+def intCheck():
+    try:
+        response = urlopen("http://google.com", None, 5)
+        response.close()
+    except HTTPError:
+        return False
+    except URLError:
+        return False
+    except socket.timeout:
+        return False
+    return True
+
+
 def remove_accents(string):
     if not isinstance(string, text_type):
         string = text_type(string, 'utf-8')
@@ -190,12 +199,13 @@ def unicodify(s, encoding='utf-8', norm=None):
 
 def cutName(eventName=""):
     if eventName:
-        eventName = eventName.replace('"', '').replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '').replace('.', '').replace(' | ', '')
+        eventName = eventName.replace('"', '').replace('.', '').replace(' | ', '')  # .replace('Х/Ф', '').replace('М/Ф', '').replace('Х/ф', '')
         eventName = eventName.replace('(18+)', '').replace('18+', '').replace('(16+)', '').replace('16+', '').replace('(12+)', '')
         eventName = eventName.replace('12+', '').replace('(7+)', '').replace('7+', '').replace('(6+)', '').replace('6+', '')
         eventName = eventName.replace('(0+)', '').replace('0+', '').replace('+', '')
-        eventName = eventName.replace('episode', '')
+        eventName = eventName.replace('المسلسل العربي', '')
         eventName = eventName.replace('مسلسل', '')
+        eventName = eventName.replace('برنامج', '')
         eventName = eventName.replace('فيلم وثائقى', '')
         eventName = eventName.replace('حفل', '')
         return eventName
@@ -213,92 +223,114 @@ def getCleanTitle(eventitle=""):
 def convtext(text=''):
     try:
         if text is None:
-            print('return None original text:', type(text))
-            return  # Esci dalla funzione se text è None
+            print('return None original text:' + str(type(text)))
+            return
         if text == '':
             print('text is an empty string')
-        if isinstance(text, text_type):  # Python 2 check
+        if isinstance(text, text_type):
             text = text.encode('utf-8')
         else:
-            print('original text: ', text)
+            print('original text:' + text)
             text = text.lower()
-            print('lowercased text: ', text)
-            text = text.partition("-")[0]
-            text = remove_accents(text)
-            print('remove_accents text: ', text)
+            print('lowercased text:' + text)
+            text = text.lstrip()
+            # # Applica le funzioni di taglio e pulizia del titolo
+            # text = cutName(text)
+            # text = getCleanTitle(text)
+            # Regola il titolo se finisce con "the"
+            if text.endswith("the"):
+                text = "the " + text[:-4]
+
+            # Modifiche personalizzate
+            if 'giochi olimpici parigi' in text:
+                text = 'olimpiadi di parigi'
+            if 'bruno barbieri' in text:
+                text = text.replace('bruno barbieri', 'brunobarbierix')
+            if "anni '60" in text:
+                text = "anni 60"
+            if 'tg regione' in text:
+                text = 'tg3'
+            if 'studio aperto' in text:
+                text = 'studio aperto'
+            if 'josephine ange gardien' in text:
+                text = 'josephine ange gardien'
+            if 'elementary' in text:
+                text = 'elementary'
+            if 'squadra speciale cobra 11' in text:
+                text = 'squadra speciale cobra 11'
+            if 'criminal minds' in text:
+                text = 'criminal minds'
+            if 'i delitti del barlume' in text:
+                text = 'i delitti del barlume'
+            if 'senza traccia' in text:
+                text = 'senza traccia'
+            if 'hudson e rex' in text:
+                text = 'hudson e rex'
+            if 'ben-hur' in text:
+                text = 'ben-hur'
+            if 'alessandro borghese - 4 ristoranti' in text:
+                text = 'alessandroborgheseristoranti'
+            if 'alessandro borghese: 4 ristoranti' in text:
+                text = 'alessandroborgheseristoranti'
+
+            cutlist = ['x264', '720p', '1080p', '1080i', 'pal', 'german', 'english', 'ws', 'dvdrip', 'unrated',
+                       'retail', 'web-dl', 'dl', 'ld', 'mic', 'md', 'dvdr', 'bdrip', 'bluray', 'dts', 'uncut', 'anime',
+                       'ac3md', 'ac3', 'ac3d', 'ts', 'dvdscr', 'complete', 'internal', 'dtsd', 'xvid', 'divx', 'dubbed',
+                       'line.dubbed', 'dd51', 'dvdr9', 'dvdr5', 'h264', 'avc', 'webhdtvrip', 'webhdrip', 'webrip',
+                       'webhdtv', 'webhd', 'hdtvrip', 'hdrip', 'hdtv', 'ituneshd', 'repack', 'sync', '1^tv', '1^ tv',
+                       '1^ visione rai', '1^ visione', ' - prima tv', ' - primatv', 'prima visione',
+                       'film -', 'de filippi', 'first screening',
+                       'live:', 'new:', 'film:', 'première diffusion', 'nouveau:', 'en direct:',
+                       'premiere:', 'estreno:', 'nueva emisión:', 'en vivo:'
+                       ]
+            for word in cutlist:
+                text = text.replace(word, '')
+            text = ' '.join(text.split())
+            print(text)
 
             # Applica le funzioni di taglio e pulizia del titolo
             text = cutName(text)
             text = getCleanTitle(text)
-            # Regola il titolo se finisce con "the"
-            if text.endswith("the"):
-                text = "the " + text[:-4]
-            # Sostituisci caratteri speciali con stringhe vuote
-            text = text.replace("\xe2\x80\x93", "").replace('\xc2\x86', '').replace('\xc2\x87', '')  # replace special
-            text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('primatv', '').replace('1^tv', '')
-            text = text.replace('prima visione', '').replace('1^ tv', '').replace('((', '(').replace('))', ')')
-            text = text.replace('live:', '').replace(' - prima tv', '')
-            # Gestione casi specifici
-            replacements = {
-                'giochi olimpici': 'olimpiadi',
-                'bruno barbieri': 'brunobarbierix',
-                "anni '60": 'anni 60',
-                'tg regione': 'tg3',
-                'studio aperto': 'studio aperto',
-                'josephine ange gardien': 'josephine ange gardien',
-                'elementary': 'elementary',
-                'squadra speciale cobra 11': 'squadra speciale cobra 11',
-                'criminal minds': 'criminal minds',
-                'i delitti del barlume': 'i delitti del barlume',
-                'senza traccia': 'senza traccia',
-                'hudson e rex': 'hudson e rex',
-                'ben-hur': 'ben-hur',
-                'la7': 'la7',
-                'skytg24': 'skytg24'
-            }
-            for key, value in replacements.items():
-                if key in text:
-                    text = text.replace(key, value)
-            text = text + 'FIN'
-            if re.search(r'[Ss][0-9][Ee][0-9]+.*?FIN', text):
-                text = re.sub(r'[Ss][0-9][Ee][0-9]+.*?FIN', '', text)
-            if re.search(r'[Ss][0-9] [Ee][0-9]+.*?FIN', text):
-                text = re.sub(r'[Ss][0-9] [Ee][0-9]+.*?FIN', '', text)
+
+            text = text.partition("-")[0]  # Mantieni solo il testo prima del primo "-"
+
+            # Pulizia finale
+            text = text.replace('.', ' ').replace('-', ' ').replace('_', ' ').replace('+', '')
+
+            # Rimozione pattern specifici
+            if search(r'[Ss][0-9]+[Ee][0-9]+', text):
+                text = sub(r'[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+', '', text, flags=S | I)
+            text = sub(r'\(.*\)', '', text).rstrip()
+            text = text.partition("(")[0]
+            text = sub(r"\\s\d+", "", text)
+            text = text.partition(":")[0]
             text = re.sub(r'(odc.\s\d+)+.*?FIN', '', text)
             text = re.sub(r'(odc.\d+)+.*?FIN', '', text)
             text = re.sub(r'(\d+)+.*?FIN', '', text)
-            text = text.partition("(")[0] + 'FIN'  # .strip()
-            # text = re.sub("\\s\d+", "", text)
-            text = text.partition("(")[0]  # .strip()
-            text = text.partition(":")[0]  # .strip()
-            text = text.partition(" -")[0]  # .strip()
-            text = re.sub(' - +.+?FIN', '', text)  # all episodes and series ????
             text = re.sub('FIN', '', text)
-            text = re.sub(r'^\|[\w\-\|]*\|', '', text)
-            text = re.sub(r"[-,?!+/\.\":]", '', text)  # replace (- or , or ! or / or . or " or :) by space
-            # text = remove_accents(text)
-            text = text.strip()
-            # Modifiche forzate
+            # remove episode number in arabic series
+            text = re.sub(r'\sح\s*\d+', '', text)
+            # remove season number in arabic series
+            text = re.sub(r'\sج\s*\d+', '', text)
+            # remove season number in arabic series
+            text = re.sub(r'\sم\s*\d+', '', text)
+
+            # Rimuovi accenti e normalizza
+            text = remove_accents(text)
+            print('remove_accents text: ' + text)
+
+            # Forzature finali
             text = text.replace('XXXXXX', '60')
             text = text.replace('brunobarbierix', 'bruno barbieri - 4 hotel')
-            print('text safe:', text)
-        return unquote(text).capitalize()
+            text = text.replace('alessandroborgheseristoranti', 'alessandro borghese - 4 ristoranti')
+            text = text.replace('il ritorno di colombo', 'colombo')
+
+            # text = sanitize_filename(text)
+            # print('sanitize_filename text: ' + text)
+            return text.capitalize()
     except Exception as e:
-        print('convtext error:', e)
-        return None
-
-
-def intCheck():
-    try:
-        response = urlopen("http://google.com", None, 5)
-        response.close()
-    except HTTPError:
-        return False
-    except URLError:
-        return False
-    except socket.timeout:
-        return False
-    return True
+        print('convtext error: ' + str(e))
+        pass
 
 
 class ZEvent(Renderer, VariableText):
