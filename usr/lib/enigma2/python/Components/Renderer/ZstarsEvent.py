@@ -361,17 +361,18 @@ def convtext(text=''):
 
 
 class ZstarsEvent(VariableValue, Renderer):
-
     def __init__(self):
-        adsl = intCheck()
-        if not adsl:
-            return
         Renderer.__init__(self)
         VariableValue.__init__(self)
-        self.__start = 0
+        self.__start = 0  # Inizializziamo sempre __start e __end
         self.__end = 100
         self.text = ''
-        # self.timer30 = eTimer()
+        self.adsl = intCheck()
+        if not self.adsl:
+            print("Connessione assente, modalità offline.")
+            return
+        else:
+            print("Connessione rilevata.")
 
     GUI_WIDGET = eSlider
 
@@ -404,8 +405,6 @@ class ZstarsEvent(VariableValue, Renderer):
                 if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
                     self.setRating(self.dwn_infos)
                     return
-                # print('clean zstar: ', self.evntNm)
-                # if not os.path.exists(self.dwn_infos):
                 else:
                     try:
                         url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
@@ -414,7 +413,6 @@ class ZstarsEvent(VariableValue, Renderer):
                         url = checkRedirect(url)
                         if url is not None:
                             ids = url['results'][0]['id']
-                            # print('zstar url2 ids:', ids)
                             if ids and ids is not None or ids != '':
                                 try:
                                     data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
@@ -480,7 +478,11 @@ class ZstarsEvent(VariableValue, Renderer):
             print('zstar ImdbRating Exception: ', e)
 
     def postWidgetCreate(self, instance):
-        instance.setRange(self.__start, self.__end)
+        try:
+            if instance is not None:
+                instance.setRange(self.__start, self.__end)
+        except Exception as e:
+            print('error zstar=', e)
 
     def setRange(self, range):
         (self.__start, self.__end) = range

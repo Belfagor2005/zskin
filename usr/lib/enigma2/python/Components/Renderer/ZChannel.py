@@ -337,10 +337,10 @@ def getScale():
 class ZChannel(Renderer):
 
     def __init__(self):
+        Renderer.__init__(self)
         adsl = intCheck()
         if not adsl:
             return
-        Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
         self.picload = ePicLoad()
@@ -355,11 +355,12 @@ class ZChannel(Renderer):
             print('zchannel B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            # self.picload = ePicLoad()
-            try:
-                self.picload.PictureData.get().append(self.DecodePicture)
-            except:
-                self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+            self.picload = ePicLoad()
+            if self.picload:
+                try:
+                    self.picload.PictureData.get().append(self.DecodePicture)
+                except:
+                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
             self.delay()
 
     def applySkin(self, desktop, parent):
@@ -540,23 +541,20 @@ class ZChannel(Renderer):
             width = size.width()
             height = size.height()
         sc = getScale()
-        self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-        try:
-            if self.picload.startDecode(self.pstrNm):
-                # if this has failed, then another decode is probably already in progress
-                # throw away the old picload and try again immediately
-                self.picload = ePicLoad()
-                try:
-                    self.picload.PictureData.get().append(self.DecodePicture)
-                except:
-                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-                self.picload.startDecode(self.pstrNm)
-        except Exception as e:
-            print(e)
+        self.picload = ePicLoad()
+        if self.picload:
+            try:
+                if self.picload.startDecode(self.pstrNm):
+                    try:
+                        self.picload.PictureData.get().append(self.DecodePicture)
+                    except:
+                        self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                    self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                    self.picload.startDecode(self.pstrNm)
+            except Exception as e:
+                print(e)
 
     def DecodePicture(self, PicInfo=None):
-        # print("* DecodePicture *")
         ptr = self.picload.getData()
         if ptr is not None:
             self.instance.setPixmap(ptr)

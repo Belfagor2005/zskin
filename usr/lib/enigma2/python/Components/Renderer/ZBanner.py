@@ -344,10 +344,10 @@ def getScale():
 class ZBanner(Renderer):
 
     def __init__(self):
+        Renderer.__init__(self)
         adsl = intCheck()
         if not adsl:
             return
-        Renderer.__init__(self)
         self.nxts = 0
         self.path = path_folder
         self.picload = ePicLoad()
@@ -362,12 +362,13 @@ class ZBanner(Renderer):
             print('ZBanner B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            # self.picload = ePicLoad()
-            try:
-                self.picload.PictureData.get().append(self.DecodePicture)
-            except:
-                self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-            self.delay()
+            self.picload = ePicLoad()
+            if self.picload:
+                try:
+                    self.picload.PictureData.get().append(self.DecodePicture)
+                except:
+                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                self.delay()
 
     def applySkin(self, desktop, parent):
         attribs = []
@@ -555,12 +556,13 @@ class ZBanner(Renderer):
                 # if this has failed, then another decode is probably already in progress
                 # throw away the old picload and try again immediately
                 self.picload = ePicLoad()
-                try:
-                    self.picload.PictureData.get().append(self.DecodePicture)
-                except:
-                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-                self.picload.startDecode(self.pstrNm)
+                if self.picload:
+                    try:
+                        self.picload.PictureData.get().append(self.DecodePicture)
+                    except:
+                        self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                    self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                    self.picload.startDecode(self.pstrNm)
         except Exception as e:
             print(e)
 

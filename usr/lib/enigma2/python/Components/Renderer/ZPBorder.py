@@ -309,10 +309,10 @@ def convtext(text=''):
 
 class ZPBorder(Renderer):
     def __init__(self):
+        Renderer.__init__(self)
         adsl = intCheck()
         if not adsl:
             return
-        Renderer.__init__(self)
         # self.timer40 = eTimer()
         self.downloading = False
 
@@ -332,8 +332,8 @@ class ZPBorder(Renderer):
         self.border = border
         size = self.instance.size()
         self.picload = ePicLoad()
-        sc = AVSwitch().getFramebufferScale()
         if self.picload:
+            sc = AVSwitch().getFramebufferScale()
             self.picload.setPara([size.width(), size.height(), sc[0], sc[1], False, 1, '#00000000'])
             if os.path.exists('/var/lib/dpkg/status'):
                 self.picload.startDecode(self.border, False)
