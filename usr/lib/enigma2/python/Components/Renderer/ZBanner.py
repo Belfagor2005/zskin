@@ -55,6 +55,7 @@ tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
 thetvdbkey = "a99d487bb3426e5f3a60dea6d3d3c7ef"
+fanart_api = "6d231536dea4318a88cb2520ce89473b"
 my_cur_skin = False
 cur_skin = config.skin.primary_skin.value.replace('/skin.xml', '')
 screenwidth = getDesktop(0).size()

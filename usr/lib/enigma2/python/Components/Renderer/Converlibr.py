@@ -173,16 +173,19 @@ def convtext(text=''):
 
             # Mappatura sostituzioni con azione specifica
             sostituzioni = [
+                # set
                 ('superman & lois', 'superman e lois', 'set'),
                 ('lois & clark', 'superman e lois', 'set'),
 
+                # replace
                 ('1/2', 'mezzo', 'replace'),
-                ('tg1', 'tguno', 'replace'),
                 ('c.s.i.', 'csi', 'replace'),
                 ('c.s.i:', 'csi', 'replace'),
                 ('ncis:', 'ncis', 'replace'),
                 ('ritorno al futuro:', 'ritorno al futuro', 'replace'),
-
+                
+                # set
+                ('il ritorno di colombo', 'colombo', 'set'),
                 ('lingo: parole', 'lingo', 'set'),
                 ('heartland', 'heartland', 'set'),
                 ('io & marilyn', 'io e marilyn', 'set'),
@@ -191,7 +194,7 @@ def convtext(text=''):
                 ("anni '60", 'anni 60', 'set'),
                 ('cortesie per gli ospiti', 'cortesieospiti', 'set'),
                 ('tg regione', 'tg3', 'set'),
-
+                ('tg1', 'tguno', 'set'),
                 ('planet earth', 'planet earth', 'set'),
                 ('studio aperto', 'studio aperto', 'set'),
                 ('josephine ange gardien', 'josephine ange gardien', 'set'),
@@ -206,7 +209,6 @@ def convtext(text=''):
                 ('alessandro borghese - 4 ristoranti', 'alessandroborgheseristoranti', 'set'),
                 ('alessandro borghese: 4 ristoranti', 'alessandroborgheseristoranti', 'set'),
                 ('amici di maria', 'amicimaria', 'set'),
-
 
                 ('csi miami', 'csi miami', 'set'),
                 ('csi: miami', 'csi miami', 'set'),
@@ -271,7 +273,7 @@ def convtext(text=''):
             text = text.replace('complete', '').replace('internal', '').replace('dtsd', '').replace('h264', '').replace('dvdscr', '')
             text = text.replace('dubbed', '').replace('line.dubbed', '').replace('dd51', '').replace('dvdr9', '').replace('sync', '')
             text = text.replace('webhdrip', '').replace('webrip', '').replace('repack', '').replace('dts', '').replace('webhd', '')
-
+            # set add
             text = text.replace('1^tv', '').replace('1^ tv', '').replace(' - prima tv', '').replace(' - primatv', '')
             text = text.replace('primatv', '').replace('en direct:', '').replace('first screening', '').replace('live:', '')
             text = text.replace('1^ visione rai', '').replace('1^ visione', '').replace('premiere:', '').replace('nouveau:', '')
@@ -323,16 +325,6 @@ def convtext(text=''):
             # text = sub(r'(odc.\d+)+.*?FIN', '', text)
             # text = sub(r'(\d+)+.*?FIN', '', text)
             # text = sub('FIN', '', text)
-
-            # ####################################
-            # text = sub(r' +ح| +ج| +م', '', text)  # Rimuove numeri di episodi/serie in arabo
-            # # remove episode number in arabic series
-            # text = sub(r' +ح', '', text)
-            # # remove season number in arabic series
-            # text = sub(r' +ج', '', text)
-            # # remove season number in arabic series
-            # text = sub(r' +م', '', text)
-            # ####################################
 
             text = text.partition(" -")[0]  # Rimuove contenuti dopo "-"
             text = text.strip(' -')
