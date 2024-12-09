@@ -4314,7 +4314,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/nameteam.png" position="180,980" size="830,70" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,950" size="1230,8" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,420" size="1230,8" zPosition="5"/>
-        <ePixmap blend="blend" pixmap="DE-FHD/icons/smartcard.png" position="220,170" size="160,100" zPosition="1"/>
+        <ePixmap blend="blend" pixmap="ZSkin-FHD/icons/smartcard.png" position="220,170" size="160,100" zPosition="1"/>
         <widget enableWrapAround="1" position="600,155" render="Listbox" scrollbarMode="showOnDemand" size="850,300" source="list" transparent="1" zPosition="1">
             <convert type="TemplatedMultiContent">
 			{"template": [
@@ -4382,7 +4382,15 @@
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EliteEPGImporter" position="0,0" size="1920,1080">
         <layout name="menu_830"/>
-        <layout name="rgyb-2c-n-830"/>
+        <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,910" size="830,8" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_red.png" position="220,945" size="30,30" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_green.png" position="220,1005" size="30,30" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_yellow.png" position="1020,945" size="30,30" zPosition="5"/>
+        <ePixmap alphatest="on" pixmap="ZSkin-FHD/buttons/key_blue.png" position="1020,1005" size="30,30" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;30" halign="left" position="270,940" render="Label" size="350,40" source="key_red" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;30" halign="left" position="270,1000" render="Label" size="350,40" source="key_green" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;30" halign="right" position="700,940" render="Label" size="300,40" source="key_yellow" transparent="1" valign="center" zPosition="5"/>
+        <widget backgroundColor="#000000" font="Regular;30" halign="right" position="700,1000" render="Label" size="300,40" source="key_blue" transparent="1" valign="center" zPosition="5"/>
         <ePixmap pixmap="ZSkin-FHD/menu/ElitePanel.png" position="220,30" size="100,100"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/setmain.png" position="0,0" size="1330,1080" zPosition="-2"/>
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="ltbluette" itemHeight="50" name="config" position="220,155" scrollbarMode="showOnDemand" size="830,600" transparent="1" zPosition="5"/>
