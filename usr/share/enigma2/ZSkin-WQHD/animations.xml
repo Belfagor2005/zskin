@@ -1,0 +1,30 @@
+<animations>
+	<animation key="slide_left_left" title="Slide in left + Slide out left" duration="400" internal="">
+		<position val="-1.0" animateX=""/>
+		<position_hide val="-1.0" animateX=""/>
+	</animation>
+	<animation key="slide_right_right" title="Slide in right + Slide out right" duration="400" internal="">
+		<position val="1.0" animateX=""/>
+		<position_hide val="1.0" animateX=""/>
+	</animation>
+	<animation key="slide_left_right" title="Slide in left + Slide out right" duration="600" internal="">
+		<position val="-1.0" animateX=""/>
+		<position_hide val="2.0" animateX=""/>
+	</animation>
+	<animation key="slide_right_left" title="Slide in right + Slide out left" duration="600" internal="">
+		<position val="2.0" animateX=""/>
+		<position_hide val="-1.0" animateX=""/>
+	</animation>
+	<animation key="simple_fade_slide_top" title="fade + Slide out top" duration="500" internal="">
+		<alpha val="0.0" interpolate="decelerate" factor="0.7"/>
+		<position_hide val="-1.0" animateY=""/>
+	</animation>
+	<animation key="simple_fade_slide_left" title="fade + Slide out left" duration="500" internal="">
+		<alpha val="0.0" interpolate="decelerate" factor="0.7"/>
+		<position_hide val="-1.0" animateX=""/>
+	</animation>
+	<animation key="simple_fade_long" title="fade_long" duration="1400" internal="">
+		<alpha val="0.0" interpolate="decelerate" factor="0.5"/>
+		<alpha_hide val="0.0" interpolate="accelerate" factor="0.5"/>
+	</animation>
+</animations>
