@@ -152,24 +152,26 @@ def convtext(text=''):
         if text == '':
             print('text is an empty string')
         else:
+            # if isinstance(text, unicode):  # Se è una stringa Unicode in Python 2
+            text= str(text)  # Converti in una stringa di byte (str in Python 2)
             # print('original text:', text)
             # Converti tutto in minuscolo
-            text = text.lower()
+            text = text.lower().rstrip()
             # print('lowercased text:', text)
             # Rimuovi accenti
-            text = remove_accents(text)
-            # print('remove_accents text:', text)
+            # text = remove_accents(text)
+            # # print('remove_accents text:', text)
 
-            text = text.lstrip()
+            # text = text.lstrip()
 
-            # remove episode number from series, like "series"
-            regex = re.compile(r'^(.*?)([ ._-]*(ep|episodio|st|stag|odc|parte|pt!series|serie||s[0-9]{1,2}e[0-9]{1,2}|[0-9]{1,2}x[0-9]{1,2})[ ._-]*[.]?[ ._-]*[0-9]+.*)$')
-            text = sub(regex, r'\1', text).strip()
-            print("titolo_pulito:", text)
-            # Force and remove episode number from series, like "series"
-            if search(r'[Ss][0-9]+[Ee][0-9]+', text):
-                text = sub(r'[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+', '', text, flags=S | I)
-            text = sub(r'\(.*\)', '', text).rstrip()  # remove episode number from series, like "series"
+            # # remove episode number from series, like "series"
+            # regex = re.compile(r'^(.*?)([ ._-]*(ep|episodio|st|stag|odc|parte|pt!series|serie||s[0-9]{1,2}e[0-9]{1,2}|[0-9]{1,2}x[0-9]{1,2})[ ._-]*[.]?[ ._-]*[0-9]+.*)$')
+            # text = sub(regex, r'\1', text).strip()
+            # print("titolo_pulito:", text)
+            # # Force and remove episode number from series, like "series"
+            # if search(r'[Ss][0-9]+[Ee][0-9]+', text):
+                # text = sub(r'[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+', '', text, flags=S | I)
+            # text = sub(r'\(.*\)', '', text).rstrip()  # remove episode number from series, like "series"
 
             # Mappatura sostituzioni con azione specifica
             sostituzioni = [
@@ -254,6 +256,19 @@ def convtext(text=''):
                         break
                     elif metodo == 'replace':
                         text = text.replace(parola, sostituto)
+
+            # remove episode number from series, like "series"
+            regex = re.compile(r'^(.*?)([ ._-]*(ep|episodio|st|stag|odc|parte|pt!series|serie|s[0-9]{1,2}e[0-9]{1,2}|[0-9]{1,2}x[0-9]{1,2})[ ._-]*[.]?[ ._-]*[0-9]+.*)$')
+            text = sub(regex, r'\1', text).strip()
+            print("titolo_pulito:", text)
+            # Force and remove episode number from series, like "series"
+            if search(r'[Ss][0-9]+[Ee][0-9]+', text):
+                text = sub(r'[Ss][0-9]+[Ee][0-9]+.*[a-zA-Z0-9_]+', '', text, flags=S | I)
+            text = sub(r'\(.*\)', '', text).rstrip()  # remove episode number from series, like "series"
+
+
+            text = remove_accents(text)
+            # print('remove_accents text:', text)
 
             # Applica le funzioni di taglio e pulizia del titolo
             text = cutName(text)

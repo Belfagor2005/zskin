@@ -152,51 +152,65 @@ class ZEvent(Renderer, VariableText):
 
     def showInfos(self):
         self.event = self.source.event
-        if self.event:
-            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
-            if self.evnt.endswith(' '):
-                self.evnt = self.evnt[:-1]
-            self.evntNm = convtext(self.evnt)
-            self.infos_file = r"{}\{}.txt".format(path_folder, self.evntNm)
-            self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
-            if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
-                self.setRating(self.infos_file)
-                return
+        if not self.event:
+            return
+        self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+        self.evntNm = convtext(self.evnt)
+        self.evntNm = str(self.evntNm) 
+        self.infos_file = "%s/%s.txt" % (path_folder, self.evntNm)
+        self.dwn_infos = "%s/%s.zstar.txt" % (path_folder, self.evntNm)
+        if not os.path.exists(self.infos_file) or os.stat(self.infos_file).st_size <= 1:
+            return None
+        self.setRating(self.infos_file)
 
     def downloadInfos(self):
+        # Rimuove il file se esiste ed è vuoto
         if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size < 1:
             os.remove(self.infos_file)
             print("Zchannel as been removed %s successfully" % self.evntNm)
+
+        # Costruisce l'URL per la ricerca delle informazioni sulla TV
         url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
-        if PY3:
-            url = url.encode()
-            url2 = urlopen(url).read()
-        else:
-            url2 = urlopen(url).read().decode('utf-8')
-        jurl = json.loads(url2)
-        if 'results' in jurl:
-            if 'id' in jurl['results'][0]:
+        try:
+            # Richiede i dati JSON
+            if PY3:
+                url = url.encode()
+                url2 = urlopen(url).read()
+            else:
+                url2 = urlopen(url).read().decode('utf-8')
+            jurl = json.loads(url2)
+
+            # Verifica che ci siano risultati
+            if 'results' in jurl and len(jurl['results']) > 0 and 'id' in jurl['results'][0]:
                 ids = jurl['results'][0]['id']
+
+                # Richiede i dettagli per l'ID trovato
+                url = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                 try:
-                    url = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
                     if PY3:
                         url = url.encode()
                         url = urlopen(url).read()
                     else:
                         url = urlopen(url).read().decode('utf-8')
-                except:
-                    print('zchannel part two')
+                except Exception as e:
+                    print("Errore nella richiesta zevent, tentativo con il film: %s" % str(e))
+
                     url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
                         url = urlopen(url).read()
                     else:
                         url = urlopen(url).read().decode('utf-8')
+
+                # Salva i dati ottenuti
                 data2 = json.loads(url)
                 with open(self.infos_file, "w") as f:
                     json.dump(data2, f)
-                # print('ZEvent pas data to setRating ', data2)
+
+                # Passa i dati per impostare il rating
                 self.setRating(self.infos_file)
+        except Exception as e:
+            print("Errore durante il download delle informazioni: %s" % str(e))
 
     def filterSearch(self):
         try:

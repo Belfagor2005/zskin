@@ -14,7 +14,7 @@ from Components.Sources.Event import Event
 from Components.Sources.EventInfo import EventInfo
 from Components.Sources.ServiceEvent import ServiceEvent
 from Components.config import config
-from ServiceReference import ServiceReference
+# from ServiceReference import ServiceReference
 from enigma import ePixmap, ePicLoad
 from enigma import getDesktop
 import NavigationInstance
@@ -50,7 +50,7 @@ else:
       # "original"
     # ]
 '''
-formatImg = 'w780'
+formatImg = 'w185'
 tmdb_api = "3c3efcf47c3577558812bb9d64019d65"
 omdb_api = "cb1d9f55"
 # thetvdbkey = 'D19315B88B2DE21F'
@@ -157,12 +157,12 @@ class ZBanner(Renderer):
             print('ZBanner B what[0] != self.CHANGED_CLEAR')
             if self.instance:
                 self.instance.hide()
-            self.picload = ePicLoad()
-            if self.picload:
-                try:
-                    self.picload.PictureData.get().append(self.DecodePicture)
-                except:
-                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+            if not self.picload:
+                self.picload = ePicLoad()
+            try:
+                self.picload.PictureData.get().append(self.DecodePicture)
+            except:
+                self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
             self.delay()
 
     def applySkin(self, desktop, parent):
@@ -190,147 +190,118 @@ class ZBanner(Renderer):
 
     def delay(self):
         self.event = self.source.event
-        if self.event:
-            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
-            if self.evnt.endswith(' '):
-                self.evnt = self.evnt[:-1]
-            self.evntNm = convtext(self.evnt)
-            print('zchannel new self event name:', self.evntNm)
-            self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
-            self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
-            self.pstrNm = "{}/{}.jpg".format(path_folder, self.evntNm)
-            backdrop = None
-            if os.path.exists(self.pstrNm):
-                self.showBackdrop()
-            else:
-                if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 100:
-                    try:
-                        if PY3:
-                            with open(self.dwn_infos) as f:
-                                data = json.load(f)
-                        else:
-                            myFile = open(self.dwn_infos, 'r')
-                            myObject = myFile.read()
-                            u = myObject.decode('utf-8-sig')
-                            data = u.encode('utf-8')
-                            # data.encoding
-                            # data.close()
-                            data = json.loads(myObject, 'utf-8')
-                        if "backdrop_path" in data:
-                            backdrop = data['backdrop_path']
-                            if backdrop and backdrop != 'null' or backdrop is not None:
-                                self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                # print('ZBanner dwn_infos backdrop download')
-                                self.saveBanner()
-                    except Exception as e:
-                        print('ZBanner error 1 ', e)
-                # forced
-                elif os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 100:
-                    try:
-                        if PY3:
-                            with open(self.dataNm) as f:
-                                data = json.load(f)
-                        else:
-                            myFile = open(self.dataNm, 'r')
-                            myObject = myFile.read()
-                            u = myObject.decode('utf-8-sig')
-                            data = u.encode('utf-8')
-                            # data.encoding
-                            # data.close()
-                            data = json.loads(myObject, 'utf-8')
-                        if "backdrop_path" in data:
-                            backdrop = data['backdrop_path']
-                            if backdrop and backdrop != 'null' or backdrop is not None:
-                                self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                # print('ZBanner dataNm backdrop download')
-                                self.saveBanner()
-                    except Exception as e:
-                        print('ZBanner error 2 ', e)
+        if not self.event:
+            return
 
-                else:
-                    servicetype = None
-                    try:
-                        service = None
-                        if isinstance(self.source, ServiceEvent):  # source="ServiceEvent"
-                            service = self.source.getCurrentService()
-                            servicetype = "ServiceEvent"
-                        elif isinstance(self.source, CurrentService):  # source="session.CurrentService"
-                            service = self.source.getCurrentServiceRef()
-                            servicetype = "CurrentService"
-                        elif isinstance(self.source, EventInfo):  # source="session.Event_Now" or source="session.Event_Next"
-                            service = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
-                            servicetype = "EventInfo"
-                        elif isinstance(self.source, Event):  # source="Event"
-                            service = NavigationInstance.instance.getCurrentlyPlayingServiceReference()
-                            servicetype = "Event"
-                        if service:
-                            # events = epgcache.lookupEvent(['IBDCTESX', (service.toString(), 0, -1, -1)])
-                            if PY3:
-                                self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '')  # .encode('utf-8')
-                            else:
-                                self.evnt = ServiceReference(service).getServiceName().replace('\xc2\x86', '').replace('\xc2\x87', '').encode('utf-8')
-                    except Exception as e:
-                        print('ZBanner error 3 ', e)
-                        if self.instance:
-                            self.instance.hide()
-                    if not servicetype or servicetype is None:
-                        if self.instance:
-                            self.instance.hide()
-                        return
-                    try:
-                        if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
-                            os.remove(self.dataNm)
-                            # print("ZBanner as been removed %s successfully" % self.evntNm)
-                        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
-                        if PY3:
-                            url = url.encode()
-                            url2 = urlopen(url).read()
-                        else:
-                            url2 = urlopen(url).read().decode('utf-8')
-                        jurl = json.loads(url2)
-                        if 'results' in jurl:
-                            if 'id' in jurl['results'][0]:
-                                ids = jurl['results'][0]['id']
-                                url_2 = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                                if PY3:
-                                    url_2 = url_2.encode()
-                                    url_3 = urlopen(url_2).read().read()
-                                else:
-                                    url_3 = urlopen(url_2).read().decode('utf-8')
-                                data2 = json.loads(url_3)
-                                with open(self.dataNm, "w") as f:
-                                    json.dump(data2, f)
-                                backdrop = data2['backdrop_path']
-                                if backdrop and backdrop != 'null' or backdrop is not None:
-                                    self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))  # w185 risoluzione backdrop
-                                    self.saveBanner()
-                        else:
-                            url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
-                            if PY3:
-                                url = url.encode()
-                                url2 = urlopen(url).read()
-                            else:
-                                url2 = urlopen(url).read().decode('utf-8')
-                            # url2 = urlopen(url).read().decode('utf-8')
-                            jurl = json.loads(url2)
-                            if 'results' in jurl:
-                                if 'id' in jurl['results'][0]:
-                                    ids = jurl['results'][0]['id']
-                                    url_2 = 'http://api.themoviedb.org/3/movie/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
-                                    if PY3:
-                                        url_2 = url_2.encode()
-                                    url_3 = urlopen(url_2).read().decode('utf-8')
-                                    data2 = json.loads(url_3)
-                                    with open(self.dataNm, "w") as f:
-                                        json.dump(data2, f)
-                                    backdrop = data2['backdrop_path']
-                                    if backdrop and backdrop != 'null' or backdrop is not None:
-                                        self.url_backdrop = "http://image.tmdb.org/t/p/{}{}".format(formatImg, str(backdrop))
-                                        self.saveBanner()
-                    except Exception as e:
-                        print('ZBanner error except ZBanner ', e)
-                        if self.instance:
-                            self.instance.hide()
+        self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+        self.evntNm = convtext(self.evnt)
+        self.evntNm = str(self.evntNm)
+        print('zchannel new self event name:', self.evntNm)
+        poster = None
+        self.dwn_infos = "%s/%s.zstar.txt" % (path_folder, self.evntNm)
+        self.dataNm = "%s/%s.txt" % (path_folder, self.evntNm)
+        self.pstrNm = "%s/%s.jpg" % (path_folder, self.evntNm)
+
+        # Mostra il poster se esiste
+        if os.path.exists(self.pstrNm):
+            self.showBackdrop()
+            return
+
+        # Carica dati dai file disponibili
+        poster = self._get_poster_from_file(self.dwn_infos) or self._get_poster_from_file(self.dataNm)
+        if poster:
+            self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (formatImg, poster)
+            self.saveBanner()
+            return
+
+        # Scarica informazioni online se i file non sono utili
+        self._fetch_online_data()
+
+    def _get_poster_from_file(self, filename):
+        """Carica il poster da un file JSON, se possibile."""
+        if not os.path.exists(filename) or os.stat(filename).st_size <= 1:
+            return None
+        try:
+            with open(filename, "r") as f:
+                data = json.load(f)
+            return data.get("backdrop_path")
+        except Exception as e:
+            print("Errore nella lettura di %s: %s" % (filename, str(e)))
+            return None
+
+    def _fetch_online_data(self):
+        """Scarica le informazioni online e salva il poster."""
+        try:
+            # Determina il servizio e il nome dell'evento
+            service, servicetype = self._get_service()
+            if not service or not servicetype:
+                return
+            # Rimuove file vuoti
+            if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
+                os.remove(self.dataNm)
+            # Richiesta API per TV
+            url = 'http://api.themoviedb.org/3/search/tv?api_key=%s&query=%s' % (tmdb_api, quoteEventName(self.evntNm))
+            data2 = self._fetch_api_data(url)
+            # if data2 and 'results' in data2 and 'id' in data2['results'][0]:
+                # ids = data2['results'][0]['id']
+                # url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                # data2 = self._fetch_api_data(url)
+            if data2 and 'results' in data2 and data2['results']:
+                if 'id' in data2['results'][0]:
+                    ids = data2['results'][0]['id']
+                    url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                    data2 = self._fetch_api_data(url)
+            # Richiesta API per film (fallback)
+            # if not data2:
+                # url = 'http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s' % (tmdb_api, quoteEventName(self.evntNm))
+                # data2 = self._fetch_api_data(url)
+                # if data2 and 'results' in data2 and 'id' in data2['results'][0]:
+                    # ids = data2['results'][0]['id']
+                    # url = 'http://api.themoviedb.org/3/movie/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                    # data2 = self._fetch_api_data(url)
+            if not data2:
+                url = 'http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s' % (tmdb_api, quoteEventName(self.evntNm))
+                data2 = self._fetch_api_data(url)
+                if data2 and 'results' in data2 and data2['results']:
+                    if 'id' in data2['results'][0]:
+                        ids = data2['results'][0]['id']
+                        url = 'http://api.themoviedb.org/3/movie/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                        data2 = self._fetch_api_data(url)
+            # Salva il poster, se disponibile
+            if data2 and 'backdrop_path' in data2:
+                poster = data2['backdrop_path']
+                self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (formatImg, poster)
+                with open(self.dataNm, "w") as f:
+                    json.dump(data2, f)
+                self.saveBanner()
+        except Exception as e:
+            print("Errore nel fetch online: %s" % str(e))
+            if self.instance:
+                self.instance.hide()
+
+    def _fetch_api_data(self, url):
+        """Effettua una richiesta API e restituisce i dati JSON."""
+        try:
+            response = urlopen(url)
+            return json.load(response)
+        except Exception as e:
+            print("Errore API %s: %s" % (url, str(e)))
+            return None
+
+    def _get_service(self):
+        """Ottiene il servizio corrente e il tipo di sorgente."""
+        try:
+            if isinstance(self.source, ServiceEvent):
+                return self.source.getCurrentService(), "ServiceEvent"
+            if isinstance(self.source, CurrentService):
+                return self.source.getCurrentServiceRef(), "CurrentService"
+            if isinstance(self.source, EventInfo):
+                return NavigationInstance.instance.getCurrentlyPlayingServiceReference(), "EventInfo"
+            if isinstance(self.source, Event):
+                return NavigationInstance.instance.getCurrentlyPlayingServiceReference(), "Event"
+        except Exception as e:
+            print("Errore nel recupero del servizio: %s" % str(e))
+        return None, None
 
     def showBackdrop(self):
         width = 540
@@ -345,17 +316,43 @@ class ZBanner(Renderer):
         sc = getScale()
         self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
         try:
+            # Verifica se il percorso dell'immagine è valido
+            if not self.pstrNm or not os.path.exists(self.pstrNm):
+                print("Errore: file immagine non trovato:", self.pstrNm)
+                return
+            # Aggiungi un controllo per il tipo di self.pstrNm
+            print("Tipo di self.pstrNm:", type(self.pstrNm))
+            '''
+            if isinstance(self.pstrNm, bytes):
+                self.pstrNm = self.pstrNm.decode('utf-8')  # Converte bytes in stringa
+            elif isinstance(self.pstrNm, list):
+                self.pstrNm = self.pstrNm[0]  # Usa il primo elemento della lista se è una lista
+            elif not isinstance(self.pstrNm, str):
+                print("Errore: self.pstrNm non è un tipo gestibile.")
+                return
+            '''
+            # Verifica che self.pstrNm ora sia una stringa
+            if isinstance(self.pstrNm, unicode):  # Se è una stringa Unicode in Python 2
+                self.pstrNm = str(self.pstrNm)  # Converti in una stringa di byte (str in Python 2)
+            elif isinstance(self.pstrNm, str):
+                print("Percorso dell'immagine:", self.pstrNm)
+            else:
+                print("Errore: self.pstrNm non è ancora una stringa, ma è :", type(self.pstrNm))
+                return
+            # Decodifica l'immagine
             if self.picload.startDecode(self.pstrNm):
-                self.picload = ePicLoad()
-                if self.picload:
-                    try:
-                        self.picload.PictureData.get().append(self.DecodePicture)
-                    except:
-                        self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                    self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-                    self.picload.startDecode(self.pstrNm)
+                # if not self.picload:
+                    # self.picload = ePicLoad()
+                try:
+                    self.picload.PictureData.get().append(self.DecodePicture)
+                except:
+                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                self.picload.startDecode(self.pstrNm)
+            else:
+                print("Errore: non è stato possibile decodificare l'immagine.")
         except Exception as e:
-            print(e)
+            print("Errore in showBackdrop:", str(e))
 
     def DecodePicture(self, PicInfo=None):
         ptr = self.picload.getData()

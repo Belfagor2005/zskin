@@ -169,96 +169,62 @@ class ZstarsEvent(VariableValue, Renderer):
 
     def infos(self):
         try:
-            ids = None
-            data = ''
             self.event = self.source.event
             if not self.event:
                 return
-            if self.event:
-                self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
-                if self.evnt.endswith(' '):
-                    self.evnt = self.evnt[:-1]
-                self.evntNm = convtext(self.evnt)
-                self.dwn_infos = "{}/{}.zstar.txt".format(path_folder, self.evntNm)
-
-                self.dataNm = "{}/{}.txt".format(path_folder, self.evntNm)
-                if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size > 1:
-                    self.setRating(self.dataNm)
+            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+            self.evntNm = convtext(self.evnt)
+            self.dwn_infos = "%s/%s.zstar.txt" % (path_folder, self.evntNm)
+            self.dataNm = "%s/%s.txt" % (path_folder, self.evntNm)
+            # Controllo e utilizzo dei file locali
+            for file_path in [self.dataNm, self.dwn_infos]:
+                if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
+                    self.setRating(file_path)
                     return
-                if os.path.exists(self.dwn_infos) and os.stat(self.dwn_infos).st_size > 1:
-                    self.setRating(self.dwn_infos)
-                    return
-                else:
-                    try:
-                        url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
-                        if PY3:
-                            url = url.encode()
-                        url = checkRedirect(url)
-                        if url is not None:
-                            ids = url['results'][0]['id']
-                            if ids and ids is not None or ids != '':
-                                try:
-                                    data = 'https://api.themoviedb.org/3/movie/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                    if PY3:
-                                        data = data.encode()
-                                    if data is not None:
-                                        data = json.load(urlopen(data))
-                                        open(self.dwn_infos, "w").write(json.dumps(data))
-                                    else:
-                                        data = 'https://api.themoviedb.org/3/tv/{}?api_key={}&append_to_response=credits&language={}'.format(str(ids), str(tmdb_api), str(lng))  # &language=" + str(language)
-                                        if data:
-                                            data = json.load(urlopen(data))
-                                            open(self.dwn_infos, "w").write(json.dumps(data))
-                                            self.setRating(self.dwn_infos)
-                                except Exception as e:
-                                    print('zstar pass Exception: ', e)
-                            else:
+            # Scaricamento dei dati online
+            try:
+                url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
+                if PY3:
+                    url = url.encode()
+                response = checkRedirect(url)
+                if response and 'results' in response and len(response['results']) > 0:
+                    ids = response['results'][0].get('id')
+                    if ids:
+                        for endpoint in ['movie', 'tv']:
+                            try:
+                                data_url = 'https://api.themoviedb.org/3/{}/{}?api_key={}&append_to_response=credits&language={}'.format(
+                                    endpoint, str(ids), str(tmdb_api), str(lng))
+                                if PY3:
+                                    data_url = data_url.encode()
+                                data = json.load(urlopen(data_url))
+                                with open(self.dwn_infos, "w") as f:
+                                    json.dump(data, f)
+                                self.setRating(self.dwn_infos)
                                 return
-                        else:
-                            return
-                    except Exception as e:
-                        print('Exception no ids in zstar ', e)
-                    return
+                            except Exception as e:
+                                print("Errore durante il fetch di {}: {}".format(endpoint, str(e)))
+                print("Nessun risultato trovato su TMDB")
+            except Exception as e:
+                print("Errore durante il fetch online: {}".format(str(e)))
         except Exception as e:
-            print('zstar pass ImdbRating: ', e)
+            print("Errore generale nella funzione infos: {}".format(str(e)))
 
-    def setRating(self, data):
+    def setRating(self, file_path):
         try:
-            rtng = 0
-            range = 0
-            value = 0
-            ImdbRating = "0"
-            self.dwn_infos = data
-            if PY3:
-                with open(self.dwn_infos) as f:
-                    data = json.load(f)
-            else:
-                # if not PY3:
-                myFile = open(self.dwn_infos, 'r')
-                myObject = myFile.read()
-                u = myObject.decode('utf-8-sig')
-                data = u.encode('utf-8')
-                # data.encoding
-                # data.close()
-                data = json.loads(myObject, 'utf-8')
-            ImdbRating = ''
-            if "vote_average" in data:
-                ImdbRating = data['vote_average']
-            elif "imdbRating" in data:
-                ImdbRating = data['imdbRating']
-            else:
-                ImdbRating = '0'
-            print('zstar ImdbRating: ', ImdbRating)
-            if ImdbRating and ImdbRating != '0':
-                rtng = int(10 * (float(ImdbRating)))
+            # with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, "r") as f:
+                data = json.load(f)
+            ImdbRating = str(data.get("vote_average", data.get("imdbRating", "0")))
+            print("zstar ImdbRating:", ImdbRating)
+            if ImdbRating.isdigit() or ImdbRating.replace('.', '', 1).isdigit():
+                rtng = int(float(ImdbRating) * 10)
             else:
                 rtng = 0
-            range = 100
-            value = rtng
-            (self.range, self.value) = ((0, range), value)
+            self.range = (0, 100)
+            self.value = rtng
             self.instance.show()
         except Exception as e:
-            print('zstar ImdbRating Exception: ', e)
+            print("Errore durante la funzione setRating:", str(e))
 
     def postWidgetCreate(self, instance):
         try:
@@ -274,5 +240,4 @@ class ZstarsEvent(VariableValue, Renderer):
 
     def getRange(self):
         return self.__start, self.__end
-
     range = property(getRange, setRange)
