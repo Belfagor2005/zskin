@@ -57,6 +57,65 @@ if os.path.exists(zaddons):
     zaddon = True
 
 
+def isMountedInRW(mount_point):
+    with open("/proc/mounts", "r") as f:
+        for line in f:
+            parts = line.split()
+            if len(parts) > 1 and parts[1] == mount_point:
+                return True
+    return False
+
+
+path_poster = "/tmp/poster"
+patch_backdrop = "/tmp/backdrop"
+if os.path.exists("/media/hdd") and isMountedInRW("/media/hdd"):
+    path_poster = "/media/hdd/poster"
+    patch_backdrop = "/media/hdd/backdrop"
+
+elif os.path.exists("/media/usb") and isMountedInRW("/media/usb"):
+    path_poster = "/media/usb/poster"
+    patch_backdrop = "/media/usb/backdrop"
+
+elif os.path.exists("/media/mmc") and isMountedInRW("/media/mmc"):
+    path_poster = "/media/mmc/poster"
+    patch_backdrop = "/media/mmc/backdrop"
+
+
+def removePng():
+    import glob
+    print('Rimuovo file PNG e JPG...')
+    if os.path.exists(path_poster):
+        png_files = glob.glob(os.path.join(path_poster, "*.png"))
+        jpg_files = glob.glob(os.path.join(path_poster, "*.jpg"))
+        files_to_remove = png_files + jpg_files
+        if not files_to_remove:
+            print("Nessun file PNG o JPG trovato nella cartella " + path_poster)
+        for file in files_to_remove:
+            try:
+                os.remove(file)
+                print("Rimosso: " + file)
+            except Exception as e:
+                print("Errore durante la rimozione di " + file + ": " + str(e))
+    else:
+        print("La cartella " + path_poster + " non esiste.")
+
+    if os.path.exists(patch_backdrop):
+        png_files_backdrop = glob.glob(os.path.join(patch_backdrop, "*.png"))
+        jpg_files_backdrop = glob.glob(os.path.join(patch_backdrop, "*.jpg"))
+        files_to_remove_backdrop = png_files_backdrop + jpg_files_backdrop
+        if not files_to_remove_backdrop:
+            print("Nessun file PNG o JPG trovato nella cartella " + patch_backdrop)
+        else:
+            for file in files_to_remove_backdrop:
+                try:
+                    os.remove(file)
+                    print("Rimosso: " + file)
+                except Exception as e:
+                    print("Errore durante la rimozione di " + file + ": " + str(e))
+    else:
+        print("La cartella " + patch_backdrop + " non esiste.")
+
+
 class StylesSetup(Screen, ConfigListScreen):
     skin = '''
            <screen name="StyleSetup" position="center,center" size="1200,820" title=" ">
@@ -149,6 +208,7 @@ class StylesSetup(Screen, ConfigListScreen):
         # if config.zStyles.data4.getValue():
             # self.list.append(getConfigListEntry(_("Read Apikey TheTVDBkey from /tmp/thetvdbkey.txt"), config.zStyles.api4))
             # self.list.append(getConfigListEntry(_("Set Your Apikey TheTVDBkey"), config.zStyles.txtapi4))
+        self.list.append(getConfigListEntry(_("Remove all png Poster:"), config.zStyles.png))
         self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.zStyles.preserve_preview))
         self["config"].list = self.list
         self["config"].l.setList(self.list)
@@ -157,10 +217,21 @@ class StylesSetup(Screen, ConfigListScreen):
         from .Version import __version__, __revision__
         self.setTitle(_("Setup") + str.format(" - {0} {1}.{2}", PLUGIN_NAME, __version__, __revision__))
 
+    def removPng(self):
+        print('from remove png......')
+        removePng()
+        print('png are removed')
+        aboutbox = self.session.open(MessageBox, _('All png are removed from folder!'), MessageBox.TYPE_INFO)
+        aboutbox.setTitle(_('Info...'))
+
     def keyOk(self):
         global tarfile
         ConfigListScreen.keyOK(self)
         sel = self["config"].getCurrent()[1]
+        if sel and sel == config.plugins.AglareNss.png:
+            self.removPng()
+            config.zStyles.png.setValue(0)
+            config.zStyles.png.save()
         if sel and sel == config.zStyles.api:
             self.keyApi()
         if sel and sel == config.zStyles.txtapi:
@@ -243,7 +314,6 @@ class StylesSetup(Screen, ConfigListScreen):
             return
         print('update tarfile')
 
-
     def dowfil(self):
         tmpdirfile = '/tmp/%s' % tarfile
         if fileExists(tmpdirfile):
@@ -271,10 +341,20 @@ class StylesSetup(Screen, ConfigListScreen):
 
     def keyLeft(self):
         ConfigListScreen.keyLeft(self)
+        sel = self["config"].getCurrent()[1]
+        if sel and sel == config.zStyles.png:
+            config.zStyles.png.setValue(0)
+            config.zStyles.png.save()
+            self.removPng()
         self.createSetup()
 
     def keyRight(self):
         ConfigListScreen.keyRight(self)
+        sel = self["config"].getCurrent()[1]
+        if sel and sel == config.zStyles.png:
+            config.zStyles.png.setValue(0)
+            config.zStyles.png.save()
+            self.removPng()
         self.createSetup()
 
     def getCurrentEntry(self):

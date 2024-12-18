@@ -6217,13 +6217,14 @@
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="67" name="list" position="294,207" scrollbarMode="showOnDemand" size="1374,1000" transparent="1" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportConfig" position="0,0" size="2560,1440" title="EPG Import Configuration">
-        <layout name="menu_1030"/>
-        <layout name="rgyb-2c-n-1030"/>
-        <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
-        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="67" name="config" position="294,207" scrollbarMode="showOnDemand" size="1374,934" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="ltbluette" name="status" position="294,1067" size="934,94" transparent="1" zPosition="5"/>
-        <ePixmap pixmap="Default-FHD/skin_default/icons/info.svg" position="1567,60" size="94,40"/>
-        <ePixmap pixmap="Default-FHD/skin_default/icons/menu.svg" position="1567,107" size="94,40"/>
+        <layout name="menu_1030" />
+        <layout name="rgyb-2c-n-1030" />
+        <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2" />
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="67" name="config" position="294,207" scrollbarMode="showOnDemand" size="1374,934" transparent="1" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="ltbluette" name="status" position="294,1067" size="934,94" transparent="1" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;40" foregroundColor="ltbluette" name="statusbar" position="294,1117" size="934,94" transparent="1" zPosition="5" />
+        <ePixmap pixmap="Default-FHD/skin_default/icons/info.svg" position="1567,60" size="94,40" />
+        <ePixmap pixmap="Default-FHD/skin_default/icons/menu.svg" position="1567,107" size="94,40" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportLog" position="0,0" size="2560,1440" title="EPG Import Log">
         <layout name="menu_1030"/>

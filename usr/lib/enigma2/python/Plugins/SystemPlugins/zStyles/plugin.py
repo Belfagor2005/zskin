@@ -79,7 +79,7 @@ config.zStyles.txtapi3 = ConfigText(default=visual_api, visible_width=50, fixed_
 config.zStyles.data4 = NoSave(ConfigYesNo(default=False))
 config.zStyles.api4 = NoSave(ConfigSelection(["PRESS OK"]))
 config.zStyles.txtapi4 = ConfigText(default=thetvdbkey, visible_width=50, fixed_size=False)
-
+config.zStyles.png = NoSave(ConfigYesNo(default=False))  # NoSave(ConfigSelection(['-> Ok']))
 config.zStyles.load_style_from_skin = ConfigYesNo(True)
 config.zStyles.style = ConfigSubDict()
 config.zStyles.preset = ConfigSubDict()
