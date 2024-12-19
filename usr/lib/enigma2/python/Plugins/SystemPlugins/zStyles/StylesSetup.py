@@ -136,18 +136,16 @@ class StylesSetup(Screen, ConfigListScreen):
         self.skin = StylesSetup.skin
         self.onChangedEntry = []
         self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions", "NumberActions", "VirtualKeyboardActions", "DirectionActions"],
-                {
-                "ok": self.keyOk,
-                "cancel": self.keyCancel,
-                "left": self.keyLeft,
-                "right": self.keyRight,
-                "red": self.keyCancel,
-                "green": self.keySave,
-                "yellow": self.keyOpenSkinselector,
-                "showVirtualKeyboard": self.KeyText,
-                "blue": self.checkSkin,
-                '5': self.answercheck,
-                }, -2)
+                                         {"ok": self.keyOk,
+                                          "cancel": self.keyCancel,
+                                          "left": self.keyLeft,
+                                          "right": self.keyRight,
+                                          "red": self.keyCancel,
+                                          "green": self.keySave,
+                                          "yellow": self.keyOpenSkinselector,
+                                          "showVirtualKeyboard": self.KeyText,
+                                          "blue": self.checkSkin,
+                                          '5': self.answercheck}, -2)
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
         self["key_yellow"] = StaticText(self.getSkinSelector() is not None and "Skin" or "")
@@ -228,7 +226,7 @@ class StylesSetup(Screen, ConfigListScreen):
         global tarfile
         ConfigListScreen.keyOK(self)
         sel = self["config"].getCurrent()[1]
-        if sel and sel == config.plugins.AglareNss.png:
+        if sel and sel == config.zStyles.png:
             self.removPng()
             config.zStyles.png.setValue(0)
             config.zStyles.png.save()

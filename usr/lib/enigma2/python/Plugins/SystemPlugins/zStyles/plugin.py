@@ -118,11 +118,10 @@ def startMenu(menuid):
 def Plugins(**kwargs):
     print("[zStyles] creation...")
     loadPluginSkin()
-    plugin_icon = "zstyles.png"
     description = _("Style your zSkin")
     descriptors = []
     descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=PluginDescriptor.WHERE_AUTOSTART, fnc=autostart))
     descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=PluginDescriptor.WHERE_MENU, fnc=startMenu))
     # descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], icon=plugin_icon, fnc=pluginOpen))
-    descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], icon=getPluginIcon(), fnc=pluginOpen))    
+    descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], icon=getPluginIcon(), fnc=pluginOpen))
     return descriptors
