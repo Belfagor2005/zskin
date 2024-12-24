@@ -23,8 +23,7 @@ from Components.config import config, ConfigSubsection, ConfigSelection
 from Components.config import NoSave, ConfigText, ConfigSubDict, ConfigYesNo, ConfigOnOff
 from Plugins.Plugin import PluginDescriptor
 from Tools.Directories import fileExists
-from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon
-from .PicLoader import isDreamOS
+from . import _, loadPluginSkin, PLUGIN_NAME, getPluginIcon, isDreambox
 from .ConfigHelper import loadConfig
 global my_cur_skin
 my_cur_skin = False
@@ -108,9 +107,9 @@ def pluginOpen(session, **kwargs):
 
 def startMenu(menuid):
     ret = [(PLUGIN_NAME, pluginOpen, "zStyles", 15)]
-    if isDreamOS and menuid == "osd_video_audio":
+    if isDreambox and menuid == "osd_video_audio":
         return ret
-    if not isDreamOS and menuid == "system":
+    if not isDreambox and menuid == "system":
         return ret
     return []
 

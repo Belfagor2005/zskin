@@ -24,6 +24,7 @@
 # must pass on to the recipients the same freedoms that you received. You must make sure
 # that they, too, receive or can get the source code. And you must show them these terms so they know their rights.
 #
+from . import _, PLUGIN_NAME, isDreambox
 from Screens.Screen import Screen
 from Components.Sources.StaticText import StaticText
 from Components.ActionMap import ActionMap
@@ -32,24 +33,19 @@ from Components.ConfigList import ConfigListScreen
 from Tools.Directories import fileExists
 from Screens.MessageBox import MessageBox
 from Screens.Standby import TryQuitMainloop
-from Tools.Directories import resolveFilename, SCOPE_PLUGINS
-from Components.AVSwitch import AVSwitch
-from Components.Pixmap import Pixmap
-from enigma import gPixmapPtr
-import os
-from . import _, PLUGIN_NAME
 from .StylesSetup import StylesSetup
 from .ConfigHelper import storeConfig
 from .style_ops import writeStyle, loadStyle, getStyleFile, getSkinFile, isPrimarySkin
+from Tools.Directories import resolveFilename, SCOPE_PLUGINS
+from Components.AVSwitch import AVSwitch
+from Components.Pixmap import Pixmap
 from .PicLoader import PicLoader
+from enigma import gPixmapPtr
+import os
 
-try:
-    from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
-    isDreamOS = True
-except:
-    isDreamOS = False
-if isDreamOS:
-    from Components.config import getConfigListEntry  # @UnusedImport
+
+if isDreambox:
+    from Components.config import getConfigListEntry
 else:
     def getConfigListEntry(*args):
         if len(args) == 1:
@@ -66,7 +62,8 @@ class Styles(Screen, ConfigListScreen):
     def __init__(self, session, style_file=None):
         Screen.__init__(self, session)
         self.preview = Preview(self, "preview")
-        self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions"],
+        self["setupActions"] = ActionMap(
+            ["ColorActions", "OkCancelActions", "MenuActions"],
             {
                 "ok": self.keySave,
                 "cancel": self.close,
@@ -75,7 +72,9 @@ class Styles(Screen, ConfigListScreen):
                 "yellow": self.keyDefault,
                 "blue": self.keyDummy,
                 "menu": self.openMenu,
-            }, -2)
+            },
+            -2
+        )
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
         self["key_yellow"] = StaticText(_("Default"))
@@ -99,12 +98,6 @@ class Styles(Screen, ConfigListScreen):
         self.style = loadStyle(self.style_file)
         self.style.checkDependency = self.checkDependency
         self.preset = self.style.getPreset()
-
-        # # add lululla 
-        # from .StylesSetup import StylesSetup
-        # self.session.open(StylesSetup)
-        # # end
-
         self.createConfigListEntries()
         if not self.style.hasStyle():
             return
@@ -167,7 +160,6 @@ class Styles(Screen, ConfigListScreen):
             key = item[0]
             val = item[1].getValue()
             if key and val and key in default:  # .has_key(key):
-            # ~ if key and val and default.has_key(key):
                 item[1].setValue(default[key])
                 self["config"].invalidate(item)
         self.onSelectionChanged()
@@ -235,14 +227,7 @@ class Styles(Screen, ConfigListScreen):
         if isPrimarySkin() or not self.style.hasStyle():
             self.list.append(getConfigListEntry(_("Current skin can not styled!"), ConfigNothing()))
             self["config"].setList(self.list)
-            
-            # add lululla 
-            from .StylesSetup import StylesSetup
-            self.session.open(StylesSetup)
-            # end
-
             return
-            
         depends = self.style.getDepends()
         default = self.style.getDefault()
         if len(self.preset) > 0:

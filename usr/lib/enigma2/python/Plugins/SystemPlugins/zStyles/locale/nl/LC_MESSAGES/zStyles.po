@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zStyles\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 21:32+0100\n"
-"PO-Revision-Date: 2023-11-15 21:32+0100\n"
+"POT-Creation-Date: 2024-12-24 17:08+0100\n"
+"PO-Revision-Date: 2024-12-24 17:08+0100\n"
 "Last-Translator: cmikula\n"
 "Language-Team: cmikula\n"
 "Language: de_AT\n"
@@ -13,26 +13,27 @@ msgstr ""
 "X-Poedit-KeywordsList: _(;gettext\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../Styles.py:79 ../../../StylesSetup.py:76
+#: ../../../Styles.py:78 ../../../StylesSetup.py:145
 msgid "Close"
 msgstr "Sluiten"
 
-#: ../../../Styles.py:80 ../../../StylesSetup.py:77
+#: ../../../Styles.py:79 ../../../StylesSetup.py:146
+#: ../../../addons/File_Commander.py:75
 msgid "Save"
 msgstr "Bewaren"
 
-#: ../../../Styles.py:81
+#: ../../../Styles.py:80
 msgid "Default"
 msgstr "Standaard"
 
-#: ../../../Styles.py:111
+#: ../../../Styles.py:110
 msgid "Style presets contains errors!"
 msgstr "Stijlvoorinstellingen bevatten fouten!"
 
-#: ../../../Styles.py:143 ../../../StylesSetup.py:283
+#: ../../../Styles.py:142 ../../../StylesSetup.py:400
 msgid ""
 "GUI needs a restart to apply a new skin\n"
 "Do you want to Restart the GUI now?"
@@ -40,143 +41,157 @@ msgstr ""
 "GUI moet herstart worden om de instellingen toe te passen\n"
 "De GUI herstarten?"
 
-#: ../../../Styles.py:144 ../../../StylesSetup.py:284
+#: ../../../Styles.py:143 ../../../StylesSetup.py:401
 msgid "Restart GUI now?"
 msgstr "GUI nu herstarten?"
 
-#: ../../../Styles.py:230
+#: ../../../Styles.py:228
 msgid "Current skin can not styled!"
 msgstr "De huidige huid kan niet worden gestileerd!"
 
-#: ../../../Styles.py:236
+#: ../../../Styles.py:234
 msgid "PRESET"
 msgstr "VERZIUM"
 
-#: ../../../StylesSetup.py:79
+#: ../../../StylesSetup.py:148
 msgid "Reset skin"
 msgstr "Reset skin"
 
-#: ../../../StylesSetup.py:89
+#: ../../../StylesSetup.py:158
 msgid ""
 "This operation checks if the skin has its components (is not sure)..\n"
 "Do you really want to continue?"
 msgstr ""
 
-#: ../../../StylesSetup.py:114
+#: ../../../StylesSetup.py:183
 msgid "Skin update:"
 msgstr ""
 
-#: ../../../StylesSetup.py:118
+#: ../../../StylesSetup.py:188
 msgid "Read style configuration from skin:"
 msgstr "Stijlconfiguratie van skin lezen:"
 
-#: ../../../StylesSetup.py:119
+#: ../../../StylesSetup.py:189
 msgid "TMDB API:"
 msgstr ""
 
-#: ../../../StylesSetup.py:121
+#: ../../../StylesSetup.py:191
 msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
 msgstr ""
 
-#: ../../../StylesSetup.py:122
+#: ../../../StylesSetup.py:192
 msgid "Set Your Apikey TMDB"
 msgstr ""
 
-#: ../../../StylesSetup.py:123
+#: ../../../StylesSetup.py:193
 msgid "OMDB API:"
 msgstr ""
 
-#: ../../../StylesSetup.py:125
+#: ../../../StylesSetup.py:195
 msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
 msgstr ""
 
-#: ../../../StylesSetup.py:126
+#: ../../../StylesSetup.py:196
 msgid "Set Your Apikey OMDB"
 msgstr ""
 
-#: ../../../StylesSetup.py:135
+#: ../../../StylesSetup.py:205
+msgid "Remove all png Poster:"
+msgstr ""
+
+#: ../../../StylesSetup.py:206
 msgid "Preserve preview if not defined:"
 msgstr "Voorbeeld behouden als deze niet is gedefinieerd:"
 
-#: ../../../StylesSetup.py:141
+#: ../../../StylesSetup.py:212
 msgid "Setup"
 msgstr "Instellingen"
 
-#: ../../../StylesSetup.py:174
+#: ../../../StylesSetup.py:218
+msgid "All png are removed from folder!"
+msgstr ""
+
+#: ../../../StylesSetup.py:219
+msgid "Info..."
+msgstr ""
+
+#: ../../../StylesSetup.py:259
 msgid "Skin exist!! Do you really want to Upgrade?"
 msgstr ""
 
-#: ../../../StylesSetup.py:176
+#: ../../../StylesSetup.py:261
 msgid ""
 "Do you really want to install the Skin??\n"
 "Do it at your own risk.\n"
 "Do you want to continue?"
 msgstr ""
 
-#: ../../../StylesSetup.py:199
-msgid "Installation zSkin"
-msgstr ""
-
-#: ../../../StylesSetup.py:253
+#: ../../../StylesSetup.py:370
 msgid "No previous styled skin - restore canceled!"
 msgstr "Geen vorige gestileerde skin - herstel geannuleerd!"
 
-#: ../../../StylesSetup.py:258
+#: ../../../StylesSetup.py:375
 msgid "Would you really reset this skin?"
 msgstr "Zou je deze skin echt resetten?"
 
-#: ../../../StylesSetup.py:260
+#: ../../../StylesSetup.py:377
 msgid "Reset skin?"
 msgstr "Reset skin?"
 
-#: ../../../StylesSetup.py:268
+#: ../../../StylesSetup.py:385
 msgid "The skin not exists - restore canceled!"
 msgstr "De skin bestaat niet - herstellen geannuleerd!"
 
-#: ../../../StylesSetup.py:271
+#: ../../../StylesSetup.py:388
 msgid "The skin is not styled - restore canceled!"
 msgstr "De skin is niet gestileerd - herstellen geannuleerd!"
 
-#: ../../../StylesSetup.py:330
+#: ../../../StylesSetup.py:447
 msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
 msgstr ""
 
-#: ../../../StylesSetup.py:332 ../../../StylesSetup.py:345
-#: ../../../StylesSetup.py:354 ../../../StylesSetup.py:367
+#: ../../../StylesSetup.py:449 ../../../StylesSetup.py:462
+#: ../../../StylesSetup.py:471 ../../../StylesSetup.py:484
 #, python-format
 msgid "Missing %s !"
 msgstr ""
 
-#: ../../../StylesSetup.py:343
+#: ../../../StylesSetup.py:460
 msgid "TMDB ApiKey Imported & Stored!"
 msgstr ""
 
-#: ../../../StylesSetup.py:352
+#: ../../../StylesSetup.py:469
 msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
 msgstr ""
 
-#: ../../../StylesSetup.py:365
+#: ../../../StylesSetup.py:482
 msgid "OMDB ApiKey Imported & Stored!"
+msgstr ""
+
+#: ../../../addons/File_Commander.py:17
+msgid "File Commander - Addon"
+msgstr ""
+
+#: ../../../addons/File_Commander.py:18 ../../../addons/type_utils.py:26
+msgid "play/show Files"
+msgstr ""
+
+#: ../../../addons/File_Commander.py:73 ../../../addons/File_Commander.py:74
+#: ../../../addons/File_Commander.py:76 ../../../addons/type_utils.py:88
+#: ../../../addons/type_utils.py:89 ../../../addons/type_utils.py:90
+#: ../../../addons/type_utils.py:91
+msgid "Exit"
 msgstr ""
 
 #: ../../../addons/type_utils.py:25
 msgid "File Commander - Addon Mediaplayer"
 msgstr ""
 
-#: ../../../addons/type_utils.py:26
-msgid "play/show Files"
-msgstr ""
-
-#: ../../../addons/type_utils.py:88 ../../../addons/type_utils.py:89
-#: ../../../addons/type_utils.py:90 ../../../addons/type_utils.py:91
-msgid "Exit"
-msgstr ""
-
 #: ../../../addons/type_utils.py:97
 msgid "Z File Commander - Addon File-Viewer"
 msgstr ""
 
-#: ../../../plugin.py:121
+#: ../../../plugin.py:120
 msgid "Style your zSkin"
 msgstr ""
 

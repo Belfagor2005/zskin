@@ -24,7 +24,7 @@
 
 from Components.config import config, ConfigSubDict, ConfigText
 
-KEYS = ((".", "\s01"), ("=", "\s02"))
+KEYS = ((".", r"\s01"), ("=", r"\s02"))
 
 
 def __encodeConfig(value):

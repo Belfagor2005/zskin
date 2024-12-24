@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from . import _, PLUGIN_PATH, PLUGIN_NAME
+from . import _, PLUGIN_PATH, PLUGIN_NAME, RequestAgent, isDreambox
 from Components.ActionMap import ActionMap
 from Components.ConfigList import ConfigListScreen
 from Components.Sources.StaticText import StaticText
@@ -19,20 +19,16 @@ import os
 import sys
 from .style_ops import getSkinName, isSkinChanged
 from .style import Skin
-from .addons.Utils import RequestAgent
+
+
 AgentRequest = RequestAgent()
+
 PY3 = False
 if sys.version_info[0] >= 3:
     PY3 = True
     unicode = str
     unichr = chr
     long = int
-
-try:
-    from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
-    isDreamOS = True
-except:
-    isDreamOS = False
 
 
 global apis, apis2, zaddon
@@ -162,7 +158,7 @@ class StylesSetup(Screen, ConfigListScreen):
             self.session.openWithCallback(self.answercheck, MessageBox, _("This operation checks if the skin has its components (is not sure)..\nDo you really want to continue?"), MessageBox.TYPE_YESNO)
         else:
             self.check_module = eTimer()
-            if isDreamOS:
+            if isDreambox:
                 self.check_module_conn = self.check_module.timeout.connect(self.checki)
             else:
                 self.check_module.callback.append(self.checki)

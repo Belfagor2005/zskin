@@ -24,12 +24,7 @@
 
 from Components.AVSwitch import AVSwitch
 from enigma import ePicLoad
-
-try:
-    from enigma import eMediaDatabase  # @UnresolvedImport @UnusedImport
-    isDreamOS = True
-except:
-    isDreamOS = False
+from . import isDreambox
 
 
 class PicLoader:
@@ -43,7 +38,7 @@ class PicLoader:
         self.picload.setPara((width, height, sc[0], sc[1], False, 1, "#ff000000"))
 
     def load(self, filename):
-        if isDreamOS:
+        if isDreambox:
             self.picload.startDecode(filename, False)
         else:
             self.picload.startDecode(filename, 0, 0, False)
@@ -55,7 +50,7 @@ class PicLoader:
         self.picload_conn = None
 
     def addCallback(self, callback):
-        if isDreamOS:
+        if isDreambox:
             self.picload_conn = self.picload.PictureData.connect(callback)
         else:
             self.picload.PictureData.get().append(callback)

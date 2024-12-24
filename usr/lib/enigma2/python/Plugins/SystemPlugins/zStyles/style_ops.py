@@ -1,12 +1,11 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from Components.config import config, ConfigText, ConfigSubDict
-from Tools.Directories import fileExists, resolveFilename, SCOPE_SKIN, SCOPE_CONFIG
-from shutil import copy2
-import os
-from . import _, PLUGIN_PATH
+
+from . import PLUGIN_PATH
 from .style import Skin, Style, StyleUser
+from shutil import copy2
+from Tools.Directories import fileExists, resolveFilename, SCOPE_SKIN, SCOPE_CONFIG
+import os
+
 STYLES_FILENAME = "styles.xml"
 STYLES_USER_FILENAME = "styles_user.xml"
 
@@ -25,8 +24,6 @@ def loadStyleConfigFromSkin():
         print("[Styles] skin changed, load zstyle configuration...")
         config.zStyles.skin.value = config.skin.primary_skin.value
         conf = getSkinConfig(getSkinFile())
-        # for key1 in sorted(conf):
-            # for key2 in sorted(conf[key1]):
         for key1 in conf:
             for key2 in conf[key1]:
                 print((key1, key2, conf[key1][key2]))
@@ -93,14 +90,10 @@ def backupSkin(force=False):
     skin_name = getSkinName()
     src = resolveFilename(SCOPE_SKIN, skin_name)
     dst = os.path.join(PLUGIN_PATH, skin_name)
-    # print "[Styles] backup skin"
-    # print src
-    # print dst
     dst_path = os.path.dirname(dst)
     if not os.path.exists(dst_path):
         os.makedirs(dst_path)
 
-    # force skin backup if it is not styled - new skin file
     if not force:
         force = not Skin.checkStyled(src)
         if force:
@@ -119,8 +112,6 @@ def loadStyle(file_name=None):
     user = StyleUser()
     if user.read(getStyleUserFile()) and user.isUsable4Skin(getSkinName()):
         user.loadToStyle(style, getSkinName())
-    # if zstyle.hasStyle():
-    #    zstyle.printInfo()
     return style
 
 

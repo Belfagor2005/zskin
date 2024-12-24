@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import os
 from xml.etree import ElementTree
 from datetime import datetime
@@ -230,7 +227,7 @@ class Style(TreeBase):
     def getStyleNodes(self):
         if not self.hasStyle():
             return []
-        l = []
+        lc = []
         for node in self.root:
             if node.tag in ("presets", "sorted", "depends"):
                 continue
@@ -239,8 +236,8 @@ class Style(TreeBase):
                 # print item.getParentName()
                 # print item.getName()
                 # print item.getValue()
-                l.append(item)
-        return l
+                lc.append(item)
+        return lc
 
     def getStyleNode(self, key, value):
         styles = self.getStyleNodes()
@@ -367,17 +364,12 @@ class Style(TreeBase):
         preset = self.getPreset()
         node = ElementTree.Element("presets")
         for key1 in preset:
-        # for key1 in sorted(preset):
-            # print key1
-            # for key2 in sorted(preset[key1]):
             for key2 in preset[key1]:
                 root = ElementTree.Element("style")
                 root.attrib["name"] = key1
                 root.attrib["value"] = key2
                 element = None
                 for key3 in preset[key1][key2]:
-                # for key3 in sorted(preset[key1][key2]):
-                    # print "  " + str(key2) + " = " + preset[key1][key2][key3]
                     test = self.getSkinNode(key3, preset[key1][key2][key3])
                     if test is None:
                         count += 1
@@ -409,11 +401,9 @@ class Style(TreeBase):
         style_info = []
         nodes = []
         for key in config_Styles.preset:
-        # for key in sorted(config_Styles.preset):
             value = config_Styles.preset[key].getValue()
             style_info.append(("preset", key, value))
         for key in config_Styles.style:
-        # for key in sorted(config_Styles.style):
             value = config_Styles.style[key].getValue()
             node = self.getSkinNode(key, value)
             if node is None and key in defaults:  # .has_key(key):
