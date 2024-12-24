@@ -6210,7 +6210,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,1274" size="1374,11" zPosition="5"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/nameteam.png" position="294,1294" size="1000,94" zPosition="5"/>
     </screen>
-    <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportSources" position="0,0" size="2560,1440" title="EPG Import Sources">
+     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportSources" position="0,0" size="2560,1440" title="EPG Import Sources">
         <layout name="menu_1030"/>
         <layout name="rgyb-2c-n-1030"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/setmain.png" position="0,0" size="1774,1440" zPosition="-2"/>
