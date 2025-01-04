@@ -306,45 +306,69 @@ class ZChannel(Renderer):
             width = size.width()
             height = size.height()
         sc = getScale()
-        self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
-        try:
-            # Verifica se il percorso dell'immagine è valido
-            if not self.pstrNm or not os.path.exists(self.pstrNm):
-                print("Errore: file immagine non trovato:", self.pstrNm)
-                return
-            # Aggiungi un controllo per il tipo di self.pstrNm
-            print("Tipo di self.pstrNm:", type(self.pstrNm))
-            '''
-            if isinstance(self.pstrNm, bytes):
-                self.pstrNm = self.pstrNm.decode('utf-8')  # Converte bytes in stringa
-            elif isinstance(self.pstrNm, list):
-                self.pstrNm = self.pstrNm[0]  # Usa il primo elemento della lista se è una lista
-            elif not isinstance(self.pstrNm, str):
-                print("Errore: self.pstrNm non è un tipo gestibile.")
-                return
-            '''
-            # Verifica che self.pstrNm ora sia una stringa
-            if isinstance(self.pstrNm, unicode):  # Se è una stringa Unicode in Python 2
-                self.pstrNm = str(self.pstrNm)  # Converti in una stringa di byte (str in Python 2)
-            elif isinstance(self.pstrNm, str):
-                print("Percorso dell'immagine:", self.pstrNm)
-            else:
-                print("Errore: self.pstrNm non è ancora una stringa, ma è :", type(self.pstrNm))
-                return
-            # Decodifica l'immagine
-            if self.picload.startDecode(self.pstrNm):
-                # if not self.picload:
-                    # self.picload = ePicLoad()
-                try:
-                    self.picload.PictureData.get().append(self.DecodePicture)
-                except:
-                    self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
-                self.picload.startDecode(self.pstrNm)
-            else:
-                print("Errore: non è stato possibile decodificare l'immagine.")
-        except Exception as e:
-            print("Errore in showPoster:", str(e))
+        self.picload = ePicLoad()
+        if self.picload:
+            try:
+                if self.picload.startDecode(self.pstrNm):
+                    try:
+                        self.picload.PictureData.get().append(self.DecodePicture)
+                    except:
+                        self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                    self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                    self.picload.startDecode(self.pstrNm)
+            except Exception as e:
+                print(e)
+
+    # def showPoster(self):
+        # width = 213
+        # height = 310
+        # if screenwidth.width() > 1280:
+            # width = 360
+            # height = 520
+        # if self.instance:
+            # size = self.instance.size()
+            # width = size.width()
+            # height = size.height()
+        # sc = getScale()
+        # self.picload.setPara([width, height, sc[0], sc[1], 0, 1, 'FF000000'])
+        # try:
+            # # Verifica se il percorso dell'immagine è valido
+            # if not self.pstrNm or not os.path.exists(self.pstrNm):
+                # print("Errore: file immagine non trovato:", self.pstrNm)
+                # return
+            # # Aggiungi un controllo per il tipo di self.pstrNm
+            # print("Tipo di self.pstrNm:", type(self.pstrNm))
+            # '''
+            # if isinstance(self.pstrNm, bytes):
+                # self.pstrNm = self.pstrNm.decode('utf-8')  # Converte bytes in stringa
+            # elif isinstance(self.pstrNm, list):
+                # self.pstrNm = self.pstrNm[0]  # Usa il primo elemento della lista se è una lista
+            # elif not isinstance(self.pstrNm, str):
+                # print("Errore: self.pstrNm non è un tipo gestibile.")
+                # return
+            # '''
+            # # Verifica che self.pstrNm ora sia una stringa
+            # if isinstance(self.pstrNm, unicode):  # Se è una stringa Unicode in Python 2
+                # self.pstrNm = str(self.pstrNm)  # Converti in una stringa di byte (str in Python 2)
+            # elif isinstance(self.pstrNm, str):
+                # print("Percorso dell'immagine:", self.pstrNm)
+            # else:
+                # print("Errore: self.pstrNm non è ancora una stringa, ma è :", type(self.pstrNm))
+                # return
+            # # Decodifica l'immagine
+            # if self.picload.startDecode(self.pstrNm):
+                # # if not self.picload:
+                    # # self.picload = ePicLoad()
+                # try:
+                    # self.picload.PictureData.get().append(self.DecodePicture)
+                # except:
+                    # self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                # self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                # self.picload.startDecode(self.pstrNm)
+            # else:
+                # print("Errore: non è stato possibile decodificare l'immagine.")
+        # except Exception as e:
+            # print("Errore in showPoster:", str(e))
 
     def DecodePicture(self, PicInfo=None):
         ptr = self.picload.getData()
