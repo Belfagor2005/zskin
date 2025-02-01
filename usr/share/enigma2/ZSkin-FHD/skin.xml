@@ -7391,7 +7391,7 @@
         <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,250" size="150,40" text="Info" transparent="1" valign="center" zPosition="5" />
         <ePixmap pixmap="skin_default/icons/menu.png" position="220,310" size="80,40" />
         <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,310" size="150,40" text="Mappe" transparent="1" valign="center" zPosition="5" />
-        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="220,370" size="80,40" />
+        <ePixmap pixmap="ZSkin-FHD/buttons/80/key_ok.png" position="220,370" size="80,40" />
         <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,370" size="150,40" text="Config" transparent="1" valign="center" zPosition="5" />
         <ePixmap pixmap="skin_default/icons/help.png" position="220,440" size="80,40" />
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_info" position="320,240" size="150,40" transparent="1" />
@@ -7425,7 +7425,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/weather.png" position="330,100" size="800,800" zPosition="-1"/>
         <widget backgroundColor="#000000" enableWrapAround="1" itemHeight="144" name="Mlist" position="220,160" scrollbarMode="showOnDemand" size="1230,720" transparent="1"/>
         <ePixmap blend="blend" pixmap="ZSkin-FHD/menu/panels/sep.png" position="220,970" size="1230,8" zPosition="5"/>
-        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="240,1000" size="60,30"/>
+        <ePixmap pixmap="ZSkin-FHD/buttons/80/key_ok.png" position="240,1000" size="60,30"/>
         <ePixmap pixmap="skin_default/icons/help.png" position="320,1000" size="60,30"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="DreamExplorerII" position="0,0" size="1920,1080" title="Dream Explorer">

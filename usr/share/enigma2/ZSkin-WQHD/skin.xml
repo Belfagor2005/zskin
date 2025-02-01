@@ -7406,7 +7406,7 @@
         <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" halign="left" position="427,334" size="200,54" text="Info" transparent="1" valign="center" zPosition="5"/>
         <ePixmap pixmap="skin_default/icons/menu.png" position="294,414" size="107,54"/>
         <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" halign="left" position="427,414" size="200,54" text="Mappe" transparent="1" valign="center" zPosition="5"/>
-        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="294,494" size="107,54"/>
+        <ePixmap pixmap="ZSkin-FHD/buttons/80/key_ok.png" position="294,494" size="107,54"/>
         <eLabel backgroundColor="#000000" font="Regular;40" foregroundColor="yellow" halign="left" position="427,494" size="200,54" text="Config" transparent="1" valign="center" zPosition="5"/>
         <ePixmap pixmap="skin_default/icons/help.png" position="294,587" size="107,54"/>
         <widget backgroundColor="#000000" font="Regular;40" foregroundColor="#ffffff" name="key_info" position="427,320" size="200,54" transparent="1"/>
@@ -7440,7 +7440,7 @@
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/bigbak/weather.png" position="440,134" size="1067,1067" zPosition="-1"/>
         <widget backgroundColor="#000000" enableWrapAround="1" itemHeight="192" name="Mlist" position="294,214" scrollbarMode="showOnDemand" size="1640,960" transparent="1"/>
         <ePixmap blend="blend" pixmap="ZSkin-WQHD/menu/panels/sep.png" position="294,1294" size="1640,11" zPosition="5"/>
-        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="320,1334" size="80,40"/>
+        <ePixmap pixmap="ZSkin-FHD/buttons/80/key_ok.png" position="320,1334" size="107,54"/>
         <ePixmap pixmap="skin_default/icons/help.png" position="427,1334" size="80,40"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="DreamExplorerII" position="0,0" size="2560,1440" title="Dream Explorer">
