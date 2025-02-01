@@ -6209,15 +6209,15 @@
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="50" name="list" position="220,155" scrollbarMode="showOnDemand" size="1030,750" transparent="1" zPosition="5"/>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportConfig" position="0,0" size="1920,1080" title="EPG Import Configuration">
-        <layout name="menu_1030"/>
-        <layout name="rgyb-2c-n-1030"/>
-        <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/setmain.png" position="0,0" size="1330,1080" zPosition="-2"/>
-        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="50" name="config" position="220,154" scrollbarMode="showOnDemand" size="1030,600" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="status" position="220,820" size="1030,70" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="statusbar" position="220,885" size="1030,70" transparent="1" zPosition="5"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="description" position="220,755" size="1030,70" transparent="1" zPosition="5"/>
-        <ePixmap pixmap="Default-FHD/skin_default/icons/info.svg" position="1175,45" size="70,30"/>
-        <ePixmap pixmap="Default-FHD/skin_default/icons/menu.svg" position="1175,80" size="70,30"/>
+        <layout name="menu_1030" />
+        <layout name="rgyb-2c-n-1030" />
+        <ePixmap blend="blend" pixmap="ZSkin-FHD/bigbak/setmain.png" position="0,0" size="1330,1080" zPosition="-2" />
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" foregroundColor="#ffffff" foregroundColorSelected="#ffffff" itemHeight="50" name="config" position="220,154" scrollbarMode="showOnDemand" size="1030,600" transparent="1" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="status" position="220,820" size="1030,70" transparent="1" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="statusbar" position="220,885" size="1030,70" transparent="1" zPosition="5" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="ltbluette" name="description" position="220,755" size="1030,70" transparent="1" zPosition="5" />
+        <ePixmap pixmap="Default-FHD/skin_default/icons/info.svg" position="1175,45" size="70,30" />
+        <ePixmap pixmap="Default-FHD/skin_default/icons/menu.svg" position="1175,80" size="70,30" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="EPGImportLog" position="0,0" size="1920,1080" title="EPG Import Log">
         <layout name="menu_1030"/>
@@ -7380,23 +7380,23 @@
         </widget>
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="ForecaPreview" position="0,0" size="1920,1080" title="Foreca Weather Forecast">
-        <layout name="menu_1530"/>
-        <layout name="rgyb-2c-s-1530"/>
-        <widget backgroundColor="#202020" font="Regular;32" foregroundColor="yellow" halign="center" position="220,120" render="Label" size="1530,50" source="Titel" transparent="0" valign="center" zPosition="1"/>
-        <widget backgroundColor="#202020" font="Regular;32" foregroundColor="yellow" halign="center" position="220,170" render="Label" size="1530,50" source="Titel2" transparent="0" valign="center" zPosition="2"/>
-        <eLabel backgroundColor="#202020" position="220,220" size="1530,5" zPosition="5"/>
-        <eLabel backgroundColor="#202020" position="480,250" size="5,600" zPosition="5"/>
-        <widget backgroundColor="#000000" backgroundColorSelected="barColor" enableWrapAround="1" foregroundColor="#ffff00" itemHeight="100" name="MainList" position="500,250" scrollbarMode="showOnDemand" size="1250,600" transparent="1"/>
-        <ePixmap pixmap="skin_default/icons/info.png" position="220,250" size="80,40"/>
-        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,250" size="150,40" text="Info" transparent="1" valign="center" zPosition="5"/>
-        <ePixmap pixmap="skin_default/icons/menu.png" position="220,310" size="80,40"/>
-        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,310" size="150,40" text="Mappe" transparent="1" valign="center" zPosition="5"/>
-        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="220,370" size="80,40"/>
-        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,370" size="150,40" text="Citta" transparent="1" valign="center" zPosition="5"/>
-        <ePixmap pixmap="skin_default/icons/help.png" position="220,440" size="80,40"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_info" position="320,240" size="150,40" transparent="1"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_menu" position="320,300" size="150,40" transparent="1"/>
-        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_ok" position="320,360" size="150,40" transparent="1"/>
+        <layout name="menu_1530" />
+        <layout name="rgyb-2c-s-1530" />
+        <widget backgroundColor="#202020" font="Regular;32" foregroundColor="yellow" halign="center" position="220,120" render="Label" size="1530,50" source="Titel" transparent="0" valign="center" zPosition="1" />
+        <widget backgroundColor="#202020" font="Regular;32" foregroundColor="yellow" halign="center" position="220,170" render="Label" size="1530,50" source="Titel2" transparent="0" valign="center" zPosition="2" />
+        <eLabel backgroundColor="#202020" position="220,220" size="1530,5" zPosition="5" />
+        <eLabel backgroundColor="#202020" position="480,250" size="5,600" zPosition="5" />
+        <widget backgroundColor="#000000" backgroundColorSelected="barColor" enableWrapAround="1" foregroundColor="#ffff00" itemHeight="100" name="MainList" position="500,250" scrollbarMode="showOnDemand" size="1250,600" transparent="1" />
+        <ePixmap pixmap="skin_default/icons/info.png" position="220,250" size="80,40" />
+        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,250" size="150,40" text="Info" transparent="1" valign="center" zPosition="5" />
+        <ePixmap pixmap="skin_default/icons/menu.png" position="220,310" size="80,40" />
+        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,310" size="150,40" text="Mappe" transparent="1" valign="center" zPosition="5" />
+        <ePixmap pixmap="/usr/lib/enigma2/python/Plugins/Extensions/Foreca/buttons/key_ok.png" position="220,370" size="80,40" />
+        <eLabel backgroundColor="#000000" font="Regular;30" foregroundColor="yellow" halign="left" position="320,370" size="150,40" text="Config" transparent="1" valign="center" zPosition="5" />
+        <ePixmap pixmap="skin_default/icons/help.png" position="220,440" size="80,40" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_info" position="320,240" size="150,40" transparent="1" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_menu" position="320,300" size="150,40" transparent="1" />
+        <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" name="key_ok" position="320,360" size="150,40" transparent="1" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="PicSetup" position="0,0" size="1920,1080" title="Satellite Photos">
         <layout name="menu_1230"/>
@@ -7412,6 +7412,7 @@
         <widget backgroundColor="#000000" backgroundColorSelected="barColor" itemHeight="50" name="Mlist" position="220,170" scrollbarMode="showOnDemand" size="1230,700" transparent="1" zPosition="4"/>
         <widget backgroundColor="#000000" font="Regular;30" foregroundColor="#ffffff" position="1270,1005" render="Label" size="250,40" source="key_ok" transparent="1"/>
         <ePixmap pixmap="ZSkin-FHD/buttons/80/key_help.png" position="1370,1005" size="80,40" zPosition="4"/>
+        <ePixmap blend="blend" pixmap="ZSkin-FHD/buttons/80/key_text.png" position="1177,1006" size="80,40" zPosition="5" />
     </screen>
     <screen backgroundColor="#FF000000" flags="wfNoBorder" name="SatPanel" position="0,0" size="1920,1080" title="Satellite Photos">
         <layout name="menu_1230"/>
