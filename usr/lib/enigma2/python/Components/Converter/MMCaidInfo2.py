@@ -144,7 +144,7 @@ class MMCaidInfo2(Poll, Converter, object):
                 from Tools.GetEcmInfo import GetEcmInfo
                 self.ecmdata = GetEcmInfo()
                 data = self.ecmdata.getEcmData()[0]
-            except:
+            except BaseException:
                 from Tools.GetEcmInfo import GetEcmInfo
                 self.ecmdata = GetEcmInfo()
                 data = self.ecmdata.getInfo(self.type)
@@ -230,7 +230,9 @@ class MMCaidInfo2(Poll, Converter, object):
                     return False
                 if self.type == self.DRE:
                     for caid in caids:
-                        if ('%0.4X' % int(caid))[:2] == '7B' or ('%0.4X' % int(caid))[:2] == '4A':
+                        if ('%0.4X' %
+                            int(caid))[:2] == '7B' or ('%0.4X' %
+                                                       int(caid))[:2] == '4A':
                             return True
 
                     return False
@@ -324,17 +326,20 @@ class MMCaidInfo2(Poll, Converter, object):
                     if self.type == self.CRD:
                         if source == 'sci':
                             return True
-                        if source != 'cache' and source != 'net' and source.find('emu') == -1:
+                        if source != 'cache' and source != 'net' and source.find(
+                                'emu') == -1:
                             return True
                         return False
                     source = ecm_info.get('source', '')
                     if self.type == self.IS_EMU:
-                        return using == 'emu' or source == 'emu' or source == 'card' or reader == 'emu' or source.find('card') > -1 or source.find('emu') > -1 or source.find('biss') > -1 or source.find('cache') > -1
+                        return using == 'emu' or source == 'emu' or source == 'card' or reader == 'emu' or source.find(
+                            'card') > -1 or source.find('emu') > -1 or source.find('biss') > -1 or source.find('cache') > -1
                     source = ecm_info.get('source', '')
                     if self.type == self.IS_NET:
                         if using == 'CCcam-s2s':
                             return 1
-                        if source != 'cache' and source == 'net' and source.find('emu') == -1:
+                        if source != 'cache' and source == 'net' and source.find(
+                                'emu') == -1:
                             return True
                     else:
                         return False
@@ -356,7 +361,7 @@ class MMCaidInfo2(Poll, Converter, object):
                     try:
                         caid = '%0.4X' % int(ecm_info.get('caid', ''), 16)
                         return '%s' % self.systemTxtCaids.get(caid[:2])
-                    except:
+                    except BaseException:
                         return 'no decode'
 
                 else:
@@ -373,17 +378,18 @@ class MMCaidInfo2(Poll, Converter, object):
                         if self.type == self.CAID:
                             return caid
                         if self.type == self.CRYPT:
-                            return '%s' % self.systemTxtCaids.get(caid[:2].upper())
+                            return '%s' % self.systemTxtCaids.get(
+                                caid[:2].upper())
                         try:
                             pid = '%0.4X' % int(ecm_info.get('pid', ''), 16)
-                        except:
+                        except BaseException:
                             pid = ''
 
                         if self.type == self.PID:
                             return pid
                         try:
                             prov = '%0.6X' % int(ecm_info.get('prov', ''), 16)
-                        except:
+                        except BaseException:
                             prov = ecm_info.get('prov', '')
 
                         if self.type == self.PROV:
@@ -391,7 +397,9 @@ class MMCaidInfo2(Poll, Converter, object):
                         if ecm_info.get('ecm time', '').find('msec') > -1:
                             ecm_time = ecm_info.get('ecm time', '')
                         else:
-                            ecm_time = ecm_info.get('ecm time', '').replace('.', '').lstrip('0') + 'ms'
+                            ecm_time = ecm_info.get(
+                                'ecm time', '').replace(
+                                '.', '').lstrip('0') + 'ms'
                         if self.type == self.DELAY:
                             return ecm_time
                         protocol = ecm_info.get('protocol', '')
@@ -406,7 +414,8 @@ class MMCaidInfo2(Poll, Converter, object):
                             info_card = 'False'
                             if source == 'sci':
                                 info_card = 'True'
-                            if source != 'cache' and source != 'net' and source.find('emu') == -1:
+                            if source != 'cache' and source != 'net' and source.find(
+                                    'emu') == -1:
                                 info_card = 'True'
                             return info_card
                         if self.type == self.HOST:
@@ -447,7 +456,8 @@ class MMCaidInfo2(Poll, Converter, object):
                                     elif param == '%n':
                                         textvalue += '\n'
                                     elif param[1:].isdigit():
-                                        textvalue = textvalue.ljust(len(textvalue) + int(param[1:]))
+                                        textvalue = textvalue.ljust(
+                                            len(textvalue) + int(param[1:]))
                                     if len(textvalue) > 0:
                                         if textvalue[-1] != '\t' and textvalue[-1] != '\n':
                                             textvalue += ' '
@@ -455,77 +465,42 @@ class MMCaidInfo2(Poll, Converter, object):
                             return textvalue[:-1]
                         if self.type == self.ALL:
                             if source == 'emu':
-                                textvalue = '%s - %s (Prov: %s, Caid: %s)' % (source,
-                                                                              self.systemTxtCaids.get(caid[:2]),
-                                                                              prov,
-                                                                              caid)
+                                textvalue = '%s - %s (Prov: %s, Caid: %s)' % (
+                                    source, self.systemTxtCaids.get(caid[:2]), prov, caid)
                             elif reader != '' and source == 'net' and port != '':
-                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (%s:%s) - %s' % (source,
-                                                                                                      prov,
-                                                                                                      caid,
-                                                                                                      reader,
-                                                                                                      protocol,
-                                                                                                      server,
-                                                                                                      port,
-                                                                                                      ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (%s:%s) - %s' % (
+                                    source, prov, caid, reader, protocol, server, port, ecm_time.replace('msec', 'ms'))
                             elif reader != '' and source == 'net':
-                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (%s) - %s' % (source,
-                                                                                                   prov,
-                                                                                                   caid,
-                                                                                                   reader,
-                                                                                                   protocol,
-                                                                                                   server,
-                                                                                                   ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (%s) - %s' % (
+                                    source, prov, caid, reader, protocol, server, ecm_time.replace('msec', 'ms'))
                             elif reader != '' and source != 'net':
-                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (local) - %s' % (source,
-                                                                                                      prov,
-                                                                                                      caid,
-                                                                                                      reader,
-                                                                                                      protocol,
-                                                                                                      ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s, Reader: %s, %s (local) - %s' % (
+                                    source, prov, caid, reader, protocol, ecm_time.replace('msec', 'ms'))
                             elif server == '' and port == '' and protocol != '':
-                                textvalue = '%s - Prov: %s, Caid: %s, %s - %s' % (source,
-                                                                                  prov,
-                                                                                  caid,
-                                                                                  protocol,
-                                                                                  ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s, %s - %s' % (
+                                    source, prov, caid, protocol, ecm_time.replace('msec', 'ms'))
                             elif server == '' and port == '' and protocol == '':
-                                textvalue = '%s - Prov: %s, Caid: %s - %s' % (source,
-                                                                              prov,
-                                                                              caid,
-                                                                              ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s - %s' % (
+                                    source, prov, caid, ecm_time.replace('msec', 'ms'))
                             else:
                                 try:
-                                    textvalue = '%s - Prov: %s, Caid: %s, %s (%s:%s) - %s' % (source,
-                                                                                              prov,
-                                                                                              caid,
-                                                                                              protocol,
-                                                                                              server,
-                                                                                              port,
-                                                                                              ecm_time.replace('msec', 'ms'))
-                                except:
+                                    textvalue = '%s - Prov: %s, Caid: %s, %s (%s:%s) - %s' % (
+                                        source, prov, caid, protocol, server, port, ecm_time.replace('msec', 'ms'))
+                                except BaseException:
                                     pass
 
                         if self.type == self.SHORT:
                             if source == 'emu':
-                                textvalue = '%s - %s (Prov: %s, Caid: %s)' % (source,
-                                                                              self.systemTxtCaids.get(caid[:2]),
-                                                                              prov,
-                                                                              caid)
+                                textvalue = '%s - %s (Prov: %s, Caid: %s)' % (
+                                    source, self.systemTxtCaids.get(caid[:2]), prov, caid)
                             elif server == '' and port == '':
-                                textvalue = '%s - Prov: %s, Caid: %s - %s' % (source,
-                                                                              prov,
-                                                                              caid,
-                                                                              ecm_time.replace('msec', 'ms'))
+                                textvalue = '%s - Prov: %s, Caid: %s - %s' % (
+                                    source, prov, caid, ecm_time.replace('msec', 'ms'))
                             else:
                                 try:
-                                    textvalue = '%s - Prov: %s, Caid: %s, %s:%s - %s' % (source,
-                                                                                         prov,
-                                                                                         caid,
-                                                                                         server,
-                                                                                         port,
-                                                                                         ecm_time.replace('msec', 'ms'))
-                                except:
+                                    textvalue = '%s - Prov: %s, Caid: %s, %s:%s - %s' % (
+                                        source, prov, caid, server, port, ecm_time.replace('msec', 'ms'))
+                                except BaseException:
                                     pass
 
                     elif self.type == self.ALL or self.type == self.SHORT or self.type == self.FORMAT and self.sfmt.count('%') > 3:
@@ -551,7 +526,7 @@ class MMCaidInfo2(Poll, Converter, object):
                 old_ecm_mtime = ecm_mtime
                 ecmf = open('/tmp/ecm.info', 'rb')
                 ecm = ecmf.readlines()
-            except:
+            except BaseException:
                 old_ecm_mtime = None
                 info = {}
                 return info
@@ -584,13 +559,16 @@ class MMCaidInfo2(Poll, Converter, object):
                                     # item[1] = ""
                                     y = it_tmp[-1].find('(')
                                     if y != -1:
-                                        info["server"] = it_tmp[-1].split("(")[-1].split(":")[0]
-                                        info["port"] = it_tmp[-1].split("(")[-1].split(":")[-1].rstrip(")")
+                                        info["server"] = it_tmp[-1].split(
+                                            "(")[-1].split(":")[0]
+                                        info["port"] = it_tmp[-1].split(
+                                            "(")[-1].split(":")[-1].rstrip(")")
                                     elif y == -1:
                                         item[0] = "source"
                                         item[1] = "sci"
                                     # y = it_tmp[-1].find('emu')
-                                    if it_tmp[-1].find('emu') > -1 or it_tmp[-1].find('cache') > -1 or it_tmp[-1].find('card') > -1 or it_tmp[-1].find('biss') > -1:
+                                    if it_tmp[-1].find('emu') > -1 or it_tmp[-1].find(
+                                            'cache') > -1 or it_tmp[-1].find('card') > -1 or it_tmp[-1].find('biss') > -1:
                                         item[0] = "source"
                                         item[1] = "emu"
                                 elif item[0] == "hops":
@@ -606,8 +584,10 @@ class MMCaidInfo2(Poll, Converter, object):
                                     if item[1].strip()[:3] == "net":
                                         it_tmp = item[1].strip().split(" ")
                                         info["protocol"] = it_tmp[1][1:]
-                                        info["server"] = it_tmp[-1].split(":", 1)[0]
-                                        info["port"] = it_tmp[-1].split(':', 1)[1][:-1]
+                                        info["server"] = it_tmp[-1].split(":", 1)[
+                                            0]
+                                        info["port"] = it_tmp[-1].split(':', 1)[
+                                            1][:-1]
                                         item[1] = "net"
                                 elif item[0] == "prov":
                                     y = item[1].find(",")
@@ -628,7 +608,8 @@ class MMCaidInfo2(Poll, Converter, object):
                                 elif item[0] == "provid":
                                     item[0] = "prov"
                                 elif item[0] == "using":
-                                    if item[1].strip() == "emu" or item[1].strip() == "sci":
+                                    if item[1].strip(
+                                    ) == "emu" or item[1].strip() == "sci":
                                         item[0] = "source"
                                     else:
                                         info["source"] = "net"
@@ -657,7 +638,7 @@ class MMCaidInfo2(Poll, Converter, object):
                                         elif z != -1:
                                             info["pid"] = line[x + 4:z]
                     ecmf.close()
-            except:
+            except BaseException:
                 pass
         return info
 

@@ -128,7 +128,8 @@ class ZPBorder(Renderer):
         self.picload = ePicLoad()
         if self.picload:
             sc = AVSwitch().getFramebufferScale()
-            self.picload.setPara([size.width(), size.height(), sc[0], sc[1], False, 1, '#00000000'])
+            self.picload.setPara(
+                [size.width(), size.height(), sc[0], sc[1], False, 1, '#00000000'])
             if os.path.exists('/var/lib/dpkg/status'):
                 self.picload.startDecode(self.border, False)
             else:
@@ -147,7 +148,8 @@ class ZPBorder(Renderer):
         self.downloading = False
         self.event = self.source.event
         if self.event:
-            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+            self.evnt = self.event.getEventName().replace(
+                '\xc2\x86', '').replace('\xc2\x87', '')
             if self.evnt.endswith(' '):
                 self.evnt = self.evnt[:-1]
             self.evntNm = convtext(self.evnt)

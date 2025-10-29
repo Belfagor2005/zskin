@@ -111,7 +111,7 @@ except Exception as e:
 try:
     lng = config.osd.language.value
     lng = lng[:-3]
-except:
+except BaseException:
     lng = 'en'
     pass
 
@@ -161,8 +161,9 @@ class ZBanner(Renderer):
                 self.picload = ePicLoad()
             try:
                 self.picload.PictureData.get().append(self.DecodePicture)
-            except:
-                self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+            except BaseException:
+                self.picload_conn = self.picload.PictureData.connect(
+                    self.DecodePicture)
             self.delay()
 
     def applySkin(self, desktop, parent):
@@ -193,7 +194,9 @@ class ZBanner(Renderer):
         if not self.event:
             return
 
-        self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+        self.evnt = self.event.getEventName().replace(
+            '\xc2\x86', '').replace(
+            '\xc2\x87', '').rstrip()
         self.evntNm = convtext(self.evnt)
         self.evntNm = str(self.evntNm)
         print('zchannel new self event name:', self.evntNm)
@@ -208,9 +211,12 @@ class ZBanner(Renderer):
             return
 
         # Carica dati dai file disponibili
-        poster = self._get_poster_from_file(self.dwn_infos) or self._get_poster_from_file(self.dataNm)
+        poster = self._get_poster_from_file(
+            self.dwn_infos) or self._get_poster_from_file(
+            self.dataNm)
         if poster:
-            self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (formatImg, poster)
+            self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (
+                formatImg, poster)
             self.saveBanner()
             return
 
@@ -237,19 +243,23 @@ class ZBanner(Renderer):
             if not service or not servicetype:
                 return
             # Rimuove file vuoti
-            if os.path.exists(self.dataNm) and os.stat(self.dataNm).st_size < 1:
+            if os.path.exists(
+                    self.dataNm) and os.stat(
+                    self.dataNm).st_size < 1:
                 os.remove(self.dataNm)
             # Richiesta API per TV
-            url = 'http://api.themoviedb.org/3/search/tv?api_key=%s&query=%s' % (tmdb_api, quoteEventName(self.evntNm))
+            url = 'http://api.themoviedb.org/3/search/tv?api_key=%s&query=%s' % (
+                tmdb_api, quoteEventName(self.evntNm))
             data2 = self._fetch_api_data(url)
             # if data2 and 'results' in data2 and 'id' in data2['results'][0]:
-                # ids = data2['results'][0]['id']
-                # url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
-                # data2 = self._fetch_api_data(url)
+            # ids = data2['results'][0]['id']
+            # url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+            # data2 = self._fetch_api_data(url)
             if data2 and 'results' in data2 and data2['results']:
                 if 'id' in data2['results'][0]:
                     ids = data2['results'][0]['id']
-                    url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                    url = 'http://api.themoviedb.org/3/tv/%s?api_key=%s&language=%s' % (
+                        ids, tmdb_api, lng)
                     data2 = self._fetch_api_data(url)
             # Richiesta API per film (fallback)
             # if not data2:
@@ -260,17 +270,20 @@ class ZBanner(Renderer):
                     # url = 'http://api.themoviedb.org/3/movie/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
                     # data2 = self._fetch_api_data(url)
             if not data2:
-                url = 'http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s' % (tmdb_api, quoteEventName(self.evntNm))
+                url = 'http://api.themoviedb.org/3/search/movie?api_key=%s&query=%s' % (
+                    tmdb_api, quoteEventName(self.evntNm))
                 data2 = self._fetch_api_data(url)
                 if data2 and 'results' in data2 and data2['results']:
                     if 'id' in data2['results'][0]:
                         ids = data2['results'][0]['id']
-                        url = 'http://api.themoviedb.org/3/movie/%s?api_key=%s&language=%s' % (ids, tmdb_api, lng)
+                        url = 'http://api.themoviedb.org/3/movie/%s?api_key=%s&language=%s' % (
+                            ids, tmdb_api, lng)
                         data2 = self._fetch_api_data(url)
             # Salva il poster, se disponibile
             if data2 and 'backdrop_path' in data2:
                 poster = data2['backdrop_path']
-                self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (formatImg, poster)
+                self.url_backdrop = "http://image.tmdb.org/t/p/%s%s" % (
+                    formatImg, poster)
                 with open(self.dataNm, "w") as f:
                     json.dump(data2, f)
                 self.saveBanner()
@@ -309,7 +322,7 @@ class ZBanner(Renderer):
         if screenwidth.width() > 1280:
             width = 715
             height = 400
-            
+
         if self.instance:
             size = self.instance.size()
             width = size.width()
@@ -321,13 +334,15 @@ class ZBanner(Renderer):
                 if self.picload.startDecode(self.pstrNm):
                     try:
                         self.picload.PictureData.get().append(self.DecodePicture)
-                    except:
-                        self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
-                    self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
+                    except BaseException:
+                        self.picload_conn = self.picload.PictureData.connect(
+                            self.DecodePicture)
+                    self.picload.setPara(
+                        [width, height, sc[0], sc[1], 0, 1, "FF000000"])
                     self.picload.startDecode(self.pstrNm)
             except Exception as e:
                 print(e)
-                
+
         # if self.instance:
             # size = self.instance.size()
             # width = size.width()
@@ -361,11 +376,11 @@ class ZBanner(Renderer):
             # # Decodifica l'immagine
             # if self.picload.startDecode(self.pstrNm):
                 # # if not self.picload:
-                    # # self.picload = ePicLoad()
+                # # self.picload = ePicLoad()
                 # try:
-                    # self.picload.PictureData.get().append(self.DecodePicture)
+                # self.picload.PictureData.get().append(self.DecodePicture)
                 # except:
-                    # self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
+                # self.picload_conn = self.picload.PictureData.connect(self.DecodePicture)
                 # self.picload.setPara([width, height, sc[0], sc[1], 0, 1, "FF000000"])
                 # self.picload.startDecode(self.pstrNm)
             # else:

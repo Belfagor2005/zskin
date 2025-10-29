@@ -17,7 +17,8 @@ import os
 
 
 PLUGIN_NAME = "zStyles"
-PLUGIN_PATH = resolveFilename(SCOPE_PLUGINS) + "SystemPlugins/" + PLUGIN_NAME + "/"
+PLUGIN_PATH = resolveFilename(SCOPE_PLUGINS) + \
+    "SystemPlugins/" + PLUGIN_NAME + "/"
 PluginLanguageDomain = 'zStyles'
 PluginLanguagePath = 'Extensions/zStyles/locale'
 
@@ -31,7 +32,11 @@ def localeInit():
     if isDreambox:
         lang = language.getLanguage()[:2]
         os.environ["LANGUAGE"] = lang
-    gettext.bindtextdomain(PluginLanguageDomain, resolveFilename(SCOPE_PLUGINS, PluginLanguagePath))
+    gettext.bindtextdomain(
+        PluginLanguageDomain,
+        resolveFilename(
+            SCOPE_PLUGINS,
+            PluginLanguagePath))
 
 
 if isDreambox:
@@ -43,7 +48,8 @@ else:
         if translated:
             return translated
         else:
-            print(("[%s] fallback to default translation for %s" % (PluginLanguageDomain, txt)))
+            print(("[%s] fallback to default translation for %s" %
+                  (PluginLanguageDomain, txt)))
             return gettext.gettext(txt)
 
 localeInit()
@@ -57,7 +63,7 @@ def getPluginIcon():
         from Tools.LoadPixmap import LoadPixmap
         LoadPixmap(os.path.join(PLUGIN_PATH, plugin_icon))
         print("[zStyle] svg support")
-    except:
+    except BaseException:
         print("[zStyle] no svg support")
         plugin_icon = "skin/images/zstyles.png"
     return plugin_icon
@@ -127,8 +133,7 @@ ListAgent = [
     'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.13+ (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/534.55.3 (KHTML, like Gecko) Version/5.1.3 Safari/534.53.10',
-    'Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko ) Version/5.1 Mobile/9B176 Safari/7534.48.3'
-]
+    'Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko ) Version/5.1 Mobile/9B176 Safari/7534.48.3']
 
 
 def RequestAgent():

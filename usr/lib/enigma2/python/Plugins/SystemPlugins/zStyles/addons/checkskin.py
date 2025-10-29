@@ -90,7 +90,11 @@ def checkComponent(myContent, look4Component, myPath, found_files):
                 # Gestione dei componenti Renderer e Converter
                 if look4Component in ['render', 'Convert']:
                     compiled_extension = ".pyc" if PY3 else ".pyo"
-                    if not fileExists(full_component_path + compiled_extension) and fileExists(full_component_path + ".py"):
+                    if not fileExists(
+                            full_component_path +
+                            compiled_extension) and fileExists(
+                            full_component_path +
+                            ".py"):
                         upShowFile(full_component_path + compiled_extension)
 
                 # Gestione di immagini e pixmap
@@ -103,7 +107,8 @@ def checkComponent(myContent, look4Component, myPath, found_files):
                             found_files.add(component)
                     else:
                         # Percorso relativo
-                        relative_path = os.path.join(mvi, "enigma2", cur_skin, component)
+                        relative_path = os.path.join(
+                            mvi, "enigma2", cur_skin, component)
                         if not os.path.exists(relative_path):
                             upShowFile(relative_path)
                         else:
@@ -136,14 +141,17 @@ def find_unused_images(base_path, used_files):
     unused_images = []
 
     def upShowFile(name):
-        unused_images.append(name)  # Aggiungi il file alla lista degli inutilizzati
+        # Aggiungi il file alla lista degli inutilizzati
+        unused_images.append(name)
 
     for root, dirs, files in os.walk(base_path):
         for file in files:
-            if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):  # Verifica se il file è un'immagine
+            if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')
+                                     ):  # Verifica se il file è un'immagine
                 full_path = os.path.join(root, file)
                 if full_path not in used_files:  # Se il file non è nella lista dei file usati
-                    upShowFile(full_path)  # Aggiungi il file alla lista di quelli non usati
+                    # Aggiungi il file alla lista di quelli non usati
+                    upShowFile(full_path)
 
     if unused_images:
         checklogskin("Unused images found:")
@@ -183,10 +191,34 @@ def check_module_skin():
                 myFile.write(user_skin)
 
         # Esegui `checkComponent` su ciascun tipo
-        checkComponent(user_skin, 'render', resolveFilename(SCOPE_PLUGINS, '../Components/Renderer/'), used_files)
-        checkComponent(user_skin, 'Convert', resolveFilename(SCOPE_PLUGINS, '../Components/Converter/'), used_files)
-        checkComponent(user_skin, 'pixmap', resolveFilename(SCOPE_GUISKIN, ''), used_files)
-        checkComponent(user_skin, 'image', resolveFilename(SCOPE_GUISKIN, ''), used_files)
+        checkComponent(
+            user_skin,
+            'render',
+            resolveFilename(
+                SCOPE_PLUGINS,
+                '../Components/Renderer/'),
+            used_files)
+        checkComponent(
+            user_skin,
+            'Convert',
+            resolveFilename(
+                SCOPE_PLUGINS,
+                '../Components/Converter/'),
+            used_files)
+        checkComponent(
+            user_skin,
+            'pixmap',
+            resolveFilename(
+                SCOPE_GUISKIN,
+                ''),
+            used_files)
+        checkComponent(
+            user_skin,
+            'image',
+            resolveFilename(
+                SCOPE_GUISKIN,
+                ''),
+            used_files)
 
         # Trova immagini non utilizzate
         unused_images = find_unused_images(skin_base_fold, used_files)

@@ -53,7 +53,7 @@ try:
             with open(thetvdb_skin, "r") as f:
                 thetvdbkey = f.read()
         my_cur_skin = True
-except:
+except BaseException:
     my_cur_skin = False
     pass
 
@@ -68,17 +68,30 @@ config.zStyles.wqhdupfind = NoSave(ConfigSelection(['PRESS OK']))
 config.zStyles.conponent = NoSave(ConfigSelection(['PRESS OK']))
 config.zStyles.data = NoSave(ConfigYesNo(default=False))
 config.zStyles.api = NoSave(ConfigSelection(["PRESS OK"]))
-config.zStyles.txtapi = ConfigText(default=tmdb_api, visible_width=50, fixed_size=False)
+config.zStyles.txtapi = ConfigText(
+    default=tmdb_api,
+    visible_width=50,
+    fixed_size=False)
 config.zStyles.data2 = NoSave(ConfigYesNo(default=False))
 config.zStyles.api2 = NoSave(ConfigSelection(["PRESS OK"]))
-config.zStyles.txtapi2 = ConfigText(default=omdb_api, visible_width=50, fixed_size=False)
+config.zStyles.txtapi2 = ConfigText(
+    default=omdb_api,
+    visible_width=50,
+    fixed_size=False)
 config.zStyles.data3 = NoSave(ConfigYesNo(default=False))
 config.zStyles.api3 = NoSave(ConfigSelection(["PRESS OK"]))
-config.zStyles.txtapi3 = ConfigText(default=visual_api, visible_width=50, fixed_size=False)
+config.zStyles.txtapi3 = ConfigText(
+    default=visual_api,
+    visible_width=50,
+    fixed_size=False)
 config.zStyles.data4 = NoSave(ConfigYesNo(default=False))
 config.zStyles.api4 = NoSave(ConfigSelection(["PRESS OK"]))
-config.zStyles.txtapi4 = ConfigText(default=thetvdbkey, visible_width=50, fixed_size=False)
-config.zStyles.png = NoSave(ConfigYesNo(default=False))  # NoSave(ConfigSelection(['-> Ok']))
+config.zStyles.txtapi4 = ConfigText(
+    default=thetvdbkey,
+    visible_width=50,
+    fixed_size=False)
+# NoSave(ConfigSelection(['-> Ok']))
+config.zStyles.png = NoSave(ConfigYesNo(default=False))
 config.zStyles.load_style_from_skin = ConfigYesNo(True)
 config.zStyles.style = ConfigSubDict()
 config.zStyles.preset = ConfigSubDict()
@@ -119,8 +132,26 @@ def Plugins(**kwargs):
     loadPluginSkin()
     description = _("Style your zSkin")
     descriptors = []
-    descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=PluginDescriptor.WHERE_AUTOSTART, fnc=autostart))
-    descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=PluginDescriptor.WHERE_MENU, fnc=startMenu))
+    descriptors.append(
+        PluginDescriptor(
+            name=PLUGIN_NAME,
+            description=description,
+            where=PluginDescriptor.WHERE_AUTOSTART,
+            fnc=autostart))
+    descriptors.append(
+        PluginDescriptor(
+            name=PLUGIN_NAME,
+            description=description,
+            where=PluginDescriptor.WHERE_MENU,
+            fnc=startMenu))
     # descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], icon=plugin_icon, fnc=pluginOpen))
-    descriptors.append(PluginDescriptor(name=PLUGIN_NAME, description=description, where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], icon=getPluginIcon(), fnc=pluginOpen))
+    descriptors.append(
+        PluginDescriptor(
+            name=PLUGIN_NAME,
+            description=description,
+            where=[
+                PluginDescriptor.WHERE_EXTENSIONSMENU,
+                PluginDescriptor.WHERE_PLUGINMENU],
+            icon=getPluginIcon(),
+            fnc=pluginOpen))
     return descriptors

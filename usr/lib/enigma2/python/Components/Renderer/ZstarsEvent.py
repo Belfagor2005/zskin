@@ -123,7 +123,7 @@ def checkRedirect(url):
 try:
     lng = config.osd.language.value
     lng = lng[:-3]
-except:
+except BaseException:
     lng = 'en'
     pass
 
@@ -172,22 +172,26 @@ class ZstarsEvent(VariableValue, Renderer):
             self.event = self.source.event
             if not self.event:
                 return
-            self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+            self.evnt = self.event.getEventName().replace(
+                '\xc2\x86', '').replace('\xc2\x87', '').rstrip()
             self.evntNm = convtext(self.evnt)
             self.dwn_infos = "%s/%s.zstar.txt" % (path_folder, self.evntNm)
             self.dataNm = "%s/%s.txt" % (path_folder, self.evntNm)
             # Controllo e utilizzo dei file locali
             for file_path in [self.dataNm, self.dwn_infos]:
-                if os.path.exists(file_path) and os.stat(file_path).st_size > 0:
+                if os.path.exists(file_path) and os.stat(
+                        file_path).st_size > 0:
                     self.setRating(file_path)
                     return
             # Scaricamento dei dati online
             try:
-                url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(str(tmdb_api), quoteEventName(self.evntNm))
+                url = 'http://api.themoviedb.org/3/search/multi?api_key={}&query={}'.format(
+                    str(tmdb_api), quoteEventName(self.evntNm))
                 if PY3:
                     url = url.encode()
                 response = checkRedirect(url)
-                if response and 'results' in response and len(response['results']) > 0:
+                if response and 'results' in response and len(
+                        response['results']) > 0:
                     ids = response['results'][0].get('id')
                     if ids:
                         for endpoint in ['movie', 'tv']:
@@ -202,7 +206,9 @@ class ZstarsEvent(VariableValue, Renderer):
                                 self.setRating(self.dwn_infos)
                                 return
                             except Exception as e:
-                                print("Errore durante il fetch di {}: {}".format(endpoint, str(e)))
+                                print(
+                                    "Errore durante il fetch di {}: {}".format(
+                                        endpoint, str(e)))
                 print("Nessun risultato trovato su TMDB")
             except Exception as e:
                 print("Errore durante il fetch online: {}".format(str(e)))
@@ -214,7 +220,12 @@ class ZstarsEvent(VariableValue, Renderer):
             # with open(file_path, "r", encoding="utf-8") as f:
             with open(file_path, "r") as f:
                 data = json.load(f)
-            ImdbRating = str(data.get("vote_average", data.get("imdbRating", "0")))
+            ImdbRating = str(
+                data.get(
+                    "vote_average",
+                    data.get(
+                        "imdbRating",
+                        "0")))
             print("zstar ImdbRating:", ImdbRating)
             if ImdbRating.isdigit() or ImdbRating.replace('.', '', 1).isdigit():
                 rtng = int(float(ImdbRating) * 10)

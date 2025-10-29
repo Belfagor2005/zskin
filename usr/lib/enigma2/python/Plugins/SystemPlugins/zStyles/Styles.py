@@ -49,7 +49,8 @@ if isDreambox:
 else:
     def getConfigListEntry(*args):
         if len(args) == 1:
-            return "{0} {1} {2}".format("-" * 5, args[0], "-" * 200), ConfigNothing()
+            return "{0} {1} {2}".format(
+                "-" * 5, args[0], "-" * 200), ConfigNothing()
         return args
 
 
@@ -107,7 +108,12 @@ class Styles(Screen, ConfigListScreen):
             file_name = getStyleFile().replace(".xml", "_error.xml")
             with open(file_name, "wb") as f:
                 f.write(style_errors)
-            self.session.open(MessageBox, _("Style presets contains errors!") + "\n" + file_name, MessageBox.TYPE_ERROR)
+            self.session.open(
+                MessageBox,
+                _("Style presets contains errors!") +
+                "\n" +
+                file_name,
+                MessageBox.TYPE_ERROR)
 
     def keySave(self):
         if not self.style.hasStyle():
@@ -139,7 +145,11 @@ class Styles(Screen, ConfigListScreen):
         writeStyle(self.style, config.zStyles, getSkinFile())
         storeConfig()
 
-        dlg = self.session.openWithCallback(self.restartGUI, MessageBox, _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"), MessageBox.TYPE_YESNO)
+        dlg = self.session.openWithCallback(
+            self.restartGUI,
+            MessageBox,
+            _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"),
+            MessageBox.TYPE_YESNO)
         dlg.setTitle(_("Restart GUI now?"))
 
     def restartGUI(self, answer):
@@ -220,12 +230,18 @@ class Styles(Screen, ConfigListScreen):
     def checkDependency(self, depend):
         if not depend:
             return True
-        return os.path.exists(os.path.join(resolveFilename(SCOPE_PLUGINS), depend))
+        return os.path.exists(
+            os.path.join(
+                resolveFilename(SCOPE_PLUGINS),
+                depend))
 
     def createConfigListEntries(self):
         self.list = []
         if isPrimarySkin() or not self.style.hasStyle():
-            self.list.append(getConfigListEntry(_("Current skin can not styled!"), ConfigNothing()))
+            self.list.append(
+                getConfigListEntry(
+                    _("Current skin can not styled!"),
+                    ConfigNothing()))
             self["config"].setList(self.list)
             return
         depends = self.style.getDepends()
@@ -239,7 +255,11 @@ class Styles(Screen, ConfigListScreen):
                 selected = self.getSelected(key1, config.zStyles.preset)
                 if not selected:
                     selected = self.getSelected(key1, default)
-                self.list.append(getConfigListEntry(key1, self.getConfigSelection(ConfigSelectionEx, key1, sorted(self.preset[key1]), selected)))
+                self.list.append(
+                    getConfigListEntry(
+                        key1, self.getConfigSelection(
+                            ConfigSelectionEx, key1, sorted(
+                                self.preset[key1]), selected)))
                 # self.updatePreview(key1, selected)
 
         groups = self.style.getGroup()
@@ -256,7 +276,11 @@ class Styles(Screen, ConfigListScreen):
                 selected = self.getSelected(key1, config.zStyles.style)
                 if not selected:
                     selected = self.getSelected(key1, default)
-                self.list.append(getConfigListEntry(key1, self.getConfigSelection(ConfigSelection, key1, sorted(groups[key][key1]), selected)))
+                self.list.append(
+                    getConfigListEntry(
+                        key1, self.getConfigSelection(
+                            ConfigSelection, key1, sorted(
+                                groups[key][key1]), selected)))
 
         self["config"].setList(self.list)
 
@@ -291,7 +315,8 @@ class Preview():
 
     def layoutFinish(self):
         sc = AVSwitch().getFramebufferScale()
-        self.picload.setPara((self.parent[self.name].instance.size().width(), self.parent[self.name].instance.size().height(), sc[0], sc[1], False, 1, "#ff000000"))
+        self.picload.setPara((self.parent[self.name].instance.size().width(
+        ), self.parent[self.name].instance.size().height(), sc[0], sc[1], False, 1, "#ff000000"))
         for attribute in self.parent[self.name].skinAttributes:
             if attribute[0] == "pixmap":
                 self.default_pixmap = attribute[1]

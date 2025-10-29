@@ -102,14 +102,14 @@ def OnclearMem():
         os.system('echo 1 > /proc/sys/vm/drop_caches')
         os.system('echo 2 > /proc/sys/vm/drop_caches')
         os.system('echo 3 > /proc/sys/vm/drop_caches')
-    except:
+    except BaseException:
         pass
 
 
 try:
     lng = config.osd.language.value
     lng = lng[:-3]
-except:
+except BaseException:
     lng = 'en'
     pass
 
@@ -154,23 +154,30 @@ class ZEvent(Renderer, VariableText):
         self.event = self.source.event
         if not self.event:
             return
-        self.evnt = self.event.getEventName().replace('\xc2\x86', '').replace('\xc2\x87', '').rstrip()
+        self.evnt = self.event.getEventName().replace(
+            '\xc2\x86', '').replace(
+            '\xc2\x87', '').rstrip()
         self.evntNm = convtext(self.evnt)
-        self.evntNm = str(self.evntNm) 
+        self.evntNm = str(self.evntNm)
         self.infos_file = "%s/%s.txt" % (path_folder, self.evntNm)
         self.dwn_infos = "%s/%s.zstar.txt" % (path_folder, self.evntNm)
-        if not os.path.exists(self.infos_file) or os.stat(self.infos_file).st_size <= 1:
+        if not os.path.exists(
+                self.infos_file) or os.stat(
+                self.infos_file).st_size <= 1:
             return None
         self.setRating(self.infos_file)
 
     def downloadInfos(self):
         # Rimuove il file se esiste ed è vuoto
-        if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size < 1:
+        if os.path.exists(
+                self.infos_file) and os.stat(
+                self.infos_file).st_size < 1:
             os.remove(self.infos_file)
             print("Zchannel as been removed %s successfully" % self.evntNm)
 
         # Costruisce l'URL per la ricerca delle informazioni sulla TV
-        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+        url = 'http://api.themoviedb.org/3/search/tv?api_key={}&query={}'.format(
+            str(tmdb_api), quote(self.evntNm))
         try:
             # Richiede i dati JSON
             if PY3:
@@ -181,11 +188,13 @@ class ZEvent(Renderer, VariableText):
             jurl = json.loads(url2)
 
             # Verifica che ci siano risultati
-            if 'results' in jurl and len(jurl['results']) > 0 and 'id' in jurl['results'][0]:
+            if 'results' in jurl and len(
+                    jurl['results']) > 0 and 'id' in jurl['results'][0]:
                 ids = jurl['results'][0]['id']
 
                 # Richiede i dettagli per l'ID trovato
-                url = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(str(ids), str(tmdb_api), str(lng))
+                url = 'http://api.themoviedb.org/3/tv/{}?api_key={}&language={}'.format(
+                    str(ids), str(tmdb_api), str(lng))
                 try:
                     if PY3:
                         url = url.encode()
@@ -193,9 +202,12 @@ class ZEvent(Renderer, VariableText):
                     else:
                         url = urlopen(url).read().decode('utf-8')
                 except Exception as e:
-                    print("Errore nella richiesta zevent, tentativo con il film: %s" % str(e))
+                    print(
+                        "Errore nella richiesta zevent, tentativo con il film: %s" %
+                        str(e))
 
-                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(str(tmdb_api), quote(self.evntNm))
+                    url = 'http://api.themoviedb.org/3/search/movie?api_key={}&query={}'.format(
+                        str(tmdb_api), quote(self.evntNm))
                     if PY3:
                         url = url.encode()
                         url = urlopen(url).read()
@@ -214,17 +226,34 @@ class ZEvent(Renderer, VariableText):
 
     def filterSearch(self):
         try:
-            sd = "%s\n%s\n%s" % (self.event.getEventName(), self.event.getShortDescription(), self.event.getExtendedDescription())
-            w = ["t/s", "Т/s", "SM", "SM", "d/s", "D/s", "stagione", "Sig.", "episodio", "serie TV", "serie"]
+            sd = "%s\n%s\n%s" % (self.event.getEventName(),
+                                 self.event.getShortDescription(),
+                                 self.event.getExtendedDescription())
+            w = [
+                "t/s",
+                "Т/s",
+                "SM",
+                "SM",
+                "d/s",
+                "D/s",
+                "stagione",
+                "Sig.",
+                "episodio",
+                "serie TV",
+                "serie"]
             for i in w:
                 if i in sd:
                     self.srch = "tv"
                     break
                 else:
                     self.srch = "multi"
-            yr = [_y for _y in re.findall(r'\d{4}', sd) if '1930' <= _y <= '%s' % gmtime().tm_year]
+            yr = [
+                _y for _y in re.findall(
+                    r'\d{4}',
+                    sd) if '1930' <= _y <= '%s' %
+                gmtime().tm_year]
             return '%s' % yr[-1] if yr else None
-        except:
+        except BaseException:
             pass
 
     def epgs(self):
@@ -238,7 +267,7 @@ class ZEvent(Renderer, VariableText):
                 self.infos_file = "{}/{}".format(path_folder, self.evntNm)
                 if not os.path.exists(self.infos_file):
                     self.downloadInfos()
-        except:
+        except BaseException:
             pass
 
     def dwn(self):
@@ -248,7 +277,9 @@ class ZEvent(Renderer, VariableText):
         try:
             self.text = ''
             self.infos_file = data
-            if os.path.exists(self.infos_file) and os.stat(self.infos_file).st_size > 1:
+            if os.path.exists(
+                    self.infos_file) and os.stat(
+                    self.infos_file).st_size > 1:
                 if PY3:
                     with open(self.dataNm) as f:
                         data = json.load(f)
@@ -347,18 +378,29 @@ class ZEvent(Renderer, VariableText):
 
                     with open("/tmp/rating", "w") as f:
                         f.write("%s\n%s" % (imdbRating, Rated))
-                    self.text = "Title: %s" % str(Title)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nYear: %s" % str(Year)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nCountry: %s" % str(Country)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nGenre: %s" % str(Genre)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nDirector: %s" % str(Director)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nAwards: %s" % str(Awards)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nWriter: %s" % str(Writer)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nCast: %s" % str(Actors)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nRated: %s" % str(Rated)  # .encode('utf-8').decode('utf-8')
-                    self.text += "\nImdb: %s" % str(imdbRating)  # .encode('utf-8').decode('utf-8')
+                    # .encode('utf-8').decode('utf-8')
+                    self.text = "Title: %s" % str(Title)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nYear: %s" % str(Year)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nCountry: %s" % str(Country)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nGenre: %s" % str(Genre)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nDirector: %s" % str(Director)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nAwards: %s" % str(Awards)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nWriter: %s" % str(Writer)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nCast: %s" % str(Actors)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nRated: %s" % str(Rated)
+                    # .encode('utf-8').decode('utf-8')
+                    self.text += "\nImdb: %s" % str(imdbRating)
                     # print("ZEvent text= ", self.text)
-                    self.text = "Anno: %s\nNazione: %s\nGenere: %s\nRegista: %s\nAttori: %s" % (Year, Country, Genre, Director, Actors)
+                    self.text = "Anno: %s\nNazione: %s\nGenere: %s\nRegista: %s\nAttori: %s" % (
+                        Year, Country, Genre, Director, Actors)
                     self.instance.show()
         except Exception as e:
             print('error Exception data  ', e)

@@ -20,7 +20,8 @@
 #
 #    For example, if you distribute copies of such a program, whether gratis or for a fee, you
 #    must pass on to the recipients the same freedoms that you received. You must make sure
-#    that they, too, receive or can get the source code. And you must show them these terms so they know their rights.
+# that they, too, receive or can get the source code. And you must show
+# them these terms so they know their rights.
 
 from Components.AVSwitch import AVSwitch
 from enigma import ePicLoad
@@ -35,7 +36,8 @@ class PicLoader:
     def setSize(self, width, height, sc=None):
         if sc is None:
             sc = AVSwitch().getFramebufferScale()
-        self.picload.setPara((width, height, sc[0], sc[1], False, 1, "#ff000000"))
+        self.picload.setPara(
+            (width, height, sc[0], sc[1], False, 1, "#ff000000"))
 
     def load(self, filename):
         if isDreambox:

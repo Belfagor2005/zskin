@@ -39,7 +39,7 @@ class zVolumeText(Renderer, VariableText):
         self.__timer_conn = None
         try:
             self.__timer_conn = self.__timer.timeout.connect(self.pollme)
-        except:
+        except BaseException:
             self.__timer.callback.append(self.pollme)
 
     GUI_WIDGET = eLabel

@@ -22,7 +22,7 @@
 try:
     f = open("/proc/stb/info/model", "r")
     model = ''.join(f.readlines()).strip()
-except:
+except BaseException:
     model = ''
 
 from Components.Converter.Converter import Converter
@@ -42,15 +42,17 @@ class ServiceResolution(Converter, object):
     def __init__(self, type):
         Converter.__init__(self, type)
         if model in ["one", "two"]:
-            self.type, self.interesting_events = {"VideoInfo": (self.VIDEO_INFO, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)),
-                                                  "VideoInfoCodec": (self.VIDEO_INFOCODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo, iPlayableService.evVideoTypeReady,)),
-                                                  "VideoCodec": (self.VIDEO_CODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo, iPlayableService.evVideoTypeReady,)),
-                                                  }[type]
+            self.type, self.interesting_events = {
+                "VideoInfo": (
+                    self.VIDEO_INFO, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)), "VideoInfoCodec": (
+                    self.VIDEO_INFOCODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo, iPlayableService.evVideoTypeReady,)), "VideoCodec": (
+                    self.VIDEO_CODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo, iPlayableService.evVideoTypeReady,)), }[type]
         else:
-            self.type, self.interesting_events = {"VideoInfo": (self.VIDEO_INFO, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)),
-                                                  "VideoInfoCodec": (self.VIDEO_INFOCODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)),
-                                                  "VideoCodec": (self.VIDEO_CODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)),
-                                                  }[type]
+            self.type, self.interesting_events = {
+                "VideoInfo": (
+                    self.VIDEO_INFO, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)), "VideoInfoCodec": (
+                    self.VIDEO_INFOCODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)), "VideoCodec": (
+                    self.VIDEO_CODEC, (iPlayableService.evVideoSizeChanged, iPlayableService.evVideoProgressiveChanged, iPlayableService.evVideoFramerateChanged, iPlayableService.evUpdatedInfo,)), }[type]
         self.need_wa = iPlayableService.evVideoSizeChanged in self.interesting_events
 
     def reuse(self):
@@ -95,7 +97,7 @@ class ServiceResolution(Converter, object):
                 f = open("/proc/stb/vmpeg/0/xres", "r")
                 try:
                     xres = int(f.read(), 16)
-                except:
+                except BaseException:
                     pass
                 f.close()
             if not xres:
@@ -106,7 +108,7 @@ class ServiceResolution(Converter, object):
                 f = open("/proc/stb/vmpeg/0/yres", "r")
                 try:
                     yres = int(f.read(), 16)
-                except:
+                except BaseException:
                     pass
                 f.close()
             if not yres:
@@ -135,25 +137,41 @@ class ServiceResolution(Converter, object):
             codec = None
             if model in ["one", "two"]:
                 codec = info.getInfo(iServiceInformation.sVideoType)
-                codec = {CT_MPEG2: "MPEG2", CT_H264: "H.264/AVC", CT_MPEG1: "MPEG1", CT_MPEG4_PART2: "MPEG4",
-                         CT_VC1: "VC1", CT_VC1_SIMPLE_MAIN: "WMV3", CT_H265: "H.265/HEVC", CT_DIVX311: "DIVX3",
-                         CT_DIVX4: "DIVX4", CT_SPARK:  "SPARK", CT_VP6: "VP6", CT_VP8:  "VP8",
-                         CT_VP9: "VP9", CT_H263: "H.263", CT_MJPEG: "MJPEG", CT_REAL: "RV",
-                         CT_AVS: "AVS", CT_UNKNOWN: "UNKNOWN"}[codec]
+                codec = {
+                    CT_MPEG2: "MPEG2",
+                    CT_H264: "H.264/AVC",
+                    CT_MPEG1: "MPEG1",
+                    CT_MPEG4_PART2: "MPEG4",
+                    CT_VC1: "VC1",
+                    CT_VC1_SIMPLE_MAIN: "WMV3",
+                    CT_H265: "H.265/HEVC",
+                    CT_DIVX311: "DIVX3",
+                    CT_DIVX4: "DIVX4",
+                    CT_SPARK: "SPARK",
+                    CT_VP6: "VP6",
+                    CT_VP8: "VP8",
+                    CT_VP9: "VP9",
+                    CT_H263: "H.263",
+                    CT_MJPEG: "MJPEG",
+                    CT_REAL: "RV",
+                    CT_AVS: "AVS",
+                    CT_UNKNOWN: "UNKNOWN"}[codec]
             else:
                 if path.exists("/proc/stb/vmpeg/0/codec"):
                     f = open("/proc/stb/vmpeg/0/codec", "r")
                     try:
                         codec = f.read().strip()
-                        codec = codec.replace('H.264 (MPEG4 AVC)', 'H.264/AVC').replace('H.265 (HEVC)', 'H.265/HEVC')
-                    except:
+                        codec = codec.replace(
+                            'H.264 (MPEG4 AVC)', 'H.264/AVC').replace('H.265 (HEVC)', 'H.265/HEVC')
+                    except BaseException:
                         pass
                     f.close()
             if self.type == self.VIDEO_INFOCODEC:
                 if xres in ["", "0"]:
                     return ""
                 elif codec:
-                    return "%s%s%s%s%s [%s]" % (xres, x, yres, p, frame_rate, codec)
+                    return "%s%s%s%s%s [%s]" % (
+                        xres, x, yres, p, frame_rate, codec)
                 else:
                     return "%s%s%s%s%s" % (xres, x, yres, p, frame_rate)
             if self.type == self.VIDEO_CODEC:
@@ -173,7 +191,10 @@ class ServiceResolution(Converter, object):
             return -1
 
         if self.type == self.VIDEO_INFO:
-            return -1 if info.getInfo(iServiceInformation.sVideoHeight) < 0 or info.getInfo(iServiceInformation.sFrameRate) < 0 or info.getInfo(iServiceInformation.sProgressive) < 0 else -2
+            return -1 if info.getInfo(
+                iServiceInformation.sVideoHeight) < 0 or info.getInfo(
+                iServiceInformation.sFrameRate) < 0 or info.getInfo(
+                iServiceInformation.sProgressive) < 0 else -2
         return -1
 
     value = property(getValue)
@@ -183,5 +204,6 @@ class ServiceResolution(Converter, object):
             Converter.changed(self, what)
         elif self.need_wa:
             if self.getValue() != -1:
-                Converter.changed(self, (self.CHANGED_SPECIFIC, iPlayableService.evVideoSizeChanged))
+                Converter.changed(
+                    self, (self.CHANGED_SPECIFIC, iPlayableService.evVideoSizeChanged))
                 self.need_wa = False

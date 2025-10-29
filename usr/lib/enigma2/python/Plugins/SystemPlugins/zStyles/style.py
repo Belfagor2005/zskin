@@ -114,8 +114,12 @@ class Skin(TreeBase):
     def updateStyleInfo(self):
         if self.style_node is None:
             self.style_node = ElementTree.Element("style")
-            self.root.insert(0, ElementTree.Comment("Auto generated from zStyles {0}.{1} (c)cmikula".format(__version__, __revision__)))
-            self.root.insert(1, ElementTree.Comment("Do NOT deliver this informations with any skin update!"))
+            self.root.insert(
+                0, ElementTree.Comment(
+                    "Auto generated from zStyles {0}.{1} (c)cmikula".format(
+                        __version__, __revision__)))
+            self.root.insert(1, ElementTree.Comment(
+                "Do NOT deliver this informations with any skin update!"))
             self.root.insert(2, self.style_node)
 
         self.style_node.clear()
@@ -136,8 +140,18 @@ class Skin(TreeBase):
     def __replaceNode(self, root, node, _tag, _name, _id):
         for index, child in enumerate(root):
             if child.tag == _tag:
-                if child.attrib.get("name", "") == _name and child.attrib.get("id", "") == _id:
-                    print(str.format("replace tag='{0}' name='{1}' id='{2}' @ index='{3}'", _tag, _name, _id, index))
+                if child.attrib.get(
+                        "name",
+                        "") == _name and child.attrib.get(
+                        "id",
+                        "") == _id:
+                    print(
+                        str.format(
+                            "replace tag='{0}' name='{1}' id='{2}' @ index='{3}'",
+                            _tag,
+                            _name,
+                            _id,
+                            index))
                     root[index] = node
                     return True
 
@@ -160,11 +174,21 @@ class Skin(TreeBase):
             found = self.__replaceNode(self.root, node, _tag, _name, _id)
 
             if not found and _tag == "screen":
-                print(str.format("add tag='{0}' name='{1}' id='{2}'", _tag, _name, _id))
+                print(
+                    str.format(
+                        "add tag='{0}' name='{1}' id='{2}'",
+                        _tag,
+                        _name,
+                        _id))
                 self.root.append(node)
                 found = True
             if not found:
-                print(str.format("not found tag='{0}' name='{1}' id='{2}'", _tag, _name, _id))
+                print(
+                    str.format(
+                        "not found tag='{0}' name='{1}' id='{2}'",
+                        _tag,
+                        _name,
+                        _id))
 
     def applyAttributes(self, nodes):
         if len(nodes) == 0:
@@ -258,7 +282,8 @@ class Style(TreeBase):
         d = dict()
         styles = self.getStyleNodes()
         for style in styles:
-            if self.checkDependency is not None and not self.checkDependency(style.getDepend()):
+            if self.checkDependency is not None and not self.checkDependency(
+                    style.getDepend()):
                 continue
             p = style.getParentName()
             n = style.getName()
@@ -310,7 +335,8 @@ class Style(TreeBase):
                     n = s.attrib.get("name", "")
                     v = s.attrib.get("value", "")
                     if n == name and v == value:
-                        if ("preview") in styles.attrib:  # .has_key("preview"):
+                        # .has_key("preview"):
+                        if ("preview") in styles.attrib:
                             return styles.attrib.get("preview", "")
                         return default
         return default
@@ -373,7 +399,8 @@ class Style(TreeBase):
                     test = self.getSkinNode(key3, preset[key1][key2][key3])
                     if test is None:
                         count += 1
-                        text = str.format('name="{0}" value="{1}"', key3, preset[key1][key2][key3])
+                        text = str.format(
+                            'name="{0}" value="{1}"', key3, preset[key1][key2][key3])
                         if text not in errors:
                             errors.append(text)
                         print(text)
@@ -387,7 +414,8 @@ class Style(TreeBase):
         if count > 0:
             info = ElementTree.Element("info")
             node.insert(0, info)
-            info.attrib["description"] = "{0} error(s) in presets found!".format(count)
+            info.attrib["description"] = "{0} error(s) in presets found!".format(
+                count)
             info.attrib["time_stamp"] = str(datetime.now())
             for text in errors:
                 info.append(ElementTree.Comment(text))

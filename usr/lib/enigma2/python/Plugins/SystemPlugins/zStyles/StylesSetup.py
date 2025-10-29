@@ -100,14 +100,20 @@ def removePng():
         jpg_files_backdrop = glob.glob(os.path.join(patch_backdrop, "*.jpg"))
         files_to_remove_backdrop = png_files_backdrop + jpg_files_backdrop
         if not files_to_remove_backdrop:
-            print("Nessun file PNG o JPG trovato nella cartella " + patch_backdrop)
+            print(
+                "Nessun file PNG o JPG trovato nella cartella " +
+                patch_backdrop)
         else:
             for file in files_to_remove_backdrop:
                 try:
                     os.remove(file)
                     print("Rimosso: " + file)
                 except Exception as e:
-                    print("Errore durante la rimozione di " + file + ": " + str(e))
+                    print(
+                        "Errore durante la rimozione di " +
+                        file +
+                        ": " +
+                        str(e))
     else:
         print("La cartella " + patch_backdrop + " non esiste.")
 
@@ -131,7 +137,12 @@ class StylesSetup(Screen, ConfigListScreen):
         Screen.__init__(self, session)
         self.skin = StylesSetup.skin
         self.onChangedEntry = []
-        self["setupActions"] = ActionMap(["ColorActions", "OkCancelActions", "MenuActions", "NumberActions", "VirtualKeyboardActions", "DirectionActions"],
+        self["setupActions"] = ActionMap(["ColorActions",
+                                          "OkCancelActions",
+                                          "MenuActions",
+                                          "NumberActions",
+                                          "VirtualKeyboardActions",
+                                          "DirectionActions"],
                                          {"ok": self.keyOk,
                                           "cancel": self.keyCancel,
                                           "left": self.keyLeft,
@@ -141,25 +152,36 @@ class StylesSetup(Screen, ConfigListScreen):
                                           "yellow": self.keyOpenSkinselector,
                                           "showVirtualKeyboard": self.KeyText,
                                           "blue": self.checkSkin,
-                                          '5': self.answercheck}, -2)
+                                          '5': self.answercheck},
+                                         -2)
         self["key_red"] = StaticText(_("Close"))
         self["key_green"] = StaticText(_("Save"))
-        self["key_yellow"] = StaticText(self.getSkinSelector() is not None and "Skin" or "")
+        self["key_yellow"] = StaticText(
+            self.getSkinSelector() is not None and "Skin" or "")
         self["key_blue"] = StaticText(_("Reset skin"))
         self.setup_title = PLUGIN_NAME
         self.list = []
-        ConfigListScreen.__init__(self, self.list, session=self.session, on_change=self.changedEntry)
+        ConfigListScreen.__init__(
+            self,
+            self.list,
+            session=self.session,
+            on_change=self.changedEntry)
         self.createSetup()
         self.onLayoutFinish.append(self.layoutFinished)
         self.current_skin = config.skin.primary_skin.value
 
     def answercheck(self, answer=None):
         if answer is None:
-            self.session.openWithCallback(self.answercheck, MessageBox, _("This operation checks if the skin has its components (is not sure)..\nDo you really want to continue?"), MessageBox.TYPE_YESNO)
+            self.session.openWithCallback(
+                self.answercheck,
+                MessageBox,
+                _("This operation checks if the skin has its components (is not sure)..\nDo you really want to continue?"),
+                MessageBox.TYPE_YESNO)
         else:
             self.check_module = eTimer()
             if isDreambox:
-                self.check_module_conn = self.check_module.timeout.connect(self.checki)
+                self.check_module_conn = self.check_module.timeout.connect(
+                    self.checki)
             else:
                 self.check_module.callback.append(self.checki)
             self.check_module.start(300, True)
@@ -180,20 +202,53 @@ class StylesSetup(Screen, ConfigListScreen):
         self.editListEntry = None
         self.list = []
         # self.list.append(getConfigListEntry(_("Skin auto update:"), config.zStyles.skin_auto_update))
-        self.list.append(getConfigListEntry(_("Skin update:"), config.zStyles.update))
+        self.list.append(
+            getConfigListEntry(
+                _("Skin update:"),
+                config.zStyles.update))
         if config.zStyles.update.value is True:
-            self.list.append(getConfigListEntry("Update/Restore FHD zSkin", config.zStyles.fhdupfind))
-            self.list.append(getConfigListEntry("Update/Restore WQHD zSkin", config.zStyles.wqhdupfind))
-            self.list.append(getConfigListEntry("Update/Restore Component zSkin", config.zStyles.conponent))
-        self.list.append(getConfigListEntry(_("Read style configuration from skin:"), config.zStyles.load_style_from_skin))
-        self.list.append(getConfigListEntry(_("TMDB API:"), config.zStyles.data))
+            self.list.append(
+                getConfigListEntry(
+                    "Update/Restore FHD zSkin",
+                    config.zStyles.fhdupfind))
+            self.list.append(
+                getConfigListEntry(
+                    "Update/Restore WQHD zSkin",
+                    config.zStyles.wqhdupfind))
+            self.list.append(
+                getConfigListEntry(
+                    "Update/Restore Component zSkin",
+                    config.zStyles.conponent))
+        self.list.append(
+            getConfigListEntry(
+                _("Read style configuration from skin:"),
+                config.zStyles.load_style_from_skin))
+        self.list.append(
+            getConfigListEntry(
+                _("TMDB API:"),
+                config.zStyles.data))
         if config.zStyles.data.getValue():
-            self.list.append(getConfigListEntry(_("Read Apikey TMDB from file /tmp/tmdbapikey.txt"), config.zStyles.api))
-            self.list.append(getConfigListEntry(_("Set Your Apikey TMDB"), config.zStyles.txtapi))
-        self.list.append(getConfigListEntry(_("OMDB API:"), config.zStyles.data2))
+            self.list.append(
+                getConfigListEntry(
+                    _("Read Apikey TMDB from file /tmp/tmdbapikey.txt"),
+                    config.zStyles.api))
+            self.list.append(
+                getConfigListEntry(
+                    _("Set Your Apikey TMDB"),
+                    config.zStyles.txtapi))
+        self.list.append(
+            getConfigListEntry(
+                _("OMDB API:"),
+                config.zStyles.data2))
         if config.zStyles.data2.getValue():
-            self.list.append(getConfigListEntry(_("Read Apikey OMDB from file /tmp/omdbapikey.txt"), config.zStyles.api2))
-            self.list.append(getConfigListEntry(_("Set Your Apikey OMDB"), config.zStyles.txtapi2))
+            self.list.append(
+                getConfigListEntry(
+                    _("Read Apikey OMDB from file /tmp/omdbapikey.txt"),
+                    config.zStyles.api2))
+            self.list.append(
+                getConfigListEntry(
+                    _("Set Your Apikey OMDB"),
+                    config.zStyles.txtapi2))
         # self.list.append(getConfigListEntry(_("VISUALWEATHER API:"), config.zStyles.data3))
         # if config.zStyles.data3.getValue():
             # self.list.append(getConfigListEntry(_("Read Apikey VisualWeather from /etc/enigma2/VisualWeather/apikey.txt"), config.zStyles.api3))
@@ -202,20 +257,35 @@ class StylesSetup(Screen, ConfigListScreen):
         # if config.zStyles.data4.getValue():
             # self.list.append(getConfigListEntry(_("Read Apikey TheTVDBkey from /tmp/thetvdbkey.txt"), config.zStyles.api4))
             # self.list.append(getConfigListEntry(_("Set Your Apikey TheTVDBkey"), config.zStyles.txtapi4))
-        self.list.append(getConfigListEntry(_("Remove all png Poster:"), config.zStyles.png))
-        self.list.append(getConfigListEntry(_("Preserve preview if not defined:"), config.zStyles.preserve_preview))
+        self.list.append(
+            getConfigListEntry(
+                _("Remove all png Poster:"),
+                config.zStyles.png))
+        self.list.append(
+            getConfigListEntry(
+                _("Preserve preview if not defined:"),
+                config.zStyles.preserve_preview))
         self["config"].list = self.list
         self["config"].l.setList(self.list)
 
     def layoutFinished(self):
         from .Version import __version__, __revision__
-        self.setTitle(_("Setup") + str.format(" - {0} {1}.{2}", PLUGIN_NAME, __version__, __revision__))
+        self.setTitle(
+            _("Setup") +
+            str.format(
+                " - {0} {1}.{2}",
+                PLUGIN_NAME,
+                __version__,
+                __revision__))
 
     def removPng(self):
         print('from remove png......')
         removePng()
         print('png are removed')
-        aboutbox = self.session.open(MessageBox, _('All png are removed from folder!'), MessageBox.TYPE_INFO)
+        aboutbox = self.session.open(
+            MessageBox,
+            _('All png are removed from folder!'),
+            MessageBox.TYPE_INFO)
         aboutbox.setTitle(_('Info...'))
 
     def keyOk(self):
@@ -248,7 +318,7 @@ class StylesSetup(Screen, ConfigListScreen):
         self.Timer = eTimer()
         try:
             self.Timer.callback.append(self.zUpdate)
-        except:
+        except BaseException:
             self.Timer_conn = self.Timer.timeout.connect(self.zUpdate)
         self.Timer.start(500, 1)
         self.createSetup()
@@ -256,9 +326,17 @@ class StylesSetup(Screen, ConfigListScreen):
     def zUpdate(self):
         CHECKSKIN = "%senigma2/%s" % (mvi, cur_skin)
         if CHECKSKIN == 'ZSkin-FHD' or CHECKSKIN == 'ZSkin-WQHD':
-            self.session.openWithCallback(self.zUpdate2, MessageBox, _("Skin exist!! Do you really want to Upgrade?"), MessageBox.TYPE_YESNO)
+            self.session.openWithCallback(
+                self.zUpdate2,
+                MessageBox,
+                _("Skin exist!! Do you really want to Upgrade?"),
+                MessageBox.TYPE_YESNO)
         else:
-            self.session.openWithCallback(self.zUpdate2, MessageBox, _('Do you really want to install the Skin??\nDo it at your own risk.\nDo you want to continue?'), MessageBox.TYPE_YESNO)
+            self.session.openWithCallback(
+                self.zUpdate2,
+                MessageBox,
+                _('Do you really want to install the Skin??\nDo it at your own risk.\nDo you want to continue?'),
+                MessageBox.TYPE_YESNO)
         return
 
     def zUpdate2(self, answer=None):
@@ -279,10 +357,15 @@ class StylesSetup(Screen, ConfigListScreen):
                 cmd23 = 'apt-get update && apt-get install wget'
                 popen(cmd23)
             self.command = ["tar -xvf %s -C /" % dest]
-            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
+            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (
+                AgentRequest, str(self.com), dest, self.command[0])
             if "https" in str(self.com):
-                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
-            self.session.open(Console, title='Installation', cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.msgipkinst)
+                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (
+                    AgentRequest, str(self.com), dest, self.command[0])
+            # , finishedCallback=self.msgipkinst)
+            self.session.open(
+                Console, title='Installation', cmdlist=[
+                    cmd, 'sleep 5'])
         except Exception as e:
             print('error download: ', e)
             return
@@ -299,10 +382,15 @@ class StylesSetup(Screen, ConfigListScreen):
                 cmd23 = 'apt-get update && apt-get install wget'
                 popen(cmd23)
             self.command = ["tar -xvf %s -C /" % dest]
-            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
+            cmd = "wget -U '%s' -c '%s' -O '%s';%s > /dev/null" % (
+                AgentRequest, str(self.com), dest, self.command[0])
             if "https" in str(self.com):
-                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (AgentRequest, str(self.com), dest, self.command[0])
-            self.session.open(Console, title='Installation', cmdlist=[cmd, 'sleep 5'])  # , finishedCallback=self.msgipkinst)
+                cmd = "wget --no-check-certificate -U '%s' -c '%s' -O '%s';%s > /dev/null" % (
+                    AgentRequest, str(self.com), dest, self.command[0])
+            # , finishedCallback=self.msgipkinst)
+            self.session.open(
+                Console, title='Installation', cmdlist=[
+                    cmd, 'sleep 5'])
         except Exception as e:
             print('error download: ', e)
             return
@@ -328,9 +416,13 @@ class StylesSetup(Screen, ConfigListScreen):
             data = handler.read()
             with open(tmpdirfile, 'wb') as f:
                 f.write(data)
-            print('MYDEBUG - download ok - URL: %s , filename: %s' % (self.com, tmpdirfile))
-        except:
-            print('MYDEBUG - download failed - URL: %s , filename: %s' % (self.com, tmpdirfile))
+            print(
+                'MYDEBUG - download ok - URL: %s , filename: %s' %
+                (self.com, tmpdirfile))
+        except BaseException:
+            print(
+                'MYDEBUG - download failed - URL: %s , filename: %s' %
+                (self.com, tmpdirfile))
         return tmpdirfile
 
     def keyLeft(self):
@@ -367,13 +459,18 @@ class StylesSetup(Screen, ConfigListScreen):
 
     def checkSkin(self):
         if not config.zStyles.skin.value:
-            self.session.open(MessageBox, _("No previous styled skin - restore canceled!"), MessageBox.TYPE_INFO)
+            self.session.open(
+                MessageBox,
+                _("No previous styled skin - restore canceled!"),
+                MessageBox.TYPE_INFO)
         else:
             self.skin_name = getSkinName()
             if isSkinChanged():
                 self.skin_name = config.zStyles.skin.value
-            text = _("Would you really reset this skin?") + "\n{0}".format(self.skin_name.split('/')[0])
-            dlg = self.session.openWithCallback(self.restoreSkin, MessageBox, text, MessageBox.TYPE_YESNO)
+            text = _("Would you really reset this skin?") + \
+                "\n{0}".format(self.skin_name.split('/')[0])
+            dlg = self.session.openWithCallback(
+                self.restoreSkin, MessageBox, text, MessageBox.TYPE_YESNO)
             dlg.setTitle(_("Reset skin?"))
 
     def restoreSkin(self, answer):
@@ -382,10 +479,16 @@ class StylesSetup(Screen, ConfigListScreen):
         dst = resolveFilename(SCOPE_SKIN, self.skin_name)
         src = os.path.join(PLUGIN_PATH, self.skin_name)
         if not fileExists(dst):
-            self.session.open(MessageBox, _("The skin not exists - restore canceled!"), MessageBox.TYPE_INFO)
+            self.session.open(
+                MessageBox,
+                _("The skin not exists - restore canceled!"),
+                MessageBox.TYPE_INFO)
             return
         if not Skin.checkStyled(dst):
-            self.session.open(MessageBox, _("The skin is not styled - restore canceled!"), MessageBox.TYPE_INFO)
+            self.session.open(
+                MessageBox,
+                _("The skin is not styled - restore canceled!"),
+                MessageBox.TYPE_INFO)
             return
 
         if fileExists(src):
@@ -397,7 +500,11 @@ class StylesSetup(Screen, ConfigListScreen):
             config.zStyles.skin.value = ""
             config.zStyles.skin.save()
             copy2(src, dst)
-            dlg = self.session.openWithCallback(self.restartGUI, MessageBox, _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"), MessageBox.TYPE_YESNO)
+            dlg = self.session.openWithCallback(
+                self.restartGUI,
+                MessageBox,
+                _("GUI needs a restart to apply a new skin\nDo you want to Restart the GUI now?"),
+                MessageBox.TYPE_YESNO)
             dlg.setTitle(_("Restart GUI now?"))
 
     def restartGUI(self, answer):
@@ -421,7 +528,8 @@ class StylesSetup(Screen, ConfigListScreen):
 
     def keyOpenSkinselector(self):
         if self.getSkinSelector() is not None:
-            self.session.openWithCallback(self.restoreCurrentSkin, self.getSkinSelector())
+            self.session.openWithCallback(
+                self.restoreCurrentSkin, self.getSkinSelector())
 
     def restoreCurrentSkin(self, **kwargs):
         print("[zStyles] restore current skin")
@@ -432,7 +540,11 @@ class StylesSetup(Screen, ConfigListScreen):
         from Screens.VirtualKeyBoard import VirtualKeyBoard
         sel = self["config"].getCurrent()
         if sel:
-            self.session.openWithCallback(self.VirtualKeyBoardCallback, VirtualKeyBoard, title=self["config"].getCurrent()[0], text=self["config"].getCurrent()[1].value)
+            self.session.openWithCallback(
+                self.VirtualKeyBoardCallback,
+                VirtualKeyBoard,
+                title=self["config"].getCurrent()[0],
+                text=self["config"].getCurrent()[1].value)
 
     def VirtualKeyBoardCallback(self, callback=None):
         if callback is not None and len(callback):
@@ -444,9 +556,12 @@ class StylesSetup(Screen, ConfigListScreen):
         api = "/tmp/tmdbapikey.txt"
         if answer is None:
             if fileExists(api) and os.stat(api).st_size > 0:
-                self.session.openWithCallback(self.keyApi, MessageBox, _("Import Api Key TMDB from /tmp/tmdbapikey.txt?"))
+                self.session.openWithCallback(self.keyApi, MessageBox, _(
+                    "Import Api Key TMDB from /tmp/tmdbapikey.txt?"))
             else:
-                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api), MessageBox.TYPE_INFO, timeout=4)
+                self.mbox = self.session.open(
+                    MessageBox, (_("Missing %s !") %
+                                 api), MessageBox.TYPE_INFO, timeout=4)
         elif answer:
             if fileExists(api) and os.stat(api).st_size > 0:
                 with open(api, 'r') as f:
@@ -457,18 +572,27 @@ class StylesSetup(Screen, ConfigListScreen):
                     config.zStyles.txtapi.setValue(str(fpage))
                     config.zStyles.txtapi.save()
                     self.createSetup()
-                    self.mbox = self.session.open(MessageBox, (_("TMDB ApiKey Imported & Stored!")), MessageBox.TYPE_INFO, timeout=4)
+                    self.mbox = self.session.open(
+                        MessageBox,
+                        (_("TMDB ApiKey Imported & Stored!")),
+                        MessageBox.TYPE_INFO,
+                        timeout=4)
             else:
-                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api), MessageBox.TYPE_INFO, timeout=4)
+                self.mbox = self.session.open(
+                    MessageBox, (_("Missing %s !") %
+                                 api), MessageBox.TYPE_INFO, timeout=4)
         return
 
     def keyApi2(self, answer=None):
         api2 = "/tmp/omdbapikey.txt"
         if answer is None:
             if fileExists(api2) and os.stat(api2).st_size > 0:
-                self.session.openWithCallback(self.keyApi2, MessageBox, _("Import Api Key OMDB from /tmp/omdbapikey.txt?"))
+                self.session.openWithCallback(self.keyApi2, MessageBox, _(
+                    "Import Api Key OMDB from /tmp/omdbapikey.txt?"))
             else:
-                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api2), MessageBox.TYPE_INFO, timeout=4)
+                self.mbox = self.session.open(
+                    MessageBox, (_("Missing %s !") %
+                                 api2), MessageBox.TYPE_INFO, timeout=4)
         elif answer:
             if fileExists(api2) and os.stat(api2).st_size > 0:
                 with open(api2, 'r') as f:
@@ -479,7 +603,13 @@ class StylesSetup(Screen, ConfigListScreen):
                     config.zStyles.txtapi2.setValue(str(fpage))
                     config.zStyles.txtapi2.save()
                     self.createSetup()
-                    self.mbox = self.session.open(MessageBox, (_("OMDB ApiKey Imported & Stored!")), MessageBox.TYPE_INFO, timeout=4)
+                    self.mbox = self.session.open(
+                        MessageBox,
+                        (_("OMDB ApiKey Imported & Stored!")),
+                        MessageBox.TYPE_INFO,
+                        timeout=4)
             else:
-                self.mbox = self.session.open(MessageBox, (_("Missing %s !") % api2), MessageBox.TYPE_INFO, timeout=4)
+                self.mbox = self.session.open(
+                    MessageBox, (_("Missing %s !") %
+                                 api2), MessageBox.TYPE_INFO, timeout=4)
         return
