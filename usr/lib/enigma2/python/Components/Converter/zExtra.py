@@ -72,7 +72,8 @@ class zExtra(Poll, Converter):
         self.poll_enabled = True
 
     def dataAvail(self, strData):
-        self.hddtemp_output = self.hddtemp_output.encode('utf-8', 'ignore') + strData
+        self.hddtemp_output = self.hddtemp_output.encode(
+            'utf-8', 'ignore') + strData
 
     def runFinished(self, retval):
         temp = self.hddtemp_output.decode('utf-8', 'ignore')
@@ -95,7 +96,7 @@ class zExtra(Poll, Converter):
                 try:
                     with open('/proc/loadavg', 'r') as (l):
                         load = l.readline(4)
-                except:
+                except BaseException:
                     load = ''
 
                 cpuload = load.replace('\n', '').replace(' ', '')
@@ -123,7 +124,7 @@ class zExtra(Poll, Converter):
                             ctemp = line[1].split("=")
                             ctemp = line[1].split(" ")
                             cputemp = "%s°C" % ctemp[2]
-            except:
+            except BaseException:
                 pass
             if systemp == "" and cputemp == "":
                 return "N/A"
@@ -149,7 +150,7 @@ class zExtra(Poll, Converter):
                         if c != '127.0.0.1':
                             return "Lan Ip %s" % c
                 # return "Lan Ip " + "%s" % c
-            except:
+            except BaseException:
                 return ''
         if self.type == self.IPWAN:
             publicIp = ''
@@ -157,7 +158,7 @@ class zExtra(Poll, Converter):
                 file = os.popen('wget -qO - ifconfig.me/ip')
                 public = file.read().strip()
                 publicIp = "Public IP %s" % public
-            except:
+            except BaseException:
                 if os.path.exists("/tmp/currentip"):
                     os.remove("/tmp/currentip")
 
@@ -174,15 +175,22 @@ class zExtra(Poll, Converter):
                 if not cpuspeed:
                     try:
                         import binascii
-                        cpuspeed = int(int(binascii.hexlify(open('/sys/firmware/devicetree/base/cpus/cpu@0/clock-frequency', 'rb').read()), 16) / 100000000) * 100
-                    except:
+                        cpuspeed = int(
+                            int(
+                                binascii.hexlify(
+                                    open(
+                                        '/sys/firmware/devicetree/base/cpus/cpu@0/clock-frequency',
+                                        'rb').read()),
+                                16) / 100000000) * 100
+                    except BaseException:
                         try:
-                            cpuspeed = int(open('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq').read()) / 1000
-                        except:
+                            cpuspeed = int(
+                                open('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq').read()) / 1000
+                        except BaseException:
                             cpuspeed = '-'
 
                 return 'CPU Speed: %s MHz' % cpuspeed
-            except:
+            except BaseException:
                 return ''
 
         if self.type == self.FANINFO:
@@ -199,7 +207,7 @@ class zExtra(Poll, Converter):
                 if os.path.exists('/proc/stb/fp/fan_pwm'):
                     with open('/proc/stb/fp/fan_pwm', 'r') as (fp):
                         fp = str(int(fp.readline().strip(), 16))
-            except:
+            except BaseException:
                 pass
 
             if fs == '':
@@ -211,7 +219,7 @@ class zExtra(Poll, Converter):
             try:
                 with open('/proc/uptime', 'r') as (up):
                     uptime_info = up.read().split()
-            except:
+            except BaseException:
                 return 'Uptime: N/A'
                 uptime_info = None
 
@@ -226,14 +234,18 @@ class zExtra(Poll, Converter):
                 seconds = str(int(total_seconds % MINUTE))
                 uptime = ''
                 if self.shortFormat:
-                    uptime = '%sd %sh %sm %ss' % (days, hours, minutes, seconds)
+                    uptime = '%sd %sh %sm %ss' % (
+                        days, hours, minutes, seconds)
                 else:
                     if days > '0':
-                        uptime += days + ' ' + (days == '1' and 'day' or 'days') + ', '
+                        uptime += days + ' ' + \
+                            (days == '1' and 'day' or 'days') + ', '
                     if len(uptime) > 0 or hours > '0':
-                        uptime += hours + ' ' + (hours == '1' and 'hr' or 'hrs') + ', '
+                        uptime += hours + ' ' + \
+                            (hours == '1' and 'hr' or 'hrs') + ', '
                     if len(uptime) > 0 or minutes > '0':
-                        uptime += minutes + ' ' + (minutes == '1' and 'min' or 'mins')
+                        uptime += minutes + ' ' + \
+                            (minutes == '1' and 'min' or 'mins')
                 return 'Uptime: %s' % uptime
         return text
 
