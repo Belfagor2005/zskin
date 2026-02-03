@@ -17,181 +17,118 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../Styles.py:78 ../../../StylesSetup.py:145
-msgid "Close"
-msgstr ""
-
-#: ../../../Styles.py:79 ../../../StylesSetup.py:146
-#: ../../../addons/File_Commander.py:75
-msgid "Save"
-msgstr ""
-
-#: ../../../Styles.py:80
-msgid "Default"
-msgstr ""
-
-#: ../../../Styles.py:110
-msgid "Style presets contains errors!"
-msgstr ""
-
-#: ../../../Styles.py:142 ../../../StylesSetup.py:400
-msgid ""
-"GUI needs a restart to apply a new skin\n"
-"Do you want to Restart the GUI now?"
-msgstr ""
-
-#: ../../../Styles.py:143 ../../../StylesSetup.py:401
-msgid "Restart GUI now?"
-msgstr ""
-
-#: ../../../Styles.py:228
-msgid "Current skin can not styled!"
-msgstr ""
-
-#: ../../../Styles.py:234
-msgid "PRESET"
-msgstr ""
-
-#: ../../../StylesSetup.py:148
-msgid "Reset skin"
-msgstr ""
-
-#: ../../../StylesSetup.py:158
-msgid ""
-"This operation checks if the skin has its components (is not sure)..\n"
-"Do you really want to continue?"
-msgstr ""
-
-#: ../../../StylesSetup.py:183
-msgid "Skin update:"
-msgstr ""
-
-#: ../../../StylesSetup.py:188
-msgid "Read style configuration from skin:"
-msgstr ""
-
-#: ../../../StylesSetup.py:189
-msgid "TMDB API:"
-msgstr ""
-
-#: ../../../StylesSetup.py:191
-msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
-msgstr ""
-
-#: ../../../StylesSetup.py:192
-msgid "Set Your Apikey TMDB"
-msgstr ""
-
-#: ../../../StylesSetup.py:193
-msgid "OMDB API:"
-msgstr ""
-
-#: ../../../StylesSetup.py:195
-msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
-msgstr ""
-
-#: ../../../StylesSetup.py:196
-msgid "Set Your Apikey OMDB"
-msgstr ""
-
-#: ../../../StylesSetup.py:205
-msgid "Remove all png Poster:"
-msgstr ""
-
-#: ../../../StylesSetup.py:206
-msgid "Preserve preview if not defined:"
-msgstr ""
-
-#: ../../../StylesSetup.py:212
-msgid "Setup"
-msgstr ""
-
-#: ../../../StylesSetup.py:218
 msgid "All png are removed from folder!"
 msgstr ""
 
-#: ../../../StylesSetup.py:219
-msgid "Info..."
+msgid "Close"
 msgstr ""
 
-#: ../../../StylesSetup.py:259
-msgid "Skin exist!! Do you really want to Upgrade?"
+msgid "Current skin can not styled!"
 msgstr ""
 
-#: ../../../StylesSetup.py:261
-msgid ""
-"Do you really want to install the Skin??\n"
-"Do it at your own risk.\n"
-"Do you want to continue?"
+msgid "Default"
 msgstr ""
 
-#: ../../../StylesSetup.py:370
-msgid "No previous styled skin - restore canceled!"
+msgid "Del Line"
 msgstr ""
 
-#: ../../../StylesSetup.py:375
-msgid "Would you really reset this skin?"
-msgstr ""
-
-#: ../../../StylesSetup.py:377
-msgid "Reset skin?"
-msgstr ""
-
-#: ../../../StylesSetup.py:385
-msgid "The skin not exists - restore canceled!"
-msgstr ""
-
-#: ../../../StylesSetup.py:388
-msgid "The skin is not styled - restore canceled!"
-msgstr ""
-
-#: ../../../StylesSetup.py:447
-msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
-msgstr ""
-
-#: ../../../StylesSetup.py:449 ../../../StylesSetup.py:462
-#: ../../../StylesSetup.py:471 ../../../StylesSetup.py:484
-#, python-format
-msgid "Missing %s !"
-msgstr ""
-
-#: ../../../StylesSetup.py:460
-msgid "TMDB ApiKey Imported & Stored!"
-msgstr ""
-
-#: ../../../StylesSetup.py:469
-msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
-msgstr ""
-
-#: ../../../StylesSetup.py:482
-msgid "OMDB ApiKey Imported & Stored!"
-msgstr ""
-
-#: ../../../addons/File_Commander.py:17
-msgid "File Commander - Addon"
-msgstr ""
-
-#: ../../../addons/File_Commander.py:18 ../../../addons/type_utils.py:26
-msgid "play/show Files"
-msgstr ""
-
-#: ../../../addons/File_Commander.py:73 ../../../addons/File_Commander.py:74
-#: ../../../addons/File_Commander.py:76 ../../../addons/type_utils.py:88
-#: ../../../addons/type_utils.py:89 ../../../addons/type_utils.py:90
-#: ../../../addons/type_utils.py:91
 msgid "Exit"
 msgstr ""
 
-#: ../../../addons/type_utils.py:25
-msgid "File Commander - Addon Mediaplayer"
+msgid "File Commander - Addon"
 msgstr ""
 
-#: ../../../addons/type_utils.py:97
-msgid "Z File Commander - Addon File-Viewer"
+msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
 msgstr ""
 
-#: ../../../plugin.py:120
+msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
+msgstr ""
+
+msgid "Info..."
+msgstr ""
+
+msgid "Ins Line"
+msgstr ""
+
+msgid "Missing %s !"
+msgstr ""
+
+msgid "No previous styled skin - restore canceled!"
+msgstr ""
+
+msgid "OMDB API:"
+msgstr ""
+
+msgid "OMDB ApiKey Imported & Stored!"
+msgstr ""
+
+msgid "PRESET"
+msgstr ""
+
+msgid "Preserve preview if not defined:"
+msgstr ""
+
+msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
+msgstr ""
+
+msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
+msgstr ""
+
+msgid "Read style configuration from skin:"
+msgstr ""
+
+msgid "Remove all png Poster:"
+msgstr ""
+
+msgid "Reset skin"
+msgstr ""
+
+msgid "Reset skin?"
+msgstr ""
+
+msgid "Restart GUI now?"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Set Your Apikey OMDB"
+msgstr ""
+
+msgid "Set Your Apikey TMDB"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
+msgid "Skin exist!! Do you really want to Upgrade?"
+msgstr ""
+
+msgid "Skin update:"
+msgstr ""
+
+msgid "Style presets contains errors!"
+msgstr ""
+
 msgid "Style your zSkin"
+msgstr ""
+
+msgid "TMDB API:"
+msgstr ""
+
+msgid "TMDB ApiKey Imported & Stored!"
+msgstr ""
+
+msgid "The skin is not styled - restore canceled!"
+msgstr ""
+
+msgid "The skin not exists - restore canceled!"
+msgstr ""
+
+msgid "Would you really reset this skin?"
+msgstr ""
+
+msgid "play/show Files"
 msgstr ""
 
 #~ msgid "Style your skin"

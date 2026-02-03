@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: enigma 2\n"
+"PO-Revision-Date: 2026-02-03 17:42+0000\n"
+"Last-Translator:  <EMAIL@ADDRESS>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, fuzzy
+msgid "All png are removed from folder!"
+msgstr "All png are removed from folder!"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Current skin can not styled!"
+msgstr "Current skin can not styled!"
+
+msgid "Default"
+msgstr "Default"
+
+msgid "Del Line"
+msgstr "Del Line"
+
+msgid "Exit"
+msgstr "Exit"
+
+msgid "File Commander - Addon"
+msgstr "File Commander - Addon"
+
+msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
+msgstr "Import Api Key OMDB from /tmp/omdbapikey.txt?"
+
+msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
+msgstr "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
+
+msgid "Info..."
+msgstr "Info..."
+
+msgid "Ins Line"
+msgstr "Ins Line"
+
+msgid "Missing %s !"
+msgstr "Missing %s !"
+
+msgid "No previous styled skin - restore canceled!"
+msgstr "No previous styled skin - restore canceled!"
+
+msgid "OMDB API:"
+msgstr "OMDB API:"
+
+msgid "OMDB ApiKey Imported & Stored!"
+msgstr "OMDB ApiKey Imported & Stored!"
+
+msgid "PRESET"
+msgstr "PRESET"
+
+msgid "Preserve preview if not defined:"
+msgstr "Preserve preview if not defined:"
+
+msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
+msgstr "Read Apikey OMDB from file /tmp/omdbapikey.txt"
+
+msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
+msgstr "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
+
+msgid "Read style configuration from skin:"
+msgstr "Read style configuration from skin:"
+
+msgid "Remove all png Poster:"
+msgstr "Remove all png Poster:"
+
+msgid "Reset skin"
+msgstr "Reset skin"
+
+msgid "Reset skin?"
+msgstr "Reset skin?"
+
+msgid "Restart GUI now?"
+msgstr "Restart GUI now?"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Set Your Apikey OMDB"
+msgstr "Set Your Apikey OMDB"
+
+msgid "Set Your Apikey TMDB"
+msgstr "Set Your Apikey TMDB"
+
+msgid "Setup"
+msgstr "Setup"
+
+msgid "Skin exist!! Do you really want to Upgrade?"
+msgstr "Skin exist!! Do you really want to Upgrade?"
+
+msgid "Skin update:"
+msgstr "Skin update:"
+
+msgid "Style presets contains errors!"
+msgstr "Style presets contains errors!"
+
+msgid "Style your zSkin"
+msgstr "Style your zSkin"
+
+msgid "TMDB API:"
+msgstr "TMDB API:"
+
+msgid "TMDB ApiKey Imported & Stored!"
+msgstr "TMDB ApiKey Imported & Stored!"
+
+msgid "The skin is not styled - restore canceled!"
+msgstr "The skin is not styled - restore canceled!"
+
+msgid "The skin not exists - restore canceled!"
+msgstr "The skin not exists - restore canceled!"
+
+msgid "Would you really reset this skin?"
+msgstr "Would you really reset this skin?"
+
+msgid "play/show Files"
+msgstr "play/show Files"

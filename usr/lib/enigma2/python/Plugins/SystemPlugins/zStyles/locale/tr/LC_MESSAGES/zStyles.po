@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: enigma 2\n"
+"PO-Revision-Date: 2026-02-03 17:43+0000\n"
+"Last-Translator:  <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "All png are removed from folder!"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Current skin can not styled!"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Del Line"
+msgstr ""
+
+msgid "Exit"
+msgstr ""
+
+msgid "File Commander - Addon"
+msgstr ""
+
+msgid "Import Api Key OMDB from /tmp/omdbapikey.txt?"
+msgstr ""
+
+msgid "Import Api Key TMDB from /tmp/tmdbapikey.txt?"
+msgstr ""
+
+msgid "Info..."
+msgstr ""
+
+msgid "Ins Line"
+msgstr ""
+
+msgid "Missing %s !"
+msgstr ""
+
+msgid "No previous styled skin - restore canceled!"
+msgstr ""
+
+msgid "OMDB API:"
+msgstr ""
+
+msgid "OMDB ApiKey Imported & Stored!"
+msgstr ""
+
+msgid "PRESET"
+msgstr ""
+
+msgid "Preserve preview if not defined:"
+msgstr ""
+
+msgid "Read Apikey OMDB from file /tmp/omdbapikey.txt"
+msgstr ""
+
+msgid "Read Apikey TMDB from file /tmp/tmdbapikey.txt"
+msgstr ""
+
+msgid "Read style configuration from skin:"
+msgstr ""
+
+msgid "Remove all png Poster:"
+msgstr ""
+
+msgid "Reset skin"
+msgstr ""
+
+msgid "Reset skin?"
+msgstr ""
+
+msgid "Restart GUI now?"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Set Your Apikey OMDB"
+msgstr ""
+
+msgid "Set Your Apikey TMDB"
+msgstr ""
+
+msgid "Setup"
+msgstr ""
+
+msgid "Skin exist!! Do you really want to Upgrade?"
+msgstr ""
+
+msgid "Skin update:"
+msgstr ""
+
+msgid "Style presets contains errors!"
+msgstr ""
+
+msgid "Style your zSkin"
+msgstr ""
+
+msgid "TMDB API:"
+msgstr ""
+
+msgid "TMDB ApiKey Imported & Stored!"
+msgstr ""
+
+msgid "The skin is not styled - restore canceled!"
+msgstr ""
+
+msgid "The skin not exists - restore canceled!"
+msgstr ""
+
+msgid "Would you really reset this skin?"
+msgstr ""
+
+msgid "play/show Files"
+msgstr ""
